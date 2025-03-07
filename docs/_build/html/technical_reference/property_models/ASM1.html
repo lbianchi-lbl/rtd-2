@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ASM1 Property Package &mdash; WaterTAP 1.2.dev0 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <title>ASM1 Property Package &mdash; WaterTAP 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=169190e7" />
+
+  
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
@@ -15,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=4e9539be"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -42,7 +44,7 @@
               <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.2.dev0
+                1.3.dev0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -123,31 +125,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="asm1-property-package">
+  <section id="asm1-property-package">
 <h1>ASM1 Property Package<a class="headerlink" href="#asm1-property-package" title="Permalink to this heading"></a></h1>
 <p>This package implements property relationships for the treatment of wastewater using an activated sludge biological reactor as provided in <a class="reference external" href="https://belinra.inrae.fr/doc_num.php?explnum_id=4467">Henze, M. et al. (1987)</a>.</p>
 <dl class="simple">
@@ -501,304 +479,6 @@
 </section>
 <section id="class-documentation">
 <h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.activated_sludge.asm1_properties.</span></span><span class="sig-name descname"><span class="pre">ASM1ParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
-<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
-<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
-<p>Config args</p>
-<blockquote>
-<div><dl class="simple">
-<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
-</dd>
-</dl>
-</div></blockquote>
-</p></li>
-<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
-are BlockData indexes and values are dictionaries with config arguments
-as keys.</p></li>
-<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
-return the index in the initialize dict from which to read arguments.
-This can be provided to override the default behavior of matching the
-BlockData index exactly to the index in initialize.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(ASM1ParameterBlock) New instance</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.activated_sludge.asm1_properties.</span></span><span class="sig-name descname"><span class="pre">ASM1ParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1ParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Property Parameter Block Class</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1ParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Callable method for Block construction.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1ParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Set all the metadata for properties and units.</p>
-<p>This method should be implemented by subclasses.
-In the implementation, they should set information into the
-object provided as an argument.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>pcm</strong> (<em>PropertyClassMetadata</em>) – Add metadata to this object.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.activated_sludge.asm1_properties.</span></span><span class="sig-name descname"><span class="pre">_ASM1StateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#_ASM1StateBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>This Class contains methods which should be applied to Property Blocks as a
-whole, rather than individual elements of indexed Property Blocks.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_vars_fixed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hold_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optarg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#_ASM1StateBlock.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Initialization routine for property package.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>state_args</strong> – Dictionary with initial guesses for the state vars
-chosen. Note that if this method is triggered
-through the control volume, and if initial guesses
-were not provided at the unit model level, the
-control volume passes the inlet values as initial
-guess.The keys for the state_args dictionary are:</p></li>
-<li><p><strong>flow_vol</strong> – value at which to initialize total volumetric flow (default=None)</p></li>
-<li><p><strong>alkalinity</strong> – value of alkalinity expressed as molar concentration</p></li>
-<li><p><strong>conc_mass_comp</strong> – value at which to initialize component concentrations (default=None)</p></li>
-<li><p><strong>pressure</strong> – value at which to initialize pressure (default=None)</p></li>
-<li><p><strong>temperature</strong> – value at which to initialize temperature (default=None)</p></li>
-<li><p><strong>outlvl</strong> – sets output level of initialization routine</p></li>
-<li><p><strong>state_vars_fixed</strong> – Flag to denote if state vars have already been fixed.
-True - states have already been fixed and
-initialization does not need to worry
-about fixing and unfixing variables.
-False - states have not been fixed. The state
-block will deal with fixing/unfixing.</p></li>
-<li><p><strong>optarg</strong> – solver options dictionary object (default=None, use
-default solver options)</p></li>
-<li><p><strong>solver</strong> – str indicating which solver to use during
-initialization (default = None, use default solver)</p></li>
-<li><p><strong>hold_state</strong> – flag indicating whether the initialization routine
-should unfix any state variables fixed during
-initialization (default=False).
-True - states variables are not unfixed, and
-a dict of returned containing flags for
-which states were fixed during initialization.
-False - state variables are unfixed after
-initialization by calling the release_state method.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>If hold_states is True, returns a dict containing flags for
-which states were fixed during initialization.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">release_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#_ASM1StateBlock.release_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method to relase state variables fixed during initialization.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>flags</strong> – dict containing information of which state variables
-were fixed during initialization, and should now be
-unfixed. This dict is returned by initialize if
-hold_state=True.</p></li>
-<li><p><strong>outlvl</strong> – sets output level of of logging</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.activated_sludge.asm1_properties.</span></span><span class="sig-name descname"><span class="pre">ASM1StateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1StateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>StateBlock for calculating thermophysical proeprties associated with the ASM1
-reaction system.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1StateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Callable method for Block construction</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">define_display_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1StateBlockData.define_display_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method used to specify components to use to generate stream tables and
-other outputs. Defaults to define_state_vars, and developers should
-overload as required.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1StateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method that returns a dictionary of state variables used in property
-package. Implement a placeholder method which returns an Exception to
-force users to overload this.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_energy_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1StateBlockData.get_energy_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method which returns a valid expression for enthalpy density to use in
-the energy balances.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_enthalpy_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1StateBlockData.get_enthalpy_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method which returns a valid expression for enthalpy flow to use in
-the energy balances.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_material_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1StateBlockData.get_material_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method which returns a valid expression for material density to use in
-the material balances .</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1StateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method which returns an Enum indicating the basis of the material flow
-term.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_properties.html#ASM1StateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method which returns a valid expression for material flow to use in
-the material balances.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.activated_sludge.asm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ASM1ReactionParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
-<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
-<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
-<p>Config args</p>
-<blockquote>
-<div><dl class="simple">
-<dt>property_package</dt><dd><p>Reference to associated PropertyPackageParameter object</p>
-</dd>
-<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
-</dd>
-</dl>
-</div></blockquote>
-</p></li>
-<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
-are BlockData indexes and values are dictionaries with config arguments
-as keys.</p></li>
-<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
-return the index in the initialize dict from which to read arguments.
-This can be provided to override the default behavior of matching the
-BlockData index exactly to the index in initialize.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(ASM1ReactionParameterBlock) New instance</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.activated_sludge.asm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ASM1ReactionParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_reactions.html#ASM1ReactionParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Reaction Parameter Block Class</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_reactions.html#ASM1ReactionParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Callable method for Block construction.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_reactions.html#ASM1ReactionParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Set all the metadata for properties and units.</p>
-<p>This method should be implemented by subclasses.
-In the implementation, they should set information into the
-object provided as an argument.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>pcm</strong> (<em>PropertyClassMetadata</em>) – Add metadata to this object.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.activated_sludge.asm1_reactions.</span></span><span class="sig-name descname"><span class="pre">_ASM1ReactionBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_reactions.html#_ASM1ReactionBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>This Class contains methods which should be applied to Reaction Blocks as a
-whole, rather than individual elements of indexed Reaction Blocks.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_reactions.html#_ASM1ReactionBlock.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Initialization routine for reaction package.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>outlvl</strong> – sets output level of initialization routine</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.activated_sludge.asm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ASM1ReactionBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_reactions.html#ASM1ReactionBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>ReactionBlock for ASM1.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_reactions.html#ASM1ReactionBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Callable method for Block construction</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_reaction_rate_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/unit_specific/activated_sludge/asm1_reactions.html#ASM1ReactionBlockData.get_reaction_rate_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method which returns an Enum indicating the basis of the reaction rate
-term.</p>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>

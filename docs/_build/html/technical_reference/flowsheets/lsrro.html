@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Low-Salt-Rejection Reverse Osmosis (LSRRO) &mdash; WaterTAP 1.2.dev0 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <title>Low-Salt-Rejection Reverse Osmosis (LSRRO) &mdash; WaterTAP 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=169190e7" />
+
+  
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
@@ -15,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=4e9539be"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -42,7 +44,7 @@
               <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.2.dev0
+                1.3.dev0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -78,9 +80,7 @@
 <li class="toctree-l3"><a class="reference internal" href="generic_desalination_train.html">Generic desalination treatment train</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Low-Salt-Rejection Reverse Osmosis (LSRRO)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#implementation">Implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#implementation">Implementation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#additional-variables-parameters-and-constraints">Additional variables, parameters, and constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
@@ -129,31 +129,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="low-salt-rejection-reverse-osmosis-lsrro">
+  <section id="low-salt-rejection-reverse-osmosis-lsrro">
 <h1>Low-Salt-Rejection Reverse Osmosis (LSRRO)<a class="headerlink" href="#low-salt-rejection-reverse-osmosis-lsrro" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -166,9 +142,8 @@
 LSRRO addresses the limitations of conventional reverse osmosis by utilizing low-salt-rejection (LSR) membranes. These membranes allow the passage of water molecules while permitting a controlled amount of salt permeation, which reduces the transmembrane osmotic pressure.
 Moreover, LSRRO can be constructed using commercially available nanofiltration modules with low monovalent ion rejection or oxidant-treated reverse osmosis modules, making it more readily deployable.</p>
 </section>
-</section>
 <section id="implementation">
-<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading"></a></h1>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading"></a></h2>
 <p>Figure 1 illustrates the LSRRO flowsheet. The LSRRO system comprises a conventional RO stage followed by low-salt-rejection (LSR) stages, where the saline permeate of each LSR stage is recycled to the inlet of the previous stage. Brine is concentrated further as it passes through each subsequent LSR stage.
 The first stage RO permeate is collected as purified water (Product Water) and the last LSR stage produces the final concentrated brine.
 Primary pumps are located upstream of each RO or LSR stage. These pumps pressurize the feed to the RO stage and the concentrated brine from the previous stage to the LSR stages.
@@ -210,6 +185,7 @@ Energy recovery devices (ERDs) are employed to optimize energy use. These device
 <div><div class="math notranslate nohighlight">
 \[LCOW_{Q} = \frac{f_{crf} \cdot C_{cap,tot} + C_{op,tot}}{f_{util} \cdot Q}\]</div>
 </div></blockquote>
+</section>
 <section id="additional-variables-parameters-and-constraints">
 <h2>Additional variables, parameters, and constraints<a class="headerlink" href="#additional-variables-parameters-and-constraints" title="Permalink to this heading"></a></h2>
 <p>The LSRRO flowsheet can be customized using a range of configuration options and input settings. Depending on the selected options, specific variables, parameters, and constraints will be applied to tailor the flowsheet to meet specific requirements of the model.</p>

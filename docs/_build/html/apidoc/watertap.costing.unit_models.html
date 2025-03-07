@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>watertap.costing.unit_models package &mdash; WaterTAP 1.2.dev0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <title>watertap.costing.unit_models package &mdash; WaterTAP 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=169190e7" />
+
+  
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
@@ -15,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=4e9539be"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -40,7 +42,7 @@
               <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.2.dev0
+                1.3.dev0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -107,649 +109,97 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="watertap-costing-unit-models-package">
+  <section id="watertap-costing-unit-models-package">
 <h1>watertap.costing.unit_models package<a class="headerlink" href="#watertap-costing-unit-models-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.anaerobic_digester">
-<span id="watertap-costing-unit-models-anaerobic-digester-module"></span><h2>watertap.costing.unit_models.anaerobic_digester module<a class="headerlink" href="#module-watertap.costing.unit_models.anaerobic_digester" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.anaerobic_digester.cost_anaerobic_digester">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.anaerobic_digester.</span></span><span class="sig-name descname"><span class="pre">cost_anaerobic_digester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/anaerobic_digester.html#cost_anaerobic_digester"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.anaerobic_digester.cost_anaerobic_digester" title="Permalink to this definition"></a></dt>
-<dd><p>Anaerobic digester costing method</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.anaerobic_digester.cost_anaerobic_digester_capital">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.anaerobic_digester.</span></span><span class="sig-name descname"><span class="pre">cost_anaerobic_digester_capital</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capital_a_parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capital_b_parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_flow</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/anaerobic_digester.html#cost_anaerobic_digester_capital"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.anaerobic_digester.cost_anaerobic_digester_capital" title="Permalink to this definition"></a></dt>
-<dd><p>Generic function for costing an anaerobic digester system.</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-anaerobic-digester-module">
+<h2>watertap.costing.unit_models.anaerobic_digester module<a class="headerlink" href="#watertap-costing-unit-models-anaerobic-digester-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.clarifier">
-<span id="watertap-costing-unit-models-clarifier-module"></span><h2>watertap.costing.unit_models.clarifier module<a class="headerlink" href="#module-watertap.costing.unit_models.clarifier" title="Permalink to this heading"></a></h2>
-<p>[1] Sharma, Jwala R., Mohammad Najafi, and Syed R. Qasim.
-“Preliminary cost estimation models for construction, operation, and maintenance of water treatment plants.”
-Journal of Infrastructure Systems 19.4 (2013): 451-464.</p>
-<p>[2] Byun, Jaewon, Maravelias, Christos.
-Benchmark Model for Wastewater Treatment Using an Activated Sludge Process.
-United States: N.p., 21 Jan, 2022. Web. doi: 10.7481/1844539.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.clarifier.ClarifierType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.clarifier.</span></span><span class="sig-name descname"><span class="pre">ClarifierType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/clarifier.html#ClarifierType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.clarifier.ClarifierType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.clarifier.cost_circular_clarifier">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.clarifier.</span></span><span class="sig-name descname"><span class="pre">cost_circular_clarifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/clarifier.html#cost_circular_clarifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.clarifier.cost_circular_clarifier" title="Permalink to this definition"></a></dt>
-<dd><p>Circular clarifier costing method [1]</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.clarifier.cost_clarifier">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.clarifier.</span></span><span class="sig-name descname"><span class="pre">cost_clarifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clarifier_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ClarifierType.circular</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/clarifier.html#cost_clarifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.clarifier.cost_clarifier" title="Permalink to this definition"></a></dt>
-<dd><p>Clarifier costing method</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>clarifier_type</strong> – ClarifierType Enum indicating clarifier type,
-default = ClarifierType.circular</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.clarifier.cost_primary_clarifier">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.clarifier.</span></span><span class="sig-name descname"><span class="pre">cost_primary_clarifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/clarifier.html#cost_primary_clarifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.clarifier.cost_primary_clarifier" title="Permalink to this definition"></a></dt>
-<dd><p>Primary clarifier costing method [2]</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.clarifier.cost_rectangular_clarifier">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.clarifier.</span></span><span class="sig-name descname"><span class="pre">cost_rectangular_clarifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/clarifier.html#cost_rectangular_clarifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.clarifier.cost_rectangular_clarifier" title="Permalink to this definition"></a></dt>
-<dd><p>Rectangular clarifier costing method [1]</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-clarifier-module">
+<h2>watertap.costing.unit_models.clarifier module<a class="headerlink" href="#watertap-costing-unit-models-clarifier-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.compressor">
-<span id="watertap-costing-unit-models-compressor-module"></span><h2>watertap.costing.unit_models.compressor module<a class="headerlink" href="#module-watertap.costing.unit_models.compressor" title="Permalink to this heading"></a></h2>
+<section id="watertap-costing-unit-models-compressor-module">
+<h2>watertap.costing.unit_models.compressor module<a class="headerlink" href="#watertap-costing-unit-models-compressor-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.crystallizer">
-<span id="watertap-costing-unit-models-crystallizer-module"></span><h2>watertap.costing.unit_models.crystallizer module<a class="headerlink" href="#module-watertap.costing.unit_models.crystallizer" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.crystallizer.CrystallizerCostType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.crystallizer.</span></span><span class="sig-name descname"><span class="pre">CrystallizerCostType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/crystallizer.html#CrystallizerCostType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.crystallizer.CrystallizerCostType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.crystallizer.cost_crystallizer">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.crystallizer.</span></span><span class="sig-name descname"><span class="pre">cost_crystallizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">CrystallizerCostType.default</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/crystallizer.html#cost_crystallizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.crystallizer.cost_crystallizer" title="Permalink to this definition"></a></dt>
-<dd><p>Function for costing the FC crystallizer by the mass flow of produced crystals.
-The operating cost model assumes that heat is supplied via condensation of saturated steam (see Dutta et al.)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cost_type</strong> – Option for crystallizer cost function type - volume or mass basis</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.crystallizer.cost_crystallizer_by_crystal_mass">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.crystallizer.</span></span><span class="sig-name descname"><span class="pre">cost_crystallizer_by_crystal_mass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/crystallizer.html#cost_crystallizer_by_crystal_mass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.crystallizer.cost_crystallizer_by_crystal_mass" title="Permalink to this definition"></a></dt>
-<dd><p>Mass-based capital cost for FC crystallizer</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.crystallizer.cost_crystallizer_by_volume">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.crystallizer.</span></span><span class="sig-name descname"><span class="pre">cost_crystallizer_by_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/crystallizer.html#cost_crystallizer_by_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.crystallizer.cost_crystallizer_by_volume" title="Permalink to this definition"></a></dt>
-<dd><p>Volume-based capital cost for FC crystallizer</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-crystallizer-module">
+<h2>watertap.costing.unit_models.crystallizer module<a class="headerlink" href="#watertap-costing-unit-models-crystallizer-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.cstr">
-<span id="watertap-costing-unit-models-cstr-module"></span><h2>watertap.costing.unit_models.cstr module<a class="headerlink" href="#module-watertap.costing.unit_models.cstr" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.cstr.cost_cstr">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.cstr.</span></span><span class="sig-name descname"><span class="pre">cost_cstr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/cstr.html#cost_cstr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.cstr.cost_cstr" title="Permalink to this definition"></a></dt>
-<dd><p>CSTR costing method</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-cstr-module">
+<h2>watertap.costing.unit_models.cstr module<a class="headerlink" href="#watertap-costing-unit-models-cstr-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.cstr_injection">
-<span id="watertap-costing-unit-models-cstr-injection-module"></span><h2>watertap.costing.unit_models.cstr_injection module<a class="headerlink" href="#module-watertap.costing.unit_models.cstr_injection" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.cstr_injection.cost_cstr_injection">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.cstr_injection.</span></span><span class="sig-name descname"><span class="pre">cost_cstr_injection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/cstr_injection.html#cost_cstr_injection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.cstr_injection.cost_cstr_injection" title="Permalink to this definition"></a></dt>
-<dd><p>CSTR injection costing method</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.cstr_injection.cost_cstr_injection_capital">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.cstr_injection.</span></span><span class="sig-name descname"><span class="pre">cost_cstr_injection_capital</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capital_a_parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capital_b_parameter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/cstr_injection.html#cost_cstr_injection_capital"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.cstr_injection.cost_cstr_injection_capital" title="Permalink to this definition"></a></dt>
-<dd><p>Generic function for costing a CSTR injection system.</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-cstr-injection-module">
+<h2>watertap.costing.unit_models.cstr_injection module<a class="headerlink" href="#watertap-costing-unit-models-cstr-injection-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.dewatering">
-<span id="watertap-costing-unit-models-dewatering-module"></span><h2>watertap.costing.unit_models.dewatering module<a class="headerlink" href="#module-watertap.costing.unit_models.dewatering" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.dewatering.DewateringType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.dewatering.</span></span><span class="sig-name descname"><span class="pre">DewateringType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/dewatering.html#DewateringType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.dewatering.DewateringType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.dewatering.cost_centrifuge">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.dewatering.</span></span><span class="sig-name descname"><span class="pre">cost_centrifuge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dewatering_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DewateringType.centrifuge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/dewatering.html#cost_centrifuge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.dewatering.cost_centrifuge" title="Permalink to this definition"></a></dt>
-<dd><p>Centrifuge costing method</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.dewatering.cost_filter_belt_press">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.dewatering.</span></span><span class="sig-name descname"><span class="pre">cost_filter_belt_press</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dewatering_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DewateringType.filter_belt_press</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/dewatering.html#cost_filter_belt_press"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.dewatering.cost_filter_belt_press" title="Permalink to this definition"></a></dt>
-<dd><p>Belt Press Filter costing method</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.dewatering.cost_filter_plate_press">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.dewatering.</span></span><span class="sig-name descname"><span class="pre">cost_filter_plate_press</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dewatering_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DewateringType.filter_plate_press</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/dewatering.html#cost_filter_plate_press"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.dewatering.cost_filter_plate_press" title="Permalink to this definition"></a></dt>
-<dd><p>Plate Press Filter costing method</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-dewatering-module">
+<h2>watertap.costing.unit_models.dewatering module<a class="headerlink" href="#watertap-costing-unit-models-dewatering-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.electroNP">
-<span id="watertap-costing-unit-models-electronp-module"></span><h2>watertap.costing.unit_models.electroNP module<a class="headerlink" href="#module-watertap.costing.unit_models.electroNP" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.electroNP.cost_electroNP">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.electroNP.</span></span><span class="sig-name descname"><span class="pre">cost_electroNP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_MgCl2_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_phosphorus_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/electroNP.html#cost_electroNP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.electroNP.cost_electroNP" title="Permalink to this definition"></a></dt>
-<dd><p>ElectroNP costing method</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.electroNP.cost_electroNP_capital">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.electroNP.</span></span><span class="sig-name descname"><span class="pre">cost_electroNP_capital</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HRT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sizing_cost</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/electroNP.html#cost_electroNP_capital"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.electroNP.cost_electroNP_capital" title="Permalink to this definition"></a></dt>
-<dd><p>Generic function for costing an ElectroNP system.</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-electronp-module">
+<h2>watertap.costing.unit_models.electroNP module<a class="headerlink" href="#watertap-costing-unit-models-electronp-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.electrodialysis">
-<span id="watertap-costing-unit-models-electrodialysis-module"></span><h2>watertap.costing.unit_models.electrodialysis module<a class="headerlink" href="#module-watertap.costing.unit_models.electrodialysis" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.electrodialysis.cost_electrodialysis">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.electrodialysis.</span></span><span class="sig-name descname"><span class="pre">cost_electrodialysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_rectifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/electrodialysis.html#cost_electrodialysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.electrodialysis.cost_electrodialysis" title="Permalink to this definition"></a></dt>
-<dd><p>Function for costing the Electrodialysis unit</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cost_electricity_flow</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Option for including the
-costing of electricity. Defaults to True.</p></li>
-<li><p><strong>has_rectifier</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Option for including a rectifier.
-Defaults to False.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.electrodialysis.cost_electrodialysis_stack">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.electrodialysis.</span></span><span class="sig-name descname"><span class="pre">cost_electrodialysis_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/electrodialysis.html#cost_electrodialysis_stack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.electrodialysis.cost_electrodialysis_stack" title="Permalink to this definition"></a></dt>
-<dd><p>Generic function for costing the stack in an electrodialysis unit.
-Assumes the unit_model has a <cite>cell_pair_num</cite>, <cite>cell_width</cite>, and <cite>cell_length</cite>
-set of variables used to size the total membrane area.</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-electrodialysis-module">
+<h2>watertap.costing.unit_models.electrodialysis module<a class="headerlink" href="#watertap-costing-unit-models-electrodialysis-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.electrolyzer">
-<span id="watertap-costing-unit-models-electrolyzer-module"></span><h2>watertap.costing.unit_models.electrolyzer module<a class="headerlink" href="#module-watertap.costing.unit_models.electrolyzer" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.electrolyzer.cost_electrolyzer">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.electrolyzer.</span></span><span class="sig-name descname"><span class="pre">cost_electrolyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/electrolyzer.html#cost_electrolyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.electrolyzer.cost_electrolyzer" title="Permalink to this definition"></a></dt>
-<dd><p>electrolyzer costing method</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-electrolyzer-module">
+<h2>watertap.costing.unit_models.electrolyzer module<a class="headerlink" href="#watertap-costing-unit-models-electrolyzer-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.energy_recovery_device">
-<span id="watertap-costing-unit-models-energy-recovery-device-module"></span><h2>watertap.costing.unit_models.energy_recovery_device module<a class="headerlink" href="#module-watertap.costing.unit_models.energy_recovery_device" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.energy_recovery_device.EnergyRecoveryDeviceType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.energy_recovery_device.</span></span><span class="sig-name descname"><span class="pre">EnergyRecoveryDeviceType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/energy_recovery_device.html#EnergyRecoveryDeviceType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.energy_recovery_device.EnergyRecoveryDeviceType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.energy_recovery_device.cost_energy_recovery_device">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.energy_recovery_device.</span></span><span class="sig-name descname"><span class="pre">cost_energy_recovery_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_recovery_device_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">EnergyRecoveryDeviceType.pressure_exchanger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/energy_recovery_device.html#cost_energy_recovery_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.energy_recovery_device.cost_energy_recovery_device" title="Permalink to this definition"></a></dt>
-<dd><p>Energy recovery device costing method</p>
-<p>TODO: describe equations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>energy_recovery_device_type</strong> – EnergyRecoveryDeviceType Enum indicating ERD type.
-Defaults to EnergyRecoveryDeviceType.pressure_exchanger.</p></li>
-<li><p><strong>cost_electricity_flow</strong> – bool, if True, the ERD’s work_mechanical will
-be converted to kW and costed as an electricity. Defaults to True.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.energy_recovery_device.cost_pressure_exchanger_erd">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.energy_recovery_device.</span></span><span class="sig-name descname"><span class="pre">cost_pressure_exchanger_erd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/energy_recovery_device.html#cost_pressure_exchanger_erd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.energy_recovery_device.cost_pressure_exchanger_erd" title="Permalink to this definition"></a></dt>
-<dd><p>ERD pressure exchanger costing method</p>
-<p>TODO: describe equations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cost_electricity_flow</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – if True, the ERD’s work_mechanical will
-be converted to kW and costed as an electricity. Defaults to True.</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-energy-recovery-device-module">
+<h2>watertap.costing.unit_models.energy_recovery_device module<a class="headerlink" href="#watertap-costing-unit-models-energy-recovery-device-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.evaporator">
-<span id="watertap-costing-unit-models-evaporator-module"></span><h2>watertap.costing.unit_models.evaporator module<a class="headerlink" href="#module-watertap.costing.unit_models.evaporator" title="Permalink to this heading"></a></h2>
+<section id="watertap-costing-unit-models-evaporator-module">
+<h2>watertap.costing.unit_models.evaporator module<a class="headerlink" href="#watertap-costing-unit-models-evaporator-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.gac">
-<span id="watertap-costing-unit-models-gac-module"></span><h2>watertap.costing.unit_models.gac module<a class="headerlink" href="#module-watertap.costing.unit_models.gac" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.gac.ContactorType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.gac.</span></span><span class="sig-name descname"><span class="pre">ContactorType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/gac.html#ContactorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.gac.ContactorType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.gac.cost_gac">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.gac.</span></span><span class="sig-name descname"><span class="pre">cost_gac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contactor_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ContactorType.pressure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/gac.html#cost_gac"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.gac.cost_gac" title="Permalink to this definition"></a></dt>
-<dd><p>3 equation capital cost estimation for GAC systems with: (i), contactor/pressure vessel cost by polynomial as a
-function of individual contactor volume; (ii), initial charge of GAC adsorbent cost by exponential as a function of
-required mass of GAC adsorbent; and (iii), other process costs (vessels, pipes, instrumentation, and controls)
-calculated by power law as a function of total contactor(s) volume. Operating costs calculated as the required
-makeup and regeneration of GAC adsorbent. Energy consumption is estimated from that required for booster, backwash,
-and residual pumps as a function of total contactor(s) volume.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>contactor_type</strong> – ContactorType Enum indicating whether to cost based on steel pressure vessels or concrete,
-default = ContactorType.pressure</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.gac.cost_gac_gravity">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.gac.</span></span><span class="sig-name descname"><span class="pre">cost_gac_gravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/gac.html#cost_gac_gravity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.gac.cost_gac_gravity" title="Permalink to this definition"></a></dt>
-<dd><p>3 equation capital cost estimation for GAC systems with: (i), contactor/pressure vessel cost by polynomial as a
-function of individual contactor volume; (ii), initial charge of GAC adsorbent cost by exponential as a function of
-required mass of GAC adsorbent; and (iii), other process costs (vessels, pipes, instrumentation, and controls)
-calculated by power law as a function of total contactor(s) volume. Operating costs calculated as the required
-makeup and regeneration of GAC adsorbent. Energy consumption is estimated from that required for booster, backwash,
-and residual pumps as a function of total contactor(s) volume.</p>
-<p>This function costs assuming concrete gravity-fed basins.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.gac.cost_gac_pressure">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.gac.</span></span><span class="sig-name descname"><span class="pre">cost_gac_pressure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/gac.html#cost_gac_pressure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.gac.cost_gac_pressure" title="Permalink to this definition"></a></dt>
-<dd><p>3 equation capital cost estimation for GAC systems with: (i), contactor/pressure vessel cost by polynomial as a
-function of individual contactor volume; (ii), initial charge of GAC adsorbent cost by exponential as a function of
-required mass of GAC adsorbent; and (iii), other process costs (vessels, pipes, instrumentation, and controls)
-calculated by power law as a function of total contactor(s) volume. Operating costs calculated as the required
-makeup and regeneration of GAC adsorbent. Energy consumption is estimated from that required for booster, backwash,
-and residual pumps as a function of total contactor(s) volume.</p>
-<p>This function costs assuming steel pressure-fed vessels.</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-gac-module">
+<h2>watertap.costing.unit_models.gac module<a class="headerlink" href="#watertap-costing-unit-models-gac-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.heat_exchanger">
-<span id="watertap-costing-unit-models-heat-exchanger-module"></span><h2>watertap.costing.unit_models.heat_exchanger module<a class="headerlink" href="#module-watertap.costing.unit_models.heat_exchanger" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.heat_exchanger.cost_heat_exchanger">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.heat_exchanger.</span></span><span class="sig-name descname"><span class="pre">cost_heat_exchanger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_steam_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/heat_exchanger.html#cost_heat_exchanger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.heat_exchanger.cost_heat_exchanger" title="Permalink to this definition"></a></dt>
-<dd><p>Heat Exchanger Costing Method</p>
-<p>TODO: describe equations</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-heat-exchanger-module">
+<h2>watertap.costing.unit_models.heat_exchanger module<a class="headerlink" href="#watertap-costing-unit-models-heat-exchanger-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.heater_chiller">
-<span id="watertap-costing-unit-models-heater-chiller-module"></span><h2>watertap.costing.unit_models.heater_chiller module<a class="headerlink" href="#module-watertap.costing.unit_models.heater_chiller" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.heater_chiller.HCType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.heater_chiller.</span></span><span class="sig-name descname"><span class="pre">HCType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/heater_chiller.html#HCType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.heater_chiller.HCType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.heater_chiller.cost_chiller">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.heater_chiller.</span></span><span class="sig-name descname"><span class="pre">cost_chiller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/heater_chiller.html#cost_chiller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.heater_chiller.cost_chiller" title="Permalink to this definition"></a></dt>
-<dd><p>chiller costing method</p>
-<p>TODO: describe equations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cost_electricity_flow</strong> (<em>bool</em>) – if True, the chiller’s heat_duty will
-be converted to kW and costed as an electricity. Defaults to True.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.heater_chiller.cost_electric_heater">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.heater_chiller.</span></span><span class="sig-name descname"><span class="pre">cost_electric_heater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/heater_chiller.html#cost_electric_heater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.heater_chiller.cost_electric_heater" title="Permalink to this definition"></a></dt>
-<dd><p>electric heater costing method</p>
-<p><cite>TODO: describe equations</cite></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cost_electricity_flow</strong> (<em>bool</em>) – if True, the heater’s heat duty will
-be converted to kW and costed as an electricity. Defaults to True.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.heater_chiller.cost_heater_chiller">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.heater_chiller.</span></span><span class="sig-name descname"><span class="pre">cost_heater_chiller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HC_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">HCType.electric_heater</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/heater_chiller.html#cost_heater_chiller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.heater_chiller.cost_heater_chiller" title="Permalink to this definition"></a></dt>
-<dd><p>electric heater costing method</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>HC_type</strong> – HCType Enum indicating heating or cooling type,
-default = HCType.electric_heater</p></li>
-<li><p><strong>cost_electricity_flow</strong> – bool, if True, the heater’s heat duty will be
-converted to kW and costed as an electricity, default = True</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-heater-chiller-module">
+<h2>watertap.costing.unit_models.heater_chiller module<a class="headerlink" href="#watertap-costing-unit-models-heater-chiller-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.ion_exchange">
-<span id="watertap-costing-unit-models-ion-exchange-module"></span><h2>watertap.costing.unit_models.ion_exchange module<a class="headerlink" href="#module-watertap.costing.unit_models.ion_exchange" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.ion_exchange.cost_ion_exchange">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.ion_exchange.</span></span><span class="sig-name descname"><span class="pre">cost_ion_exchange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/ion_exchange.html#cost_ion_exchange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.ion_exchange.cost_ion_exchange" title="Permalink to this definition"></a></dt>
-<dd><p>Volume-based capital cost for Ion Exchange</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-ion-exchange-module">
+<h2>watertap.costing.unit_models.ion_exchange module<a class="headerlink" href="#watertap-costing-unit-models-ion-exchange-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.membrane_distillation">
-<span id="watertap-costing-unit-models-membrane-distillation-module"></span><h2>watertap.costing.unit_models.membrane_distillation module<a class="headerlink" href="#module-watertap.costing.unit_models.membrane_distillation" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.membrane_distillation.cost_membrane_distillation">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.membrane_distillation.</span></span><span class="sig-name descname"><span class="pre">cost_membrane_distillation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/membrane_distillation.html#cost_membrane_distillation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.membrane_distillation.cost_membrane_distillation" title="Permalink to this definition"></a></dt>
-<dd><p>membrane distillation costing method</p>
-<p>TODO: describe equations</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-membrane-distillation-module">
+<h2>watertap.costing.unit_models.membrane_distillation module<a class="headerlink" href="#watertap-costing-unit-models-membrane-distillation-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.mixer">
-<span id="watertap-costing-unit-models-mixer-module"></span><h2>watertap.costing.unit_models.mixer module<a class="headerlink" href="#module-watertap.costing.unit_models.mixer" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.mixer.MixerType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.mixer.</span></span><span class="sig-name descname"><span class="pre">MixerType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/mixer.html#MixerType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.mixer.MixerType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.mixer.cost_caoh2_mixer">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.mixer.</span></span><span class="sig-name descname"><span class="pre">cost_caoh2_mixer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dosing_rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/mixer.html#cost_caoh2_mixer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.mixer.cost_caoh2_mixer" title="Permalink to this definition"></a></dt>
-<dd><p>CaOH2 mixer costing method</p>
-<p>TODO: describe equations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dosing_rate</strong> – An expression in [mass/time] for CaOH2 dosage</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.mixer.cost_default_mixer">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.mixer.</span></span><span class="sig-name descname"><span class="pre">cost_default_mixer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/mixer.html#cost_default_mixer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.mixer.cost_default_mixer" title="Permalink to this definition"></a></dt>
-<dd><p>Default mixer costing method</p>
-<p>TODO: describe equations</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.mixer.cost_mixer">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.mixer.</span></span><span class="sig-name descname"><span class="pre">cost_mixer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixer_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MixerType.default</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/mixer.html#cost_mixer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.mixer.cost_mixer" title="Permalink to this definition"></a></dt>
-<dd><p>Mixer costing method</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mixer_type</strong> – MixerType Enum indicating mixer type,
-default = MixerType.default</p></li>
-<li><p><strong>**kwargs</strong> – Additional keywords for the MixerType, e.g., NaOCl
-and CaOH2 mixers expect the <cite>dosing_rate</cite> keyword
-argument.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.mixer.cost_naocl_mixer">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.mixer.</span></span><span class="sig-name descname"><span class="pre">cost_naocl_mixer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dosing_rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/mixer.html#cost_naocl_mixer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.mixer.cost_naocl_mixer" title="Permalink to this definition"></a></dt>
-<dd><p>NaOCl mixer costing method</p>
-<p>TODO: describe equations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dosing_rate</strong> – An expression in [mass/time] for NaOCl dosage</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-mixer-module">
+<h2>watertap.costing.unit_models.mixer module<a class="headerlink" href="#watertap-costing-unit-models-mixer-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.nanofiltration">
-<span id="watertap-costing-unit-models-nanofiltration-module"></span><h2>watertap.costing.unit_models.nanofiltration module<a class="headerlink" href="#module-watertap.costing.unit_models.nanofiltration" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.nanofiltration.cost_nanofiltration">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.nanofiltration.</span></span><span class="sig-name descname"><span class="pre">cost_nanofiltration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/nanofiltration.html#cost_nanofiltration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.nanofiltration.cost_nanofiltration" title="Permalink to this definition"></a></dt>
-<dd><p>Nanofiltration costing method</p>
-<p>TODO: describe equations</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-nanofiltration-module">
+<h2>watertap.costing.unit_models.nanofiltration module<a class="headerlink" href="#watertap-costing-unit-models-nanofiltration-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.osmotically_assisted_reverse_osmosis">
-<span id="watertap-costing-unit-models-osmotically-assisted-reverse-osmosis-module"></span><h2>watertap.costing.unit_models.osmotically_assisted_reverse_osmosis module<a class="headerlink" href="#module-watertap.costing.unit_models.osmotically_assisted_reverse_osmosis" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.OAROType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.</span></span><span class="sig-name descname"><span class="pre">OAROType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/osmotically_assisted_reverse_osmosis.html#OAROType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.OAROType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.build_osmotically_assisted_reverse_osmosis_cost_param_block">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.</span></span><span class="sig-name descname"><span class="pre">build_osmotically_assisted_reverse_osmosis_cost_param_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/osmotically_assisted_reverse_osmosis.html#build_osmotically_assisted_reverse_osmosis_cost_param_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.build_osmotically_assisted_reverse_osmosis_cost_param_block" title="Permalink to this definition"></a></dt>
-<dd><p>Reference parameter values are provided from:
-Bartholomew, T. V., Mey, L., Arena, J. T., Siefert, N. S., &amp; Mauter, M. S. (2017).
-Osmotically assisted reverse osmosis for high salinity brine treatment. Desalination, 421, 3-11.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.cost_osmotically_assisted_reverse_osmosis">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.</span></span><span class="sig-name descname"><span class="pre">cost_osmotically_assisted_reverse_osmosis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oaro_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">OAROType.standard</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/osmotically_assisted_reverse_osmosis.html#cost_osmotically_assisted_reverse_osmosis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.cost_osmotically_assisted_reverse_osmosis" title="Permalink to this definition"></a></dt>
-<dd><p>Osmotically assisted reverse osmosis costing method</p>
-<p>TODO: describe equations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>oaro_type</strong> – ROType Enum indicating osmotically assisted reverse osmosis type,
-default = OAROType.standard</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-osmotically-assisted-reverse-osmosis-module">
+<h2>watertap.costing.unit_models.osmotically_assisted_reverse_osmosis module<a class="headerlink" href="#watertap-costing-unit-models-osmotically-assisted-reverse-osmosis-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.pressure_exchanger">
-<span id="watertap-costing-unit-models-pressure-exchanger-module"></span><h2>watertap.costing.unit_models.pressure_exchanger module<a class="headerlink" href="#module-watertap.costing.unit_models.pressure_exchanger" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.pressure_exchanger.cost_pressure_exchanger">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.pressure_exchanger.</span></span><span class="sig-name descname"><span class="pre">cost_pressure_exchanger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/pressure_exchanger.html#cost_pressure_exchanger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.pressure_exchanger.cost_pressure_exchanger" title="Permalink to this definition"></a></dt>
-<dd><p>Pressure exchanger costing method</p>
-<p>TODO: describe equations</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-pressure-exchanger-module">
+<h2>watertap.costing.unit_models.pressure_exchanger module<a class="headerlink" href="#watertap-costing-unit-models-pressure-exchanger-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.pump">
-<span id="watertap-costing-unit-models-pump-module"></span><h2>watertap.costing.unit_models.pump module<a class="headerlink" href="#module-watertap.costing.unit_models.pump" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.pump.PumpType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.pump.</span></span><span class="sig-name descname"><span class="pre">PumpType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/pump.html#PumpType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.pump.PumpType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.pump.cost_high_pressure_pump">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.pump.</span></span><span class="sig-name descname"><span class="pre">cost_high_pressure_pump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/pump.html#cost_high_pressure_pump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.pump.cost_high_pressure_pump" title="Permalink to this definition"></a></dt>
-<dd><p>High pressure pump costing method</p>
-<p><cite>TODO: describe equations</cite></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cost_electricity_flow</strong> (<em>bool</em>) – if True, the Pump’s work_mechanical will
-be converted to kW and costed as an electricity. Defaults to True.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.pump.cost_low_pressure_pump">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.pump.</span></span><span class="sig-name descname"><span class="pre">cost_low_pressure_pump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/pump.html#cost_low_pressure_pump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.pump.cost_low_pressure_pump" title="Permalink to this definition"></a></dt>
-<dd><p>Low pressure pump costing method</p>
-<p>TODO: describe equations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cost_electricity_flow</strong> (<em>bool</em>) – if True, the Pump’s work_mechanical will
-be converted to kW and costed as an electricity. Defaults to True.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.pump.cost_pump">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.pump.</span></span><span class="sig-name descname"><span class="pre">cost_pump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pump_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PumpType.high_pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/pump.html#cost_pump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.pump.cost_pump" title="Permalink to this definition"></a></dt>
-<dd><p>Pump costing method</p>
-<p>TODO: describe equations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pump_type</strong> – PumpType Enum indicating pump type,
-default = PumpType.high_pressure</p></li>
-<li><p><strong>cost_electricity_flow</strong> – bool, if True, the Pump’s work_mechanical will be
-converted to kW and costed as an electricity, default = True</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-pump-module">
+<h2>watertap.costing.unit_models.pump module<a class="headerlink" href="#watertap-costing-unit-models-pump-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.reverse_osmosis">
-<span id="watertap-costing-unit-models-reverse-osmosis-module"></span><h2>watertap.costing.unit_models.reverse_osmosis module<a class="headerlink" href="#module-watertap.costing.unit_models.reverse_osmosis" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.reverse_osmosis.ROType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.reverse_osmosis.</span></span><span class="sig-name descname"><span class="pre">ROType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/reverse_osmosis.html#ROType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.reverse_osmosis.ROType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
-<p>An enumeration.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.reverse_osmosis.cost_reverse_osmosis">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.reverse_osmosis.</span></span><span class="sig-name descname"><span class="pre">cost_reverse_osmosis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ro_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ROType.standard</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/reverse_osmosis.html#cost_reverse_osmosis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.reverse_osmosis.cost_reverse_osmosis" title="Permalink to this definition"></a></dt>
-<dd><p>Reverse osmosis costing method</p>
-<p>TODO: describe equations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ro_type</strong> – ROType Enum indicating reverse osmosis type,
-default = ROType.standard</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-reverse-osmosis-module">
+<h2>watertap.costing.unit_models.reverse_osmosis module<a class="headerlink" href="#watertap-costing-unit-models-reverse-osmosis-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.stoichiometric_reactor">
-<span id="watertap-costing-unit-models-stoichiometric-reactor-module"></span><h2>watertap.costing.unit_models.stoichiometric_reactor module<a class="headerlink" href="#module-watertap.costing.unit_models.stoichiometric_reactor" title="Permalink to this heading"></a></h2>
+<section id="watertap-costing-unit-models-steam-ejector-module">
+<h2>watertap.costing.unit_models.steam_ejector module<a class="headerlink" href="#watertap-costing-unit-models-steam-ejector-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.surrogate_crystallizer">
-<span id="watertap-costing-unit-models-surrogate-crystallizer-module"></span><h2>watertap.costing.unit_models.surrogate_crystallizer module<a class="headerlink" href="#module-watertap.costing.unit_models.surrogate_crystallizer" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.surrogate_crystallizer.cost_crystallizer_by_crystal_mass">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.surrogate_crystallizer.</span></span><span class="sig-name descname"><span class="pre">cost_crystallizer_by_crystal_mass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/surrogate_crystallizer.html#cost_crystallizer_by_crystal_mass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.surrogate_crystallizer.cost_crystallizer_by_crystal_mass" title="Permalink to this definition"></a></dt>
-<dd><p>Mass-based capital cost for FC crystallizer</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.surrogate_crystallizer.cost_surrogate_crystallizer">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.surrogate_crystallizer.</span></span><span class="sig-name descname"><span class="pre">cost_surrogate_crystallizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/surrogate_crystallizer.html#cost_surrogate_crystallizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.surrogate_crystallizer.cost_surrogate_crystallizer" title="Permalink to this definition"></a></dt>
-<dd><p>Function for costing the surrogate crystallizer by the mass flow of produced crystals.
-The operating cost model assumes that heat is supplied via condensation of saturated steam (see Dutta et al.)</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-stoichiometric-reactor-module">
+<h2>watertap.costing.unit_models.stoichiometric_reactor module<a class="headerlink" href="#watertap-costing-unit-models-stoichiometric-reactor-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.thickener">
-<span id="watertap-costing-unit-models-thickener-module"></span><h2>watertap.costing.unit_models.thickener module<a class="headerlink" href="#module-watertap.costing.unit_models.thickener" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.thickener.cost_thickener">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.thickener.</span></span><span class="sig-name descname"><span class="pre">cost_thickener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/thickener.html#cost_thickener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.thickener.cost_thickener" title="Permalink to this definition"></a></dt>
-<dd><p>Gravity Sludge Thickener costing method</p>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-surrogate-crystallizer-module">
+<h2>watertap.costing.unit_models.surrogate_crystallizer module<a class="headerlink" href="#watertap-costing-unit-models-surrogate-crystallizer-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models.uv_aop">
-<span id="watertap-costing-unit-models-uv-aop-module"></span><h2>watertap.costing.unit_models.uv_aop module<a class="headerlink" href="#module-watertap.costing.unit_models.uv_aop" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.uv_aop.cost_uv_aop">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.uv_aop.</span></span><span class="sig-name descname"><span class="pre">cost_uv_aop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_electricity_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/uv_aop.html#cost_uv_aop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.uv_aop.cost_uv_aop" title="Permalink to this definition"></a></dt>
-<dd><p>UV-AOP costing method</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.costing.unit_models.uv_aop.cost_uv_aop_bundle">
-<span class="sig-prename descclassname"><span class="pre">watertap.costing.unit_models.uv_aop.</span></span><span class="sig-name descname"><span class="pre">cost_uv_aop_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reactor_cost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lamp_cost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_lamp_replacement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/unit_models/uv_aop.html#cost_uv_aop_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.unit_models.uv_aop.cost_uv_aop_bundle" title="Permalink to this definition"></a></dt>
-<dd><p>Generic function for costing a UV system.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>reactor_cost</strong> – The cost of UV reactor in [currency]/[volume]</p></li>
-<li><p><strong>lamp_cost</strong> – The costs of the lamps, sleeves, ballasts and sensors in [currency]/[kW]</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-costing-unit-models-thickener-module">
+<h2>watertap.costing.unit_models.thickener module<a class="headerlink" href="#watertap-costing-unit-models-thickener-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.costing.unit_models">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-watertap.costing.unit_models" title="Permalink to this heading"></a></h2>
+<section id="watertap-costing-unit-models-uv-aop-module">
+<h2>watertap.costing.unit_models.uv_aop module<a class="headerlink" href="#watertap-costing-unit-models-uv-aop-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 

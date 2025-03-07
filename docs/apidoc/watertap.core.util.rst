@@ -33,13 +33,6 @@ watertap.core.util.misc module
    :members:
    :show-inheritance:
 
-watertap.core.util.model\_debug\_mode module
---------------------------------------------
-
-.. automodule:: watertap.core.util.model_debug_mode
-   :members:
-   :show-inheritance:
-
 watertap.core.util.scaling module
 ---------------------------------
 

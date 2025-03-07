@@ -7,7 +7,6 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   watertap.core.plugins
    watertap.core.util
 
 Submodules

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Multi-Component Aqueous Solution (MCAS) Property Package &mdash; WaterTAP 1.2.dev0 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <title>Multi-Component Aqueous Solution (MCAS) Property Package &mdash; WaterTAP 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=169190e7" />
+
+  
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
@@ -15,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=4e9539be"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -42,7 +44,7 @@
               <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.2.dev0
+                1.3.dev0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -122,31 +124,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="multi-component-aqueous-solution-mcas-property-package">
+  <section id="multi-component-aqueous-solution-mcas-property-package">
 <span id="mcas-tech-ref"></span><h1>Multi-Component Aqueous Solution (MCAS) Property Package<a class="headerlink" href="#multi-component-aqueous-solution-mcas-property-package" title="Permalink to this heading"></a></h1>
 <p>This property package implements property relationships for an aqueous solution that may contain multiple neutral and/or ionic solutes.</p>
 <dl class="simple">
@@ -687,361 +665,6 @@ Additionally, a warning will be displayed if <em>charge</em> data are not provid
 </section>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">MCASParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
-<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
-<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
-<p>Config args</p>
-<blockquote>
-<div><dl>
-<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
-</dd>
-<dt>solute_list</dt><dd><p>Required argument.List of strings that specify names of
-solute species.</p>
-</dd>
-<dt>stokes_radius_data</dt><dd><p>Dict of solute species names (keys) and Stokes radius data
-(values)</p>
-</dd>
-<dt>diffusivity_data</dt><dd><p>Dict of solute species names (keys) and bulk ion
-diffusivity data (values)</p>
-</dd>
-<dt>molar_volume_data</dt><dd><p>Dict of solute species names and molar volume of aqueous
-species</p>
-</dd>
-<dt>mw_data</dt><dd><p>Required argument. Dict of component names (keys)and
-molecular weight data (values)</p>
-</dd>
-<dt>elec_mobility_data</dt><dd><p>Ion electrical mobility</p>
-</dd>
-<dt>trans_num_data</dt><dd><p>transport number of ions in the liquid phase</p>
-</dd>
-<dt>equiv_conductivity_phase_data</dt><dd><p>Equivalent conductivity of ions in the liquid phase</p>
-</dd>
-<dt>charge</dt><dd><p>Ion charge</p>
-</dd>
-<dt>ignore_neutral_charge</dt><dd><p>Level of reporting results. <strong>default</strong> - False. <strong>Valid
-values:</strong> { <strong>False</strong> - raise ConfigurationError when
-charge value not provided for ALL solutes, including
-neutral solutes (charge=0), <strong>True</strong> - will not raise
-ConfigurationError when charge not provided for particular
-solutes, assuming said solutes are meant to be designated
-as neutral.</p>
-</dd>
-<dt>activity_coefficient_model</dt><dd><blockquote>
-<div><p>Options to account for activity coefficient model.</p>
-<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">ActivityCoefficientModel.ideal</span></code></p>
-</div></blockquote>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ActivityCoefficientModel.ideal</span></code></p></td>
-<td><p>Activity coefficients equal to 1 assuming ideal solution</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ActivityCoefficientModel.davies</span></code></p></td>
-<td><p>Activity coefficients estimated via Davies model</p></td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>density_calculation</dt><dd><blockquote>
-<div><p>Options to account for solution density.</p>
-<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">DensityCalculation.constant</span></code></p>
-</div></blockquote>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DensityCalculation.constant</span></code></p></td>
-<td><p>Solution density assumed constant at 1000 kg/m3 by default in dens_mass_const parameter</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DensityCalculation.seawater</span></code></p></td>
-<td><p>Solution density based on correlation for seawater (TDS)</p></td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>diffus_calculation</dt><dd><blockquote>
-<div><p>Options to account for ionic or molecular diffusivity.</p>
-<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">DiffusivityCalculation.none</span></code></p>
-</div></blockquote>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DiffusivityCalculation.none</span></code></p></td>
-<td><p>Users provide data via the diffusivity_data configuration</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DiffusivityCalculation.HaydukLaudie</span></code></p></td>
-<td><p>Allow the nonelectrolyte (neutral) species to get diffusivity from the Hayduk Laudie equation</p></td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>elec_mobility_calculation</dt><dd><blockquote>
-<div><p>Options to account for ion electrical mobility.</p>
-<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">ElectricalMobilityCalculation.none</span></code></p>
-</div></blockquote>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ElectricalMobilityCalculation.none</span></code></p></td>
-<td><p>Users provide data via the elec_mobility_data configuration</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ElectricalMobilityCalculation.EinsteinRelation</span></code></p></td>
-<td><p>Calculate from the diffusivity_data by the Einstein Relation</p></td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>trans_num_calculation</dt><dd><blockquote>
-<div><p>Options to account for ion transport number in the solution.</p>
-<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">TransportNumberCalculation.ElectricalMobility</span></code></p>
-</div></blockquote>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TransportNumberCalculation.none</span></code></p></td>
-<td><p>Users provide data via the trans_num_data configuration</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TransportNumberCalculation.ElectricalMobility</span></code></p></td>
-<td><p>Calculated from the elec_mobility_data</p></td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>equiv_conductivity_calculation</dt><dd><blockquote>
-<div><p>Options to account for the total equivalent conductivity of the liquid phase (solution).</p>
-<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">EquivalentConductivityCalculation.none</span></code></p>
-</div></blockquote>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EquivalentConductivityCalculation.none</span></code></p></td>
-<td><p>Users provide data via the equiv_conductivity_data configuration</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EquivalentConductivityCalculation.ElectricalMobility</span></code></p></td>
-<td><p>Calculated from the electrical_mobility_data</p></td>
-</tr>
-</tbody>
-</table>
-</dd>
-<dt>material_flow_basis</dt><dd><blockquote>
-<div><p>Material flow basis options.</p>
-<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">MaterialFlowBasis.molar</span></code></p>
-</div></blockquote>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MaterialFlowBasis.molar</span></code></p></td>
-<td><p>molar flowrate as the state variable</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MaterialFlowBasis.mass</span></code></p></td>
-<td><p>mass flowrate as the state variable</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MaterialFlowBasis.other</span></code></p></td>
-<td><p>other material flowrate as the state variable</p></td>
-</tr>
-</tbody>
-</table>
-</dd>
-</dl>
-</div></blockquote>
-</p></li>
-<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
-are BlockData indexes and values are dictionaries with config arguments
-as keys.</p></li>
-<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
-return the index in the initialize dict from which to read arguments.
-This can be provided to override the default behavior of matching the
-BlockData index exactly to the index in initialize.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(MCASParameterBlock) New instance</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">MCASParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Callable method for Block construction.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Define properties supported and units.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">_MCASStateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#_MCASStateBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>This Class contains methods which should be applied to Property Blocks as a whole, rather
-than individual elements of indexed Property Blocks.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calculate_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hold_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optarg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#_MCASStateBlock.calculate_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Solves state blocks given a set of variables and their values. These variables can be
-state variables or properties. This method is typically used before initialization to
-solve for state variables because non-state variables (i.e. properties) cannot be fixed
-in initialization routines.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>var_args</strong> – dictionary with variables and their values, they
-can be state variables or properties
-{(VAR_NAME, INDEX): VALUE}</p></li>
-<li><p><strong>hold_state</strong> – flag indicating whether all of the state
-variables should be fixed after calculate state.
-True - State variables will be fixed.
-False - State variables will remain unfixed, unless already fixed.</p></li>
-<li><p><strong>outlvl</strong> – idaes logger object that sets output level of solve
-call (default=idaeslog.NOTSET)</p></li>
-<li><p><strong>solver</strong> – solver name string if None is provided the default
-solver for IDAES will be used (default = None)</p></li>
-<li><p><strong>optarg</strong> – solver options dictionary object (default={})</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>results object from state block solve</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_vars_fixed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hold_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optarg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#_MCASStateBlock.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Initialization routine for property package.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>state_args</strong> – Dictionary with initial guesses for the state vars
-chosen. Note that if this method is triggered through the control
-volume, and if initial guesses were not provided at the unit model
-level, the control volume passes the inlet values as initial guess.
-The keys for the state_args dictionary are:
-flow_mol_phase_comp : value to initialize phase component flows;
-pressure : value at which to initialize pressure;
-temperature : value at which to initialize temperature.</p></li>
-<li><p><strong>outlvl</strong> – sets output level of initialization routine (default=idaeslog.NOTSET)</p></li>
-<li><p><strong>optarg</strong> – solver options dictionary object (default=None)</p></li>
-<li><p><strong>state_vars_fixed</strong> – Flag to denote if state vars have already
-been fixed.
-- True - states have already been fixed by the control volume
-1D. Control volume 0D does not fix the state vars, so will be
-False if this state block is used with 0D blocks.
-- False - states have not been fixed. The state block will deal
-with fixing/unfixing.</p></li>
-<li><p><strong>solver</strong> – Solver object to use during initialization. If None
-is provided, it will use the default solver for IDAES (default = None)</p></li>
-<li><p><strong>hold_state</strong> – flag indicating whether the initialization routine
-should unfix any state variables fixed during
-initialization (default=False).
-- True - state variables are not unfixed, and a dict of returned
-containing flags for which states were fixed during initialization.
-- False - state variables are unfixed after initialization by calling
-the release_state method.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>If hold_states is True, returns a dict containing flags for which states were fixed
-during initialization.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">release_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#_MCASStateBlock.release_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method to release state variables fixed during initialisation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>flags</strong> – dict containing information of which state variables
-were fixed during initialization, and should now be
-unfixed. This dict is returned by initialize if
-hold_state=True.</p></li>
-<li><p><strong>outlvl</strong> – sets output level of logging</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">MCASStateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">assert_electroneutrality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tee</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defined_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust_by_ion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_property</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.assert_electroneutrality"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>TODO: add descriptions of args and what is returned</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Callable method for Block construction.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Define state vars.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Method which returns an Enum indicating the basis of the material flow
-term.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Create material flow terms for control volume.</p>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 <section id="reference">
 <h2>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h2>

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>watertap.core package &mdash; WaterTAP 1.2.dev0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <title>watertap.core package &mdash; WaterTAP 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=169190e7" />
+
+  
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
@@ -15,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=4e9539be"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -23,7 +25,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="copyright" title="Copyright" href="../copyright.html" />
-    <link rel="next" title="watertap.core.plugins package" href="watertap.core.plugins.html" />
+    <link rel="next" title="watertap.core.util package" href="watertap.core.util.html" />
     <link rel="prev" title="watertap package" href="watertap.html" /> 
 </head>
 
@@ -40,7 +42,7 @@
               <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.2.dev0
+                1.3.dev0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -106,80 +108,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="watertap-core-package">
+  <section id="watertap-core-package">
 <h1>watertap.core package<a class="headerlink" href="#watertap-core-package" title="Permalink to this heading"></a></h1>
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="watertap.core.plugins.html">watertap.core.plugins package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="watertap.core.plugins.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.core.plugins.html#module-watertap.core.plugins.solvers">watertap.core.plugins.solvers module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.plugins.html#watertap.core.plugins.solvers.CyIpoptWaterTAP"><code class="docutils literal notranslate"><span class="pre">CyIpoptWaterTAP</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.plugins.html#watertap.core.plugins.solvers.IpoptWaterTAP"><code class="docutils literal notranslate"><span class="pre">IpoptWaterTAP</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.core.plugins.html#module-watertap.core.plugins">Module contents</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.core.util.html">watertap.core.util package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="watertap.core.util.model_diagnostics.html">watertap.core.util.model_diagnostics package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="watertap.core.util.model_diagnostics.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="watertap.core.util.model_diagnostics.html#module-watertap.core.util.model_diagnostics.infeasible">watertap.core.util.model_diagnostics.infeasible module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="watertap.core.util.model_diagnostics.html#module-watertap.core.util.model_diagnostics.ipopt_initialization">watertap.core.util.model_diagnostics.ipopt_initialization module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="watertap.core.util.model_diagnostics.html#module-watertap.core.util.model_diagnostics">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.core.util.model_diagnostics.html#watertap-core-util-model-diagnostics-infeasible-module">watertap.core.util.model_diagnostics.infeasible module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.core.util.model_diagnostics.html#watertap-core-util-model-diagnostics-ipopt-initialization-module">watertap.core.util.model_diagnostics.ipopt_initialization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.core.util.model_diagnostics.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#module-watertap.core.util.chemistry">watertap.core.util.chemistry module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.chemistry.get_charge"><code class="docutils literal notranslate"><span class="pre">get_charge()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.chemistry.get_charge_group"><code class="docutils literal notranslate"><span class="pre">get_charge_group()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.chemistry.get_molar_mass"><code class="docutils literal notranslate"><span class="pre">get_molar_mass()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.chemistry.get_molar_mass_quantity"><code class="docutils literal notranslate"><span class="pre">get_molar_mass_quantity()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#module-watertap.core.util.initialization">watertap.core.util.initialization module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.initialization.assert_degrees_of_freedom"><code class="docutils literal notranslate"><span class="pre">assert_degrees_of_freedom()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.initialization.assert_no_degrees_of_freedom"><code class="docutils literal notranslate"><span class="pre">assert_no_degrees_of_freedom()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.initialization.check_dof"><code class="docutils literal notranslate"><span class="pre">check_dof()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.initialization.check_solve"><code class="docutils literal notranslate"><span class="pre">check_solve()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.initialization.interval_initializer"><code class="docutils literal notranslate"><span class="pre">interval_initializer()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#module-watertap.core.util.misc">watertap.core.util.misc module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.core.util.html#watertap.core.util.misc.is_constant_up_to_units"><code class="docutils literal notranslate"><span class="pre">is_constant_up_to_units()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#module-watertap.core.util.model_debug_mode">watertap.core.util.model_debug_mode module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#module-watertap.core.util.scaling">watertap.core.util.scaling module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#module-watertap.core.util">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#watertap-core-util-chemistry-module">watertap.core.util.chemistry module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#watertap-core-util-initialization-module">watertap.core.util.initialization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#watertap-core-util-misc-module">watertap.core.util.misc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#watertap-core-util-scaling-module">watertap.core.util.scaling module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.core.util.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -188,181 +139,8 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.core.control_volume_isothermal">
-<span id="watertap-core-control-volume-isothermal-module"></span><h2>watertap.core.control_volume_isothermal module<a class="headerlink" href="#module-watertap.core.control_volume_isothermal" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.core.control_volume_isothermal.ControlVolume0DBlock">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.control_volume_isothermal.</span></span><span class="sig-name descname"><span class="pre">ControlVolume0DBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.core.control_volume_isothermal.ControlVolume0DBlock" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
-<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
-<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
-<p>Config args</p>
-<blockquote>
-<div><dl class="simple">
-<dt>dynamic</dt><dd><p>Indicates whether this model will be dynamic, <strong>default</strong>
-- useDefault. <strong>Valid values:</strong> { <strong>useDefault</strong> - get
-flag from parent, <strong>True</strong> - set as a dynamic model,
-<strong>False</strong> - set as a steady-state model}</p>
-</dd>
-<dt>has_holdup</dt><dd><p>Indicates whether holdup terms should be constructed or
-not. Must be True if dynamic = True, <strong>default</strong> - False.
-<strong>Valid values:</strong> { <strong>True</strong> - construct holdup terms,
-<strong>False</strong> - do not construct holdup terms}</p>
-</dd>
-<dt>property_package</dt><dd><p>Property parameter object used to define property
-calculations, <strong>default</strong> - useDefault. <strong>Valid values:</strong>
-{ <strong>useDefault</strong> - use default package from parent model
-or flowsheet, <strong>PropertyParameterObject</strong> - a
-PropertyParameterBlock object.}</p>
-</dd>
-<dt>property_package_args</dt><dd><p>A ConfigBlock with arguments to be passed to a property
-block(s) and used when constructing these, <strong>default</strong> -
-None. <strong>Valid values:</strong> { see property package for
-documentation.}</p>
-</dd>
-<dt>reaction_package</dt><dd><p>Reaction parameter object used to define reaction
-calculations, <strong>default</strong> - None. <strong>Valid values:</strong> {
-<strong>None</strong> - no reaction package, <strong>ReactionParameterBlock</strong>
-- a ReactionParameterBlock object.}</p>
-</dd>
-<dt>reaction_package_args</dt><dd><p>A ConfigBlock with arguments to be passed to a reaction
-block(s) and used when constructing these, <strong>default</strong> -
-None. <strong>Valid values:</strong> { see reaction package for
-documentation.}</p>
-</dd>
-<dt>auto_construct</dt><dd><p>If set to True, this argument will trigger the
-auto_construct method which will attempt to construct a
-set of material, energy and momentum balance equations
-based on the parent unit’s config block. The parent unit
-must have a config block which derives from CONFIG_Base,
-<strong>default</strong> - False. <strong>Valid values:</strong> { <strong>True</strong> - use
-automatic construction, <strong>False</strong> - do not use automatic
-construction.}</p>
-</dd>
-</dl>
-</div></blockquote>
-</p></li>
-<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
-are BlockData indexes and values are dictionaries with config arguments
-as keys.</p></li>
-<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
-return the index in the initialize dict from which to read arguments.
-This can be provided to override the default behavior of matching the
-BlockData index exactly to the index in initialize.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(ControlVolume0DBlock) New instance</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.core.control_volume_isothermal.ControlVolume0DBlockData">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.control_volume_isothermal.</span></span><span class="sig-name descname"><span class="pre">ControlVolume0DBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/control_volume_isothermal.html#ControlVolume0DBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.control_volume_isothermal.ControlVolume0DBlockData" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_IsothermalEnergyBalanceCheckerMixin</span></code>, <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/control_volume_0d.html#idaes.core.base.control_volume0d.ControlVolume0DBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ControlVolume0DBlockData</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.core.control_volume_isothermal.ControlVolume1DBlock">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.control_volume_isothermal.</span></span><span class="sig-name descname"><span class="pre">ControlVolume1DBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.core.control_volume_isothermal.ControlVolume1DBlock" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
-<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
-<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
-<p>Config args</p>
-<blockquote>
-<div><dl class="simple">
-<dt>dynamic</dt><dd><p>Indicates whether this model will be dynamic, <strong>default</strong>
-- useDefault. <strong>Valid values:</strong> { <strong>useDefault</strong> - get
-flag from parent, <strong>True</strong> - set as a dynamic model,
-<strong>False</strong> - set as a steady-state model}</p>
-</dd>
-<dt>has_holdup</dt><dd><p>Indicates whether holdup terms should be constructed or
-not. Must be True if dynamic = True, <strong>default</strong> - False.
-<strong>Valid values:</strong> { <strong>True</strong> - construct holdup terms,
-<strong>False</strong> - do not construct holdup terms}</p>
-</dd>
-<dt>property_package</dt><dd><p>Property parameter object used to define property
-calculations, <strong>default</strong> - useDefault. <strong>Valid values:</strong>
-{ <strong>useDefault</strong> - use default package from parent model
-or flowsheet, <strong>PropertyParameterObject</strong> - a
-PropertyParameterBlock object.}</p>
-</dd>
-<dt>property_package_args</dt><dd><p>A ConfigBlock with arguments to be passed to a property
-block(s) and used when constructing these, <strong>default</strong> -
-None. <strong>Valid values:</strong> { see property package for
-documentation.}</p>
-</dd>
-<dt>reaction_package</dt><dd><p>Reaction parameter object used to define reaction
-calculations, <strong>default</strong> - None. <strong>Valid values:</strong> {
-<strong>None</strong> - no reaction package, <strong>ReactionParameterBlock</strong>
-- a ReactionParameterBlock object.}</p>
-</dd>
-<dt>reaction_package_args</dt><dd><p>A ConfigBlock with arguments to be passed to a reaction
-block(s) and used when constructing these, <strong>default</strong> -
-None. <strong>Valid values:</strong> { see reaction package for
-documentation.}</p>
-</dd>
-<dt>auto_construct</dt><dd><p>If set to True, this argument will trigger the
-auto_construct method which will attempt to construct a
-set of material, energy and momentum balance equations
-based on the parent unit’s config block. The parent unit
-must have a config block which derives from CONFIG_Base,
-<strong>default</strong> - False. <strong>Valid values:</strong> { <strong>True</strong> - use
-automatic construction, <strong>False</strong> - do not use automatic
-construction.}</p>
-</dd>
-<dt>area_definition</dt><dd><p>Argument defining whether area variable should be
-spatially variant or not. <strong>default</strong> -
-DistributedVars.uniform. <strong>Valid values:</strong> {
-DistributedVars.uniform - area does not vary across
-spatial domain, DistributedVars.variant - area can vary
-over the domain and is indexed by time and space.}</p>
-</dd>
-<dt>transformation_method</dt><dd><p>Method to use to transform domain. Must be a method
-recognised by the Pyomo TransformationFactory.</p>
-</dd>
-<dt>transformation_scheme</dt><dd><p>Scheme to use when transforming domain. See Pyomo
-documentation for supported schemes.</p>
-</dd>
-<dt>finite_elements</dt><dd><p>Number of finite elements to use in transformation
-(equivalent to Pyomo nfe argument).</p>
-</dd>
-<dt>collocation_points</dt><dd><p>Number of collocation points to use (equivalent to Pyomo
-ncp argument).</p>
-</dd>
-</dl>
-</div></blockquote>
-</p></li>
-<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
-are BlockData indexes and values are dictionaries with config arguments
-as keys.</p></li>
-<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
-return the index in the initialize dict from which to read arguments.
-This can be provided to override the default behavior of matching the
-BlockData index exactly to the index in initialize.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(ControlVolume1DBlock) New instance</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="watertap.core.control_volume_isothermal.ControlVolume1DBlockData">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.control_volume_isothermal.</span></span><span class="sig-name descname"><span class="pre">ControlVolume1DBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/control_volume_isothermal.html#ControlVolume1DBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.control_volume_isothermal.ControlVolume1DBlockData" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_IsothermalEnergyBalanceCheckerMixin</span></code>, <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/control_volume_1d.html#idaes.core.base.control_volume1d.ControlVolume1DBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ControlVolume1DBlockData</span></code></a></p>
-</dd></dl>
-
+<section id="watertap-core-control-volume-isothermal-module">
+<h2>watertap.core.control_volume_isothermal module<a class="headerlink" href="#watertap-core-control-volume-isothermal-module" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-watertap.core.initialization_mixin">
 <span id="watertap-core-initialization-mixin-module"></span><h2>watertap.core.initialization_mixin module<a class="headerlink" href="#module-watertap.core.initialization_mixin" title="Permalink to this heading"></a></h2>
@@ -379,7 +157,7 @@ BlockData index exactly to the index in initialize.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel0d.MembraneChannel0DBlock">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel0d.</span></span><span class="sig-name descname"><span class="pre">MembraneChannel0DBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.core.membrane_channel0d.MembraneChannel0DBlock" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -450,7 +228,7 @@ BlockData index exactly to the index in initialize.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel0d.MembraneChannel0DBlockData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel0d.</span></span><span class="sig-name descname"><span class="pre">MembraneChannel0DBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel0d.html#MembraneChannel0DBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel0d.MembraneChannel0DBlockData" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MembraneChannelMixin</span></code>, <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/control_volume_0d.html#idaes.core.base.control_volume0d.ControlVolume0DBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ControlVolume0DBlockData</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MembraneChannelMixin</span></code>, <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/control_volume_0d.html#idaes.core.base.control_volume0d.ControlVolume0DBlockData" title="(in IDAES v2.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ControlVolume0DBlockData</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel0d.MembraneChannel0DBlockData.add_geometry">
 <span class="sig-name descname"><span class="pre">add_geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length_var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">FlowDirection.forward</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel0d.html#MembraneChannel0DBlockData.add_geometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel0d.MembraneChannel0DBlockData.add_geometry" title="Permalink to this definition"></a></dt>
@@ -553,7 +331,7 @@ states were fixed during initialization.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel1d.MembraneChannel1DBlock">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel1d.</span></span><span class="sig-name descname"><span class="pre">MembraneChannel1DBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.core.membrane_channel1d.MembraneChannel1DBlock" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -643,7 +421,7 @@ BlockData index exactly to the index in initialize.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel1d.MembraneChannel1DBlockData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel1d.</span></span><span class="sig-name descname"><span class="pre">MembraneChannel1DBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel1d.html#MembraneChannel1DBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel1d.MembraneChannel1DBlockData" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MembraneChannelMixin</span></code>, <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/control_volume_1d.html#idaes.core.base.control_volume1d.ControlVolume1DBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ControlVolume1DBlockData</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MembraneChannelMixin</span></code>, <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/control_volume_1d.html#idaes.core.base.control_volume1d.ControlVolume1DBlockData" title="(in IDAES v2.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ControlVolume1DBlockData</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel1d.MembraneChannel1DBlockData.add_geometry">
 <span class="sig-name descname"><span class="pre">add_geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">FlowDirection.forward</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel1d.html#MembraneChannel1DBlockData.add_geometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel1d.MembraneChannel1DBlockData.add_geometry" title="Permalink to this definition"></a></dt>
@@ -753,7 +531,7 @@ states were fixed during initialization.</p>
 <span id="watertap-core-membrane-channel-base-module"></span><h2>watertap.core.membrane_channel_base module<a class="headerlink" href="#module-watertap.core.membrane_channel_base" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel_base.ConcentrationPolarizationType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">ConcentrationPolarizationType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#ConcentrationPolarizationType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.ConcentrationPolarizationType" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">ConcentrationPolarizationType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#ConcentrationPolarizationType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.ConcentrationPolarizationType" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>none: no concentration polarization
 fixed: concentration polarization modulus is a user specified value
@@ -762,7 +540,7 @@ calculated: calculate concentration polarization (concentration at membrane inte
 
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel_base.FrictionFactor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">FrictionFactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#FrictionFactor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.FrictionFactor" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">FrictionFactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#FrictionFactor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.FrictionFactor" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>default_by_module_type: Will revert FrictionFactor to either the Darcy’s friction factor correlation
 by Guillen &amp; Hoek (flat-plate) or by Schock &amp; Miquel (spiral-wound)</p>
@@ -770,7 +548,7 @@ by Guillen &amp; Hoek (flat-plate) or by Schock &amp; Miquel (spiral-wound)</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel_base.MassTransferCoefficient">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">MassTransferCoefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#MassTransferCoefficient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.MassTransferCoefficient" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">MassTransferCoefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#MassTransferCoefficient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.MassTransferCoefficient" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>none: mass transfer coefficient not utilized for concentration polarization effect
 fixed: mass transfer coefficient is a user specified value
@@ -779,7 +557,7 @@ calculated: mass transfer coefficient is calculated</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel_base.ModuleType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">ModuleType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#ModuleType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.ModuleType" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">ModuleType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#ModuleType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.ModuleType" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>flat_sheet: flat-sheet module configuration
 spiral_wound: spiral-wound module configuration</p>
@@ -787,7 +565,7 @@ spiral_wound: spiral-wound module configuration</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel_base.PressureChangeType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">PressureChangeType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#PressureChangeType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.PressureChangeType" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">PressureChangeType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#PressureChangeType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.PressureChangeType" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>fixed_per_stage: pressure drop across membrane channel is a user-specified value
 fixed_per_unit_length: pressure drop per unit length across membrane channel is a user-specified value
@@ -796,35 +574,15 @@ calculated: pressure drop across membrane channel is calculated</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.membrane_channel_base.TransportModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">TransportModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#TransportModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.TransportModel" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.membrane_channel_base.</span></span><span class="sig-name descname"><span class="pre">TransportModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/membrane_channel_base.html#TransportModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.membrane_channel_base.TransportModel" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>SD: Solvent and solute mass flux is calculated using the Solution-Diffusion model
 SKK: Solvent and solute mass flux is calculated using the Spiegler-Kedem-Katchalsky model</p>
 </dd></dl>
 
 </section>
-<section id="module-watertap.core.solvers">
-<span id="watertap-core-solvers-module"></span><h2>watertap.core.solvers module<a class="headerlink" href="#module-watertap.core.solvers" title="Permalink to this heading"></a></h2>
-<p>This module contains a get_solver function which is identical to the IDAES get_solver
-function except that it returns IpoptWaterTAP by default.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.solvers.get_solver">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.solvers.</span></span><span class="sig-name descname"><span class="pre">get_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/solvers.html#get_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.solvers.get_solver" title="Permalink to this definition"></a></dt>
-<dd><p>General method for getting a solver object which defaults to IpoptWaterTAP</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>solver</strong> – string name for desired solver. Default=None, use default solver</p></li>
-<li><p><strong>options</strong> – dict of solver options to use, overwrites any settings in
-IpoptWaterTAP. Default = None, use default solver options.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A Pyomo solver object</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-core-solvers-module">
+<h2>watertap.core.solvers module<a class="headerlink" href="#watertap-core-solvers-module" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-watertap.core.wt_database">
 <span id="watertap-core-wt-database-module"></span><h2>watertap.core.wt_database module<a class="headerlink" href="#module-watertap.core.wt_database" title="Permalink to this heading"></a></h2>
@@ -923,7 +681,7 @@ provided, the default parameters are used instead.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.zero_order_base.ZeroOrderBase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_base.</span></span><span class="sig-name descname"><span class="pre">ZeroOrderBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.core.zero_order_base.ZeroOrderBase" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -980,7 +738,7 @@ BlockData index exactly to the index in initialize.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.zero_order_base.ZeroOrderBaseData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_base.</span></span><span class="sig-name descname"><span class="pre">ZeroOrderBaseData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_base.html#ZeroOrderBaseData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_base.ZeroOrderBaseData" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/unit_model_block.html#idaes.core.base.unit_model.UnitModelBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnitModelBlockData</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/unit_model_block.html#idaes.core.base.unit_model.UnitModelBlockData" title="(in IDAES v2.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnitModelBlockData</span></code></a></p>
 <p>Standard base class for zero order unit models.</p>
 <p>This class contains the basic consistency checks and common methods for
 zero order type models.</p>
@@ -1087,59 +845,8 @@ defined in database</p></li>
 </dd></dl>
 
 </section>
-<section id="module-watertap.core.zero_order_diso">
-<span id="watertap-core-zero-order-diso-module"></span><h2>watertap.core.zero_order_diso module<a class="headerlink" href="#module-watertap.core.zero_order_diso" title="Permalink to this heading"></a></h2>
-<p>This module contains the methods for constructing the material balances for
-zero-order double-input/single-output (DISO) unit models (i.e. units with two inlets and single
-outlet where composition changes, such as a generic bioreactor).</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_diso.build_diso">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_diso.</span></span><span class="sig-name descname"><span class="pre">build_diso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_diso.html#build_diso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_diso.build_diso" title="Permalink to this definition"></a></dt>
-<dd><p>Helper method for constructing material balances for zero-order type models
-with DISO behavior.</p>
-<dl class="simple">
-<dt>Three StateBlocks are added with two corresponding Ports:</dt><dd><ul class="simple">
-<li><p>properties_in1 –&gt; inlet1</p></li>
-<li><p>properties_in2 –&gt; inlet2</p></li>
-<li><p>properties_treated —&gt; treated</p></li>
-</ul>
-</dd>
-<dt>Two additional variables are added:</dt><dd><ul class="simple">
-<li><p>recovery_frac_mass_H2O (indexed by time)</p></li>
-<li><p>removal_frac_mass_comp (indexed by time and component)</p></li>
-</ul>
-</dd>
-<dt>Two additional constraints are added to represent the material balances</dt><dd><ul class="simple">
-<li><p>water_recovery_equation (indexed by time)</p></li>
-<li><p>solute_treated_equation (indexed by time and solute)</p></li>
-</ul>
-</dd>
-</dl>
-<p>This method also sets private attributes on the unit model with references
-to the appropriate initialization and scaling methods to use and to return
-the inlet volumetric flow rate.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_diso.initialize_diso">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_diso.</span></span><span class="sig-name descname"><span class="pre">initialize_diso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optarg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_diso.html#initialize_diso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_diso.initialize_diso" title="Permalink to this definition"></a></dt>
-<dd><p>Initialization routine for double inlet-single outlet unit models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>outlvl</strong> – sets output level of initialization routine</p></li>
-<li><p><strong>optarg</strong> – solver options dictionary object (default=None, use
-default solver options)</p></li>
-<li><p><strong>solver</strong> – str indicating which solver to use during
-initialization (default = None, use default IDAES solver)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-core-zero-order-diso-module">
+<h2>watertap.core.zero_order_diso module<a class="headerlink" href="#watertap-core-zero-order-diso-module" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-watertap.core.zero_order_electricity">
 <span id="watertap-core-zero-order-electricity-module"></span><h2>watertap.core.zero_order_electricity module<a class="headerlink" href="#module-watertap.core.zero_order_electricity" title="Permalink to this heading"></a></h2>
@@ -1189,7 +896,7 @@ form of energy flow.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.zero_order_properties.WaterParameterBlock">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_properties.</span></span><span class="sig-name descname"><span class="pre">WaterParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.core.zero_order_properties.WaterParameterBlock" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1230,7 +937,7 @@ BlockData index exactly to the index in initialize.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.zero_order_properties.WaterParameterBlockData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_properties.</span></span><span class="sig-name descname"><span class="pre">WaterParameterBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_properties.html#WaterParameterBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_properties.WaterParameterBlockData" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
 <p>Property Parameter Block Class</p>
 <p>Defines component and phase lists, along with base units and constant
 parameters.</p>
@@ -1309,7 +1016,7 @@ BlockData index exactly to the index in initialize.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="watertap.core.zero_order_properties.WaterStateBlockData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_properties.</span></span><span class="sig-name descname"><span class="pre">WaterStateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_properties.html#WaterStateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_properties.WaterStateBlockData" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
 <p>General purpose StateBlock for Zero-Order unit models.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="watertap.core.zero_order_properties.WaterStateBlockData.build">
@@ -1379,233 +1086,20 @@ the material balances.</p>
 </dd></dl>
 
 </section>
-<section id="module-watertap.core.zero_order_pt">
-<span id="watertap-core-zero-order-pt-module"></span><h2>watertap.core.zero_order_pt module<a class="headerlink" href="#module-watertap.core.zero_order_pt" title="Permalink to this heading"></a></h2>
-<p>This module contains the methods for constructing the material balances for
-zero-order pass-through unit models (i.e. units with a single inlet and single
-outlet where flow and composition do not change, such as pumps).</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_pt.build_pt">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_pt.</span></span><span class="sig-name descname"><span class="pre">build_pt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_pt.html#build_pt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_pt.build_pt" title="Permalink to this definition"></a></dt>
-<dd><p>Helper method for constructing material balances for zero-order type models
-with pass-through behavior.</p>
-<dl class="simple">
-<dt>One StateBlock is added with two corresponding Ports:</dt><dd><ul class="simple">
-<li><p>properties</p></li>
-</ul>
-</dd>
-</dl>
-<p>No additional variables and constraints are created.</p>
-<p>This method also sets private attributes on the unit model with references
-to the appropriate initialization and scaling methods to use and to return
-the inlet volumetric flow rate.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_pt.initialize_pt">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_pt.</span></span><span class="sig-name descname"><span class="pre">initialize_pt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optarg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_pt.html#initialize_pt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_pt.initialize_pt" title="Permalink to this definition"></a></dt>
-<dd><p>Initialization routine for pass-through unit models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>state_args</strong> – a dict of arguments to be passed to the property
-package(s) to provide an initial state for
-initialization (see documentation of the specific
-property package) (default = {}).</p></li>
-<li><p><strong>outlvl</strong> – sets output level of initialization routine</p></li>
-<li><p><strong>optarg</strong> – solver options dictionary object (default=None, use
-default solver options)</p></li>
-<li><p><strong>solver</strong> – str indicating which solver to use during
-initialization (default = None, use default IDAES solver)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-core-zero-order-pt-module">
+<h2>watertap.core.zero_order_pt module<a class="headerlink" href="#watertap-core-zero-order-pt-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.core.zero_order_sido">
-<span id="watertap-core-zero-order-sido-module"></span><h2>watertap.core.zero_order_sido module<a class="headerlink" href="#module-watertap.core.zero_order_sido" title="Permalink to this heading"></a></h2>
-<p>This module contains methods for constructing the material balances for
-zero-order single inlet-double outlet (SIDO) unit models.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_sido.build_sido">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_sido.</span></span><span class="sig-name descname"><span class="pre">build_sido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_sido.html#build_sido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_sido.build_sido" title="Permalink to this definition"></a></dt>
-<dd><p>Helper method for constructing material balances for zero-order type models
-with one inlet and two outlets.</p>
-<dl class="simple">
-<dt>Three StateBlocks are added with corresponding Ports:</dt><dd><ul class="simple">
-<li><p>properties_inlet</p></li>
-<li><p>properties_treated</p></li>
-<li><p>properties_byproduct</p></li>
-</ul>
-</dd>
-<dt>Two additional variables are added:</dt><dd><ul class="simple">
-<li><p>recovery_vol (indexed by time)</p></li>
-<li><p>removal_frac_mass_comp (indexed by time and component)</p></li>
-</ul>
-</dd>
-<dt>Four additional constraints are added to represent the material balances</dt><dd><ul class="simple">
-<li><p>water_recovery_equation (indexed by time)</p></li>
-<li><p>flow_balance (indexed by time)</p></li>
-<li><p>solute_removal_equation (indexed by time and solute)</p></li>
-<li><p>solute_treated_equation (indexed by time and solute)</p></li>
-</ul>
-</dd>
-</dl>
-<p>This method also sets private attributes on the unit model with references
-to the appropriate initialization and scaling methods to use and to return
-the inlet volumetric flow rate.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_sido.initialize_sido">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_sido.</span></span><span class="sig-name descname"><span class="pre">initialize_sido</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optarg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_sido.html#initialize_sido"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_sido.initialize_sido" title="Permalink to this definition"></a></dt>
-<dd><p>Initialization routine for single inlet-double outlet unit models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>state_args</strong> – a dict of arguments to be passed to the property
-package(s) to provide an initial state for
-initialization (see documentation of the specific
-property package) (default = {}).</p></li>
-<li><p><strong>outlvl</strong> – sets output level of initialization routine</p></li>
-<li><p><strong>optarg</strong> – solver options dictionary object (default=None, use
-default solver options)</p></li>
-<li><p><strong>solver</strong> – str indicating which solver to use during
-initialization (default = None, use default IDAES solver)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-core-zero-order-sido-module">
+<h2>watertap.core.zero_order_sido module<a class="headerlink" href="#watertap-core-zero-order-sido-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.core.zero_order_sido_reactive">
-<span id="watertap-core-zero-order-sido-reactive-module"></span><h2>watertap.core.zero_order_sido_reactive module<a class="headerlink" href="#module-watertap.core.zero_order_sido_reactive" title="Permalink to this heading"></a></h2>
-<p>This module contains methods for constructing the material balances for
-zero-order single inlet-double outlet (SIDO) unit models with chemical
-reactions.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_sido_reactive.build_sido_reactive">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_sido_reactive.</span></span><span class="sig-name descname"><span class="pre">build_sido_reactive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_sido_reactive.html#build_sido_reactive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_sido_reactive.build_sido_reactive" title="Permalink to this definition"></a></dt>
-<dd><p>Helper method for constructing material balances for zero-order type models
-with one inlet and two outlets including chemical reactions.</p>
-<dl class="simple">
-<dt>Three StateBlocks are added with corresponding Ports:</dt><dd><ul class="simple">
-<li><p>properties_in</p></li>
-<li><p>properties_treated</p></li>
-<li><p>properties_byproduct</p></li>
-</ul>
-</dd>
-<dt>Additional variables are:</dt><dd><ul class="simple">
-<li><p>recovery_vol (indexed by time)</p></li>
-<li><p>removal_frac_mass_comp (indexed by time and component)</p></li>
-<li><p>extent_of_reaction (indexed by time and reactions)</p></li>
-</ul>
-</dd>
-<dt>Four additional constraints are added to represent the material balances</dt><dd><ul class="simple">
-<li><p>water_recovery_equation (indexed by time)</p></li>
-<li><p>flow_balance (indexed by time)</p></li>
-<li><p>solute_removal_equation (indexed by time and solute)</p></li>
-<li><p>solute_treated_equation (indexed by time and solute)</p></li>
-</ul>
-</dd>
-</dl>
-<p>This method also sets private attributes on the unit model with references
-to the appropriate initialization and scaling methods to use and to return
-the inlet volumetric flow rate.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_sido_reactive.initialize_sidor">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_sido_reactive.</span></span><span class="sig-name descname"><span class="pre">initialize_sidor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optarg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_sido_reactive.html#initialize_sidor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_sido_reactive.initialize_sidor" title="Permalink to this definition"></a></dt>
-<dd><p>Initialization routine for single inlet-double outlet unit models with
-reactions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>state_args</strong> – a dict of arguments to be passed to the property
-package(s) to provide an initial state for
-initialization (see documentation of the specific
-property package) (default = {}).</p></li>
-<li><p><strong>outlvl</strong> – sets output level of initialization routine</p></li>
-<li><p><strong>optarg</strong> – solver options dictionary object (default=None, use
-default solver options)</p></li>
-<li><p><strong>solver</strong> – str indicating which solver to use during
-initialization (default = None, use default IDAES solver)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-core-zero-order-sido-reactive-module">
+<h2>watertap.core.zero_order_sido_reactive module<a class="headerlink" href="#watertap-core-zero-order-sido-reactive-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.core.zero_order_siso">
-<span id="watertap-core-zero-order-siso-module"></span><h2>watertap.core.zero_order_siso module<a class="headerlink" href="#module-watertap.core.zero_order_siso" title="Permalink to this heading"></a></h2>
-<p>This module contains the methods for constructing the material balances for
-zero-order single-input/single-output (SISO) unit models (i.e. units with a single inlet and single
-outlet where composition changes, such as a generic bioreactor).</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_siso.build_siso">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_siso.</span></span><span class="sig-name descname"><span class="pre">build_siso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_siso.html#build_siso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_siso.build_siso" title="Permalink to this definition"></a></dt>
-<dd><p>Helper method for constructing material balances for zero-order type models
-with SISO behavior.</p>
-<dl class="simple">
-<dt>Two StateBlocks are added with two corresponding Ports:</dt><dd><ul class="simple">
-<li><p>properties_in –&gt; inlet</p></li>
-<li><p>properties_treated —&gt; treated</p></li>
-</ul>
-</dd>
-<dt>Two additional variables are added:</dt><dd><ul class="simple">
-<li><p>recovery_frac_mass_H2O (indexed by time)</p></li>
-<li><p>removal_frac_mass_comp (indexed by time and component)</p></li>
-</ul>
-</dd>
-<dt>Two additional constraints are added to represent the material balances</dt><dd><ul class="simple">
-<li><p>water_recovery_equation (indexed by time)</p></li>
-<li><p>solute_treated_equation (indexed by time and solute)</p></li>
-</ul>
-</dd>
-</dl>
-<p>This method also sets private attributes on the unit model with references
-to the appropriate initialization and scaling methods to use and to return
-the inlet volumetric flow rate.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="watertap.core.zero_order_siso.initialize_siso">
-<span class="sig-prename descclassname"><span class="pre">watertap.core.zero_order_siso.</span></span><span class="sig-name descname"><span class="pre">initialize_siso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optarg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/core/zero_order_siso.html#initialize_siso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.core.zero_order_siso.initialize_siso" title="Permalink to this definition"></a></dt>
-<dd><p>Initialization routine for single inlet-single outlet unit models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>state_args</strong> – a dict of arguments to be passed to the property
-package(s) to provide an initial state for
-initialization (see documentation of the specific
-property package) (default = {}).</p></li>
-<li><p><strong>outlvl</strong> – sets output level of initialization routine</p></li>
-<li><p><strong>optarg</strong> – solver options dictionary object (default=None, use
-default solver options)</p></li>
-<li><p><strong>solver</strong> – str indicating which solver to use during
-initialization (default = None, use default IDAES solver)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="watertap-core-zero-order-siso-module">
+<h2>watertap.core.zero_order_siso module<a class="headerlink" href="#watertap-core-zero-order-siso-module" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-watertap.core">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-watertap.core" title="Permalink to this heading"></a></h2>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 
@@ -1614,7 +1108,7 @@ initialization (default = None, use default IDAES solver)</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="watertap.html" class="btn btn-neutral float-left" title="watertap package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="watertap.core.plugins.html" class="btn btn-neutral float-right" title="watertap.core.plugins package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="watertap.core.util.html" class="btn btn-neutral float-right" title="watertap.core.util package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

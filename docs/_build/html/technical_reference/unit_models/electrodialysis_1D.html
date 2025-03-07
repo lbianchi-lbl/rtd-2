@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Electrodialysis (1D) &mdash; WaterTAP 1.2.dev0 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <title>Electrodialysis (1D) &mdash; WaterTAP 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=169190e7" />
+
+  
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
@@ -15,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=4e9539be"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -42,7 +44,7 @@
               <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.2.dev0
+                1.3.dev0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -90,6 +92,7 @@
 <li class="toctree-l3"><a class="reference internal" href="generic_separator.html">Generic separator unit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ion_exchange_0D.html">Ion Exchange (0D)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="membrane_distillation_0D.html">Membrane Distillation (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="membrane_distillation_1D.html">Membrane Distillation (1D)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mvc.html">Mechanical Vapor Compression (MVC)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="nanofiltration_ZO.html">Nanofiltration (ZO)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="nanofiltration_dspmde_0D.html">Nanofiltration- Donnan Steric Pore Model with Dielectric Exclusion (0D)</a></li>
@@ -99,6 +102,7 @@
 <li class="toctree-l3"><a class="reference internal" href="pump.html">Pump</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_0D.html">Reverse Osmosis (0D)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_1D.html">Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="steam_ejector.html">Steam Jet Ejector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="stoichiometric_reactor.html">Stoichiometric reactor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="thickener.html">Thickener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="translators/index.html">Translators</a></li>
@@ -145,31 +149,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="electrodialysis-1d">
+  <section id="electrodialysis-1d">
 <h1>Electrodialysis (1D)<a class="headerlink" href="#electrodialysis-1d" title="Permalink to this heading"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
@@ -185,11 +165,11 @@ the opposite ion selectivity of cation- and anion-exchange membranes (cem and ae
 one cell to its adjacent cell in a cell-pair treatment unit (Figure 1). The ion-departing cell is called a <strong>diluate
 channel</strong> and the ion-entering cell a <strong>concentrate channel</strong>. Recovered (desalinated) water is
 collected from diluate channels of all cell pairs while the concentrate product can be disposed of as brine
-or retreated. More overview of the electrodialysis technology can be found in the <em>References</em>.</p>
-<figure class="align-center" id="id1">
+or retreated. More overview of the electrodialysis technology can be found in <a class="footnote-reference brackets" href="#id10" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#id11" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, and <a class="footnote-reference brackets" href="#id12" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
+<figure class="align-center" id="id17">
 <a class="reference internal image-reference" href="../../_images/EDdiagram.png"><img alt="../../_images/EDdiagram.png" src="../../_images/EDdiagram.png" style="width: 400px;" /></a>
 <figcaption>
-<p><span class="caption-text">Figure 1. Schematic representation of an electrodialysis cell pair</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+<p><span class="caption-text">Figure 1. Schematic representation of an electrodialysis cell pair</span><a class="headerlink" href="#id17" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
 <p>One cell pair in an electrodialysis stack can thus be treated as a modeling unit that can multiply to
@@ -242,8 +222,8 @@ the multi-ion diffusivity, etc., and physical relationships, which may result in
 the models’ numerical solutions.  While we continuously work on advancing our models to absorb new principles revealed by
 progressing research, we advise the users be very <strong>cautious</strong> with simulating multi-component systems by this programmed model
 for aspects stated above.</p>
-<table class="docutils align-default" id="id2">
-<caption><span class="caption-text"><strong>Table 1.</strong> List of Set</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<table class="docutils align-default" id="id18">
+<caption><span class="caption-text"><strong>Table 1.</strong> List of Set</span><a class="headerlink" href="#id18" title="Permalink to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Description</p></th>
 <th class="head"><p>Symbol</p></th>
@@ -292,8 +272,8 @@ documentation, <span class="math notranslate nohighlight">\(x\)</span> refers to
 <p>Applying this model to an NaCl solution yields 33 degrees of freedom (<strong>Table 2</strong>), among which
 temperature, pressure, and component molar flow rate are state variables that are fixed as initial conditions. The rest
 are parameters that should be provided in order to fully solve the model.</p>
-<table class="docutils align-default" id="id3">
-<caption><span class="caption-text"><strong>Table 2.</strong> List of Degree of Freedom (DOF)</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<table class="docutils align-default" id="id19">
+<caption><span class="caption-text"><strong>Table 2.</strong> List of Degree of Freedom (DOF)</span><a class="headerlink" href="#id19" title="Permalink to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Description</p></th>
 <th class="head"><p>Symbol</p></th>
@@ -395,12 +375,26 @@ are parameters that should be provided in order to fully solve the model.</p>
 <td><p><span class="math notranslate nohighlight">\(m\)</span></p></td>
 <td><p>1</p></td>
 </tr>
-<tr class="row-odd"><td><p>Membrane areal resistance</p></td>
-<td><p><span class="math notranslate nohighlight">\(r\)</span></p></td>
+<tr class="row-odd"><td><p>Membrane areal resistance at infinitive ion concentration</p></td>
+<td><p><span class="math notranslate nohighlight">\(r_{const}\)</span></p></td>
 <td><p>membrane_areal_resistance</p></td>
 <td><p>[‘cem’, ‘aem’]</p></td>
 <td><p><span class="math notranslate nohighlight">\(\Omega m^2\)</span></p></td>
 <td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Membrane areal resistance coefficient to the reciprocal of the ion concentration</p></td>
+<td><p><span class="math notranslate nohighlight">\(r_{coef}\)</span></p></td>
+<td><p>membrane_areal_resistance_coef</p></td>
+<td><p>[‘cem’, ‘aem’]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\Omega mol m^{-1}\)</span></p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Spacer conductivity coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p>spacer_conductivity_coefficient</p></td>
+<td><p>None</p></td>
+<td><p>dimensionless</p></td>
+<td><p>1</p></td>
 </tr>
 <tr class="row-even"><td><p>Cell width</p></td>
 <td><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
@@ -474,9 +468,9 @@ as differential algebraic equations (DAE) when concerned variables are functions
 discretization manner using the “finite difference” or “collocation” method implemented in <strong>Pyomo.DAE</strong>.</p>
 <p>Mass balance equations are summarized in <strong>Table 3</strong>. Mass transfer mechanisms account for solute electrical migration, diffusion,
 water osmosis, and electroosmosis. Theoretical principles, e.g., continuity equation, Fick’s law, and Ohm’s law,
-to simulate these processes are well developed and some good summaries for the electrodialysis scenario can be found in the <em>References</em>.</p>
-<table class="docutils align-default" id="id4">
-<caption><span class="caption-text"><strong>Table 3</strong> Mass Balance Equations</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+to simulate these processes are well developed and some good summaries for the electrodialysis scenario can be found in <a class="footnote-reference brackets" href="#id10" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<table class="docutils align-default" id="id20">
+<caption><span class="caption-text"><strong>Table 3</strong> Mass Balance Equations</span><a class="headerlink" href="#id20" title="Permalink to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Description</p></th>
 <th class="head"><p>Equation</p></th>
@@ -507,8 +501,8 @@ to simulate these processes are well developed and some good summaries for the e
 </tbody>
 </table>
 <p>Additionally, several other equations are built to describe the electrochemical principles and electrodialysis performance.</p>
-<table class="docutils align-default" id="id5">
-<caption><span class="caption-text"><strong>Table 4</strong> Electrical and Performance Equations</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
+<table class="docutils align-default" id="id21">
+<caption><span class="caption-text"><strong>Table 4</strong> Electrical and Performance Equations</span><a class="headerlink" href="#id21" title="Permalink to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Description</p></th>
 <th class="head"><p>Equation</p></th>
@@ -521,20 +515,28 @@ to simulate these processes are well developed and some good summaries for the e
 <tr class="row-odd"><td><p>Ohm’s law</p></td>
 <td><p><span class="math notranslate nohighlight">\(u(x) =  i(x) r_{tot}(x)\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>Resistance calculation</p></td>
-<td><p><span class="math notranslate nohighlight">\(r_{tot}(x)=n\left(r^{cem}+r^{aem}+\frac{d}{\kappa^C(x)}+\frac{d}{\kappa^D(x)}\right)+r_{el}\)</span></p></td>
+<tr class="row-even"><td><p>mebrane resistance calculation <sup>1</sup></p></td>
+<td><p><span class="math notranslate nohighlight">\(r^{iem}(x)=r^{iem}_{const}+\frac{r^{iem}_{coef}}{c_b^D}\)</span> <a class="footnote-reference brackets" href="#id16" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Electrical power consumption</p></td>
+<tr class="row-odd"><td><p>Total resistance calculation</p></td>
+<td><p><span class="math notranslate nohighlight">\(r_{tot}(x)=n\left(r^{cem}(x)+r^{aem}(x)+\frac{d}{\sigma \kappa^C(x)}+\frac{d}{\sigma \kappa^D(x)}\right)+r_{el}\)</span> <sup>2</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>Electrical power consumption</p></td>
 <td><p><span class="math notranslate nohighlight">\(P(x)=b\int _0 ^l u(x)i(x) dx\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p>Water-production-specific power consumption</p></td>
+<tr class="row-odd"><td><p>Water-production-specific power consumption</p></td>
 <td><p><span class="math notranslate nohighlight">\(P_Q=\frac{P(x=l)}{3.6\times 10^6 nQ_{out}^D}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p>Current efficiency for desalination</p></td>
+<tr class="row-even"><td><p>Current efficiency for desalination</p></td>
 <td><p><span class="math notranslate nohighlight">\(bi(x)\eta(x)=-\sum_{j \in[cation]}{\left[\left(\frac{\partial N_j ^D(x)}{\partial x}\right) z_j F\right]}\)</span></p></td>
 </tr>
 </tbody>
 </table>
+<p><strong>Note</strong></p>
+<blockquote>
+<div><p><sup>1</sup> We now consider the experimentally observed dependence of membrane resistance on electrolyte concentration using an empirical relationship reported by <a class="footnote-reference brackets" href="#id16" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>.
+<sup>2</sup>  We used a coefficient multiplied by the solution conductance, denoted by <span class="math notranslate nohighlight">\(\sigma\)</span>, to account for the spacer’s conductance shadowing effect.</p>
+</div></blockquote>
 <p>All equations are coded as “constraints” (Pyomo). Isothermal and isobaric conditions apply.</p>
 </section>
 <section id="extended-simulation">
@@ -545,18 +547,18 @@ to simulate these processes are well developed and some good summaries for the e
 Users can customize these extenions via two configurations: <cite>has_nonohmic_potential_membrane</cite> that triggers the calculation of nonohmic
 potentials across ion exchange membranes and <cite>has_Nernst_diffusion_layer</cite> that triggers the simulation of a concentration-polarized Nernst
 diffusion layer including its ohmic and nonohmic potential changes. Based on a electrochemical cell setup in Figure 2 and established theoretical
-descriptions (<em>References</em>), our model accounts for the cross-membrane diffusion and Donnan potentials (nonohmic), ion concentration polarization
+descriptions (<a class="footnote-reference brackets" href="#id13" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#id14" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>), our model accounts for the cross-membrane diffusion and Donnan potentials (nonohmic), ion concentration polarization
 in assumed Nernst diffusion layers (NDL), and the ohmic and nonohmic (i.e., diffusion) potentials across NDLs. These extensions make the model
 closer to the non-ideal physical conditions that can be encountered in real desalination practices.</p>
-<figure class="align-center" id="id6">
+<figure class="align-center" id="id22">
 <a class="reference internal image-reference" href="../../_images/elecdia.png"><img alt="../../_images/elecdia.png" src="../../_images/elecdia.png" style="width: 800px;" /></a>
 <figcaption>
-<p><span class="caption-text">Figure 2. Electrochemical cell setup for simulating Nernst diffusion layer and cross-membrane potential and concentration variations.</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+<p><span class="caption-text">Figure 2. Electrochemical cell setup for simulating Nernst diffusion layer and cross-membrane potential and concentration variations.</span><a class="headerlink" href="#id22" title="Permalink to this image"></a></p>
 </figcaption>
 </figure>
 <p><strong>Table 5</strong> presents the equations underlying the two extensions assuming a 1:1 symmetric electrolyte such as NaCl.</p>
-<table class="docutils align-default" id="id7">
-<caption><span class="caption-text"><strong>Table 5</strong> Essential equations supporting model extensions</span><a class="headerlink" href="#id7" title="Permalink to this table"></a></caption>
+<table class="docutils align-default" id="id23">
+<caption><span class="caption-text"><strong>Table 5</strong> Essential equations supporting model extensions</span><a class="headerlink" href="#id23" title="Permalink to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Description</p></th>
 <th class="head"><p>Equation</p></th>
@@ -611,8 +613,8 @@ closer to the non-ideal physical conditions that can be encountered in real desa
 <div><p><sup>1</sup> When this configuration is turned off, <span class="math notranslate nohighlight">\(i_{lim}\)</span> is considered as <span class="math notranslate nohighlight">\(\infty\)</span> and the ratio becomes 1.</p>
 </div></blockquote>
 <p>Some other modifications to previously defined equations are made to accommodate the two extensions.  These are shown in <strong>Table 6</strong>.</p>
-<table class="docutils align-default" id="id8">
-<caption><span class="caption-text"><strong>Table 6</strong> Other equation modifications under extensions</span><a class="headerlink" href="#id8" title="Permalink to this table"></a></caption>
+<table class="docutils align-default" id="id24">
+<caption><span class="caption-text"><strong>Table 6</strong> Other equation modifications under extensions</span><a class="headerlink" href="#id24" title="Permalink to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Original equation description</p></th>
 <th class="head"><p>Equation replacement</p></th>
@@ -624,23 +626,27 @@ closer to the non-ideal physical conditions that can be encountered in real desa
 <td><p><span class="math notranslate nohighlight">\(u(x) =  i(x) r_{tot}(x) + \phi_m(x) + \phi_d^{ohm}(x) + \phi_d^{nonohm}(x)\)</span> <sup>1</sup></p></td>
 <td><p><cite>has_nonohmic_potential_membrane == True</cite> and/or <cite>has_Nernst_diffusion_layer==True</cite></p></td>
 </tr>
-<tr class="row-odd"><td><p>Resistance calculation</p></td>
-<td><p><span class="math notranslate nohighlight">\(r_{tot}(x)=n\left(r^{cem}+r^{aem}+\frac{d- \Delta_{cem}^L(x) - \Delta_{aem}^R(x)}{\kappa^C(x)}+\frac{d- \Delta_{cem}^R(x) - \Delta_{aem}^L(x)}{\kappa^D(x)}\right)+r_{el}\)</span></p></td>
+<tr class="row-odd"><td><p>mebrane resistance calculation</p></td>
+<td><p><span class="math notranslate nohighlight">\(r^{iem}(x)=r^{iem}_{const}+\frac{r^{iem}_{coef}}{c_b^D}\)</span></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>total resistance calculation</p></td>
+<td><p><span class="math notranslate nohighlight">\(r_{tot}(x)=n\left(r^{cem}(x)+r^{aem}(x)+\frac{d- \Delta_{cem}^L(x) - \Delta_{aem}^R(x)}{\sigma \kappa^C(x)}+\frac{d- \Delta_{cem}^R(x) - \Delta_{aem}^L(x)}{\sigma \kappa^D(x)}\right)+r_{el}\)</span></p></td>
 <td><p><cite>has_Nernst_diffusion_layer==True</cite></p></td>
 </tr>
-<tr class="row-even"><td><p>mass transfer flux, concentrate, solute</p></td>
+<tr class="row-odd"><td><p>mass transfer flux, concentrate, solute</p></td>
 <td><p><span class="math notranslate nohighlight">\(J_j^{C} = \left(t_j^{cem}-t_j^{aem} \right)\frac{\xi i(x)}{ z_j F}-\left(\frac{D_j^{cem}}{\delta ^{cem}}\left(c_{s,j}^{L,cem}(x)-c_{s,j}^{R,cem}(x) \right) +\frac{D_j^{aem}}{\delta ^{aem}} \left(c_{s,j}^{R,aem}(x)-c_{s,j}^{L,aem}(x) \right)\right)\)</span></p></td>
 <td><p><cite>has_nonohmic_potential_membrane == True</cite> and/or <cite>has_Nernst_diffusion_layer==True</cite></p></td>
 </tr>
-<tr class="row-odd"><td><p>mass transfer flux, diluate, solute</p></td>
+<tr class="row-even"><td><p>mass transfer flux, diluate, solute</p></td>
 <td><p><span class="math notranslate nohighlight">\(J_j^{D} = -\left(t_j^{cem}-t_j^{aem} \right)\frac{\xi i(x)}{ z_j F}+\left(\frac{D_j^{cem}}{\delta ^{cem}}\left(c_{s,j}^{L,cem}(x)-c_{s,j}^{R,cem}(x) \right) +\frac{D_j^{aem}}{\delta ^{aem}} \left(c_{s,j}^{R,aem}(x)-c_{s,j}^{L,aem}(x) \right)\right)\)</span></p></td>
 <td><p><cite>has_nonohmic_potential_membrane == True</cite> and/or <cite>has_Nernst_diffusion_layer==True</cite></p></td>
 </tr>
-<tr class="row-even"><td><p>mass transfer flux, concentrate, H<sub>2</sub>O</p></td>
+<tr class="row-odd"><td><p>mass transfer flux, concentrate, H<sub>2</sub>O</p></td>
 <td><p><span class="math notranslate nohighlight">\(J_j^{C} = \left(t_w^{cem}+t_w^{aem} \right)\frac{i(x)}{F}+\left(L^{cem} \left(p_{s, osm}^{cem, L}(x)-p_{s, osm}^{cem, R}(x) \right)+L^{aem} \left(p_{s, osm}^{aem, R}(x)-p_{s, osm}^{aem, L}(x) \right)\right)\frac{\rho_w}{M_w}\)</span></p></td>
 <td><p><cite>has_Nernst_diffusion_layer==True</cite></p></td>
 </tr>
-<tr class="row-odd"><td><p>mass transfer flux, diluate, H<sub>2</sub>O</p></td>
+<tr class="row-even"><td><p>mass transfer flux, diluate, H<sub>2</sub>O</p></td>
 <td><p><span class="math notranslate nohighlight">\(J_j^{D} = -\left(t_w^{cem}+t_w^{aem} \right)\frac{i(x)}{F}-\left(L^{cem} \left(p_{s, osm}^{cem, L}(x)-p_{s, osm}^{cem, R}(x) \right)+L^{aem} \left(p_{s, osm}^{aem, R}(x)-p_{s, osm}^{aem, L}(x) \right)\right)\frac{\rho_w}{M_w}\)</span></p></td>
 <td><p><cite>has_Nernst_diffusion_layer==True</cite></p></td>
 </tr>
@@ -653,9 +659,9 @@ closer to the non-ideal physical conditions that can be encountered in real desa
 </section>
 <section id="frictional-pressure-drop">
 <h3>Frictional pressure drop<a class="headerlink" href="#frictional-pressure-drop" title="Permalink to this heading"></a></h3>
-<p>This model can optionally calculate pressured drops along the flow path in the diluate and concentrate channels through config <code class="docutils literal notranslate"><span class="pre">has_pressure_change</span></code> and <code class="docutils literal notranslate"><span class="pre">pressure_drop_method</span></code>.  Under the assumption of identical diluate and concentrate channels and starting flow rates, the flow velocities in the two channels are approximated equal and invariant over the channel length when calculating the frictional pressure drops. This approximation is based on the evaluation that the actual velocity variation over the channel length caused by water mass transfer across the consecutive channels leads to negligible errors as compared to the uncertainties carried by the frictional pressure method itself. <strong>Table 7</strong> gives essential equations to simulate the pressure drop. Among extensive literatures using these equations, a good reference paper is by Wright et. al., 2018 (<em>References</em>).</p>
-<table class="docutils align-default" id="id9">
-<caption><span class="caption-text"><strong>Table 7</strong> Essential equations supporting the pressure drop calculation</span><a class="headerlink" href="#id9" title="Permalink to this table"></a></caption>
+<p>This model can optionally calculate pressured drops along the flow path in the diluate and concentrate channels through config <code class="docutils literal notranslate"><span class="pre">has_pressure_change</span></code> and <code class="docutils literal notranslate"><span class="pre">pressure_drop_method</span></code>.  Under the assumption of identical diluate and concentrate channels and starting flow rates, the flow velocities in the two channels are approximated equal and invariant over the channel length when calculating the frictional pressure drops. This approximation is based on the evaluation that the actual velocity variation over the channel length caused by water mass transfer across the consecutive channels leads to negligible errors as compared to the uncertainties carried by the frictional pressure method itself. <strong>Table 7</strong> gives essential equations to simulate the pressure drop. Among extensive literatures using these equations, a good reference paper is by Wright et. al., 2018 (<a class="footnote-reference brackets" href="#id15" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>).</p>
+<table class="docutils align-default" id="id25">
+<caption><span class="caption-text"><strong>Table 7</strong> Essential equations supporting the pressure drop calculation</span><a class="headerlink" href="#id25" title="Permalink to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Description</p></th>
 <th class="head"><p>Equation</p></th>
@@ -713,12 +719,12 @@ closer to the non-ideal physical conditions that can be encountered in real desa
 </section>
 <section id="nomenclature">
 <h2>Nomenclature<a class="headerlink" href="#nomenclature" title="Permalink to this heading"></a></h2>
-<table class="docutils align-default" id="id10">
-<caption><span class="caption-text"><strong>Table 8.</strong> Nomenclature</span><a class="headerlink" href="#id10" title="Permalink to this table"></a></caption>
+<table class="docutils align-default" id="id26">
+<caption><span class="caption-text"><strong>Table 8.</strong> Nomenclature</span><a class="headerlink" href="#id26" title="Permalink to this table"></a></caption>
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 50%" />
-<col style="width: 25%" />
+<col style="width: 25.0%" />
+<col style="width: 50.0%" />
+<col style="width: 25.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Symbol</p></th>
@@ -827,6 +833,14 @@ closer to the non-ideal physical conditions that can be encountered in real desa
 <td><p>Membrane areal resistance</p></td>
 <td><p><span class="math notranslate nohighlight">\(\Omega m^2\)</span></p></td>
 </tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(r_const\)</span></p></td>
+<td><p>Membrane areal resistance independent on ion concentration</p></td>
+<td><p><span class="math notranslate nohighlight">\(\Omega m^2\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(r_coef\)</span></p></td>
+<td><p>The dependent cofficient of membrane areal resistance to <span class="math notranslate nohighlight">\(1/c_b\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\Omega mol m^{-1}\)</span></p></td>
+</tr>
 <tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(r_{el}\)</span></p></td>
 <td><p>Electrode areal resistance</p></td>
 <td><p><span class="math notranslate nohighlight">\(\Omega m^2\)</span></p></td>
@@ -839,159 +853,163 @@ closer to the non-ideal physical conditions that can be encountered in real desa
 <td><p>Solution conductivity</p></td>
 <td><p><span class="math notranslate nohighlight">\(S m^{-1}\ or\  \Omega^{-1} m^{-1}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\eta\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p>Spacer conductivity coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(S m^{-1}\ or\  \Omega^{-1} m^{-1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\eta\)</span></p></td>
 <td><p>Current efficiency for desalination</p></td>
 <td><p>dimensionless</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(P\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(P\)</span></p></td>
 <td><p>Power consumption</p></td>
 <td><p><span class="math notranslate nohighlight">\(W\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(P_Q\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(P_Q\)</span></p></td>
 <td><p>Specific power consumption</p></td>
 <td><p><span class="math notranslate nohighlight">\(kW\ h\  m^{-3}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(Q\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(Q\)</span></p></td>
 <td><p>Volume flow rate</p></td>
 <td><p><span class="math notranslate nohighlight">\(m^3s^{-1}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\phi_m\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\phi_m\)</span></p></td>
 <td><p>Nonohmic potential across a membrane</p></td>
 <td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\phi_d^{ohm}\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\phi_d^{ohm}\)</span></p></td>
 <td><p>Ohmic potential across a Nernst diffusion layer</p></td>
 <td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\phi_d^{nonohm}\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\phi_d^{nonohm}\)</span></p></td>
 <td><p>Nonohmic potential across a Nernst diffusion layer</p></td>
 <td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\Delta\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Delta\)</span></p></td>
 <td><p>Nernst diffusion layer thickness</p></td>
 <td><p><span class="math notranslate nohighlight">\(m\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(D_b\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D_b\)</span></p></td>
 <td><p>General mass diffusivity of the salt molecule in the bulk solution</p></td>
 <td><p><span class="math notranslate nohighlight">\(m^2 s^{-1}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(i_{lim}\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(i_{lim}\)</span></p></td>
 <td><p>Limiting current density</p></td>
 <td><p><span class="math notranslate nohighlight">\(A m^{-2}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(i_{lim,0}\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(i_{lim,0}\)</span></p></td>
 <td><p>Limiting current density experimentally evaluated from the untreated salt solution</p></td>
 <td><p><span class="math notranslate nohighlight">\(A m^{-2}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\lambda\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\lambda\)</span></p></td>
 <td><p>Equivalent conductivity of the solution</p></td>
 <td><p><span class="math notranslate nohighlight">\(m^2 \Omega^{-1} mol^{-1}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(A\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(A\)</span></p></td>
 <td><p>Experimental parameter to calculate <span class="math notranslate nohighlight">\(i_{lim}\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(C mol^{-1} m^{1-B} s^{B-1}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(B\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B\)</span></p></td>
 <td><p>Experimental parameter to calculate <span class="math notranslate nohighlight">\(i_{lim}\)</span></p></td>
 <td><p>dimensionless</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(d_H\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(d_H\)</span></p></td>
 <td><p>Hydraulic diameter</p></td>
 <td><p><span class="math notranslate nohighlight">\(m\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\epsilon\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\epsilon\)</span></p></td>
 <td><p>Spacer porosity</p></td>
 <td><p>dimensionless</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(f\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(f\)</span></p></td>
 <td><p>Darcy’s fraction factor</p></td>
 <td><p>dimensionless</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(p_L\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(p_L\)</span></p></td>
 <td><p>Frictional pressure drop per unit of length</p></td>
 <td><p><span class="math notranslate nohighlight">\(Pa m^{-1}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(v\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(v\)</span></p></td>
 <td><p>Flow linear velocity</p></td>
 <td><p><span class="math notranslate nohighlight">\(m s^{-1}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
 <td><p>Aqueous phase density</p></td>
 <td><p><span class="math notranslate nohighlight">\(kg m^{-3}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(S_{v,sp}\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(S_{v,sp}\)</span></p></td>
 <td><p>Volume-specific surface area of the spacer</p></td>
 <td><p><span class="math notranslate nohighlight">\(m^{-1}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mu\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\mu\)</span></p></td>
 <td><p>Dynamic viscosity</p></td>
 <td><p><span class="math notranslate nohighlight">\(Pa s^{-1}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(Re\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(Re\)</span></p></td>
 <td><p>Renold number</p></td>
 <td><p>dimensionless</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(Sc\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(Sc\)</span></p></td>
 <td><p>Schmidt number</p></td>
 <td><p>dimensionless</p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(Sh\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(Sh\)</span></p></td>
 <td><p>Sherwood number</p></td>
 <td><p>dimensionless</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Subscripts and superscripts</strong></p></td>
+<tr class="row-even"><td><p><strong>Subscripts and superscripts</strong></p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
 <td><p>Concentrate channel</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(D\)</span></p></td>
 <td><p>Diluate channel</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
 <td><p>Component index</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(in\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(in\)</span></p></td>
 <td><p>Inlet</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(out\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(out\)</span></p></td>
 <td><p>Outlet</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(cem\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(cem\)</span></p></td>
 <td><p>Cation exchange membrane</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(aem\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(aem\)</span></p></td>
 <td><p>Anion exchange membrane</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(iem\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(iem\)</span></p></td>
 <td><p>Ion exchange membrane, i.e., cem or aem</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(L\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(L\)</span></p></td>
 <td><p>The left side of a membrane, facing the cathode</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(R\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(R\)</span></p></td>
 <td><p>The right side of a membrane, facing the anode</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(s\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(s\)</span></p></td>
 <td><p>location of the membrane surface</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
 <td><p>location of bulk solution</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(+\)</span> or <span class="math notranslate nohighlight">\(-\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(+\)</span> or <span class="math notranslate nohighlight">\(-\)</span></p></td>
 <td><p>mono-cation or mono-anion</p></td>
 <td></td>
 </tr>
@@ -1004,16 +1022,38 @@ closer to the non-ideal physical conditions that can be encountered in real desa
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
-<p>Strathmann, H. (2010). Electrodialysis, a mature technology with a multitude of new applications.
-Desalination, 264(3), 268-288.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<p>Strathmann, H. (2010). Electrodialysis, a mature technology with a multitude of new applications. Desalination, 264(3), 268-288.</p>
+</aside>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
 <p>Strathmann, H. (2004). Ion-exchange membrane separation processes. Elsevier. Ch. 4.</p>
-<p>Campione, A., Cipollina, A., Bogle, I. D. L., Gurreri, L., Tamburini, A., Tedesco, M., &amp; Micale, G. (2019).
-A hierarchical model for novel schemes of electrodialysis desalination. Desalination, 465, 79-93.</p>
-<p>Campione, A., Gurreri, L., Ciofalo, M., Micale, G., Tamburini, A., &amp; Cipollina, A. (2018).
-Electrodialysis for water desalination: A critical assessment of recent developments on process
-fundamentals, models and applications. Desalination, 434, 121-160.</p>
+</aside>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Campione, A., Cipollina, A., Bogle, I. D. L., Gurreri, L., Tamburini, A., Tedesco, M., &amp; Micale, G. (2019). A hierarchical model for novel schemes of electrodialysis desalination. Desalination, 465, 79-93.</p>
+</aside>
+<aside class="footnote brackets" id="id13" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">4</a><span class="fn-bracket">]</span></span>
+<p>Campione, A., Gurreri, L., Ciofalo, M., Micale, G., Tamburini, A., &amp; Cipollina, A. (2018).  Electrodialysis for water desalination: A critical assessment of recent developments on process fundamentals, models and applications. Desalination, 434, 121-160.</p>
+</aside>
+<aside class="footnote brackets" id="id14" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">5</a><span class="fn-bracket">]</span></span>
 <p>Spiegler, K. S. (1971). Polarization at ion exchange membrane-solution interfaces. Desalination, 9(4), 367-385.</p>
+</aside>
+<aside class="footnote brackets" id="id15" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">6</a><span class="fn-bracket">]</span></span>
 <p>Wright, N. C., Shah, S. R., &amp; Amrose, S. E. (2018). A robust model of brackish water electrodialysis desalination with experimental comparison at different size scales. Desalination, 443, 27-43.</p>
+</aside>
+<aside class="footnote brackets" id="id16" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id5">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>Galama, A. H., Vermaas, D. A., Veerman, J., Saakes, M., Rijnaarts, H. H. M., Post, J. W., &amp; Nijmeijer, K. (2014). Membrane resistance: The effect of salinity gradients over a cation exchange membrane. Journal of membrane science, 467, 279-291.</p>
+</aside>
+</aside>
 </section>
 </section>
 

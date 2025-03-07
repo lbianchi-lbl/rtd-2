@@ -204,6 +204,13 @@ watertap.unit\_models.reverse\_osmosis\_base module
    :members:
    :show-inheritance:
 
+watertap.unit\_models.steam\_ejector module
+-------------------------------------------
+
+.. automodule:: watertap.unit_models.steam_ejector
+   :members:
+   :show-inheritance:
+
 watertap.unit\_models.steam\_heater\_0D module
 ----------------------------------------------
 

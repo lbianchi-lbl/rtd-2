@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>watertap.flowsheets package &mdash; WaterTAP 1.2.dev0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <title>watertap.flowsheets package &mdash; WaterTAP 1.3.dev0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=169190e7" />
+
+  
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
@@ -15,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=4e9539be"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -40,7 +42,7 @@
               <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.2.dev0
+                1.3.dev0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -106,31 +108,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="watertap-flowsheets-package">
+  <section id="watertap-flowsheets-package">
 <h1>watertap.flowsheets package<a class="headerlink" href="#watertap-flowsheets-package" title="Permalink to this heading"></a></h1>
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
@@ -138,68 +116,61 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.MD.html">watertap.flowsheets.MD package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.MD.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.MD.html#module-watertap.flowsheets.MD.MD_single_stage_continuous_recirculation">watertap.flowsheets.MD.MD_single_stage_continuous_recirculation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.MD.html#watertap-flowsheets-md-md-single-stage-continuous-recirculation-module">watertap.flowsheets.MD.MD_single_stage_continuous_recirculation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.MD.html#module-watertap.flowsheets.MD">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html">watertap.flowsheets.RO_with_energy_recovery package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#module-watertap.flowsheets.RO_with_energy_recovery.RO_with_energy_recovery">watertap.flowsheets.RO_with_energy_recovery.RO_with_energy_recovery module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#watertap.flowsheets.RO_with_energy_recovery.RO_with_energy_recovery.ERDtype"><code class="docutils literal notranslate"><span class="pre">ERDtype</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#watertap.flowsheets.RO_with_energy_recovery.RO_with_energy_recovery.calculate_operating_pressure"><code class="docutils literal notranslate"><span class="pre">calculate_operating_pressure()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#watertap-flowsheets-ro-with-energy-recovery-ro-with-energy-recovery-module">watertap.flowsheets.RO_with_energy_recovery.RO_with_energy_recovery module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#watertap-flowsheets-ro-with-energy-recovery-ro-with-energy-recovery-ui-module">watertap.flowsheets.RO_with_energy_recovery.RO_with_energy_recovery_ui module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#module-watertap.flowsheets.RO_with_energy_recovery.monte_carlo_sampling_RO_ERD">watertap.flowsheets.RO_with_energy_recovery.monte_carlo_sampling_RO_ERD module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#module-watertap.flowsheets.RO_with_energy_recovery.multi_sweep">watertap.flowsheets.RO_with_energy_recovery.multi_sweep module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#watertap-flowsheets-ro-with-energy-recovery-monte-carlo-sampling-ro-erd-module">watertap.flowsheets.RO_with_energy_recovery.monte_carlo_sampling_RO_ERD module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#watertap-flowsheets-ro-with-energy-recovery-multi-sweep-module">watertap.flowsheets.RO_with_energy_recovery.multi_sweep module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.RO_with_energy_recovery.html#module-watertap.flowsheets.RO_with_energy_recovery">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html">watertap.flowsheets.activated_sludge package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#module-watertap.flowsheets.activated_sludge.ASM1_flowsheet">watertap.flowsheets.activated_sludge.ASM1_flowsheet module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#module-watertap.flowsheets.activated_sludge.ASM2D_flowsheet">watertap.flowsheets.activated_sludge.ASM2D_flowsheet module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#module-watertap.flowsheets.activated_sludge.ASM2D_flowsheet_noPHA">watertap.flowsheets.activated_sludge.ASM2D_flowsheet_noPHA module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#module-watertap.flowsheets.activated_sludge.modified_ASM2D_flowsheet">watertap.flowsheets.activated_sludge.modified_ASM2D_flowsheet module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#watertap-flowsheets-activated-sludge-asm1-flowsheet-module">watertap.flowsheets.activated_sludge.ASM1_flowsheet module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#watertap-flowsheets-activated-sludge-asm2d-flowsheet-module">watertap.flowsheets.activated_sludge.ASM2D_flowsheet module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#watertap-flowsheets-activated-sludge-asm2d-flowsheet-nopha-module">watertap.flowsheets.activated_sludge.ASM2D_flowsheet_noPHA module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#watertap-flowsheets-activated-sludge-modified-asm2d-flowsheet-module">watertap.flowsheets.activated_sludge.modified_ASM2D_flowsheet module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.activated_sludge.html#module-watertap.flowsheets.activated_sludge">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.anaerobic_digester.html">watertap.flowsheets.anaerobic_digester package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.anaerobic_digester.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.anaerobic_digester.html#module-watertap.flowsheets.anaerobic_digester.ADM1_flowsheet">watertap.flowsheets.anaerobic_digester.ADM1_flowsheet module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.anaerobic_digester.html#module-watertap.flowsheets.anaerobic_digester.modified_ADM1_flowsheet_with_translators">watertap.flowsheets.anaerobic_digester.modified_ADM1_flowsheet_with_translators module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.anaerobic_digester.html#watertap-flowsheets-anaerobic-digester-adm1-flowsheet-module">watertap.flowsheets.anaerobic_digester.ADM1_flowsheet module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.anaerobic_digester.html#watertap-flowsheets-anaerobic-digester-modified-adm1-flowsheet-with-translators-module">watertap.flowsheets.anaerobic_digester.modified_ADM1_flowsheet_with_translators module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.anaerobic_digester.html#module-watertap.flowsheets.anaerobic_digester">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.crystallization.html">watertap.flowsheets.crystallization package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.crystallization.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.crystallization.html#module-watertap.flowsheets.crystallization.sim_simple_crystallizer">watertap.flowsheets.crystallization.sim_simple_crystallizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.crystallization.html#watertap-flowsheets-crystallization-sim-simple-crystallizer-module">watertap.flowsheets.crystallization.sim_simple_crystallizer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.crystallization.html#module-watertap.flowsheets.crystallization">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.dye_desalination.html">watertap.flowsheets.dye_desalination package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.dye_desalination.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.dye_desalination.html#module-watertap.flowsheets.dye_desalination.dye_desalination">watertap.flowsheets.dye_desalination.dye_desalination module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.dye_desalination.html#watertap.flowsheets.dye_desalination.dye_desalination.optimize_operation"><code class="docutils literal notranslate"><span class="pre">optimize_operation()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.dye_desalination.html#watertap-flowsheets-dye-desalination-dye-desalination-module">watertap.flowsheets.dye_desalination.dye_desalination module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.dye_desalination.html#watertap-flowsheets-dye-desalination-dye-desalination-ui-module">watertap.flowsheets.dye_desalination.dye_desalination_ui module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.dye_desalination.html#module-watertap.flowsheets.dye_desalination.dye_sweep">watertap.flowsheets.dye_desalination.dye_sweep module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.dye_desalination.html#watertap-flowsheets-dye-desalination-dye-sweep-module">watertap.flowsheets.dye_desalination.dye_sweep module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.dye_desalination.html#module-watertap.flowsheets.dye_desalination">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.electroNP.html">watertap.flowsheets.electroNP package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electroNP.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electroNP.html#module-watertap.flowsheets.electroNP.BSM2_electroNP_no_bioP">watertap.flowsheets.electroNP.BSM2_electroNP_no_bioP module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electroNP.html#module-watertap.flowsheets.electroNP.electroNP_flowsheet">watertap.flowsheets.electroNP.electroNP_flowsheet module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electroNP.html#module-watertap.flowsheets.electroNP.multi_sweep">watertap.flowsheets.electroNP.multi_sweep module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electroNP.html#watertap-flowsheets-electronp-bsm2-electronp-no-biop-module">watertap.flowsheets.electroNP.BSM2_electroNP_no_bioP module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electroNP.html#watertap-flowsheets-electronp-electronp-flowsheet-module">watertap.flowsheets.electroNP.electroNP_flowsheet module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electroNP.html#watertap-flowsheets-electronp-multi-sweep-module">watertap.flowsheets.electroNP.multi_sweep module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electroNP.html#module-watertap.flowsheets.electroNP">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.electrodialysis.html">watertap.flowsheets.electrodialysis package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electrodialysis.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electrodialysis.html#module-watertap.flowsheets.electrodialysis.electrodialysis_1stack">watertap.flowsheets.electrodialysis.electrodialysis_1stack module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electrodialysis.html#module-watertap.flowsheets.electrodialysis.electrodialysis_1stack_conc_recirc">watertap.flowsheets.electrodialysis.electrodialysis_1stack_conc_recirc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electrodialysis.html#watertap-flowsheets-electrodialysis-electrodialysis-1stack-module">watertap.flowsheets.electrodialysis.electrodialysis_1stack module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electrodialysis.html#watertap-flowsheets-electrodialysis-electrodialysis-1stack-conc-recirc-module">watertap.flowsheets.electrodialysis.electrodialysis_1stack_conc_recirc module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electrodialysis.html#watertap-flowsheets-electrodialysis-electrodialysis-1stack-conc-recirc-ui-module">watertap.flowsheets.electrodialysis.electrodialysis_1stack_conc_recirc_ui module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.electrodialysis.html#module-watertap.flowsheets.electrodialysis">Module contents</a></li>
 </ul>
@@ -208,16 +179,16 @@
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.test.html">watertap.flowsheets.full_water_resource_recovery_facility.test package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.test.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.test.html#module-watertap.flowsheets.full_water_resource_recovery_facility.test.test_BSM2_P_extension">watertap.flowsheets.full_water_resource_recovery_facility.test.test_BSM2_P_extension module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.test.html#module-watertap.flowsheets.full_water_resource_recovery_facility.test.test_full_WRRF_with_ASM1_ADM1">watertap.flowsheets.full_water_resource_recovery_facility.test.test_full_WRRF_with_ASM1_ADM1 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.test.html#watertap-flowsheets-full-water-resource-recovery-facility-test-test-bsm2-p-extension-module">watertap.flowsheets.full_water_resource_recovery_facility.test.test_BSM2_P_extension module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.test.html#watertap-flowsheets-full-water-resource-recovery-facility-test-test-full-wrrf-with-asm1-adm1-module">watertap.flowsheets.full_water_resource_recovery_facility.test.test_full_WRRF_with_ASM1_ADM1 module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.test.html#module-watertap.flowsheets.full_water_resource_recovery_facility.test">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.html#module-watertap.flowsheets.full_water_resource_recovery_facility.BSM2">watertap.flowsheets.full_water_resource_recovery_facility.BSM2 module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.html#module-watertap.flowsheets.full_water_resource_recovery_facility.BSM2_P_extension">watertap.flowsheets.full_water_resource_recovery_facility.BSM2_P_extension module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.html#watertap-flowsheets-full-water-resource-recovery-facility-bsm2-module">watertap.flowsheets.full_water_resource_recovery_facility.BSM2 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.html#watertap-flowsheets-full-water-resource-recovery-facility-bsm2-p-extension-module">watertap.flowsheets.full_water_resource_recovery_facility.BSM2_P_extension module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.html#watertap-flowsheets-full-water-resource-recovery-facility-bsm2-p-extension-ui-module">watertap.flowsheets.full_water_resource_recovery_facility.BSM2_P_extension_ui module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.html#watertap-flowsheets-full-water-resource-recovery-facility-bsm2-ui-module">watertap.flowsheets.full_water_resource_recovery_facility.BSM2_ui module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.full_water_resource_recovery_facility.html#module-watertap.flowsheets.full_water_resource_recovery_facility">Module contents</a></li>
@@ -225,7 +196,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.gac.html">watertap.flowsheets.gac package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.gac.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.gac.html#module-watertap.flowsheets.gac.gac">watertap.flowsheets.gac.gac module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.gac.html#watertap-flowsheets-gac-gac-module">watertap.flowsheets.gac.gac module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.gac.html#watertap-flowsheets-gac-gac-ui-module">watertap.flowsheets.gac.gac_ui module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.gac.html#module-watertap.flowsheets.gac">Module contents</a></li>
 </ul>
@@ -243,9 +214,9 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.unit_operations.html">watertap.flowsheets.generic_desalination_train.unit_operations package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.unit_operations.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.unit_operations.html#module-watertap.flowsheets.generic_desalination_train.unit_operations.desalter">watertap.flowsheets.generic_desalination_train.unit_operations.desalter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.unit_operations.html#watertap-flowsheets-generic-desalination-train-unit-operations-desalter-module">watertap.flowsheets.generic_desalination_train.unit_operations.desalter module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.unit_operations.html#module-watertap.flowsheets.generic_desalination_train.unit_operations.mixer">watertap.flowsheets.generic_desalination_train.unit_operations.mixer module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.unit_operations.html#module-watertap.flowsheets.generic_desalination_train.unit_operations.separator">watertap.flowsheets.generic_desalination_train.unit_operations.separator module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.unit_operations.html#watertap-flowsheets-generic-desalination-train-unit-operations-separator-module">watertap.flowsheets.generic_desalination_train.unit_operations.separator module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.unit_operations.html#module-watertap.flowsheets.generic_desalination_train.unit_operations">Module contents</a></li>
 </ul>
 </li>
@@ -258,77 +229,51 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.html#module-watertap.flowsheets.generic_desalination_train.generic_train">watertap.flowsheets.generic_desalination_train.generic_train module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.html#watertap.flowsheets.generic_desalination_train.generic_train.setup_optimization"><code class="docutils literal notranslate"><span class="pre">setup_optimization()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.html#watertap.flowsheets.generic_desalination_train.generic_train.update_feed"><code class="docutils literal notranslate"><span class="pre">update_feed()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.html#watertap-flowsheets-generic-desalination-train-generic-train-module">watertap.flowsheets.generic_desalination_train.generic_train module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.html#watertap-flowsheets-generic-desalination-train-generic-train-ui-module">watertap.flowsheets.generic_desalination_train.generic_train_ui module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.generic_desalination_train.html#module-watertap.flowsheets.generic_desalination_train">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.ion_exchange.html">watertap.flowsheets.ion_exchange package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.ion_exchange.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.ion_exchange.html#module-watertap.flowsheets.ion_exchange.ion_exchange_demo">watertap.flowsheets.ion_exchange.ion_exchange_demo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.ion_exchange.html#watertap-flowsheets-ion-exchange-ion-exchange-demo-module">watertap.flowsheets.ion_exchange.ion_exchange_demo module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.ion_exchange.html#module-watertap.flowsheets.ion_exchange">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.lsrro.html">watertap.flowsheets.lsrro package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.lsrro.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.lsrro.html#module-watertap.flowsheets.lsrro.lsrro">watertap.flowsheets.lsrro.lsrro module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap.flowsheets.lsrro.lsrro.ABTradeoff"><code class="docutils literal notranslate"><span class="pre">ABTradeoff</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap.flowsheets.lsrro.lsrro.ACase"><code class="docutils literal notranslate"><span class="pre">ACase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap.flowsheets.lsrro.lsrro.BCase"><code class="docutils literal notranslate"><span class="pre">BCase</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap.flowsheets.lsrro.lsrro.optimize_set_up"><code class="docutils literal notranslate"><span class="pre">optimize_set_up()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap.flowsheets.lsrro.lsrro.B_case"><code class="docutils literal notranslate"><span class="pre">B_case</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap.flowsheets.lsrro.lsrro.A_case"><code class="docutils literal notranslate"><span class="pre">A_case</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap.flowsheets.lsrro.lsrro.AB_tradeoff"><code class="docutils literal notranslate"><span class="pre">AB_tradeoff</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap.flowsheets.lsrro.lsrro.A_value"><code class="docutils literal notranslate"><span class="pre">A_value</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap-flowsheets-lsrro-lsrro-module">watertap.flowsheets.lsrro.lsrro module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap-flowsheets-lsrro-lsrro-ui-module">watertap.flowsheets.lsrro.lsrro_ui module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.lsrro.html#module-watertap.flowsheets.lsrro.multi_sweep">watertap.flowsheets.lsrro.multi_sweep module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap.flowsheets.lsrro.multi_sweep.run_case"><code class="docutils literal notranslate"><span class="pre">run_case()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.lsrro.html#watertap-flowsheets-lsrro-multi-sweep-module">watertap.flowsheets.lsrro.multi_sweep module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.lsrro.html#module-watertap.flowsheets.lsrro">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.mvc.html">watertap.flowsheets.mvc package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.mvc.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.mvc.html#module-watertap.flowsheets.mvc.mvc_single_stage">watertap.flowsheets.mvc.mvc_single_stage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.mvc.html#watertap-flowsheets-mvc-mvc-single-stage-module">watertap.flowsheets.mvc.mvc_single_stage module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.mvc.html#watertap-flowsheets-mvc-mvc-single-stage-ui-module">watertap.flowsheets.mvc.mvc_single_stage_ui module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.mvc.html#module-watertap.flowsheets.mvc">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.nf_dspmde.html">watertap.flowsheets.nf_dspmde package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.nf_dspmde.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.nf_dspmde.html#module-watertap.flowsheets.nf_dspmde.nf">watertap.flowsheets.nf_dspmde.nf module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.nf_dspmde.html#watertap.flowsheets.nf_dspmde.nf.set_default_feed"><code class="docutils literal notranslate"><span class="pre">set_default_feed()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.nf_dspmde.html#watertap-flowsheets-nf-dspmde-nf-module">watertap.flowsheets.nf_dspmde.nf module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.nf_dspmde.html#watertap-flowsheets-nf-dspmde-nf-ui-module">watertap.flowsheets.nf_dspmde.nf_ui module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.nf_dspmde.html#module-watertap.flowsheets.nf_dspmde.nf_with_bypass">watertap.flowsheets.nf_dspmde.nf_with_bypass module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.nf_dspmde.html#watertap-flowsheets-nf-dspmde-nf-with-bypass-module">watertap.flowsheets.nf_dspmde.nf_with_bypass module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.nf_dspmde.html#module-watertap.flowsheets.nf_dspmde">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.oaro.html">watertap.flowsheets.oaro package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.oaro.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.oaro.html#module-watertap.flowsheets.oaro.oaro">watertap.flowsheets.oaro.oaro module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.oaro.html#watertap.flowsheets.oaro.oaro.ERDtype"><code class="docutils literal notranslate"><span class="pre">ERDtype</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.oaro.html#module-watertap.flowsheets.oaro.oaro_multi">watertap.flowsheets.oaro.oaro_multi module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="watertap.flowsheets.oaro.html#watertap.flowsheets.oaro.oaro_multi.ERDtype"><code class="docutils literal notranslate"><span class="pre">ERDtype</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.oaro.html#watertap-flowsheets-oaro-oaro-module">watertap.flowsheets.oaro.oaro module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.oaro.html#watertap-flowsheets-oaro-oaro-multi-module">watertap.flowsheets.oaro.oaro_multi module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.oaro.html#watertap-flowsheets-oaro-oaro-multi-ui-module">watertap.flowsheets.oaro.oaro_multi_ui module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.oaro.html#module-watertap.flowsheets.oaro">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="watertap.flowsheets.seawater_RO_desalination.html">watertap.flowsheets.seawater_RO_desalination package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.seawater_RO_desalination.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.seawater_RO_desalination.html#module-watertap.flowsheets.seawater_RO_desalination.seawater_RO_desalination">watertap.flowsheets.seawater_RO_desalination.seawater_RO_desalination module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.seawater_RO_desalination.html#watertap-flowsheets-seawater-ro-desalination-seawater-ro-desalination-module">watertap.flowsheets.seawater_RO_desalination.seawater_RO_desalination module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="watertap.flowsheets.seawater_RO_desalination.html#module-watertap.flowsheets.seawater_RO_desalination">Module contents</a></li>
 </ul>
 </li>

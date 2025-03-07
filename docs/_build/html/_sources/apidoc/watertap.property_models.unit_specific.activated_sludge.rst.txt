@@ -46,20 +46,6 @@ watertap.property\_models.unit\_specific.activated\_sludge.modified\_asm2d\_reac
    :members:
    :show-inheritance:
 
-watertap.property\_models.unit\_specific.activated\_sludge.simple\_modified\_asm2d\_properties module
------------------------------------------------------------------------------------------------------
-
-.. automodule:: watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_properties
-   :members:
-   :show-inheritance:
-
-watertap.property\_models.unit\_specific.activated\_sludge.simple\_modified\_asm2d\_reactions module
-----------------------------------------------------------------------------------------------------
-
-.. automodule:: watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_reactions
-   :members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

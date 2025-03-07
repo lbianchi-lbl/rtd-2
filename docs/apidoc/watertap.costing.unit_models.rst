@@ -165,6 +165,13 @@ watertap.costing.unit\_models.reverse\_osmosis module
    :members:
    :show-inheritance:
 
+watertap.costing.unit\_models.steam\_ejector module
+---------------------------------------------------
+
+.. automodule:: watertap.costing.unit_models.steam_ejector
+   :members:
+   :show-inheritance:
+
 watertap.costing.unit\_models.stoichiometric\_reactor module
 ------------------------------------------------------------
 
