@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.flowsheets.oaro.oaro &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.flowsheets.oaro.oaro</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.flowsheets.oaro.oaro</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ConcreteModel</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">,</span>
+    <span class="n">Constraint</span><span class="p">,</span>
+    <span class="n">Objective</span><span class="p">,</span>
+    <span class="n">Var</span><span class="p">,</span>
+    <span class="n">Param</span><span class="p">,</span>
+    <span class="n">NonNegativeReals</span><span class="p">,</span>
+    <span class="n">TransformationFactory</span><span class="p">,</span>
+    <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span><span class="p">,</span>
+    <span class="n">check_optimal_termination</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.network</span> <span class="kn">import</span> <span class="n">Arc</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">FlowsheetBlock</span>
+<span class="kn">from</span> <span class="nn">watertap.core.solvers</span> <span class="kn">import</span> <span class="n">get_solver</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.model_statistics</span> <span class="kn">import</span> <span class="n">degrees_of_freedom</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.initialization</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">propagate_state</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">idaes.models.unit_models</span> <span class="kn">import</span> <span class="n">Product</span><span class="p">,</span> <span class="n">Feed</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">UnitModelCostingBlock</span>
+<span class="kn">import</span> <span class="nn">idaes.core.util.scaling</span> <span class="k">as</span> <span class="nn">iscale</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.misc</span> <span class="kn">import</span> <span class="n">StrEnum</span>
+
+<span class="kn">import</span> <span class="nn">watertap.property_models.NaCl_prop_pack</span> <span class="k">as</span> <span class="nn">props</span>
+<span class="kn">from</span> <span class="nn">watertap.unit_models.reverse_osmosis_0D</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ReverseOsmosis0D</span><span class="p">,</span>
+    <span class="n">ConcentrationPolarizationType</span><span class="p">,</span>
+    <span class="n">MassTransferCoefficient</span><span class="p">,</span>
+    <span class="n">PressureChangeType</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">watertap.unit_models.osmotically_assisted_reverse_osmosis_0D</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">OsmoticallyAssistedReverseOsmosis0D</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">watertap.unit_models.pressure_changer</span> <span class="kn">import</span> <span class="n">Pump</span><span class="p">,</span> <span class="n">EnergyRecoveryDevice</span>
+<span class="kn">from</span> <span class="nn">watertap.core.util.initialization</span> <span class="kn">import</span> <span class="n">assert_degrees_of_freedom</span>
+<span class="kn">from</span> <span class="nn">watertap.costing</span> <span class="kn">import</span> <span class="n">WaterTAPCosting</span>
+
+
+<div class="viewcode-block" id="ERDtype"><a class="viewcode-back" href="../../../../apidoc/watertap.flowsheets.oaro.html#watertap.flowsheets.oaro.oaro.ERDtype">[docs]</a><span class="k">class</span> <span class="nc">ERDtype</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+    <span class="n">pump_as_turbine</span> <span class="o">=</span> <span class="s2">&quot;pump_as_turbine&quot;</span></div>
+
+
+<span class="k">def</span> <span class="nf">erd_type_not_found</span><span class="p">(</span><span class="n">erd_type</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+        <span class="s2">&quot;erd_type was </span><span class="si">{}</span><span class="s2">, but can only &quot;</span> <span class="s2">&quot;be pump_as_turbine&quot;</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">erd_type</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">erd_type</span><span class="o">=</span><span class="n">ERDtype</span><span class="o">.</span><span class="n">pump_as_turbine</span><span class="p">,</span> <span class="n">raise_on_failure</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># set up solver</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">()</span>
+
+    <span class="c1"># build, set, and initialize</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="n">erd_type</span><span class="o">=</span><span class="n">erd_type</span><span class="p">)</span>
+    <span class="n">set_operating_conditions</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">initialize_system</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">)</span>
+
+    <span class="n">optimize_set_up</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">***---Simulation results---***&quot;</span><span class="p">)</span>
+    <span class="n">display_system</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">erd_type</span> <span class="o">==</span> <span class="n">ERDtype</span><span class="o">.</span><span class="n">pump_as_turbine</span><span class="p">:</span>
+        <span class="n">display_state</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">erd_type</span><span class="o">=</span><span class="n">ERDtype</span><span class="o">.</span><span class="n">pump_as_turbine</span><span class="p">):</span>
+    <span class="c1"># TODO: add costing later (OARO unit model does not have costing method)</span>
+
+    <span class="c1"># flowsheet set up</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span> <span class="o">=</span> <span class="n">FlowsheetBlock</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">erd_type</span> <span class="o">=</span> <span class="n">erd_type</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">NaClParameterBlock</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">WaterTAPCosting</span><span class="p">()</span>
+
+    <span class="c1"># Control volume flow blocks</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span> <span class="o">=</span> <span class="n">Feed</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">disposal</span> <span class="o">=</span> <span class="n">Product</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="c1"># --- Main pump ---</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span> <span class="o">=</span> <span class="n">Pump</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">UnitModelCostingBlock</span><span class="p">(</span><span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">)</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span> <span class="o">=</span> <span class="n">Pump</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">UnitModelCostingBlock</span><span class="p">(</span><span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">)</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span> <span class="o">=</span> <span class="n">Pump</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">UnitModelCostingBlock</span><span class="p">(</span><span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">)</span>
+
+    <span class="c1"># --- Reverse Osmosis Block ---</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span> <span class="o">=</span> <span class="n">ReverseOsmosis0D</span><span class="p">(</span>
+        <span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span>
+        <span class="n">has_pressure_change</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">pressure_change_type</span><span class="o">=</span><span class="n">PressureChangeType</span><span class="o">.</span><span class="n">calculated</span><span class="p">,</span>
+        <span class="n">mass_transfer_coefficient</span><span class="o">=</span><span class="n">MassTransferCoefficient</span><span class="o">.</span><span class="n">calculated</span><span class="p">,</span>
+        <span class="n">concentration_polarization_type</span><span class="o">=</span><span class="n">ConcentrationPolarizationType</span><span class="o">.</span><span class="n">calculated</span><span class="p">,</span>
+        <span class="n">has_full_reporting</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">UnitModelCostingBlock</span><span class="p">(</span><span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">)</span>
+
+    <span class="c1"># --- Osmotically Assisted Reverse Osmosis Block ---</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span> <span class="o">=</span> <span class="n">OsmoticallyAssistedReverseOsmosis0D</span><span class="p">(</span>
+        <span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span>
+        <span class="n">has_pressure_change</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">pressure_change_type</span><span class="o">=</span><span class="n">PressureChangeType</span><span class="o">.</span><span class="n">calculated</span><span class="p">,</span>
+        <span class="n">mass_transfer_coefficient</span><span class="o">=</span><span class="n">MassTransferCoefficient</span><span class="o">.</span><span class="n">calculated</span><span class="p">,</span>
+        <span class="n">concentration_polarization_type</span><span class="o">=</span><span class="n">ConcentrationPolarizationType</span><span class="o">.</span><span class="n">calculated</span><span class="p">,</span>
+        <span class="n">has_full_reporting</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">UnitModelCostingBlock</span><span class="p">(</span><span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">)</span>
+
+    <span class="c1"># --- ERD blocks ---</span>
+    <span class="k">if</span> <span class="n">erd_type</span> <span class="o">==</span> <span class="n">ERDtype</span><span class="o">.</span><span class="n">pump_as_turbine</span><span class="p">:</span>
+        <span class="c1"># add energy recovery turbine block</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD1</span> <span class="o">=</span> <span class="n">EnergyRecoveryDevice</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD2</span> <span class="o">=</span> <span class="n">EnergyRecoveryDevice</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+        <span class="c1"># add costing for ERD config</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD1</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">UnitModelCostingBlock</span><span class="p">(</span><span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD2</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">UnitModelCostingBlock</span><span class="p">(</span><span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">erd_type_not_found</span><span class="p">(</span><span class="n">erd_type</span><span class="p">)</span>
+
+    <span class="c1"># process costing and add system level metrics</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">cost_process</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">add_annual_water_production</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">add_LCOW</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">add_specific_energy_consumption</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">add_specific_electrical_carbon_intensity</span><span class="p">(</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span>
+    <span class="p">)</span>
+
+    <span class="c1"># system water recovery</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">volumetric_recovery</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;System Volumetric Recovery of Water&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">eq_volumetric_recovery</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol_phase</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">volumetric_recovery</span>
+        <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol_phase</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">water_recovery</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;System Water Recovery&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">eq_water_recovery</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">]</span>
+        <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">water_recovery</span>
+        <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># connections</span>
+    <span class="k">if</span> <span class="n">erd_type</span> <span class="o">==</span> <span class="n">ERDtype</span><span class="o">.</span><span class="n">pump_as_turbine</span><span class="p">:</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s01</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">outlet</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">inlet</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s02</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">outlet</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">feed_inlet</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s03</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">feed_outlet</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD1</span><span class="o">.</span><span class="n">inlet</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s04</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD1</span><span class="o">.</span><span class="n">outlet</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">disposal</span><span class="o">.</span><span class="n">inlet</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s05</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">permeate_outlet</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span><span class="o">.</span><span class="n">inlet</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s06</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span><span class="o">.</span><span class="n">outlet</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">inlet</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s07</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">permeate</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">inlet</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s08</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">retentate</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD2</span><span class="o">.</span><span class="n">inlet</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s09</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD2</span><span class="o">.</span><span class="n">outlet</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">inlet</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s10</span> <span class="o">=</span> <span class="n">Arc</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">outlet</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">permeate_inlet</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># this case should be caught in the previous conditional</span>
+        <span class="n">erd_type_not_found</span><span class="p">(</span><span class="n">erd_type</span><span class="p">)</span>
+
+    <span class="n">TransformationFactory</span><span class="p">(</span><span class="s2">&quot;network.expand_arcs&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="c1"># scaling</span>
+    <span class="c1"># set default property values</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">set_default_scaling</span><span class="p">(</span><span class="s2">&quot;flow_mass_phase_comp&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">))</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">set_default_scaling</span><span class="p">(</span>
+        <span class="s2">&quot;flow_mass_phase_comp&quot;</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># set unit model values</span>
+    <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">work</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">)</span>
+    <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">work</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">)</span>
+    <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">work</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">)</span>
+    <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)</span>
+    <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol_phase</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mass_frac_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">erd_type</span> <span class="o">==</span> <span class="n">ERDtype</span><span class="o">.</span><span class="n">pump_as_turbine</span><span class="p">:</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD1</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">work</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">)</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD2</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">work</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">erd_type_not_found</span><span class="p">(</span><span class="n">erd_type</span><span class="p">)</span>
+    <span class="c1"># unused scaling factors needed by IDAES base costing module</span>
+    <span class="c1"># calculate and propagate scaling factors</span>
+    <span class="n">iscale</span><span class="o">.</span><span class="n">calculate_scaling_factors</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="k">def</span> <span class="nf">set_operating_conditions</span><span class="p">(</span>
+    <span class="n">m</span><span class="p">,</span>
+    <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">()</span>
+
+    <span class="c1"># ---specifications---</span>
+    <span class="c1"># feed</span>
+    <span class="c1"># state variables</span>
+    <span class="n">pressure_atmospheric</span> <span class="o">=</span> <span class="mi">101325</span>
+    <span class="n">feed_temperature</span> <span class="o">=</span> <span class="mf">273.15</span> <span class="o">+</span> <span class="mi">25</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">pressure_atmospheric</span><span class="p">)</span>  <span class="c1"># feed pressure [Pa]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">feed_temperature</span><span class="p">)</span>  <span class="c1"># feed temperature [K]</span>
+
+    <span class="c1"># properties (cannot be fixed for initialization routines, must calculate the state variables)</span>
+    <span class="n">feed_flow_mass</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">feed_mass_frac_NaCl</span> <span class="o">=</span> <span class="mf">0.035</span>
+    <span class="n">feed_mass_frac_H2O</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">feed_mass_frac_NaCl</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span>
+        <span class="n">feed_flow_mass</span> <span class="o">*</span> <span class="n">feed_mass_frac_NaCl</span>
+    <span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span>
+        <span class="n">feed_flow_mass</span> <span class="o">*</span> <span class="n">feed_mass_frac_H2O</span>
+    <span class="p">)</span>
+
+    <span class="c1"># pump 1, high pressure pump, 2 degrees of freedom (efficiency and outlet pressure)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">efficiency_pump</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.80</span><span class="p">)</span>  <span class="c1"># pump efficiency [-]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">50e5</span><span class="p">)</span>
+
+    <span class="c1"># pump 2, 2 degrees of freedom (efficiency and outlet pressure)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span><span class="o">.</span><span class="n">efficiency_pump</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.80</span><span class="p">)</span>  <span class="c1"># pump efficiency [-]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">18e5</span><span class="p">)</span>
+
+    <span class="c1"># pump 3, 2 degrees of freedom (efficiency, outlet pressure)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">efficiency_pump</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.80</span><span class="p">)</span>  <span class="c1"># pump efficiency [-]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">4e5</span><span class="p">)</span>
+
+    <span class="c1"># initial guess for states of pump 3 output (temperature and concentrations)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">feed_temperature</span>
+    <span class="n">permeate_flow_mass</span> <span class="o">=</span> <span class="mf">0.75</span>
+    <span class="n">permeate_mass_frac_NaCl</span> <span class="o">=</span> <span class="mf">0.015</span>
+    <span class="n">permeate_mass_frac_H2O</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">permeate_mass_frac_NaCl</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span>
+        <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">permeate_flow_mass</span> <span class="o">*</span> <span class="n">permeate_mass_frac_H2O</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span>
+        <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">permeate_flow_mass</span> <span class="o">*</span> <span class="n">permeate_mass_frac_NaCl</span><span class="p">)</span>
+
+    <span class="c1"># Initialize OARO</span>
+    <span class="n">membrane_area</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="mf">4.2e-12</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="mf">1.3e-8</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">membrane_area</span><span class="p">)</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">A_comp</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">B_comp</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">structural_parameter</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">300e-6</span><span class="p">)</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">permeate_side</span><span class="o">.</span><span class="n">channel_height</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">permeate_side</span><span class="o">.</span><span class="n">spacer_porosity</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">feed_side</span><span class="o">.</span><span class="n">channel_height</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.002</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">feed_side</span><span class="o">.</span><span class="n">spacer_porosity</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">feed_side</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="c1"># RO unit</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">A_comp</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">4.2e-12</span><span class="p">)</span>  <span class="c1"># membrane water permeability coefficient [m/s-Pa]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">B_comp</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">3.5e-8</span><span class="p">)</span>  <span class="c1"># membrane salt permeability coefficient [m/s]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">feed_side</span><span class="o">.</span><span class="n">channel_height</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">)</span>  <span class="c1"># channel height in membrane stage [m]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">feed_side</span><span class="o">.</span><span class="n">spacer_porosity</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.97</span><span class="p">)</span>  <span class="c1"># spacer porosity in membrane stage [-]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">permeate</span><span class="o">.</span><span class="n">pressure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">101325</span><span class="p">)</span>  <span class="c1"># atmospheric pressure [Pa]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># stage width [m]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>  <span class="c1"># guess area for RO initialization</span>
+
+    <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">erd_type</span> <span class="o">==</span> <span class="n">ERDtype</span><span class="o">.</span><span class="n">pump_as_turbine</span><span class="p">:</span>
+        <span class="c1"># energy recovery turbine - efficiency and outlet pressure</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD1</span><span class="o">.</span><span class="n">efficiency_pump</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.95</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD1</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">pressure_atmospheric</span><span class="p">)</span>
+
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD2</span><span class="o">.</span><span class="n">efficiency_pump</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.95</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD2</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">pressure_atmospheric</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">erd_type_not_found</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">erd_type</span><span class="p">)</span>
+
+    <span class="c1"># check degrees of freedom</span>
+    <span class="k">if</span> <span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;The set_operating_conditions function resulted in </span><span class="si">{}</span><span class="s2"> &quot;</span>
+            <span class="s2">&quot;degrees of freedom rather than 0. This error suggests &quot;</span>
+            <span class="s2">&quot;that too many or not enough variables are fixed for a &quot;</span>
+            <span class="s2">&quot;simulation.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">tee</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_optimal_termination</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">tee</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+
+<span class="k">def</span> <span class="nf">initialize_loop</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="p">):</span>
+
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s05</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="c1"># ---initialize RO---</span>
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s06</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s07</span><span class="p">)</span>
+
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s08</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD2</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s09</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s10</span><span class="p">)</span>
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s02</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s03</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD1</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s04</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">disposal</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">initialize_system</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">()</span>
+
+    <span class="c1"># ---initialize feed block---</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s01</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="c1"># ---initialize OARO---</span>
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s02</span><span class="p">)</span>
+    <span class="n">propagate_state</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">s10</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="n">initialize_loop</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DOF: </span><span class="si">{</span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Now that the units are initialized, we can fix the</span>
+    <span class="c1"># permeate side outlet pressure and unfix the RO pump</span>
+    <span class="c1"># (which allows for control over the flow mass composition</span>
+    <span class="c1"># into the OARO permeate_side).</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">permeate_side</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">101325</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DOF: </span><span class="si">{</span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">optimize_set_up</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="c1"># add objective</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">objective</span> <span class="o">=</span> <span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">LCOW</span><span class="p">)</span>
+
+    <span class="c1"># unfix decision variables and add bounds</span>
+    <span class="c1"># pump 1</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="mf">10e5</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">setub</span><span class="p">(</span><span class="mf">80e5</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">deltaP</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># RO</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">setub</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span>
+
+    <span class="c1"># additional specifications</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product_salinity</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">500e-6</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>  <span class="c1"># product NaCl mass fraction [-]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">minimum_water_flux</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">3600.0</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>  <span class="c1"># minimum water flux [kg/m2-s]</span>
+
+    <span class="c1"># additional constraints</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">eq_product_quality</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mass_frac_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">]</span>
+        <span class="o">&lt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product_salinity</span>
+    <span class="p">)</span>
+    <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">eq_product_quality</span><span class="p">,</span> <span class="mf">1e3</span>
+    <span class="p">)</span>  <span class="c1"># scaling constraint</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">eq_minimum_water_flux</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">flux_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">minimum_water_flux</span>
+    <span class="p">)</span>
+
+    <span class="c1"># ---checking model---</span>
+    <span class="n">assert_degrees_of_freedom</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># --solve---</span>
+    <span class="k">return</span> <span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">display_system</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---system metrics---&quot;</span><span class="p">)</span>
+    <span class="n">feed_flow_mass</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;H2O&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">feed_mass_frac_NaCl</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="n">feed_flow_mass</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Feed: </span><span class="si">%.2f</span><span class="s2"> kg/s, </span><span class="si">%.0f</span><span class="s2"> ppm&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feed_flow_mass</span><span class="p">,</span> <span class="n">feed_mass_frac_NaCl</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">))</span>
+
+    <span class="n">prod_flow_mass</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;H2O&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">prod_mass_frac_NaCl</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="n">prod_flow_mass</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Product: </span><span class="si">%.3f</span><span class="s2"> kg/s, </span><span class="si">%.0f</span><span class="s2"> ppm&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prod_flow_mass</span><span class="p">,</span> <span class="n">prod_mass_frac_NaCl</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Volumetric recovery: </span><span class="si">%.1f%%</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">volumetric_recovery</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Water recovery: </span><span class="si">%.1f%%</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">water_recovery</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;Energy Consumption: </span><span class="si">%.1f</span><span class="s2"> kWh/m3&quot;</span>
+        <span class="o">%</span> <span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">specific_energy_consumption</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Levelized cost of water: </span><span class="si">%.2f</span><span class="s2"> $/m3&quot;</span> <span class="o">%</span> <span class="n">value</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">LCOW</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">display_design</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---decision variables---&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Operating pressure </span><span class="si">%.1f</span><span class="s2"> bar&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">inlet</span><span class="o">.</span><span class="n">pressure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e5</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Membrane area </span><span class="si">%.1f</span><span class="s2"> m2&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---design variables---&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;Pump 1</span><span class="se">\n</span><span class="s2">outlet pressure: </span><span class="si">%.1f</span><span class="s2"> bar</span><span class="se">\n</span><span class="s2">power </span><span class="si">%.2f</span><span class="s2"> kW&quot;</span>
+        <span class="o">%</span> <span class="p">(</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">outlet</span><span class="o">.</span><span class="n">pressure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e5</span><span class="p">,</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">work_mechanical</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">erd_type</span> <span class="o">==</span> <span class="n">ERDtype</span><span class="o">.</span><span class="n">pump_as_turbine</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;ERD</span><span class="se">\n</span><span class="s2">inlet pressure: </span><span class="si">%.1f</span><span class="s2"> bar</span><span class="se">\n</span><span class="s2">power recovered </span><span class="si">%.2f</span><span class="s2"> kW&quot;</span>
+            <span class="o">%</span> <span class="p">(</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD</span><span class="o">.</span><span class="n">inlet</span><span class="o">.</span><span class="n">pressure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e5</span><span class="p">,</span>
+                <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD</span><span class="o">.</span><span class="n">work_mechanical</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">erd_type_not_found</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">erd_type</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">display_state</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---state---&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">print_state</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">flow_mass</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;H2O&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">mass_frac_ppm</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;NaCl&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="n">flow_mass</span> <span class="o">*</span> <span class="mf">1e6</span>
+        <span class="n">pressure_bar</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">pressure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="mf">1e5</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="n">s</span>
+            <span class="o">+</span> <span class="s2">&quot;: </span><span class="si">%.3f</span><span class="s2"> kg/s, </span><span class="si">%.0f</span><span class="s2"> ppm, </span><span class="si">%.1f</span><span class="s2"> bar&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">flow_mass</span><span class="p">,</span> <span class="n">mass_frac_ppm</span><span class="p">,</span> <span class="n">pressure_bar</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;Feed      &quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">outlet</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;P1 out    &quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P1</span><span class="o">.</span><span class="n">outlet</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;OARO Feed in&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">feed_inlet</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;OARO Feed out&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">feed_outlet</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;OARO Perm in&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">permeate_inlet</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;OARO Perm out&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">OARO</span><span class="o">.</span><span class="n">permeate_outlet</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;ERD1 out    &quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD1</span><span class="o">.</span><span class="n">outlet</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;P2 out    &quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P2</span><span class="o">.</span><span class="n">outlet</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;RO reten  &quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">retentate</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;RO perm   &quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">permeate</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;ERD2 out    &quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">ERD2</span><span class="o">.</span><span class="n">outlet</span><span class="p">)</span>
+    <span class="n">print_state</span><span class="p">(</span><span class="s2">&quot;P3 out    &quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">P3</span><span class="o">.</span><span class="n">outlet</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">main</span><span class="p">(</span><span class="n">erd_type</span><span class="o">=</span><span class="n">ERDtype</span><span class="o">.</span><span class="n">pump_as_turbine</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

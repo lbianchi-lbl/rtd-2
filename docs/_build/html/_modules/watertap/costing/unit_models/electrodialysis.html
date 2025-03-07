@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.costing.unit_models.electrodialysis &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.costing.unit_models.electrodialysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.costing.unit_models.electrodialysis</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">..util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">register_costing_parameter_block</span><span class="p">,</span>
+    <span class="n">cost_rectifier</span><span class="p">,</span>
+    <span class="n">make_capital_cost_var</span><span class="p">,</span>
+    <span class="n">make_fixed_operating_cost_var</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">build_electrodialysis_cost_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+    <span class="c1"># The following costing itemization and values are referenced to &quot;Desalination 452 (2019) 265–278&quot;</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">membrane_capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Membrane and capital costs in [US$/m^2-membrane-area]&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">meter</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">factor_membrane_replacement</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Membrane and equipment (other stack components) housing replacement factor, equal to 1/lifetime.&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">year</span><span class="o">**-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">stack_electrode_capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">2100</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Electrode cost in [US$/m^2-electrode-area] &quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">meter</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">factor_stack_electrode_replacement</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Stack and electrode replacement factor, equal to 1/lifetime.&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">year</span><span class="o">**-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="cost_electrodialysis"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.electrodialysis.cost_electrodialysis">[docs]</a><span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_electrodialysis_cost_param_block</span><span class="p">,</span>
+    <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;electrodialysis&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">cost_electrodialysis</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">cost_electricity_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">has_rectifier</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function for costing the Electrodialysis unit</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cost_electricity_flow (:obj:`bool`, optional): Option for including the</span>
+<span class="sd">            costing of electricity. Defaults to True.</span>
+<span class="sd">        has_rectifier (:obj:`bool`, optional): Option for including a rectifier.</span>
+<span class="sd">            Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+    <span class="c1"># Changed this to grab power from performance table which is identified</span>
+    <span class="c1"># by same key regardless of whether the Electrodialysis unit is 0D or 1D</span>
+    <span class="k">if</span> <span class="n">cost_electricity_flow</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_rectifier</span><span class="p">:</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">cost_flow</span><span class="p">(</span>
+                <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                    <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">get_power_electrical</span><span class="p">(</span><span class="n">t0</span><span class="p">),</span>
+                    <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kW</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="s2">&quot;electricity&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">power</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">get_power_electrical</span><span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">first</span><span class="p">())</span>
+            <span class="n">cost_rectifier</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="n">power</span><span class="p">,</span> <span class="n">ac_dc_conversion_efficiency</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">cost_electrodialysis_stack</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cost_electrodialysis_stack"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.electrodialysis.cost_electrodialysis_stack">[docs]</a><span class="k">def</span> <span class="nf">cost_electrodialysis_stack</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic function for costing the stack in an electrodialysis unit.</span>
+<span class="sd">    Assumes the unit_model has a `cell_pair_num`, `cell_width`, and `cell_length`</span>
+<span class="sd">    set of variables used to size the total membrane area.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">make_capital_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">make_fixed_operating_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_cost_factor</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="s2">&quot;TIC&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">blk</span><span class="o">.</span><span class="n">find_component</span><span class="p">(</span><span class="s2">&quot;capital_cost_rectifier&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span>
+            <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span>
+            <span class="o">*</span> <span class="p">(</span>
+                <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electrodialysis</span><span class="o">.</span><span class="n">membrane_capital_cost</span>
+                    <span class="o">*</span> <span class="p">(</span>
+                        <span class="mi">2</span>
+                        <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_pair_num</span>
+                        <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_width</span>
+                        <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_length</span>
+                    <span class="p">)</span>
+                    <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electrodialysis</span><span class="o">.</span><span class="n">stack_electrode_capital_cost</span>
+                    <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_width</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_length</span><span class="p">),</span>
+                    <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_rectifier</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span>
+            <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span>
+            <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electrodialysis</span><span class="o">.</span><span class="n">membrane_capital_cost</span>
+                <span class="o">*</span> <span class="p">(</span>
+                    <span class="mi">2</span>
+                    <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_pair_num</span>
+                    <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_width</span>
+                    <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_length</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electrodialysis</span><span class="o">.</span><span class="n">stack_electrode_capital_cost</span>
+                <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_width</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_length</span><span class="p">),</span>
+                <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">fixed_operating_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">fixed_operating_cost</span>
+        <span class="o">==</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electrodialysis</span><span class="o">.</span><span class="n">factor_membrane_replacement</span>
+            <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electrodialysis</span><span class="o">.</span><span class="n">membrane_capital_cost</span>
+            <span class="o">*</span> <span class="p">(</span>
+                <span class="mi">2</span>
+                <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_pair_num</span>
+                <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_width</span>
+                <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_length</span>
+            <span class="p">)</span>
+            <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electrodialysis</span><span class="o">.</span><span class="n">factor_stack_electrode_replacement</span>
+            <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electrodialysis</span><span class="o">.</span><span class="n">stack_electrode_capital_cost</span>
+            <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_width</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">cell_length</span><span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span>
+            <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_period</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

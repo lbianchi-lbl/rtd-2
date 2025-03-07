@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add a flowsheet to the UI &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="How to use the unit test harness" href="how_to_use_unit_test_harness.html" />
+    <link rel="prev" title="How to use the property test harness" href="how_to_use_property_test_harness.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How To Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_models_in_a_py_script.html">How to run models in a Python script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_zero_order_model.html">How to run a zero-order model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_a_property_model.html">How to use a property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_RO.html">How to setup a simple RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_RO_config_options.html">How to use configuration options in the RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_MCAS_property_model.html">How to use the multicomponent aqueous solution (MCAS) property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_chemistry.html">How to setup simple chemistry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_apparent_and_true_chemical_species.html">How to use apparent and true chemical species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_inherent_reactions.html">How to use inherent reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_a_model.html">How to scale a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_reactions.html">How to scale chemical reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_species.html">How to scale chemical species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_process_energy_balance.html">How to scale energy balance for chemical process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep.html">How to explore a model with parameter sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep_monte_carlo.html">Monte Carlo testing with the Parameter Sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_differential_parameter_sweep.html">How to Run Differential Parameter Sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_loopTool_to_explore_flowsheets.html">How to use loopTool to explore flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_debugging_solver_wrapper.html">How to use the debugging solver wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_property_test_harness.html">How to use the property test harness</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Add a flowsheet to the UI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#testing-flowsheet-interfaces">Testing flowsheet interfaces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_unit_test_harness.html">How to use the unit test harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_contribute_development.html">How to contribute to WaterTAP’s development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks.html">How to run WaterTAP with Jupyter notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">How To Guides</a></li>
+      <li class="breadcrumb-item active">Add a flowsheet to the UI</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/how_to_guides/how_to_use_ui_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="add-a-flowsheet-to-the-ui">
+<span id="howto-ui-api"></span><h1>Add a flowsheet to the UI<a class="headerlink" href="#add-a-flowsheet-to-the-ui" title="Permalink to this heading"></a></h1>
+<p>This API is intended for model developers who would like to connect their flowsheets to the UI.
+Developers can select which variables to “export” to the UI for each component of the model,
+and provide extra metadata (display name, description) for them. For flowsheets, they should also
+specify how to build and solve the flowsheets.</p>
+<p>For reference, see <code class="xref py py-class docutils literal notranslate"><span class="pre">FlowsheetInterface</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FlowsheetExport</span></code> in the <cite>idaes_flowsheet_processor.api</cite> module.</p>
+<hr class="docutils" />
+<p>In some Python module, define the function <code class="docutils literal notranslate"><span class="pre">export_to_ui</span></code>, which will look
+similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">idaes_flowsheet_processor.api</span> <span class="kn">import</span> <span class="n">FlowsheetInterface</span><span class="p">,</span> <span class="n">FlowsheetCategory</span>
+<span class="k">def</span> <span class="nf">export_to_ui</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">FlowsheetInterface</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NF-DSPM-DE&quot;</span><span class="p">,</span>
+        <span class="n">do_export</span><span class="o">=</span><span class="n">export_variables</span><span class="p">,</span>
+        <span class="n">do_build</span><span class="o">=</span><span class="n">build_flowsheet</span><span class="p">,</span>
+        <span class="n">do_solve</span><span class="o">=</span><span class="n">solve_flowsheet</span><span class="p">,</span>
+        <span class="n">get_diagram</span><span class="o">=</span><span class="n">get_diagram</span><span class="p">,</span>
+        <span class="n">requires_idaes_solver</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">category</span><span class="o">=</span><span class="n">FlowsheetCategory</span><span class="o">.</span><span class="n">wastewater</span><span class="p">,</span>
+        <span class="n">build_options</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;Bypass&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;bypass option&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;display_name&quot;</span><span class="p">:</span> <span class="s2">&quot;With Bypass&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;values_allowed&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">],</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;false&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>There are 3 required functions:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">do_export</span></code> - This function defines the variables that will be displayed on the UI.</p></li>
+</ol>
+<p>There are two ways to export the variables (which can be combined, if you really want to), using
+the <cite>exports</cite> variable, which is an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">FlowsheetExport</span></code>.
+The first way is to use the Python API to call <code class="docutils literal notranslate"><span class="pre">exports.add()</span></code> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">FlowsheetExport.add()</span></code>) for each variable. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">export_variables</span><span class="p">(</span><span class="n">flowsheet</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exports</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">build_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">flowsheet</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol_phase</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Volumetric flow rate&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">L</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">hr</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;L/h&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Inlet volumetric flow rate&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="s2">&quot;Feed&quot;</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="s2">&quot;Feed&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">NF</span><span class="o">.</span><span class="n">pump</span><span class="o">.</span><span class="n">outlet</span><span class="o">.</span><span class="n">pressure</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NF pump pressure&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">bar</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;NF pump pressure&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="s2">&quot;NF design&quot;</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="s2">&quot;NF design&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">NF</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol_phase</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NF product volume flow&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">L</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">hr</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;L/h&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;NF design&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="s2">&quot;NF design&quot;</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="s2">&quot;NF design&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>The second way to export variables is to create a comma-separated values (CSV) file with the same information, and
+read that in with <code class="docutils literal notranslate"><span class="pre">exports.from_csv()</span></code> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">FlowsheetExport.from_csv()</span></code>). For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">export_variables</span><span class="p">(</span><span class="n">flowsheet</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exports</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">build_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;nf_exports.csv&quot;</span><span class="p">,</span> <span class="n">flowsheet</span><span class="o">=</span><span class="n">flowsheet</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, the file is located in the same directory as the Python module.
+The format of the file is documented in the <code class="xref py py-meth docutils literal notranslate"><span class="pre">FlowsheetExport.from_csv()</span></code> method, but it basically puts the
+API keywords as columns in a table. For example, the CSV table for the API calls above would look like:</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">nf_exports.csv</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>obj</p></th>
+<th class="head"><p>name</p></th>
+<th class="head"><p>descriptions</p></th>
+<th class="head"><p>ui_units</p></th>
+<th class="head"><p>display_units</p></th>
+<th class="head"><p>rounding</p></th>
+<th class="head"><p>is_input</p></th>
+<th class="head"><p>input_category</p></th>
+<th class="head"><p>is_output</p></th>
+<th class="head"><p>output_category</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>fs.feed.properties[0].flow_vol_phase[‘Liq’]</p></td>
+<td><p>Volumetric flow rate</p></td>
+<td><p>Volumetric flow rate</p></td>
+<td><p>units.L / units.hr</p></td>
+<td><p>L/h</p></td>
+<td><p>2</p></td>
+<td><p>true</p></td>
+<td><p>Feed</p></td>
+<td><p>false</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>fs.NF.pump.outlet.pressure[0]</p></td>
+<td><p>NF pump pressure</p></td>
+<td><p>Nanofiltration pump outlet pressure</p></td>
+<td><p>units.bar</p></td>
+<td><p>bar</p></td>
+<td><p>true</p></td>
+<td><p>NF design</p></td>
+<td><p>true</p></td>
+<td><p>NF design</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>fs.NF.product.properties[0].flow_vol_phase[‘Liq’]</p></td>
+<td><p>NF product volume flow rate</p></td>
+<td><p>Nanofiltration product volume flow rate</p></td>
+<td><p>units.L / units.hr</p></td>
+<td><p>L/h</p></td>
+<td><p>2</p></td>
+<td><p>false</p></td>
+<td></td>
+<td><p>true</p></td>
+<td><p>NF design</p></td>
+</tr>
+</tbody>
+</table>
+<p>The raw text version is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;obj&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;descriptions&quot;</span><span class="p">,</span> <span class="s2">&quot;ui_units&quot;</span><span class="p">,</span> <span class="s2">&quot;display_units&quot;</span><span class="p">,</span> <span class="s2">&quot;rounding&quot;</span><span class="p">,</span> <span class="s2">&quot;is_input&quot;</span><span class="p">,</span> <span class="s2">&quot;input_category&quot;</span><span class="p">,</span> <span class="s2">&quot;is_output&quot;</span><span class="p">,</span> <span class="s2">&quot;output_category&quot;</span>
+<span class="s2">&quot;fs.feed.properties[0].flow_vol_phase[&#39;Liq&#39;]&quot;</span><span class="p">,</span><span class="s2">&quot;Volumetric flow rate&quot;</span><span class="p">,</span><span class="s2">&quot;Volumetric flow rate&quot;</span><span class="p">,</span><span class="s2">&quot;units.L / units.hr&quot;</span><span class="p">,</span><span class="s2">&quot;L/h&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">true</span><span class="p">,</span><span class="s2">&quot;Feed&quot;</span><span class="p">,</span><span class="n">false</span><span class="p">,</span><span class="s2">&quot;&quot;</span>
+<span class="s2">&quot;fs.NF.pump.outlet.pressure[0]&quot;</span><span class="p">,</span><span class="s2">&quot;NF pump pressure&quot;</span><span class="p">,</span><span class="s2">&quot;Nanofiltration pump outlet pressure&quot;</span><span class="p">,</span><span class="s2">&quot;units.bar&quot;</span><span class="p">,</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span><span class="n">true</span><span class="p">,</span><span class="s2">&quot;NF design&quot;</span><span class="p">,</span><span class="n">true</span><span class="p">,</span><span class="s2">&quot;NF design&quot;</span>
+<span class="s2">&quot;fs.NF.product.properties[0].flow_vol_phase[&#39;Liq&#39;]&quot;</span><span class="p">,</span><span class="s2">&quot;NF product volume flow rate&quot;</span><span class="p">,</span><span class="s2">&quot;Nanofiltration product volume flow rate&quot;</span><span class="p">,</span><span class="s2">&quot;units.L / units.hr&quot;</span><span class="p">,</span><span class="s2">&quot;L/h&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">false</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">true</span><span class="p">,</span><span class="s2">&quot;NF design&quot;</span>
+</pre></div>
+</div>
+<ol class="arabic" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">do_build</span></code> - This function defines the build function for a flowsheet. See example below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">watertap.examples.flowsheets.case_studies.wastewater_resource_recovery.metab.metab</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">build</span><span class="p">,</span>
+    <span class="n">set_operating_conditions</span><span class="p">,</span>
+    <span class="n">initialize_system</span><span class="p">,</span>
+    <span class="n">solve</span><span class="p">,</span>
+    <span class="n">add_costing</span><span class="p">,</span>
+    <span class="n">adjust_default_parameters</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">build_flowsheet</span><span class="p">():</span>
+    <span class="c1"># build and solve initial flowsheet</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">build</span><span class="p">()</span>
+
+    <span class="n">set_operating_conditions</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">assert_degrees_of_freedom</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">assert_units_consistent</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="n">initialize_system</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">assert_optimal_termination</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+    <span class="n">add_costing</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">assert_degrees_of_freedom</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+    <span class="n">adjust_default_parameters</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">assert_optimal_termination</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">do_solve</span></code> - This function defines the solve function for a flowsheet. See example below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">watertap.examples.flowsheets.case_studies.wastewater_resource_recovery.metab.metab</span> <span class="kn">import</span> <span class="n">solve</span>
+<span class="k">def</span> <span class="nf">solve_flowsheet</span><span class="p">(</span><span class="n">flowsheet</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">flowsheet</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Additionally, there are optional parameters to assign a category, provide build options,
+and provide a diagram function among others. See additional examples below.</p>
+<p>Build function using build options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">build_flowsheet</span><span class="p">(</span><span class="n">build_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># build and solve initial flowsheet</span>
+    <span class="k">if</span> <span class="n">build_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;Bypass&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="c1">#build with bypass</span>
+            <span class="n">solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">()</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">nf_with_bypass</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+            <span class="n">nf_with_bypass</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="p">)</span>
+            <span class="n">nf_with_bypass</span><span class="o">.</span><span class="n">unfix_opt_vars</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># build without bypass</span>
+            <span class="n">solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">()</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">nf</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+            <span class="n">nf</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="p">)</span>
+            <span class="n">nf</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">nf</span><span class="o">.</span><span class="n">unfix_opt_vars</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># build without bypass</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">()</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">nf</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+        <span class="n">nf</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="p">)</span>
+        <span class="n">nf</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">nf</span><span class="o">.</span><span class="n">unfix_opt_vars</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span>
+</pre></div>
+</div>
+<p>Custom diagram function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_diagram</span><span class="p">(</span><span class="n">build_options</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;Bypass&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;nf_with_bypass_ui.png&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;nf_ui.png&quot;</span>
+</pre></div>
+</div>
+<p>Enable UI to discover flowsheet - In order for the UI to discover a flowsheet, an
+entrypoint must be defined in setup.py with the path to the export file. For examples, see below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;watertap.flowsheets&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;nf = watertap.examples.flowsheets.nf_dspmde.nf_ui&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;metab = watertap.examples.flowsheets.case_studies.wastewater_resource_recovery.metab.metab_ui&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+<p>For a complete overview of all arguments, see <code class="xref py py-class docutils literal notranslate"><span class="pre">FlowsheetInterface</span></code>.</p>
+<section id="testing-flowsheet-interfaces">
+<h2>Testing flowsheet interfaces<a class="headerlink" href="#testing-flowsheet-interfaces" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following requires the WaterTAP testing dependencies to be installed. This is done by default in a developer environment, or can be installed manually by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;watertap[testing]&quot;</span></code>.</p>
+</div>
+<p>To verify that the flowsheet interfaces developed and distributed with WaterTAP function correctly, it is possible to use pytest to run a series of standardized tests against each interface. The <code class="docutils literal notranslate"><span class="pre">idaes-flowsheets</span></code> pytest plugin that enables this functionality is installed together with the rest of the WaterTAP testing dependencies. However, it must be activated by providing additional command-line flags when invoking pytest.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># run tests for all flowsheet interfaces registered under the `watertap.flowsheets` entry point group</span>
+pytest<span class="w"> </span>--idaes-flowsheets<span class="w"> </span>--entry-point-group<span class="w"> </span>watertap.flowsheets
+
+<span class="c1"># run tests for one or more importable Python modules (useful when developing a new flowsheet interface as it also supports modules not yet registered as an entry point)</span>
+pytest<span class="w"> </span>--idaes-flowsheets<span class="w"> </span>--modules<span class="w"> </span>watertap.flowsheets.gac.gac_ui<span class="w"> </span>watertap.flowsheets.mvc.mvc_single_stage_ui
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">idaes-flowsheets</span></code> pytest plugin will collect and run its tests <em>in addition</em> to the normally discovered pytest tests (e.g. test functions defined in <code class="docutils literal notranslate"><span class="pre">test_*.py</span></code> files throughout the current working directory). To disable normal (Python) pytest collection and only run <code class="docutils literal notranslate"><span class="pre">idaes-flowsheets</span></code> tests, use the <code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">no:python</span></code> flag:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">idaes</span><span class="o">-</span><span class="n">flowsheets</span> <span class="o">--</span><span class="n">modules</span> <span class="n">watertap</span><span class="o">.</span><span class="n">flowsheets</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">gac_ui</span> <span class="n">watertap</span><span class="o">.</span><span class="n">flowsheets</span><span class="o">.</span><span class="n">mvc</span><span class="o">.</span><span class="n">mvc_single_stage_ui</span> <span class="o">-</span><span class="n">p</span> <span class="n">no</span><span class="p">:</span><span class="n">python</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="how_to_use_property_test_harness.html" class="btn btn-neutral float-left" title="How to use the property test harness" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="how_to_use_unit_test_harness.html" class="btn btn-neutral float-right" title="How to use the unit test harness" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

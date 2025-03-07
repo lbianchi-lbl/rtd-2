@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.unit_models.pressure_changer &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.unit_models.pressure_changer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.unit_models.pressure_changer</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">ConfigValue</span><span class="p">,</span> <span class="n">In</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">Var</span><span class="p">,</span> <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span><span class="p">,</span> <span class="n">Expr_if</span><span class="p">,</span> <span class="n">value</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+
+<span class="c1"># Import IDAES cores</span>
+<span class="kn">from</span> <span class="nn">idaes.models.unit_models.pressure_changer</span> <span class="kn">import</span> <span class="n">PumpData</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">declare_process_block_class</span>
+<span class="kn">import</span> <span class="nn">idaes.core.util.scaling</span> <span class="k">as</span> <span class="nn">iscale</span>
+
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+
+<span class="kn">from</span> <span class="nn">watertap.core</span> <span class="kn">import</span> <span class="n">InitializationMixin</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.unit_models.pump</span> <span class="kn">import</span> <span class="n">cost_pump</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.unit_models.energy_recovery_device</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">cost_energy_recovery_device</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="VariableEfficiency"><a class="viewcode-back" href="../../../apidoc/watertap.unit_models.html#watertap.unit_models.pressure_changer.VariableEfficiency">[docs]</a><span class="k">class</span> <span class="nc">VariableEfficiency</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">none</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># default is constant efficiency</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># flow-only correlation</span>
+    <span class="n">flow_head</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># flow and head correlation</span></div>
+
+
+<div class="viewcode-block" id="PumpIsothermalData"><a class="viewcode-back" href="../../../apidoc/watertap.unit_models.html#watertap.unit_models.pressure_changer.PumpIsothermalData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;Pump&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">PumpIsothermalData</span><span class="p">(</span><span class="n">InitializationMixin</span><span class="p">,</span> <span class="n">PumpData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Standard Isothermal Pump Unit Model Class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">PumpData</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;variable_efficiency&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">VariableEfficiency</span><span class="o">.</span><span class="n">none</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">VariableEfficiency</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Variable pump efficiency flag&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates the relationship used to define pump efficiency</span>
+<span class="s2">    **VariableEfficiency.none** - uses default pump efficiency at BEP</span>
+<span class="s2">    **VariableEfficiency.flow** - uses an efficiency correlation scaled to the BEP flow rate</span>
+<span class="s2">    **VariableEfficiency.flow_head** - uses an efficiency correlation scaled to the BEP flow rate and head</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="PumpIsothermalData.build"><a class="viewcode-back" href="../../../apidoc/watertap.unit_models.html#watertap.unit_models.pressure_changer.PumpIsothermalData.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+        <span class="c1"># ---------------------------------------</span>
+        <span class="c1"># Isothermal pump set up</span>
+        <span class="c1"># ---------------------------------------</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="p">,</span> <span class="s2">&quot;enthalpy_balances&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">del_component</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">enthalpy_balances</span><span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Isothermal constraint&quot;</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">isothermal_balance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span>
+
+        <span class="c1"># ---------------------------------------</span>
+        <span class="c1"># Variable efficiency pump set-up</span>
+        <span class="c1"># ---------------------------------------</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">variable_efficiency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">VariableEfficiency</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+            <span class="c1"># create additional pyomo variables</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bep_flow</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+                <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Best efficiency point flowrate of the centrifugal pump&quot;</span><span class="p">,</span>
+                <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">bep_eta</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+                <span class="n">initialize</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Best efficiency of the centrifugal pump&quot;</span><span class="p">,</span>
+                <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">flow_ratio</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+                <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Ratio of pump flowrate to best efficiency point flowrate&quot;</span><span class="p">,</span>
+                <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># add constraints</span>
+            <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Pump flow ratio&quot;</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">flow_ratio_constraint</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="n">b</span><span class="o">.</span><span class="n">flow_ratio</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">bep_flow</span>
+                    <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">variable_efficiency</span> <span class="ow">is</span> <span class="n">VariableEfficiency</span><span class="o">.</span><span class="n">flow</span><span class="p">:</span>
+
+            <span class="nd">@self</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+                <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Expression for variable pump efficiency based on flow only&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">def</span> <span class="nf">eta_ratio</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">Expr_if</span><span class="p">(</span>
+                    <span class="n">b</span><span class="o">.</span><span class="n">flow_ratio</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.6</span><span class="p">,</span>
+                    <span class="mf">0.4</span><span class="p">,</span>
+                    <span class="n">Expr_if</span><span class="p">(</span>
+                        <span class="n">b</span><span class="o">.</span><span class="n">flow_ratio</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.4</span><span class="p">,</span>
+                        <span class="mf">0.4</span><span class="p">,</span>
+                        <span class="o">-</span><span class="mf">0.995</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">flow_ratio</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">1.977</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">flow_ratio</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.018</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">variable_efficiency</span> <span class="ow">is</span> <span class="n">VariableEfficiency</span><span class="o">.</span><span class="n">flow_head</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;Config option &#39;VariableEfficiency.flow_head&#39; is not fully implemented yet&quot;</span>
+            <span class="p">)</span>
+            <span class="c1"># TODO - Implement pump efficiency expression based on flow and head (bep_head, head_ratio)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">variable_efficiency</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">VariableEfficiency</span><span class="o">.</span><span class="n">none</span><span class="p">:</span>
+            <span class="c1"># replace the constant efficiency assumption using eta_ratio</span>
+            <span class="c1"># must be done after the eta_ratio expression is created.</span>
+            <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Actual pump efficiency&quot;</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">eta_constraint</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">efficiency_pump</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">bep_eta</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">eta_ratio</span><span class="p">[</span><span class="n">t</span><span class="p">])</span></div>
+
+    <span class="k">def</span> <span class="nf">calculate_scaling_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">calculate_scaling_factors</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">isothermal_balance</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">sf</span> <span class="o">=</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span>
+            <span class="p">)</span>
+            <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;bep_flow&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bep_flow</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sf</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bep_flow</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bep_flow</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;bep_head&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bep_head</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sf</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bep_head</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bep_head</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;bep_eta&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bep_eta</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bep_eta</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;flow_ratio&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flow_ratio</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flow_ratio</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;efficiency_pump&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency_pump</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency_pump</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># scale constraints</span>
+
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;flow_ratio_constraint&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flow_ratio_constraint</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flow_ratio_constraint</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;eta_constraint&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eta_constraint</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eta_constraint</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_costing_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cost_pump</span></div>
+
+
+<div class="viewcode-block" id="EnergyRecoveryDeviceData"><a class="viewcode-back" href="../../../apidoc/watertap.unit_models.html#watertap.unit_models.pressure_changer.EnergyRecoveryDeviceData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;EnergyRecoveryDevice&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">EnergyRecoveryDeviceData</span><span class="p">(</span><span class="n">PumpIsothermalData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Turbine-type isothermal energy recovery device</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># switch compressor to False</span>
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">PumpIsothermalData</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compressor&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">_default</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compressor&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">_domain</span> <span class="o">=</span> <span class="n">In</span><span class="p">([</span><span class="kc">False</span><span class="p">])</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">compressor</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_costing_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cost_energy_recovery_device</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

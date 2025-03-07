@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Activated Sludge Model No. 2d &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Anaerobic Digestion Model No. 1" href="ADM1.html" />
+    <link rel="prev" title="Activated Sludge Model No. 1" href="ASM1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Flowsheets</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="BSM2.html">Benchmark Simulation Model No.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extended_BSM2.html">Extended Benchmark Simulation Model No.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="oaro.html">Osmotically Assisted Reverse Osmosis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ASM1.html">Activated Sludge Model No. 1</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Activated Sludge Model No. 2d</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implementation">Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#degrees-of-freedom">Degrees of Freedom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flowsheet-specifications">Flowsheet Specifications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#future-refinements">Future Refinements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ADM1.html">Anaerobic Digestion Model No. 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1stack_conc_recirc.html">One-Stack Electrodialysis with a Concentrate Fluid Recirculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1stack.html">One-Stack Electrodialysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crystallization.html">NaCl Crystallization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ion_exchange.html">Ion Exchange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gac.html">Granular Activated Carbon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_desalination_train.html">Generic desalination treatment train</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lsrro.html">Low-Salt-Rejection Reverse Osmosis (LSRRO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lsrro.html#implementation">Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="membrane_distillation.html">Membrane Distillation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mvc.html">Mechanical Vapor Compression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RO_with_energy_recovery.html">Reverse Osmosis with Energy Recovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="seawater_RO_desalination.html">Seawater RO Desalination</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Flowsheets</a></li>
+      <li class="breadcrumb-item active">Activated Sludge Model No. 2d</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/flowsheets/ASM2d.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="activated-sludge-model-no-2d">
+<h1>Activated Sludge Model No. 2d<a class="headerlink" href="#activated-sludge-model-no-2d" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>The Activated Sludge Model No. 2d (ASM2d) represents a variation of the ASM1 model to account for biological phosphorus  with
+nitrification-denitrification. The  <a class="reference external" href="https://watertap.readthedocs.io/en/stable/technical_reference/property_models/ASM2D.html">ASM2d</a> property and reaction relationships
+of an activated sludge model for biological nutrient removal from wastewater using an activated sludge biological reactor with
+biological phosphorus removal as provided in  <a class="reference external" href="https://iwaponline.com/wst/article-abstract/39/1/165/4841/Activated-Sludge-Model-No-2d-ASM2D">Henze, M. et al. (1999)</a>.</p>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading"></a></h2>
+<p>Figure 1 shows the process flow diagram for ASM2d, where influent wastewater is fed to a series of activated sludge
+reactors and a secondary clarifier (secondary treatment). CSTRs are used to model the two anaerobic tanks and the two anoxic reactors
+in the activated sludge process and CSTRs with injection (which accounts for aeration tanks) are used to model the three aerobic reactors.
+Finally, the effluent is passed through a clarifier. Note that a pressure changer is required in the recycle stream to ensure the
+pressure inside the recycle loop, is bounded. As the inlet Mixer uses a pressure minimization constraint and there is no pressure
+drop in the reactors, if pressure is not specified at some point within the recycle loop then it becomes unbounded.
+The flowsheet relies on the following key assumptions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>supports steady-state only</p></li>
+<li><p>property and reaction packages are provided for the activated sludge model (ASM2d)</p></li>
+<li><p>the clarifier is modeled as a separator with split fractions by components</p></li>
+</ul>
+</div></blockquote>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../../_images/ASM2d.png"><img alt="../../_images/ASM2d.png" src="../../_images/ASM2d.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 1. ASM2d flowsheet</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<dl class="simple">
+<dt>Documentation for each of the unit models can be found below. All unit models were set up with their default configuration arguments.</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://idaes-pse.readthedocs.io/en/latest/reference_guides/model_libraries/generic/unit_models/cstr.html">CSTR</a></p></li>
+<li><p><a class="reference external" href="https://watertap.readthedocs.io/en/latest/technical_reference/unit_models/aeration_tank.html">Aeration tank</a></p></li>
+<li><p><a class="reference external" href="https://watertap.readthedocs.io/en/latest/technical_reference/unit_models/clarifier.html">Secondary clarifier</a></p></li>
+</ul>
+</dd>
+<dt>Documentation for the property model can be found below.</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://watertap.readthedocs.io/en/stable/technical_reference/property_models/ASM2D.html">ASM2d</a></p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="degrees-of-freedom">
+<h2>Degrees of Freedom<a class="headerlink" href="#degrees-of-freedom" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>The following variables are initially specified for simulating the ASM2d flowsheet (i.e., degrees of freedom = 0):</dt><dd><ul class="simple">
+<li><p>feed water conditions (flow, temperature, pressure, component concentrations, and alkalinity)</p></li>
+<li><p>volume of activated sludge reactors</p></li>
+<li><p>component injection rates for aerobic reactors</p></li>
+<li><p>secondary clarifier split fraction(s)</p></li>
+<li><p>pressure changer outlet pressure (feeds into the activated sludge process)</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="flowsheet-specifications">
+<h2>Flowsheet Specifications<a class="headerlink" href="#flowsheet-specifications" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Feed Water</strong><span class="math notranslate nohighlight">\(^1\)</span></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Volumetric flow</p></td>
+<td><p>18446</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\text{/day}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Temperature</p></td>
+<td><p>298.15</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Pressure</p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{atm}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Dissolved oxygen (S_O2) concentration</p></td>
+<td><p>1e-6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Fermentable, readily bio-degradable organic substrates (S_F) concentration</p></td>
+<td><p>30</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Fermentation products, considered to be acetate (S_A) concentration</p></td>
+<td><p>20</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Ammonium plus ammonia nitrogen (S_NH4) concentration</p></td>
+<td><p>16</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Nitrate plus nitrite nitrogen (S_NO3) concentration</p></td>
+<td><p>1e-6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Inorganic soluble phosphorus (S_PO4) concentration</p></td>
+<td><p>3.6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Inert soluble organic material (S_I) concentration</p></td>
+<td><p>30</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Dinitrogen (S_N2) concentration</p></td>
+<td><p>1e-6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Inert particulate organic material (X_I) concentration</p></td>
+<td><p>25</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Slowly biodegradable substrates (X_S) concentration</p></td>
+<td><p>125</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Heterotrophic organisms (X_H) concentration</p></td>
+<td><p>30</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Phosphate-accumulating organisms (X_PAO) concentration</p></td>
+<td><p>1e-6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Poly-phosphate (X_PP) concentration</p></td>
+<td><p>1e-6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Poly-hydroxy-alkanoate (X_PHA) concentration</p></td>
+<td><p>1e-6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Autotrophic nitrifying organisms (X_AUT) concentration</p></td>
+<td><p>1e-6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Metal-hydroxides (X_MeOH) concentration</p></td>
+<td><p>1e-6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Metal-phosphate (X_MeP) concentration</p></td>
+<td><p>1e-6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Total suspended solids, TSS (X_TSS) concentration</p></td>
+<td><p>180</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Alkalinity (S_ALK)</p></td>
+<td><p>7</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mol/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>Activated Sludge Process</strong></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Reactor 1 volume</p></td>
+<td><p>1000</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Reactor 2 volume</p></td>
+<td><p>1000</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reactor 3 volume</p></td>
+<td><p>1000</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Reactor 4 volume</p></td>
+<td><p>1000</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reactor 5 volume</p></td>
+<td><p>1333</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Reactor 6 volume</p></td>
+<td><p>1333</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reactor 7 volume</p></td>
+<td><p>1333</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Reactor 5 injection rate for component j</p></td>
+<td><p>0</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reactor 6 injection rate for component j</p></td>
+<td><p>0</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Reactor 7 injection rate for component j</p></td>
+<td><p>0</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reactor 5 outlet oxygen (S_O) concentration</p></td>
+<td><p>0.00191</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Reactor 6 outlet oxygen (S_O) concentration</p></td>
+<td><p>0.00260</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reactor 7 outlet oxygen (S_O) concentration</p></td>
+<td><p>0.00320</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Reactor 7 underflow split fraction</p></td>
+<td><p>0.6</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reactor 5 oxygen mass transfer coefficient</p></td>
+<td><p>240</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{hr}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Reactor 6 oxygen mass transfer coefficient</p></td>
+<td><p>240</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{hr}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reactor 7 oxygen mass transfer coefficient</p></td>
+<td><p>84</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{hr}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier H2O split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier S_A split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier S_F split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier S_I split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier S_N2 split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier S_NH4 split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier S_NO3 split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier S_O2 split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier S_PO4 split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier S_ALK split fraction</p></td>
+<td><p>0.48956</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier X_AUT split fraction</p></td>
+<td><p>0.022117</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier X_H split fraction</p></td>
+<td><p>0.021922</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier X_I split fraction</p></td>
+<td><p>0.021715</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier X_MeOH split fraction</p></td>
+<td><p>0.022</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier X_MeP split fraction</p></td>
+<td><p>0.022</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier X_PAO split fraction</p></td>
+<td><p>0.022</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier X_PHA split fraction</p></td>
+<td><p>0.02147</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier X_PP split fraction</p></td>
+<td><p>0.02144</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Secondary clarifier X_S split fraction</p></td>
+<td><p>0.02221</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Secondary clarifier X_TSS split fraction</p></td>
+<td><p>0.02194</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Separator recycle split fraction</p></td>
+<td><p>0.97955</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Recycle pump outlet pressure</p></td>
+<td><p>101325</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="future-refinements">
+<h2>Future Refinements<a class="headerlink" href="#future-refinements" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>The following modifications to ASM2d are planned for development:</dt><dd><ul class="simple">
+<li><p>Improving costing relationships in terms of detail, completeness, and reasonable validity</p></li>
+<li><p>Accounting for temperature-dependence in the oxygen mass transfer coefficient (KLa) and oxygen concentration at saturation</p></li>
+<li><p>Replacing the ideal-separator formulation in the secondary clarifier with the widely used double-exponential settling model (i.e., the Takacs model)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>NOTE:</strong> The repository also contains flowsheets for ASM2d modified for phosphorous removal, for property and reaction reference:
+<a class="reference external" href="https://watertap.readthedocs.io/en/stable/technical_reference/property_models/modified_ASM2D.html">modified ASM2d</a></p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>[1] M. Henze, W. Gujer, T. Mino, T. Matsuo, M.C. Wentzel, G. v. R. Marais, M.C.M. Van Loosdrecht, Activated sludge model No.2D, ASM2D, Water Science and
+Technology. 39 (1999) 165–182. <a class="reference external" href="https://doi.org/10.1016/S0273-1223(98)00829-4">https://doi.org/10.1016/S0273-1223(98)00829-4</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ASM1.html" class="btn btn-neutral float-left" title="Activated Sludge Model No. 1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ADM1.html" class="btn btn-neutral float-right" title="Anaerobic Digestion Model No. 1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

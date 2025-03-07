@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.tools.oli_api.flash &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.tools.oli_api.flash</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.tools.oli_api.flash</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="c1">###############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># OLI Systems, Inc. Copyright © 2022, all rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Redistribution and use in source and binary forms, with or without modification,</span>
+<span class="c1"># are permitted provided that the following conditions are met:</span>
+<span class="c1"># 1. Redistributions of source code must retain the above copyright notice,</span>
+<span class="c1"># this list of conditions and the following disclaimer.</span>
+<span class="c1">#</span>
+<span class="c1"># 2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<span class="c1"># this list of conditions and the following disclaimer in the documentation and/or</span>
+<span class="c1"># other materials provided with the distribution.</span>
+<span class="c1">#</span>
+<span class="c1"># 3. Neither the name of OLI Systems, Inc. nor the names of any contributors to</span>
+<span class="c1"># the software made available herein may be used to endorse or promote products derived</span>
+<span class="c1"># from this software without specific prior written permission.</span>
+<span class="c1">#</span>
+<span class="c1"># THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY</span>
+<span class="c1"># EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES</span>
+<span class="c1"># OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT</span>
+<span class="c1"># SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span>
+<span class="c1"># SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT</span>
+<span class="c1"># OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)</span>
+<span class="c1"># HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR</span>
+<span class="c1"># TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,</span>
+<span class="c1"># EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<span class="c1"># You are under no obligation whatsoever to provide any bug fixes, patches, or upgrades to the</span>
+<span class="c1"># features, functionality or performance of the source code (&quot;Enhancements&quot;) to anyone; however,</span>
+<span class="c1"># if you choose to make your Enhancements available either publicly, or directly to OLI Systems, Inc.,</span>
+<span class="c1"># without imposing a separate written license agreement for such Enhancements, then you hereby grant</span>
+<span class="c1"># the following license: a non-exclusive, royalty-free perpetual license to install, use, modify, prepare</span>
+<span class="c1"># derivative works, incorporate into other computer software, distribute, and sublicense such enhancements</span>
+<span class="c1"># or derivative works thereof, in binary and source code form.</span>
+<span class="c1">###############################################################################</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Oluwamayowa Amusat, Alexander Dudchenko, Paul Vecchiarelli, Adam Atia&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+
+<span class="kn">from</span> <span class="nn">watertap.tools.oli_api.util.watertap_to_oli_helper_functions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_oli_name</span><span class="p">,</span>
+    <span class="n">get_charge</span><span class="p">,</span>
+    <span class="n">get_charge_group</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">watertap.tools.oli_api.util.fixed_keys_dict</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">optional_properties</span><span class="p">,</span>
+    <span class="n">input_unit_set</span><span class="p">,</span>
+    <span class="n">output_unit_set</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">sqrt</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span>
+    <span class="s2">&quot;OLIAPI - </span><span class="si">%(asctime)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;%H:%M:%S&quot;</span>
+<span class="p">)</span>
+<span class="n">handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">_logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+<span class="n">_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Flash"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.Flash">[docs]</a><span class="k">class</span> <span class="nc">Flash</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to execute OLI Cloud flash calculations.</span>
+
+<span class="sd">    :param optional_properties: dictionary for optional properties to attach to OLI calls, all True by default</span>
+<span class="sd">    :param input_unit_set: dictionary for conversions between OLI and Pyomo unit names</span>
+<span class="sd">    :param output_unit_set: dictionary for preferred output units</span>
+<span class="sd">    :param relative_inflows: bool switch for surveys - true to add specified value to initial value, false to replace initial value with specified value</span>
+<span class="sd">    :param debug_level: string defining level of logging activity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Flash.__init__"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.Flash.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">optional_properties</span><span class="o">=</span><span class="n">optional_properties</span><span class="p">,</span>
+        <span class="n">input_unit_set</span><span class="o">=</span><span class="n">input_unit_set</span><span class="p">,</span>
+        <span class="n">output_unit_set</span><span class="o">=</span><span class="n">output_unit_set</span><span class="p">,</span>
+        <span class="n">relative_inflows</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">debug_level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optional_properties</span> <span class="o">=</span> <span class="n">optional_properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span> <span class="o">=</span> <span class="n">input_unit_set</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_unit_set</span> <span class="o">=</span> <span class="n">output_unit_set</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_inflows</span> <span class="o">=</span> <span class="n">relative_inflows</span>
+
+        <span class="k">if</span> <span class="n">debug_level</span> <span class="o">==</span> <span class="s2">&quot;INFO&quot;</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Flash.configure_water_analysis"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.Flash.configure_water_analysis">[docs]</a>    <span class="k">def</span> <span class="nf">configure_water_analysis</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inflows</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pressure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">reconciliation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">electroneutrality</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">makeup_ion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">acid_titrant</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">base_titrant</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">alkalinity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">alkalinity_ph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">alkalinity_titrant</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tic</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">allow_solids</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">included_solids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">excluded_solids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">calc_alkalinity</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">use_scaling_rigorous</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configure Water Analysis JSON input.</span>
+
+<span class="sd">        :param inflows: dictionary of solutes</span>
+<span class="sd">        :param temperature: float for temperature in Kelvins</span>
+<span class="sd">        :param pressure: float for pressure in Pascals</span>
+<span class="sd">        :param reconciliation: string for method of reconciliation: &quot;EquilCalcOnly&quot; (default), &quot;ReconcilePh&quot;, &quot;ReconcilePhAndAlkalinity&quot;, or &quot;ReconcilePhAndAlkalinityAndTic&quot;; &quot;ReconcileCo2Gas&quot; not supported currently.</span>
+<span class="sd">        :param electroneutrality: string for method of electroneutrality calculation: &quot;DominantIon&quot;, &quot;ProrateCations&quot;, &quot;ProrateAnions&quot;, &quot;Prorate&quot;, &quot;AutoNACL&quot;, or &quot;MakeupIon&quot; are supported</span>
+<span class="sd">        :param makeup_ion: string for ion to use for electroneutrality balance, if &quot;MakeupIon,</span>
+<span class="sd">        :param ph: float for pH to reconcile solution to, required for pH based reconciliation</span>
+<span class="sd">        :param acid_titrant: string for acidification titrant, used in pH based reconciliation</span>
+<span class="sd">        :param base_titrant: string for basification titrant, used in pH based reconciliation</span>
+<span class="sd">        :param alkalinity: float for alkalinity to reconcile solution to, required for Alk based reconciliation</span>
+<span class="sd">        :param alkalinity_ph: float for alkalinity endpoint ph, used in Alk based reconciliation</span>
+<span class="sd">        :param alkalinity_titrant: string for alkalinity titration species, used in Alk based reconciliation</span>
+<span class="sd">        :param tic: float for total inorganic carbon concentration to reconcile solution to, required for TIC based reconcilation</span>
+<span class="sd">        :param allow_solids: bool to enable solid phase formation</span>
+<span class="sd">        :param included_solids: list of solids to include in analysis</span>
+<span class="sd">        :param excluded_solids: list of solids to exclude from analysis</span>
+<span class="sd">        :param calc_alkalinity: bool to calculate alkalinity of solution</span>
+<span class="sd">        :param use_scaling_rigorous: bool to switch between Rigorous (default) and Estimated scaling computations</span>
+<span class="sd">        :param file_name: string for file to write, if any</span>
+<span class="sd">        :param mesh_grid: if True (default) the input array will be combined to generate combination of all possible samples</span>
+<span class="sd">            if False, the direct values in survey_arrays will be used</span>
+
+<span class="sd">        :return json_input: JSON for Water Analysis</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Configuring Water Analysis JSON ...&quot;</span><span class="p">)</span>
+        <span class="n">input_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inflows</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Inflows must be defined for Water Analysis.&quot;</span><span class="p">)</span>
+
+        <span class="n">temp_input</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Properties&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Temperature&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mf">273.15</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">temperature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">temperature</span><span class="p">):</span>
+                <span class="n">temp_input</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">temperature</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid temperature: </span><span class="si">{</span><span class="n">temperature</span><span class="si">}</span><span class="s2">. Expected number&quot;</span><span class="p">)</span>
+        <span class="n">input_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_input</span><span class="p">)</span>
+
+        <span class="n">pres_input</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Properties&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Pressure&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">101325</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">pressure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">pressure</span><span class="p">):</span>
+                <span class="n">pres_input</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">pressure</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid pressure: </span><span class="si">{</span><span class="n">pressure</span><span class="si">}</span><span class="s2">. Expected number&quot;</span><span class="p">)</span>
+        <span class="n">input_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pres_input</span><span class="p">)</span>
+
+        <span class="n">reconciliation_options</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;EquilCalcOnly&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ReconcilePh&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ReconcilePhAndAlkalinity&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ReconcilePhAndAlkalinityAndTic&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">rec_input</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Calculation Options&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CalcType&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;EquilCalcOnly&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">reconciliation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">reconciliation</span> <span class="ow">in</span> <span class="n">reconciliation_options</span><span class="p">:</span>
+                <span class="n">rec_input</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">reconciliation</span><span class="p">})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid reconciliation option: </span><span class="si">{</span><span class="n">reconciliation</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Use one of </span><span class="si">{</span><span class="n">reconciliation_options</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reconciliation</span> <span class="o">=</span> <span class="s2">&quot;EquilCalcOnly&quot;</span>
+
+        <span class="n">input_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rec_input</span><span class="p">)</span>
+        <span class="n">additional_req_input</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">additional_req_args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="s2">&quot;Ph&quot;</span> <span class="ow">in</span> <span class="n">reconciliation</span><span class="p">:</span>
+            <span class="n">additional_req_args</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ph</span><span class="p">,</span> <span class="n">acid_titrant</span><span class="p">,</span> <span class="n">base_titrant</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">acid_titrant</span><span class="p">:</span>
+                <span class="n">acid_titrant</span> <span class="o">=</span> <span class="s2">&quot;HCl&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">base_titrant</span><span class="p">:</span>
+                <span class="n">base_titrant</span> <span class="o">=</span> <span class="s2">&quot;NaOH&quot;</span>
+            <span class="n">additional_req_input</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Properties&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;pH&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">ph</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Calculation Options&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;PhAcidTitrant&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">get_oli_name</span><span class="p">(</span><span class="n">acid_titrant</span><span class="p">),</span>
+                    <span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Calculation Options&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;PhBaseTitrant&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">get_oli_name</span><span class="p">(</span><span class="n">base_titrant</span><span class="p">),</span>
+                    <span class="p">},</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Alk&quot;</span> <span class="ow">in</span> <span class="n">reconciliation</span><span class="p">:</span>
+            <span class="n">additional_req_args</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">alkalinity</span><span class="p">,</span> <span class="n">alkalinity_ph</span><span class="p">,</span> <span class="n">alkalinity_titrant</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">alkalinity_titrant</span><span class="p">:</span>
+                <span class="n">alkalinity_titrant</span> <span class="o">=</span> <span class="s2">&quot;H2SO4&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">alkalinity_ph</span><span class="p">:</span>
+                <span class="n">alkalinity_ph</span> <span class="o">=</span> <span class="mf">4.5</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No alkalinity endpoint pH specified. Assuming 4.5.&quot;</span><span class="p">)</span>
+                <span class="n">additional_req_input</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Properties&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Alkalinity&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;alkalinity&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">alkalinity</span><span class="p">,</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Properties&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AlkalinityTitrationEndPointpH&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">alkalinity_ph</span><span class="p">,</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Calculation Options&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AlkalinityPhTitrant&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">alkalinity_titrant</span><span class="p">,</span>
+                        <span class="p">},</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Tic&quot;</span> <span class="ow">in</span> <span class="n">reconciliation</span><span class="p">:</span>
+            <span class="n">additional_req_args</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">tic</span><span class="p">])</span>
+            <span class="n">additional_req_input</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Properties&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TIC&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;TIC&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">tic</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="n">missing_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">additional_req_args</span> <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">missing_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing keys for </span><span class="si">{</span><span class="n">reconciliation</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">missing_keys</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">input_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">additional_req_input</span><span class="p">)</span>
+
+        <span class="n">electroneutrality_options</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;DominantIon&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ProrateCations&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ProrateAnions&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Prorate&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;AutoNACL&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;MakeupIon&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">elec_input</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Electroneutrality Options&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;ElectroNeutralityBalanceType&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;DominantIon&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">electroneutrality</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">electroneutrality</span> <span class="ow">in</span> <span class="n">electroneutrality_options</span><span class="p">:</span>
+                <span class="n">elec_input</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">electroneutrality</span><span class="p">})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid reconciliation option: </span><span class="si">{</span><span class="n">electroneutrality</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Use one of </span><span class="si">{</span><span class="n">electroneutrality_options</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+        <span class="n">input_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elec_input</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">electroneutrality</span> <span class="o">==</span> <span class="s2">&quot;MakeupIon&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">makeup_ion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">input_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Electroneutrality Options&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;MakeupIonBaseTag&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">get_oli_name</span><span class="p">(</span><span class="n">makeup_ion</span><span class="p">),</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+        <span class="n">input_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Calculation Options&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AllowSolidsToForm&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">allow_solids</span><span class="p">),</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Calculation Options&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;CalcAlkalnity&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">calc_alkalinity</span><span class="p">),</span>
+                <span class="p">},</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">conc_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;inflows&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">]</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">conc_unit</span><span class="si">}</span><span class="s2"> for inflows input&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inflows</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">charge</span> <span class="o">=</span> <span class="n">get_charge</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">input_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="n">get_charge_group</span><span class="p">(</span><span class="n">charge</span><span class="p">),</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">get_oli_name</span><span class="p">(</span><span class="n">k</span><span class="p">),</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">conc_unit</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
+                    <span class="s2">&quot;charge&quot;</span><span class="p">:</span> <span class="n">charge</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="n">json_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_json</span><span class="p">(</span>
+            <span class="s2">&quot;wateranalysis&quot;</span><span class="p">,</span>
+            <span class="n">input_list</span><span class="p">,</span>
+            <span class="n">included_solids</span><span class="p">,</span>
+            <span class="n">excluded_solids</span><span class="p">,</span>
+            <span class="n">use_scaling_rigorous</span><span class="p">,</span>
+            <span class="n">file_name</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">json_input</span></div>
+
+<div class="viewcode-block" id="Flash.configure_flash_analysis"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.Flash.configure_flash_analysis">[docs]</a>    <span class="k">def</span> <span class="nf">configure_flash_analysis</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inflows</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">flash_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pressure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">calculated_variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">enthalpy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">vapor_amount</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">vapor_fraction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">volume</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">acid_titrant</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">base_titrant</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">formed_solid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">precipitant_inflow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">included_solids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">excluded_solids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">contact_surface</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">flow_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">diameter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">liq_velocity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">gas_velocity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">rot_velocity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">shear_stress</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">roughness</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">nonaqueous_visc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">water_cut_inversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">relative_visc_inversion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_scaling_rigorous</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configure Flash Analysis JSON input.</span>
+
+<span class="sd">        :param inflows: dictionary of solutes, of the form {&quot;unit&quot;: unit, &quot;values&quot;: {solute_name: concentration_value}}; otherwise, {solute_name: concentration_value}</span>
+<span class="sd">        :param flash_method: string for flash calculation name</span>
+<span class="sd">        :param temperature: float for temperature in Kelvins</span>
+<span class="sd">        :param pressure: float for pressure in Pascals</span>
+<span class="sd">        :param calculated_variable: string for variable to calculate, such as temperature or pressure, used in &#39;bubblepoint&#39;, &#39;dewpoint&#39;, &#39;vapor-amount&#39;, &#39;vapor-fraction&#39;, and &#39;isochoric&#39; flashes</span>
+<span class="sd">        :param enthalpy: float for total enthalpy in Joules, used in &#39;isenthalpic&#39; flash</span>
+<span class="sd">        :param vapor_amount: float for vapor phase Moles, used in &#39;vapor-amount&#39; flash</span>
+<span class="sd">        :param vapor_fraction: float for vapor phase in Mole %, used in &#39;vapor-fraction&#39; flash</span>
+<span class="sd">        :param volume: float for total volume in Cubic Meters, used in &#39;isochoric&#39; flash</span>
+<span class="sd">        :param ph: float for target pH, used in &#39;setph&#39; flash</span>
+<span class="sd">        :param acid_titrant: string for acidification titrant, used in &#39;setph&#39; flash</span>
+<span class="sd">        :param base_titrant: string for basification titrant, used in &#39;setph&#39; flash</span>
+<span class="sd">        :param formed_solid: string for solid species to precipitate based on inflow sweep, used in &#39;precipitation-point&#39;</span>
+<span class="sd">        :param precipitant_inflow: string for inflow species to sweep, used in &#39;precipitation-point&#39;</span>
+<span class="sd">        :param included_solids: list of solids to include in analysis</span>
+<span class="sd">        :param excluded_solids: list of solids to exclude from analysis</span>
+<span class="sd">        :param contact_surface: string for contact surface metal name</span>
+<span class="sd">        :param flow_type: string for flow configuration</span>
+<span class="sd">        :param diameter: float for diameter of surface (i.e., pipe or rotor)</span>
+<span class="sd">        :param liq_velocity: float for velocity of liquid flow</span>
+<span class="sd">        :param gas_velocity: float for velocity of vapor flow, used in &#39;approximateMultiPhaseFlow&#39;</span>
+<span class="sd">        :param rot_velocity: float for rotational velocity</span>
+<span class="sd">        :param shear_stress: float for defined shear stress, used in &#39;definedShearStress&#39;</span>
+<span class="sd">        :param roughness: float for pipe roughness, used in &#39;approximateMultiPhaseFlow&#39;</span>
+<span class="sd">        :param nonaqueous_visc: float for absolute viscosity of nonaqueous phase, used in &#39;approximateMultiPhaseFlow&#39;</span>
+<span class="sd">        :param water_cut_inversion: float for water cut at point of dispersion inversion, used in &#39;approximateMultiPhaseFlow&#39;</span>
+<span class="sd">        :param relative_visc_inversion: float for maximum relative viscosity of dispersion at inversion, used in &#39;approximateMultiPhaseFlow&#39;</span>
+<span class="sd">        :param use_scaling_rigorous: bool to switch between Rigorous (default) and Estimated scaling computations</span>
+<span class="sd">        :param file_name: string for file to write, if any</span>
+
+<span class="sd">        :return json_input: JSON for Water Analysis</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuring </span><span class="si">{</span><span class="n">flash_method</span><span class="si">}</span><span class="s2"> Flash JSON ...&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;isothermal&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;isenthalpic&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bubblepoint&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dewpoint&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vapor-amount&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vapor-fraction&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;isochoric&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;setph&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;precipitation-point&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;corrosion-rates&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed to configure Flash. Invalid method: </span><span class="si">{</span><span class="n">flash_method</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inflows</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Inflows must be defined for Flash Analysis.&quot;</span><span class="p">)</span>
+
+        <span class="n">input_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">temp_input</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mf">273.15</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">temperature</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">temperature</span><span class="p">):</span>
+                <span class="n">temp_input</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">temperature</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid temperature: </span><span class="si">{</span><span class="n">temperature</span><span class="si">}</span><span class="s2">. Expected number&quot;</span><span class="p">)</span>
+        <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_input</span>
+
+        <span class="n">pres_input</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">101325</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">pressure</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">pressure</span><span class="p">):</span>
+                <span class="n">pres_input</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">pressure</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid pressure: </span><span class="si">{</span><span class="n">pressure</span><span class="si">}</span><span class="s2">. Expected number&quot;</span><span class="p">)</span>
+        <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pres_input</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;bubblepoint&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dewpoint&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vapor-amount&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vapor-fraction&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;isochoric&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
+
+            <span class="k">if</span> <span class="n">calculated_variable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">calculated_variable</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;pressure&quot;</span><span class="p">]:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Invalid input for &#39;calculated_variable&#39;: </span><span class="si">{</span><span class="n">calculated_variable</span><span class="si">}</span><span class="s2">; &#39;temperature&#39; or &#39;pressure&#39; supported.&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">flash_method</span><span class="si">}</span><span class="s2"> will calculate </span><span class="si">{</span><span class="n">calculated_variable</span><span class="si">}</span><span class="s2"> as its variable&quot;</span>
+                <span class="p">)</span>
+                <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;calculatedVariable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculated_variable</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Missing argument for </span><span class="si">{</span><span class="n">flash_method</span><span class="si">}</span><span class="s2">: &#39;calculated_variable&#39;&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;isenthalpic&quot;</span><span class="p">:</span>
+            <span class="n">enth_input</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;enthalpy&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">enthalpy</span><span class="p">):</span>
+                <span class="n">enth_input</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">enthalpy</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid enthalpy: </span><span class="si">{</span><span class="n">enthalpy</span><span class="si">}</span><span class="s2">. Expected number&quot;</span><span class="p">)</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;enthalpy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">enth_input</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;vapor-amount&quot;</span><span class="p">:</span>
+            <span class="n">vapor_amount_input</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;vaporAmountMoles&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">vapor_amount</span><span class="p">):</span>
+                <span class="n">vapor_amount_input</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">vapor_amount</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid vapor amount: </span><span class="si">{</span><span class="n">vapor_amount</span><span class="si">}</span><span class="s2">. Expected number&quot;</span>
+                <span class="p">)</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;vaporAmountMoles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vapor_amount_input</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;vapor-fraction&quot;</span><span class="p">:</span>
+            <span class="n">vapor_fraction_amount</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;vaporMolFrac&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">vapor_fraction</span><span class="p">):</span>
+                <span class="n">vapor_fraction_amount</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">vapor_fraction</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid vapor fraction: </span><span class="si">{</span><span class="n">vapor_fraction</span><span class="si">}</span><span class="s2">. Expected number&quot;</span>
+                <span class="p">)</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;vaporMolFrac&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vapor_fraction_amount</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;isochoric&quot;</span><span class="p">:</span>
+            <span class="n">volume_input</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;totalVolume&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
+                <span class="n">volume_input</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">volume</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid volume: </span><span class="si">{</span><span class="n">volume</span><span class="si">}</span><span class="s2">. Expected number&quot;</span><span class="p">)</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;totalVolume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">volume_input</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;setph&quot;</span><span class="p">:</span>
+            <span class="n">ph_input</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;targetPH&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">ph</span><span class="p">):</span>
+                <span class="n">ph_input</span><span class="p">[</span><span class="s2">&quot;targetPH&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">ph</span><span class="p">)})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid ph: </span><span class="si">{</span><span class="n">ph</span><span class="si">}</span><span class="s2">. Expected number&quot;</span><span class="p">)</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;targetPH&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ph_input</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">acid_titrant</span><span class="p">:</span>
+                <span class="n">acid_titrant</span> <span class="o">=</span> <span class="s2">&quot;HCl&quot;</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;pHAcidTitrant&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_oli_name</span><span class="p">(</span><span class="n">acid_titrant</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">base_titrant</span><span class="p">:</span>
+                <span class="n">base_titrant</span> <span class="o">=</span> <span class="s2">&quot;NaOH&quot;</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;pHBaseTitrant&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_oli_name</span><span class="p">(</span><span class="n">base_titrant</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;precipitation-point&quot;</span><span class="p">:</span>
+            <span class="n">missing_args</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="p">[</span><span class="n">formed_solid</span><span class="p">,</span> <span class="n">precipitant_inflow</span><span class="p">]</span> <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="n">missing_args</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Missing argument(s) for </span><span class="si">{</span><span class="n">flash_method</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">missing_args</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;solidToPrecipitate&quot;</span><span class="p">:</span> <span class="n">formed_solid</span><span class="p">,</span>
+                        <span class="s2">&quot;inflowToAdjust&quot;</span><span class="p">:</span> <span class="n">precipitant_inflow</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;unit&quot;</span> <span class="ow">in</span> <span class="n">inflows</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;values&quot;</span> <span class="ow">in</span> <span class="n">inflows</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;inflows&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inflows</span>
+        <span class="c1"># otherwise, assume a solute dictionary with {solute_name: concentration_value}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;molecularConcentration&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">]</span>
+            <span class="n">inflows_oli_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">get_oli_name</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inflows</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;inflows&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">inflows_oli_names</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;corrosion-rates&quot;</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Ensure DBS file uses &#39;AQ&#39; thermodynamic framework to use Corrosion Analyzer&quot;</span>
+            <span class="p">)</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="s2">&quot;corrosionParameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configure_corrosion</span><span class="p">(</span>
+                <span class="n">contact_surface</span><span class="p">,</span>
+                <span class="n">flow_type</span><span class="p">,</span>
+                <span class="n">diameter</span><span class="p">,</span>
+                <span class="n">liq_velocity</span><span class="p">,</span>
+                <span class="n">gas_velocity</span><span class="p">,</span>
+                <span class="n">rot_velocity</span><span class="p">,</span>
+                <span class="n">shear_stress</span><span class="p">,</span>
+                <span class="n">roughness</span><span class="p">,</span>
+                <span class="n">nonaqueous_visc</span><span class="p">,</span>
+                <span class="n">water_cut_inversion</span><span class="p">,</span>
+                <span class="n">relative_visc_inversion</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">json_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_json</span><span class="p">(</span>
+            <span class="n">flash_method</span><span class="p">,</span>
+            <span class="n">input_dict</span><span class="p">,</span>
+            <span class="n">included_solids</span><span class="p">,</span>
+            <span class="n">excluded_solids</span><span class="p">,</span>
+            <span class="n">use_scaling_rigorous</span><span class="p">,</span>
+            <span class="n">file_name</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">json_input</span></div>
+
+    <span class="k">def</span> <span class="nf">_configure_corrosion</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">contact_surface</span><span class="p">,</span>
+        <span class="n">flow_type</span><span class="p">,</span>
+        <span class="n">diameter</span><span class="p">,</span>
+        <span class="n">liq_velocity</span><span class="p">,</span>
+        <span class="n">gas_velocity</span><span class="p">,</span>
+        <span class="n">rot_velocity</span><span class="p">,</span>
+        <span class="n">shear_stress</span><span class="p">,</span>
+        <span class="n">roughness</span><span class="p">,</span>
+        <span class="n">nonaqueous_visc</span><span class="p">,</span>
+        <span class="n">water_cut_inversion</span><span class="p">,</span>
+        <span class="n">relative_visc_inversion</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configure input dict for Corrosion Rates flash.</span>
+
+<span class="sd">        :param contact_surface: string for contact surface metal name</span>
+<span class="sd">        :param flow_type: string for flow configuration</span>
+<span class="sd">        :param diameter: float for diameter of surface (i.e., pipe or rotor)</span>
+<span class="sd">        :param liq_velocity: float for velocity of liquid flow</span>
+<span class="sd">        :param gas_velocity: float for velocity of vapor flow, used in &#39;approximateMultiPhaseFlow&#39;</span>
+<span class="sd">        :param rot_velocity: float for rotational velocity</span>
+<span class="sd">        :param shear_stress: float for defined shear stress, used in &#39;definedShearStress&#39;</span>
+<span class="sd">        :param roughness: float for pipe roughness, used in &#39;approximateMultiPhaseFlow&#39;</span>
+<span class="sd">        :param nonaqueous_visc: float for absolute viscosity of nonaqueous phase, used in &#39;approximateMultiPhaseFlow&#39;</span>
+<span class="sd">        :param water_cut_inversion: float for water cut at point of dispersion inversion, used in &#39;approximateMultiPhaseFlow&#39;</span>
+<span class="sd">        :param relative_visc_inversion: float for maximum relative viscosity of dispersion at inversion, used in &#39;approximateMultiPhaseFlow&#39;</span>
+
+<span class="sd">        :return config: dictionary for corrosion analysis parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">valid_flow_types</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pipeFlow&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rotatingDisk&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rotatingCylinder&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;completeAgitation&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;definedShearStress&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;approximateMultiPhaseFlow&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">flow_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_flow_types</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid flow_type: </span><span class="si">{</span><span class="n">flow_type</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected one of </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">valid_flow_types</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;calculationType&quot;</span><span class="p">:</span> <span class="s2">&quot;isothermal&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;corrosionParameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;contactSurface&quot;</span><span class="p">:</span> <span class="n">contact_surface</span><span class="p">,</span>
+                <span class="s2">&quot;flowType&quot;</span><span class="p">:</span> <span class="n">flow_type</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+        <span class="k">def</span> <span class="nf">_try_float</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">val</span>
+
+        <span class="n">_check_args</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="p">[</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span> <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">_check_floats</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="p">[</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span> <span class="k">if</span> <span class="n">_try_float</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">flow_type</span> <span class="o">==</span> <span class="s2">&quot;pipeFlow&quot;</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">diameter</span><span class="p">,</span> <span class="n">liq_velocity</span><span class="p">]</span>
+            <span class="n">missing_args</span> <span class="o">=</span> <span class="n">_check_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">not_floats</span> <span class="o">=</span> <span class="n">_check_floats</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">flow_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rotatingDisk&quot;</span><span class="p">,</span> <span class="s2">&quot;rotatingCylinder&quot;</span><span class="p">]:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">diameter</span><span class="p">,</span> <span class="n">rot_velocity</span><span class="p">]</span>
+            <span class="n">missing_args</span> <span class="o">=</span> <span class="n">_check_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">not_floats</span> <span class="o">=</span> <span class="n">_check_floats</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">flow_type</span> <span class="o">==</span> <span class="s2">&quot;definedShearStress&quot;</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">shear_stress</span><span class="p">]</span>
+            <span class="n">missing_args</span> <span class="o">=</span> <span class="n">_check_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">not_floats</span> <span class="o">=</span> <span class="n">_check_floats</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">flow_type</span> <span class="o">==</span> <span class="s2">&quot;approximateMultiPhaseFlow&quot;</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">diameter</span><span class="p">,</span>
+                <span class="n">liq_velocity</span><span class="p">,</span>
+                <span class="n">gas_velocity</span><span class="p">,</span>
+                <span class="n">roughness</span><span class="p">,</span>
+                <span class="n">nonaqueous_visc</span><span class="p">,</span>
+                <span class="n">water_cut_inversion</span><span class="p">,</span>
+                <span class="n">relative_visc_inversion</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="n">missing_args</span> <span class="o">=</span> <span class="n">_check_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">not_floats</span> <span class="o">=</span> <span class="n">_check_floats</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">missing_args</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Missing argument(s) for </span><span class="si">{</span><span class="n">flash_method</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">missing_args</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">not_floats</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid values for argument(s): </span><span class="si">{</span><span class="n">not_floats</span><span class="si">}</span><span class="s2">. Expected value&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">flow_type</span> <span class="o">==</span> <span class="s2">&quot;pipeFlow&quot;</span><span class="p">:</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;corrosionParameters&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;pipeDiameter&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">diameter</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;pipeDiameter&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;pipeFlowVelocity&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">liq_velocity</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;pipeFlowVelocity&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">flow_type</span> <span class="o">==</span> <span class="s2">&quot;rotatingDisk&quot;</span><span class="p">:</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;corrosionParameters&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;diskDiameter&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">diameter</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;diskDiameter&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;diskRotationSpeed&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">rot_velocity</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;diskRotationSpeed&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">flow_type</span> <span class="o">==</span> <span class="s2">&quot;rotatingCylinder&quot;</span><span class="p">:</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;corrosionParameters&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;rotorDiameter&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">diameter</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;rotorDiameter&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;rotorRotation&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">rot_velocity</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;rotorRotation&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">flow_type</span> <span class="o">==</span> <span class="s2">&quot;definedShearStress&quot;</span><span class="p">:</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;corrosionParameters&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;shearStress&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">shear_stress</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;shearStress&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">flow_type</span> <span class="o">==</span> <span class="s2">&quot;approximateMultiPhaseFlow&quot;</span><span class="p">:</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;corrosionParameters&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;pipeDiameter&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">diameter</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;pipeDiameter&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;liquidFlowInPipe&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">liq_velocity</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;liquidFlowInPipe&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;gasFlowInPipe&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">gas_velocity</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;gasFlowInPipe&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;pipeRoughness&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">roughness</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;pipeRoughness&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;viscAbs2ndLiq&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">nonaqueous_visc</span><span class="p">,</span>
+                        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;viscAbs2ndLiq&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">],</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;waterCutAtPointOfDispersionInversion&quot;</span><span class="p">:</span> <span class="n">water_cut_inversion</span><span class="p">,</span>
+                    <span class="s2">&quot;maxRelViscosityOfDispersionAtInversion&quot;</span><span class="p">:</span> <span class="n">relative_visc_inversion</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">config</span>
+
+    <span class="k">def</span> <span class="nf">_add_to_json</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">flash_method</span><span class="p">,</span>
+        <span class="n">input_data</span><span class="p">,</span>
+        <span class="n">included_solids</span><span class="p">,</span>
+        <span class="n">excluded_solids</span><span class="p">,</span>
+        <span class="n">use_scaling_rigorous</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add input data to JSON.</span>
+
+<span class="sd">        :param flash_method: string for flash calculation name</span>
+<span class="sd">        :param input_data: data object from flash configuration function</span>
+<span class="sd">        :param included_solids: list of solids to include in analysis</span>
+<span class="sd">        :param excluded_solids: list of solids to exclude from analysis</span>
+<span class="sd">        :param use_scaling_rigorous: bool to switch between Rigorous (default) and Estimated scaling computations</span>
+<span class="sd">        :param file_name: string for file to write, if any</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_prescaling_calculation_mode</span><span class="p">(</span><span class="n">use_scaling_rigorous</span><span class="p">)</span>
+        <span class="n">json_input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;wateranalysis&quot;</span><span class="p">:</span>
+            <span class="n">json_input</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;waterAnalysisInputs&quot;</span><span class="p">:</span> <span class="n">input_data</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">json_input</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_data</span>
+
+        <span class="n">output_unit_set_info</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_unit_set</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">output_unit_set_info</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">]</span>
+        <span class="n">additional_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;optionalProperties&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optional_properties</span><span class="p">),</span>
+            <span class="s2">&quot;unitSetInfo&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">output_unit_set_info</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">included_solids</span> <span class="ow">and</span> <span class="n">excluded_solids</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid argument combination. &quot;</span>
+                <span class="s2">&quot;Only one of included_solids and excluded_solids &quot;</span>
+                <span class="s2">&quot;may be specified at once.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">included_solids</span><span class="p">:</span>
+                <span class="n">additional_params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;included_solids&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">included_solids</span><span class="p">)})</span>
+            <span class="k">if</span> <span class="n">excluded_solids</span><span class="p">:</span>
+                <span class="n">additional_params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;excluded_solids&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">excluded_solids</span><span class="p">)})</span>
+        <span class="n">json_input</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">additional_params</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">write_output</span><span class="p">(</span><span class="n">json_input</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json_input</span>
+
+    <span class="k">def</span> <span class="nf">_set_prescaling_calculation_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_scaling_rigorous</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set prescaling computation method based on argument.</span>
+
+<span class="sd">        :param use_scaling_rigorous: boolean indicating desired state of &#39;rigorous&#39; and &#39;estimated&#39; optional properties</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optional_properties</span>
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">use_scaling_rigorous</span><span class="p">)</span> <span class="o">==</span> <span class="nb">bool</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;prescalingTendenciesRigorous&quot;</span><span class="p">]):</span>
+            <span class="k">return</span>
+        <span class="n">new_values</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="ow">not</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">props</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="s2">&quot;prescaling&quot;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">}</span>
+        <span class="n">props</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_values</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Flash.run_flash"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.Flash.run_flash">[docs]</a>    <span class="k">def</span> <span class="nf">run_flash</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">flash_method</span><span class="p">,</span>
+        <span class="n">oliapi_instance</span><span class="p">,</span>
+        <span class="n">dbs_file_id</span><span class="p">,</span>
+        <span class="n">json_input</span><span class="p">,</span>
+        <span class="n">survey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="c1"># max_concurrent_processes=1000,</span>
+        <span class="c1"># burst_job_tag=None,</span>
+        <span class="c1"># batch_size=None,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Conduct single point analysis with initial JSON input, or conduct a survey on that input.</span>
+
+<span class="sd">        :param flash_method: string for flash calculation name</span>
+<span class="sd">        :param oliapi_instance: instance of OLI Cloud API</span>
+<span class="sd">        :param dbs_file_id: string ID of DBS file</span>
+<span class="sd">        :param json_input: JSON input for flash calculation</span>
+<span class="sd">        :param survey: dictionary containing names and input values to modify in JSON</span>
+<span class="sd">        :param file_name: string for file to write, if any</span>
+
+<span class="sd">        :return processed_requests: results from processed OLI flash requests</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;corrosion-rates&quot;</span><span class="p">:</span>
+            <span class="c1"># check if DBS file is using AQ thermodynamic framework</span>
+            <span class="n">oliapi_instance</span><span class="o">.</span><span class="n">get_corrosion_contact_surfaces</span><span class="p">(</span><span class="n">dbs_file_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">relative_inflows</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;relative_inflows=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">relative_inflows</span><span class="si">}</span><span class="s2">,&quot;</span>
+                <span class="o">+</span> <span class="s2">&quot; surveys will add values to initial state&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">survey</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">survey</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">num_samples</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">survey</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">num_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">num_samples</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Length of list for key </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> differs from prior key&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">requests_to_process</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flash sample #</span><span class="si">{</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">num_samples</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">requests_to_process</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;flash_method&quot;</span><span class="p">:</span> <span class="n">flash_method</span><span class="p">,</span>
+                    <span class="s2">&quot;dbs_file_id&quot;</span><span class="p">:</span> <span class="n">dbs_file_id</span><span class="p">,</span>
+                    <span class="s2">&quot;input_params&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clone</span><span class="p">(</span>
+                        <span class="n">flash_method</span><span class="p">,</span> <span class="n">json_input</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">survey</span>
+                    <span class="p">),</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="n">processed_requests</span> <span class="o">=</span> <span class="n">oliapi_instance</span><span class="o">.</span><span class="n">process_request_list</span><span class="p">(</span>
+            <span class="n">requests_to_process</span><span class="p">,</span>
+            <span class="c1"># burst_job_tag=burst_job_tag,</span>
+            <span class="c1"># max_concurrent_processes=max_concurrent_processes,</span>
+            <span class="c1"># batch_size=batch_size,</span>
+        <span class="p">)</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Completed running flash calculations&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">flatten_results</span><span class="p">(</span><span class="n">processed_requests</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">file_name</span><span class="p">:</span>
+            <span class="n">write_output</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="Flash.get_clone"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.Flash.get_clone">[docs]</a>    <span class="k">def</span> <span class="nf">get_clone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flash_method</span><span class="p">,</span> <span class="n">json_input</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">survey</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate over a survey to create a modified clone from JSON input.</span>
+
+<span class="sd">        :param flash_method: string for flash calculation name</span>
+<span class="sd">        :param json_input: JSON input for flash calculation</span>
+<span class="sd">        :param index: integer for index of incoming data</span>
+<span class="sd">        :param survey: dictionary containing names and input values to modify in JSON</span>
+
+<span class="sd">        :return clone: dictionary containing modified state variables and survey index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">survey</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json_input</span>
+
+        <span class="n">valid_flashes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;wateranalysis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;isothermal&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;isenthalpic&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bubblepoint&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dewpoint&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vapor-amount&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vapor-fraction&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;isochoric&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;setph&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;precipitation-point&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;corrosion-rates&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">flash_method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_flashes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid flash_method: </span><span class="si">{flash_method}</span><span class="s2">. Use one of {&#39;, &#39;.join(valid_flashes)}&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">clone</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">json_input</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">survey</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">clone</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">flash_method</span> <span class="o">==</span> <span class="s2">&quot;wateranalysis&quot;</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;waterAnalysisInputs&quot;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">param</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">relative_inflows</span><span class="p">:</span>
+                            <span class="n">param</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">param</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;Updating </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> for sample #</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> clone: new value = </span><span class="si">{</span><span class="n">param</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">elif</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;inflows&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">]:</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;inflows&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;corrosionParameters&quot;</span><span class="p">]:</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;corrosionParameters&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Survey key </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> not found in JSON input.&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">relative_inflows</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                        <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                        <span class="n">val</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                        <span class="n">val</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                        <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                        <span class="n">val</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                        <span class="n">val</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Updating </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> for sample #</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> clone: new value = </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">clone</span></div>
+
+<div class="viewcode-block" id="Flash.get_apparent_species_from_true"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.Flash.get_apparent_species_from_true">[docs]</a>    <span class="k">def</span> <span class="nf">get_apparent_species_from_true</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">true_species_json</span><span class="p">,</span>
+        <span class="n">oliapi_instance</span><span class="p">,</span>
+        <span class="n">dbs_file_id</span><span class="p">,</span>
+        <span class="n">phase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run Water Analysis to get apparent species.</span>
+
+<span class="sd">        :param true_species_json: JSON generated from true species</span>
+<span class="sd">        :param oliapi_instance: instance of OLI Cloud API to call</span>
+<span class="sd">        :param dbs_file_id: string ID of DBS file</span>
+<span class="sd">        :param phase: string for inflows phase</span>
+<span class="sd">        :param file_name: string for file to write, if any</span>
+
+<span class="sd">        :return apparent_species: dictionary for molecular concentrations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">stream_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_flash</span><span class="p">(</span>
+            <span class="s2">&quot;wateranalysis&quot;</span><span class="p">,</span>
+            <span class="n">oliapi_instance</span><span class="p">,</span>
+            <span class="n">dbs_file_id</span><span class="p">,</span>
+            <span class="n">true_species_json</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">phase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">phase</span> <span class="o">=</span> <span class="s2">&quot;total&quot;</span>
+
+        <span class="n">extracted_result</span> <span class="o">=</span> <span class="n">stream_output</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;molecularConcentration_</span><span class="si">{</span><span class="n">phase</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+
+        <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_unit_set</span><span class="p">[</span><span class="s2">&quot;molecularConcentration&quot;</span><span class="p">][</span><span class="s2">&quot;oli_unit&quot;</span><span class="p">]</span>
+        <span class="n">concentrations</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">extracted_result</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">inflows</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">concentrations</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">file_name</span><span class="p">:</span>
+            <span class="n">write_output</span><span class="p">(</span><span class="n">inflows</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inflows</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">flatten_results</span><span class="p">(</span><span class="n">processed_requests</span><span class="p">):</span>
+
+    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Flattening OLI stream output ... &quot;</span><span class="p">)</span>
+
+    <span class="n">props</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">terminal_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;found&quot;</span><span class="p">,</span> <span class="s2">&quot;fullVersion&quot;</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_find_props</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the path to all nested items in input data (recursive search).</span>
+
+<span class="sd">        :param data: dictionary containing OLI flash output</span>
+<span class="sd">        :param path: list of paths to endpoint</span>
+
+<span class="sd">        :return props: list of nested path lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)):</span>
+                    <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">terminal_keys</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">v</span><span class="p">):</span>
+                        <span class="n">_find_props</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">[</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">terminal_keys</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">v</span><span class="p">):</span>
+                        <span class="n">_find_props</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">[</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">terminal_keys</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">v</span><span class="p">):</span>
+                        <span class="n">_find_props</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">[</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">idx</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">idx</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected type for data: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_nested_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">_extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">_get_nested_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+        <span class="n">extracted_values</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">extracted_values</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="n">extracted_values</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="n">values</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;group&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;fullVersion&quot;</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+                    <span class="n">extracted_values</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]})</span>
+                <span class="k">if</span> <span class="s2">&quot;unit&quot;</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+                    <span class="n">unit</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;dimensionless&quot;</span>
+                    <span class="n">extracted_values</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">})</span>
+
+            <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="n">values</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;found&quot;</span><span class="p">,</span> <span class="s2">&quot;phase&quot;</span><span class="p">]):</span>
+                <span class="n">extracted_values</span> <span class="o">=</span> <span class="n">values</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">unit</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;dimensionless&quot;</span>
+                <span class="k">if</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+                    <span class="n">extracted_values</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">,</span>
+                        <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+                    <span class="p">}</span>
+                <span class="k">elif</span> <span class="s2">&quot;values&quot;</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+                    <span class="n">extracted_values</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="n">k</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">,</span>
+                            <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">],</span>
+                        <span class="p">}</span>
+                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="p">}</span>
+                <span class="k">elif</span> <span class="s2">&quot;data&quot;</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+                    <span class="c1"># intended for vaporDiffusivityMatrix</span>
+                    <span class="n">mat_dim</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])))</span>
+                    <span class="n">diffmat</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">newshape</span><span class="o">=</span><span class="p">(</span><span class="n">mat_dim</span><span class="p">,</span> <span class="n">mat_dim</span><span class="p">))</span>
+
+                    <span class="n">extracted_values</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">&quot;speciesNames&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s2">&quot;speciesNames&quot;</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">],</span>
+                            <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">diffmat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span>
+                        <span class="p">}</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diffmat</span><span class="p">))</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">diffmat</span><span class="p">))</span>
+                    <span class="p">}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;results structure not accounted for. results:</span><span class="se">\n</span><span class="si">{</span><span class="n">values</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected type for data: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">extracted_values</span>
+
+    <span class="k">def</span> <span class="nf">_create_input_dict</span><span class="p">(</span><span class="n">props</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="n">input_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">([</span><span class="n">prop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">props</span><span class="p">])}</span>
+        <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">props</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">prop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">phase_tag</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">if</span> <span class="s2">&quot;metaData&quot;</span> <span class="ow">in</span> <span class="n">prop</span><span class="p">:</span>
+                <span class="n">prop_tag</span> <span class="o">=</span> <span class="n">prop</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s2">&quot;result&quot;</span> <span class="ow">in</span> <span class="n">prop</span><span class="p">:</span>
+                <span class="c1"># get property tag</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prop</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+                    <span class="n">prop_tag</span> <span class="o">=</span> <span class="n">prop</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">prop_tag</span> <span class="o">=</span> <span class="n">prop</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="c1"># get phase tag</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="n">prop</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;phases&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="s2">&quot;total&quot;</span> <span class="ow">in</span> <span class="n">prop</span><span class="p">:</span>
+                        <span class="n">phase_tag</span> <span class="o">=</span> <span class="s2">&quot;total&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">phase_tag</span> <span class="o">=</span> <span class="n">prop</span><span class="p">[</span><span class="n">prop</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;phases&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s2">&quot;submitted_requests&quot;</span> <span class="ow">in</span> <span class="n">prop</span><span class="p">:</span>
+                <span class="n">prop_tag</span> <span class="o">=</span> <span class="n">prop</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;params&quot;</span> <span class="ow">in</span> <span class="n">prop</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prop</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+                        <span class="n">prop_tag</span> <span class="o">=</span> <span class="n">_get_nested_data</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">prop</span><span class="p">)[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Unexpected result:</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">input_dict:</span><span class="se">\n</span><span class="si">{</span><span class="n">input_dict</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prop_tag</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">phase_tag</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">phase_tag</span> <span class="k">else</span> <span class="n">prop_tag</span>
+            <span class="n">input_dict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">_extract_values</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">prop</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">input_dict</span>
+
+    <span class="n">float_nan</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_to_output</span><span class="p">(</span><span class="n">input_dict</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">number_samples</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add incoming flash results to output data.</span>
+
+<span class="sd">        :param input_dict: dictionary for incoming data</span>
+<span class="sd">        :param output_dict: dictionary for output data</span>
+<span class="sd">        :param index: integer for index of incoming data</span>
+<span class="sd">        :param number_samples: integer for total number of incoming data samples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">input_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
+                    <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">float_nan</span><span class="p">]</span> <span class="o">*</span> <span class="n">number_samples</span>
+                <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;fullVersion&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">]:</span>
+                        <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">float_nan</span><span class="p">]</span> <span class="o">*</span> <span class="n">number_samples</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;fullVersion&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">input_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+                        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input and output do not agree for key </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
+                    <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">_add_to_output</span><span class="p">(</span><span class="n">input_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">index</span><span class="p">,</span> <span class="n">number_samples</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected value: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">output_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">processed_requests</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">processed_requests</span><span class="p">):</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">_find_props</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="n">input_dict</span> <span class="o">=</span> <span class="n">_create_input_dict</span><span class="p">(</span><span class="n">props</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="n">_add_to_output</span><span class="p">(</span><span class="n">input_dict</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output_dict</span>
+
+
+<div class="viewcode-block" id="write_output"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.write_output">[docs]</a><span class="k">def</span> <span class="nf">write_output</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write dictionary-based content to file.</span>
+
+<span class="sd">    :param content: dictionary of content to write</span>
+<span class="sd">    :param file_name: string for name of file to write</span>
+
+<span class="sd">    :param file_path: string for full path of written file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saving content to </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Save complete&quot;</span><span class="p">)</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">file_path</span></div>
+
+
+<div class="viewcode-block" id="build_survey"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.build_survey">[docs]</a><span class="k">def</span> <span class="nf">build_survey</span><span class="p">(</span><span class="n">survey_arrays</span><span class="p">,</span> <span class="n">get_oli_names</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mesh_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build a dictionary for modifying flash calculation parameters.</span>
+
+<span class="sd">    :param survey_arrays: dictionary for variables and values to survey</span>
+<span class="sd">    :param get_oli_names: bool switch to convert name into OLI name</span>
+<span class="sd">    :param file_name: string for file to write, if any</span>
+<span class="sd">    :param mesh_grid: if True (default) the input array will be combined to generate combination of all possible samples</span>
+<span class="sd">        if False, the direct values in survey_arrays will be used</span>
+
+<span class="sd">    :return survey: dictionary for product of survey variables and values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">get_oli_name</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="n">get_oli_names</span> <span class="k">else</span> <span class="n">k</span>
+    <span class="k">if</span> <span class="n">mesh_grid</span><span class="p">:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_oli_name</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="n">get_oli_names</span> <span class="k">else</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">survey_arrays</span><span class="p">]</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">survey_arrays</span><span class="o">.</span><span class="n">values</span><span class="p">())))</span>
+        <span class="n">survey</span> <span class="o">=</span> <span class="p">{</span><span class="n">_name</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span> <span class="p">[</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">))}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">survey</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">survey_arrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">survey</span><span class="p">[</span><span class="n">_name</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">arr</span>
+            <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Length of list for key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> differs from prior key&quot;</span><span class="p">)</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">arr</span>
+    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Survey contains </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="si">}</span><span class="s2"> items.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">file_name</span><span class="p">:</span>
+        <span class="n">write_output</span><span class="p">(</span><span class="n">survey</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">survey</span></div>
+
+
+<div class="viewcode-block" id="get_survey_sample_conditions"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.oli_api.html#watertap.tools.oli_api.flash.get_survey_sample_conditions">[docs]</a><span class="k">def</span> <span class="nf">get_survey_sample_conditions</span><span class="p">(</span><span class="n">survey</span><span class="p">,</span> <span class="n">sample_points</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return survey parameter values for one or more sample points.</span>
+
+<span class="sd">    :param survey: dictionary for product of survey conditions and values</span>
+<span class="sd">    :param sample_points: list of indices to get parameter values from</span>
+
+<span class="sd">    :return sample_conditions: dictionary for parameter values for given samples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sample_conditions</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">sample_points</span><span class="p">:</span>
+        <span class="n">sample_conditions</span><span class="p">[</span><span class="n">point</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">survey</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">sample_conditions</span><span class="p">[</span><span class="n">point</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">point</span><span class="p">]</span>
+    <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">sample_conditions</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sample_conditions</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

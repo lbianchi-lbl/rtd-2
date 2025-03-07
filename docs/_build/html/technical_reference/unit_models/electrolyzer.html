@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Electrolyzer &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="ElectroNP (ZO)" href="electroNP_ZO.html" />
+    <link rel="prev" title="Electrodialysis (1D)" href="electrodialysis_1D.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Unit Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="anaerobic_digester.html">Anaerobic Digester</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aeration_tank.html">Aeration Tank</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boron_removal.html">Boron Removal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clarifier.html">Clarifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coag_floc_model.html">Coagulation-Flocculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crystallizer_0D.html">Crystallization (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr.html">Continuously Stirred Tank Reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr_injection.html">Continuously Stirred Tank Reactor with Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewatering.html">Dewatering Unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_0D.html">Electrodialysis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1D.html">Electrodialysis (1D)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Electrolyzer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#degrees-of-freedom">Degrees of Freedom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-structure">Model Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#equations">Equations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="electroNP_ZO.html">ElectroNP (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_recovery_device.html">Energy Recovery Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gac.html">Granular Activated Carbon (GAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_desalter.html">Generic desalter unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_separator.html">Generic separator unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ion_exchange_0D.html">Ion Exchange (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="membrane_distillation_0D.html">Membrane Distillation (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mvc.html">Mechanical Vapor Compression (MVC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_ZO.html">Nanofiltration (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_dspmde_0D.html">Nanofiltration- Donnan Steric Pore Model with Dielectric Exclusion (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_0D.html">Osmotically Assisted Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_1D.html">Osmotically Assisted Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pressure_exchanger.html">Pressure Exchanger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pump.html">Pump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_0D.html">Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_1D.html">Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stoichiometric_reactor.html">Stoichiometric reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thickener.html">Thickener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="translators/index.html">Translators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uv_aop.html">Ultraviolet Advanced Oxidation Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="zero_order_unit_models/index.html">Zero-Order Unit Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Unit Models</a></li>
+      <li class="breadcrumb-item active">Electrolyzer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/unit_models/electrolyzer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="electrolyzer">
+<h1>Electrolyzer<a class="headerlink" href="#electrolyzer" title="Permalink to this heading"></a></h1>
+<dl class="simple">
+<dt>This is a simplified model used to approximate electrolyzer performance. With the current build, the model is simulated under the following assumptions:</dt><dd><ul class="simple">
+<li><p>simulation of this unit model is only supported with the <a class="reference internal" href="../../apidoc/watertap.property_models.html#module-watertap.property_models.multicomp_aq_sol_prop_pack" title="watertap.property_models.multicomp_aq_sol_prop_pack"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Multi-Component</span> <span class="pre">Aqueous</span> <span class="pre">Solution</span> <span class="pre">(MCAS)</span></code></a> property package</p></li>
+<li><p>supports steady-state only</p></li>
+<li><p>supports liquid phase only, vapor-liquid phase equilibrium is not calculated</p></li>
+<li><p>does not determine chemical equilibrium of electrolysis products</p></li>
+<li><p>assumes isothermal conditions and performance is not temperature-dependent</p></li>
+<li><p>assumes isobaric conditions and performance is not pressure-dependent</p></li>
+<li><p>does not consider the conversion of undesired reactions</p></li>
+<li><p>does not incorporate the Nernst equation to calculate the potential as a function of the standard potential, the input of the electrochemical potential for the half-cell reactions is assumed to be provided at the operating conditions</p></li>
+<li><p>conversion of reactants is predicted by a yield model, therefore rate laws and limitations of reaction and mass transfer are not evaluated</p></li>
+</ul>
+</dd>
+</dl>
+<section id="introduction">
+<span id="index-0"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>This model was developed for the simulation of a chlor-alkali membrane electrolyzer, a conventional electrolyzer for the production of chlorine gas and hydroxide (Bommaraju &amp; O’Brien, 2015) (Kent, 2007). This model has been demonstrated for the chlor-alkali configuration in the electrolyzer testing file. Though, it is structured such that it may be generalizable to other membrane electrolysis mechanisms, but it has not been validated for other processes.</p>
+<p>With a membrane electrolyzer, the anolyte and catholyte are separated by an ion exchange membrane. The electrolyzers objective is dependent on the materials for the anode, cathode, and membrane. The anode and cathode are chosen to promote desired electrolysis reactions at the surface of the material. The membrane is chosen to selectively permeate ions between the electrolytes. Electrolyzer performance is largely quantified by the energy consumption, conversion of desired electrolysis products, and quality of the exiting anolyte and catholyte (Kumar et al., 2021). Faraday’s law of electrolysis governs the relationship between electrical current supplied to the electrolytic cell and moles of electrons contributing to desired electrolysis reactions. The equation for Faradaic conversion is later established in “electrons contributing to reactions by Faraday’s law of electrolysis” found in <a class="reference internal" href="#electrolyzer-equations"><span class="std std-ref">Equations</span></a>.</p>
+<p>In this simplified model, the extent that the electrolysis reactions proceed is determined with respect to the ideal Faradaic conversion, resulting in a yield reaction model. As such, rate laws and limitations of reaction and mass transfer are not evaluated. For the efficiency of the reactions, the model defines a current efficiency variable (<span class="math notranslate nohighlight">\(\theta_{current}\)</span>). Current efficiency describes the additional current required above the amount dictated by Faraday’s law of electrolysis that contribute electrons to the desired electrolysis reaction. These hindrances are primarily the electrons that are supplied to the electrolyzer but contribute to undesired reactions. Since side reactions are not modeled in this simplified model, these electrons may be treated as unreacted. Additionally, this may also include generic loss of current (shunt currents) or neutralization of desired electrolysis products (back-migration across the ion exchange membrane or other) (Kumar et al., 2021). Nevertheless, the current efficiency describes electrons that are provided by a power supply, but do not contribute to the desired reaction. The model is structured that current efficiency is traditionally supplied as a fixed variable.</p>
+<p>The second governing efficiency is the voltage efficiency (<span class="math notranslate nohighlight">\(\theta_{voltage}\)</span>). Voltage efficiency describes the additional voltage above the thermodynamic minimum voltage (<span class="math notranslate nohighlight">\(V_{rev}\)</span>) for the reaction to proceed (Kumar et al., 2021). This model directly defines these inefficiencies within the cell voltage equation. The voltage efficiency is then the contribution of anode overpotential, cathode overpotential, and ohmic resistance (related to voltage drop by Ohm’s law) (Phillips, 2017). As the overpotentials and resistance are commonly known, these components of additional voltage are traditionally provided as the fixed variables. In this case, voltage efficiency is then calculated by constraints as a result of these components. However, if the intricacies of the electrolysis process are lesser known, this variable may be directly fixed and the model reworked to function given a fixed voltage efficiency.</p>
+<p>Given that the power supplied is the product of voltage and current, a power efficiency may be defined that is the product of voltage efficiency and current efficiency. This power efficiency is then the ratio of the theoretical minimum power, under no inefficiencies, to the actual power supplied. In the unit model, the theoretical minimum power is not explicitly calculated. Where current efficiency and voltage efficiency are decoupled efficiencies that describe independent hindrances, power efficiency is the combined effect that directly related to energy demand and cost.</p>
+<p>In this yield model, the surface area for electrochemical reaction on each electrode is the only relevant sizing variable required. This is used to validate that the current densities of each are tolerable by the material, and it is typically used as the fixed variable where the corresponding area is calculated as a degree of freedom. With no other sizing variables, effects in increased resistance through the electrolytes with further spaced electrodes and similar size dependent phenomena are not considered in the model.</p>
+</section>
+<section id="degrees-of-freedom">
+<h2>Degrees of Freedom<a class="headerlink" href="#degrees-of-freedom" title="Permalink to this heading"></a></h2>
+<p>For a given electrolyzer design, there are 8 degrees of freedom in addition to the inlet state variables (i.e., temperature, pressure, component flowrates) that should be fixed for the model to be fully specified. In typical design cases the following 8 variables are fixed:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>membrane current density, <span class="math notranslate nohighlight">\(i_{mem}\)</span></p></li>
+<li><p>anode current density, <span class="math notranslate nohighlight">\(i_{ano}\)</span></p></li>
+<li><p>anode overpotential, <span class="math notranslate nohighlight">\(\eta_{ano}\)</span></p></li>
+<li><p>cathode current density, <span class="math notranslate nohighlight">\(i_{cat}\)</span></p></li>
+<li><p>cathode overpotential, <span class="math notranslate nohighlight">\(\eta_{cat}\)</span></p></li>
+<li><p>current, <span class="math notranslate nohighlight">\(I\)</span></p></li>
+<li><p>current efficiency, <span class="math notranslate nohighlight">\(\theta_{current}\)</span></p></li>
+<li><p>resistance, <span class="math notranslate nohighlight">\(R\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>Additionally, the electrolysis reactions at the anode and cathode must be specified for their stoichiometry and electrochemical potential (Phillips, 2017). By default, the following stoichiometric variables will be fixed to 0 when the electrolyzer model block is constructed. Therefore, only the nonzero stoichiometry must be additionally specified. As an example for the chlor-alkali process, the following reactions occur with sodium ions permeating from the anolyte to catholyte. The stoichiometry is normalized to 1 mole of electrons as intended in the model framework. The electrochemical potential shown is the standard potential for the chlor-alkali reactions. In this model, the Nernst equation for calculating the potential as a function of the standard potential is not performed. Therefore, the input of the electrochemical potential for the half-cell reactions should be provided at the operating conditions of the electrolyzer.</p>
+<p>Anode:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}&amp; Cl^-\to{\small\frac{1}{2}}Cl_2+e^-\hspace{4em}E=1.21V \\\\\end{split}\]</div>
+</div></blockquote>
+<p>Cathode:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}&amp; H_2O+e^-\to{\small\frac{1}{2}}H_2+OH^-\hspace{4em}E=-0.99V \\\\\end{split}\]</div>
+</div></blockquote>
+<p>The following variables should then be fixed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># membrane properties</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">membrane_ion_transport_number</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;NA+&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># anode properties</span>
+<span class="c1"># Cl- --&gt; 0.5 Cl2 + e-</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">anode_electrochem_potential</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">1.21</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">anode_stoich</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;CL-&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">anode_stoich</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;CL2-v&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># cathode properties</span>
+<span class="c1"># H20 + e- --&gt; 0.5 H2 + OH-</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">cathode_electrochem_potential</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="o">-</span><span class="mf">0.99</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">cathode_stoich</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">cathode_stoich</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2-v&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">cathode_stoich</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;OH-&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, the flux of ions across the ion exchange membrane flux is handled by defining the membrane transport number. The sum of membrane transport numbers should correspond to satisfying the charge balance in both the anolyte and catholyte. The direction of membrane flow is calculated from anode to cathode in the unit model. Therefore a positive membrane transport number denotes flow of the corresponding ion (cation or anion depending on the ion exchange membrane) from the anolyte to catholyte.</p>
+</section>
+<section id="model-structure">
+<h2>Model Structure<a class="headerlink" href="#model-structure" title="Permalink to this heading"></a></h2>
+<p>The electrolyzer model consists of 2 <code class="docutils literal notranslate"><span class="pre">ControlVolume0DBlocks</span></code>, one for the anolyte and another for the catholyte. Currently, the generation of species via electrolysis reactions is handled by the <code class="docutils literal notranslate"><span class="pre">custom_molar_term</span></code> within the <code class="docutils literal notranslate"><span class="pre">ControlVolume0DBlock</span></code>. Coupling this custom molar term with the Faradaic conversion, the material balance may be written by the following and calculated within the <code class="docutils literal notranslate"><span class="pre">ControlVolume0DBlock</span></code>. Considering the reaction block and reaction package are omitted, no temperature dependence and rigorous energy balance are considered.</p>
+<p>Anode:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}&amp; \dot{n}_{in,j}-\dot{n}_{out,j}+\frac{\left(\varepsilon_{ano,j}-t_{mem,j}\right)I\theta_{current}}{F}=0 \\\\\end{split}\]</div>
+</div></blockquote>
+<p>Cathode:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}&amp; \dot{n}_{in,j}-\dot{n}_{out,j}+\frac{\left(\varepsilon_{cat,j}+t_{mem,j}\right)I\theta_{current}}{F}=0 \\\\\end{split}\]</div>
+</div></blockquote>
+<p>Scaling of unit model variables should first be performed using <code class="docutils literal notranslate"><span class="pre">calculate_scaling_factors()</span></code>. For the case that the model is poorly scaled, the <code class="docutils literal notranslate"><span class="pre">current</span></code> variable should be rescaled. Estimated scaling factors are propagated from the <code class="docutils literal notranslate"><span class="pre">current</span></code> scaling factor for other unit model variables which are dependent on process scale. An example of the methodology is the provided below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">idaes.core.util.scaling</span> <span class="k">as</span> <span class="nn">iscale</span>
+
+<span class="c1"># fix the current for given design</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mf">2e8</span><span class="p">)</span>
+
+<span class="c1"># adjust the current&#39;s scaling factor to the inverse of the variable&#39;s magnitude</span>
+<span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">electrolyzer</span><span class="o">.</span><span class="n">current</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">)</span>
+
+<span class="c1"># run calculate scaling factor utility on model that propagates estimated scaling factors for other variables</span>
+<span class="n">iscale</span><span class="o">.</span><span class="n">calculate_scaling_factors</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Indices</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>time</p></td>
+<td><p><span class="math notranslate nohighlight">\(t\)</span></p></td>
+<td><p>[0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>phases</p></td>
+<td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
+<td><p>[‘Liq’]</p></td>
+</tr>
+<tr class="row-even"><td><p>components</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘H2O’, solutes]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="variables">
+<span id="electrolyzer-variables"></span><h2>Variables<a class="headerlink" href="#variables" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable Name</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>membrane area</p></td>
+<td><p><span class="math notranslate nohighlight">\(A_{mem}\)</span></p></td>
+<td><p>membrane_area</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(m^2\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>membrane current density</p></td>
+<td><p><span class="math notranslate nohighlight">\(i_{mem}\)</span></p></td>
+<td><p>membrane_current_density</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{A}{m^2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>ion transport number of species passing through the membrane <span class="math notranslate nohighlight">\(^{ab}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(t_{mem,j}\)</span></p></td>
+<td><p>membrane_ion_transport_number</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>anode area</p></td>
+<td><p><span class="math notranslate nohighlight">\(A_{ano}\)</span></p></td>
+<td><p>anode_area</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(m^2\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>anode current density</p></td>
+<td><p><span class="math notranslate nohighlight">\(i_{ano}\)</span></p></td>
+<td><p>anode_current_density</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{A}{m^2}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>anode electrochemical potential <span class="math notranslate nohighlight">\(^a\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(E_{ano}\)</span></p></td>
+<td><p>anode_electrochem_potential</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>anode overpotential</p></td>
+<td><p><span class="math notranslate nohighlight">\(\eta_{ano}\)</span></p></td>
+<td><p>anode_overpotential</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>anode stoichiometry of the reaction <span class="math notranslate nohighlight">\(^{ab}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\varepsilon_{ano,j}\)</span></p></td>
+<td><p>anode_stoich</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>cathode area</p></td>
+<td><p><span class="math notranslate nohighlight">\(A_{cat}\)</span></p></td>
+<td><p>cathode_area</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(m^2\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>cathode current density</p></td>
+<td><p><span class="math notranslate nohighlight">\(i_{cat}\)</span></p></td>
+<td><p>cathode_current_density</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{A}{m^2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>cathode electrochemical potential <span class="math notranslate nohighlight">\(^{ab}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(E_{cat}\)</span></p></td>
+<td><p>cathode_electrochem_potential</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>cathode overpotential</p></td>
+<td><p><span class="math notranslate nohighlight">\(\eta_{cat}\)</span></p></td>
+<td><p>cathode_overpotential</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>cathode stoichiometry of the reaction <span class="math notranslate nohighlight">\(^a\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\varepsilon_{cat,j}\)</span></p></td>
+<td><p>cathode_stoich</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>current</p></td>
+<td><p><span class="math notranslate nohighlight">\(I\)</span></p></td>
+<td><p>current</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(A\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>cell voltage</p></td>
+<td><p><span class="math notranslate nohighlight">\(V_{cell}\)</span></p></td>
+<td><p>voltage_cell</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>ohmic resistance</p></td>
+<td><p><span class="math notranslate nohighlight">\(R\)</span></p></td>
+<td><p>resistance</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\Omega\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>power</p></td>
+<td><p><span class="math notranslate nohighlight">\(P\)</span></p></td>
+<td><p>power</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(W\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>reversible voltage</p></td>
+<td><p><span class="math notranslate nohighlight">\(V_{rev}\)</span></p></td>
+<td><p>voltage_reversible</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>electrons contributing to electrolysis reactions</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{n}_{e^-}\)</span></p></td>
+<td><p>electron_flow</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{mol}{s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>current efficiency</p></td>
+<td><p><span class="math notranslate nohighlight">\(\theta_{current}\)</span></p></td>
+<td><p>efficiency_current</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>voltage efficiency</p></td>
+<td><p><span class="math notranslate nohighlight">\(\theta_{voltage}\)</span></p></td>
+<td><p>efficiency_voltage</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>power efficiency</p></td>
+<td><p><span class="math notranslate nohighlight">\(\theta_{power}\)</span></p></td>
+<td><p>efficiency_power</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>molar flow of species j across the membrane from anolyte to catholyte</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{n}_{mem,j}\)</span></p></td>
+<td><p>mass_transfer_term</p></td>
+<td><p>[t, p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{mol}{s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>molar generation of species j by electrolysis at the anode</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{n}_{ano,j}\)</span></p></td>
+<td><p>custom_reaction_anode</p></td>
+<td><p>[t, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{mol}{s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>molar generation of species j by electrolysis at the cathode</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{n}_{cat,j}\)</span></p></td>
+<td><p>custom_reaction_cathode</p></td>
+<td><p>[t, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{mol}{s}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(^a\)</span> Variable intended to be move to a interchangeable component block, callable to the base electrolyzer model</div>
+<div class="line"><span class="math notranslate nohighlight">\(^b\)</span> Value is normalized to 1 electron in electrolysis stoichiometry</div>
+</div>
+<p>For non-fixed efficiencies, electrochemical potentials, and other relevant variables, custom constraints  may be constructed at the flowsheet level. These may allow for predictive performance as a function of temperature, concentration, overpotential, and other variables.</p>
+</section>
+<section id="equations">
+<span id="electrolyzer-equations"></span><h2>Equations<a class="headerlink" href="#equations" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>membrane current density</p></td>
+<td><p><span class="math notranslate nohighlight">\(I = i_{mem}A_{mem}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>ion permeation through the membrane</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{n}_{mem,j} = -t_{mem,j}\dot{n}_{e^-}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>anode current density</p></td>
+<td><p><span class="math notranslate nohighlight">\(I = i_{ano}A_{ano}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>molar generation of species according the anode electrolysis reaction</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{n}_{ano,j} = \varepsilon_{ano,j}\dot{n}_{e^-}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>cathode current density</p></td>
+<td><p><span class="math notranslate nohighlight">\(I = i_{cat}A_{cat}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>molar generation of species according the cathode electrolysis reaction</p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{n}_{cat,j} = \varepsilon_{cat,j}\dot{n}_{e^-}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>reversible voltage</p></td>
+<td><p><span class="math notranslate nohighlight">\(V_{rev} = E_{ano}-E_{cat}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>cell voltage</p></td>
+<td><p><span class="math notranslate nohighlight">\(V_{cell} = V_{rev}+\eta_{ano}+\eta_{cat}+IR\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>power</p></td>
+<td><p><span class="math notranslate nohighlight">\(P = IV_{cell}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>electrons contributing to reactions by Faraday’s law of electrolysis <span class="math notranslate nohighlight">\(^c\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\dot{n}_{e^-} = \frac{I\theta_{current}}{F}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>voltage efficiency</p></td>
+<td><p><span class="math notranslate nohighlight">\(\theta_{voltage} = \frac{V_{rev}}{V_{cell}} = \frac{V_{rev}}{V_{rev}+\eta_{ano}+\eta_{cat}+IR}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>power efficiency</p></td>
+<td><p><span class="math notranslate nohighlight">\(\theta_{power} = \theta_{current}\theta_{voltage}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math notranslate nohighlight">\(^c\)</span> is Faraday’s constant from <code class="docutils literal notranslate"><span class="pre">idaes.core.util.constants</span></code>, 96,485 C/mol</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>Bommaraju, T. V., &amp; O’Brien, T. F. (2015). Brine electrolysis. Electrochemistry Encyclopedia. <a class="reference external" href="https://knowledge.electrochem.org/encycl/art-b01-brine.htm">https://knowledge.electrochem.org/encycl/art-b01-brine.htm</a></p>
+<p>Kent, J. A. (Ed.). (2007). Kent and Riegel’s Handbook of Industrial Chemistry and Biotechnology. Springer US. <a class="reference external" href="https://doi.org/10.1007/978-0-387-27843-8">https://doi.org/10.1007/978-0-387-27843-8</a></p>
+<p>Kumar, A., Du, F., &amp; Lienhard, J. H. (2021). Caustic Soda Production, Energy Efficiency, and Electrolyzers. ACS Energy Letters, 6(10), 3563–3566. <a class="reference external" href="https://doi.org/10.1021/acsenergylett.1c01827">https://doi.org/10.1021/acsenergylett.1c01827</a></p>
+<p>O’Brien, T., Bommaraju, T. V., &amp; Hine, F. (2005). Handbook of chlor-alkali technology. Springer.</p>
+<p>Phillips, R., Edwards, A., Rome, B., Jones, D. R., &amp; Dunnill, C. W. (2017). Minimising the ohmic resistance of an alkaline electrolysis cell through effective cell design. International Journal of Hydrogen Energy, 42(38), 23986–23994. <a class="reference external" href="https://doi.org/10.1016/j.ijhydene.2017.07.184">https://doi.org/10.1016/j.ijhydene.2017.07.184</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="electrodialysis_1D.html" class="btn btn-neutral float-left" title="Electrodialysis (1D)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="electroNP_ZO.html" class="btn btn-neutral float-right" title="ElectroNP (ZO)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

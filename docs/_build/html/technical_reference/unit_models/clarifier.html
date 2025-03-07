@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clarifier &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Coagulation-Flocculation" href="coag_floc_model.html" />
+    <link rel="prev" title="Boron Removal" href="boron_removal.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Unit Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="anaerobic_digester.html">Anaerobic Digester</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aeration_tank.html">Aeration Tank</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boron_removal.html">Boron Removal</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Clarifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#degrees-of-freedom">Degrees of Freedom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-structure">Model Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#equations-and-relationships">Equations and Relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="coag_floc_model.html">Coagulation-Flocculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crystallizer_0D.html">Crystallization (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr.html">Continuously Stirred Tank Reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr_injection.html">Continuously Stirred Tank Reactor with Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewatering.html">Dewatering Unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_0D.html">Electrodialysis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1D.html">Electrodialysis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrolyzer.html">Electrolyzer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electroNP_ZO.html">ElectroNP (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_recovery_device.html">Energy Recovery Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gac.html">Granular Activated Carbon (GAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_desalter.html">Generic desalter unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_separator.html">Generic separator unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ion_exchange_0D.html">Ion Exchange (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="membrane_distillation_0D.html">Membrane Distillation (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mvc.html">Mechanical Vapor Compression (MVC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_ZO.html">Nanofiltration (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_dspmde_0D.html">Nanofiltration- Donnan Steric Pore Model with Dielectric Exclusion (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_0D.html">Osmotically Assisted Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_1D.html">Osmotically Assisted Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pressure_exchanger.html">Pressure Exchanger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pump.html">Pump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_0D.html">Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_1D.html">Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stoichiometric_reactor.html">Stoichiometric reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thickener.html">Thickener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="translators/index.html">Translators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uv_aop.html">Ultraviolet Advanced Oxidation Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="zero_order_unit_models/index.html">Zero-Order Unit Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Unit Models</a></li>
+      <li class="breadcrumb-item active">Clarifier</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/unit_models/clarifier.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="clarifier">
+<h1>Clarifier<a class="headerlink" href="#clarifier" title="Permalink to this heading"></a></h1>
+<p id="index-0">This clarifier unit model is based on the <a class="reference external" href="https://idaes-pse.readthedocs.io/en/latest/reference_guides/model_libraries/generic/unit_models/separator.html">IDAES separator</a>
+and makes the following assumptions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>supports a single liquid phase only</p></li>
+<li><p>supports steady-state only</p></li>
+</ul>
+</div></blockquote>
+<section id="degrees-of-freedom">
+<h2>Degrees of Freedom<a class="headerlink" href="#degrees-of-freedom" title="Permalink to this heading"></a></h2>
+<p>Clarifier units have a number of degrees of freedom based on the separation type chosen, where the default configuration is <cite>componentFlow</cite>.</p>
+<ul class="simple">
+<li><p>If <cite>split_basis</cite> = ‘componentFlow’, degrees of freedom are generally <span class="math notranslate nohighlight">\((no. outlets-1) \times no. components\)</span></p></li>
+<li><p>If <cite>split_basis</cite> = ‘phaseFlow’, degrees of freedom are generally <span class="math notranslate nohighlight">\((no. outlets-1) \times no. phases\)</span></p></li>
+<li><p>If <cite>split_basis</cite> = ‘phaseComponentFlow’, degrees of freedom are generally <span class="math notranslate nohighlight">\((no. outlets-1) \times no. phases \times no. components\)</span></p></li>
+<li><p>If <cite>split_basis</cite> = ‘totalFlow’, degrees of freedom are generally <span class="math notranslate nohighlight">\((no. outlets-1) \times no. phases \times no. components\)</span></p></li>
+</ul>
+</section>
+<section id="model-structure">
+<h2>Model Structure<a class="headerlink" href="#model-structure" title="Permalink to this heading"></a></h2>
+<p>The clarifier unit model does not use ControlVolumes, and instead writes a set of material, energy and momentum balances to split the inlet stream into a number of outlet streams.
+There is a single inlet port (named inlet) and a user-defined number of outlet ports.</p>
+</section>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Indices</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Time</p></td>
+<td><p><span class="math notranslate nohighlight">\(t\)</span></p></td>
+<td><p>[0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phases</p></td>
+<td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
+<td><p>[‘Liq’]</p></td>
+</tr>
+<tr class="row-even"><td><p>Components</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘H2O’, ‘NaCl’]*</p></td>
+</tr>
+</tbody>
+</table>
+<p>*Solute depends on the imported property model; example shown here is for the NaCl property model.</p>
+</section>
+<section id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable Name</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Surface area</p></td>
+<td><p><span class="math notranslate nohighlight">\(A_{s}\)</span></p></td>
+<td><p>surface_area</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^2\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Electricity intensity</p></td>
+<td><p><span class="math notranslate nohighlight">\(E_{I}\)</span></p></td>
+<td><p>energy_electric_flow_vol_inlet</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kWh/}\text{m}^3\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="equations-and-relationships">
+<h2>Equations and Relationships<a class="headerlink" href="#equations-and-relationships" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Electricity consumption</p></td>
+<td><p><span class="math notranslate nohighlight">\(E = E_{I} * Q_{in}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.unit_models.clarifier.</span></span><span class="sig-name descname"><span class="pre">Clarifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>dynamic</dt><dd><p>Indicates whether this model will be dynamic or not,
+<strong>default</strong> = False. Product blocks are always steady-
+state.</p>
+</dd>
+<dt>has_holdup</dt><dd><p>Product blocks do not contain holdup, thus this must be
+False.</p>
+</dd>
+<dt>property_package</dt><dd><p>Property parameter object used to define property
+calculations, <strong>default</strong> - useDefault. <strong>Valid values:</strong>
+{ <strong>useDefault</strong> - use default package from parent model
+or flowsheet, <strong>PropertyParameterObject</strong> - a
+PropertyParameterBlock object.}</p>
+</dd>
+<dt>property_package_args</dt><dd><p>A ConfigBlock with arguments to be passed to a property
+block(s) and used when constructing these, <strong>default</strong> -
+None. <strong>Valid values:</strong> { see property package for
+documentation.}</p>
+</dd>
+<dt>outlet_list</dt><dd><p>A list containing names of outlets, <strong>default</strong> - None.
+<strong>Valid values:</strong> { <strong>None</strong> - use num_outlets argument,
+<strong>list</strong> - a list of names to use for outlets.}</p>
+</dd>
+<dt>num_outlets</dt><dd><p>Argument indicating number (int) of outlets to construct,
+not used if outlet_list arg is provided, <strong>default</strong> -
+None. <strong>Valid values:</strong> { <strong>None</strong> - use outlet_list arg
+instead, or default to 2 if neither argument provided,
+<strong>int</strong> - number of outlets to create (will be named with
+sequential integers from 1 to num_outlets).}</p>
+</dd>
+<dt>split_basis</dt><dd><p>Argument indicating basis to use for splitting mixed
+stream, <strong>default</strong> - SplittingType.totalFlow. <strong>Valid
+values:</strong> { <strong>SplittingType.totalFlow</strong> - split based on
+total flow (split fraction indexed only by time and
+outlet), <strong>SplittingType.phaseFlow</strong> - split based on
+phase flows (split fraction indexed by time, outlet and
+phase), <strong>SplittingType.componentFlow</strong> - split based on
+component flows (split fraction indexed by time, outlet
+and components), <strong>SplittingType.phaseComponentFlow</strong> -
+split based on phase-component flows ( split fraction
+indexed by both time, outlet, phase and components).}</p>
+</dd>
+<dt>material_balance_type</dt><dd><p>Indicates what type of mass balance should be constructed,
+<strong>default</strong> - MaterialBalanceType.useDefault. <strong>Valid
+values:</strong> { <strong>MaterialBalanceType.useDefault - refer to
+property package for default balance type
+**MaterialBalanceType.none</strong> - exclude material balances,
+<strong>MaterialBalanceType.componentPhase</strong> - use phase
+component balances, <strong>MaterialBalanceType.componentTotal</strong>
+- use total component balances,
+<strong>MaterialBalanceType.elementTotal</strong> - use total element
+balances, <strong>MaterialBalanceType.total</strong> - use total
+material balance.}</p>
+</dd>
+<dt>momentum_balance_type</dt><dd><p>Indicates what type of momentum balance should be
+constructed, <strong>default</strong> -
+MomentumBalanceType.pressureTotal. <strong>Valid values:</strong> {
+<strong>MomentumBalanceType.none</strong> - exclude momentum balances,
+<strong>MomentumBalanceType.pressureTotal</strong> - pressure in all
+outlets is equal, <strong>MomentumBalanceType.pressurePhase</strong> -
+not yet supported, <strong>MomentumBalanceType.momentumTotal</strong> -
+not yet supported, <strong>MomentumBalanceType.momentumPhase</strong> -
+not yet supported.}</p>
+</dd>
+<dt>has_phase_equilibrium</dt><dd><p>Argument indicating whether phase equilibrium should be
+calculated for the resulting mixed stream, <strong>default</strong> -
+False. <strong>Valid values:</strong> { <strong>True</strong> - calculate phase
+equilibrium in mixed stream, <strong>False</strong> - do not calculate
+equilibrium in mixed stream.}</p>
+</dd>
+<dt>energy_split_basis</dt><dd><p>Argument indicating basis to use for splitting energy this
+is not used for when ideal_separation == True. <strong>default</strong>
+- EnergySplittingType.equal_temperature. <strong>Valid values:</strong>
+{ <strong>EnergySplittingType.none</strong> - no energy balance
+constraints, <strong>EnergySplittingType.equal_temperature</strong> -
+outlet temperatures equal inlet,
+<strong>EnergySplittingType.equal_molar_enthalpy</strong> - outlet
+molar enthalpies equal inlet,
+<strong>EnergySplittingType.enthalpy_split</strong> - apply split
+fractions to enthalpy flows. Does not work with component
+or phase-component splitting.}</p>
+</dd>
+<dt>ideal_separation</dt><dd><p>Argument indicating whether ideal splitting should be
+used. Ideal splitting assumes perfect spearation of
+material, and attempts to avoid duplication of StateBlocks
+by directly partitioning outlet flows to ports,
+<strong>default</strong> - False. <strong>Valid values:</strong> { <strong>True</strong> - use
+ideal splitting methods. Cannot be combined with
+has_phase_equilibrium = True, <strong>False</strong> - use explicit
+splitting equations with split fractions.}</p>
+</dd>
+<dt>ideal_split_map</dt><dd><p>Dictionary containing information on how extensive
+variables should be partitioned when using ideal splitting
+(ideal_separation = True). <strong>default</strong> - None. <strong>Valid
+values:</strong> { <strong>dict</strong> with keys of indexing set members and
+values indicating which outlet this combination of keys
+should be partitioned to. E.g. {(“Vap”, “H2”):
+“outlet_1”}}</p>
+</dd>
+<dt>mixed_state_block</dt><dd><p>An existing state block to use as the source stream from
+the Separator block, <strong>default</strong> - None. <strong>Valid values:</strong>
+{ <strong>None</strong> - create a new StateBlock for the mixed stream,
+<strong>StateBlock</strong> - a StateBock to use as the source for the
+mixed stream.}</p>
+</dd>
+<dt>construct_ports</dt><dd><p>Argument indicating whether model should construct Port
+objects linked the mixed state and all outlet states,
+<strong>default</strong> - True. <strong>Valid values:</strong> { <strong>True</strong> -
+construct Ports for all states, <strong>False</strong> - do not
+construct Ports.</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Clarifier) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boron_removal.html" class="btn btn-neutral float-left" title="Boron Removal" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="coag_floc_model.html" class="btn btn-neutral float-right" title="Coagulation-Flocculation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to run WaterTAP with Jupyter notebooks &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="Technical Reference" href="../technical_reference/index.html" />
+    <link rel="prev" title="How to contribute to WaterTAP’s development" href="how_to_contribute_development.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How To Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_models_in_a_py_script.html">How to run models in a Python script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_zero_order_model.html">How to run a zero-order model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_a_property_model.html">How to use a property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_RO.html">How to setup a simple RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_RO_config_options.html">How to use configuration options in the RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_MCAS_property_model.html">How to use the multicomponent aqueous solution (MCAS) property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_chemistry.html">How to setup simple chemistry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_apparent_and_true_chemical_species.html">How to use apparent and true chemical species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_inherent_reactions.html">How to use inherent reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_a_model.html">How to scale a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_reactions.html">How to scale chemical reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_species.html">How to scale chemical species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_process_energy_balance.html">How to scale energy balance for chemical process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep.html">How to explore a model with parameter sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep_monte_carlo.html">Monte Carlo testing with the Parameter Sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_differential_parameter_sweep.html">How to Run Differential Parameter Sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_loopTool_to_explore_flowsheets.html">How to use loopTool to explore flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_debugging_solver_wrapper.html">How to use the debugging solver wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_property_test_harness.html">How to use the property test harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_ui_api.html">Add a flowsheet to the UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_ui_api.html#testing-flowsheet-interfaces">Testing flowsheet interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_unit_test_harness.html">How to use the unit test harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_contribute_development.html">How to contribute to WaterTAP’s development</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to run WaterTAP with Jupyter notebooks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#local-developer-installation">Local (developer) installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#online-using-binder-org">Online using Binder.org</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#customization">Customization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">How To Guides</a></li>
+      <li class="breadcrumb-item active">How to run WaterTAP with Jupyter notebooks</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/how_to_guides/notebooks.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="how-to-run-watertap-with-jupyter-notebooks">
+<span id="notebooks"></span><h1>How to run WaterTAP with Jupyter notebooks<a class="headerlink" href="#how-to-run-watertap-with-jupyter-notebooks" title="Permalink to this heading"></a></h1>
+<p>This guide describes the supported methods to work with WaterTAP using Jupyter notebooks.</p>
+<section id="local-developer-installation">
+<h2>Local (developer) installation<a class="headerlink" href="#local-developer-installation" title="Permalink to this heading"></a></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>These instructions assume that a WaterTAP developer environment has already been configured, as described in e.g. <a class="reference internal" href="../getting_started.html#install-dev"><span class="std std-ref">For WaterTAP developers</span></a>.</p>
+</div>
+<ol class="arabic">
+<li><p>Activate your WaterTAP environment. If your environment has a name different from <code class="docutils literal notranslate"><span class="pre">watertap-dev</span></code>, replace <code class="docutils literal notranslate"><span class="pre">watertap-dev</span></code> with the actual name wherever applicable:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>watertap-dev
+</pre></div>
+</div>
+</li>
+<li><p>Navigate to the directory where your local clone of the WaterTAP repository is located</p></li>
+<li><p>Run the following command to register the currently active WaterTAP environment as a Jupyter kernel. This will create a dedicated WaterTAP kernel that’s selectable in the Jupyter web interface, ensuring that the notebook code is run in the correct Python environment where WaterTAP is available.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;watertap-dev&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Then, start the Jupyter server from the current directory, navigate to the desired notebook using the file browser, and launch it</p></li>
+<li><p>If prompted to select a kernel, select <code class="docutils literal notranslate"><span class="pre">watertap-dev</span></code> from the menu. Otherwise, ensure <code class="docutils literal notranslate"><span class="pre">watertap-dev</span></code> appears in the kernel box in the top-right corner of the notebook interface</p></li>
+</ol>
+</section>
+<section id="online-using-binder-org">
+<span id="notebooks-online"></span><h2>Online using Binder.org<a class="headerlink" href="#online-using-binder-org" title="Permalink to this heading"></a></h2>
+<p><a class="reference external" href="https://mybinder.org">Binder</a> is an online service providing a <strong>short-lived temporary sandbox environment on public cloud resources</strong> where Jupyter notebooks can be run, free of charge, without having to install any software locally.</p>
+<p>Click on this button to launch an environment pointing to the current <code class="docutils literal notranslate"><span class="pre">main</span></code> branch of the WaterTAP repository:</p>
+<p><a class="reference external" href="https://mybinder.org/v2/gh/watertap-org/watertap/main?labpath=tutorials%2F00-index.ipynb"><img alt="Binder launch button" src="https://mybinder.org/badge_logo.svg" /></a></p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>A Binder environment is automatically <strong>destroyed after a few minutes of inactivity</strong>, which means that <strong>any unsaved progress will be lost</strong>. To avoid this, users should download a copy of a notebook file from the Binder environment to their local machine through the browser (in the Jupyter Lab file browser menu, right click on the notebook file, then <code class="docutils literal notranslate"><span class="pre">Download</span></code>). For more information, see <a class="reference external" href="https://mybinder.readthedocs.io/en/latest/about/about.html#how-long-will-my-binder-session-last">https://mybinder.readthedocs.io/en/latest/about/about.html#how-long-will-my-binder-session-last</a>.</p>
+</div>
+<section id="customization">
+<h3>Customization<a class="headerlink" href="#customization" title="Permalink to this heading"></a></h3>
+<p>Binder uses a Git repository hosted on, e.g., GitHub to fetch the notebooks and create the runtime environment.
+Users can specify a specific fork, branch, and Git ref (e.g., a particular commit hash), as well as the path to a particular directory or notebook file within the repository, that will be used
+when first starting the environment.</p>
+<p>These options can be specified interactively on the <a class="reference external" href="https://mybinder.org/">Binder homepage</a>, which will create a URL that can then be shared with others to generate a (separate) instance of the environment with the same repository settings.</p>
+<p>Alternatively, the URL can be generated manually according to the following schema:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>https://mybinder.org/v2/gh/&lt;github-org-or-user-name&gt;/&lt;github-repo-name&gt;/&lt;git-ref&gt;?labpath=&lt;path-to-notebook&gt;
+</pre></div>
+</div>
+<p>Example, for branch <code class="docutils literal notranslate"><span class="pre">mybranch</span></code> of <code class="docutils literal notranslate"><span class="pre">myuser</span></code>’s fork of this repository, pointing to the <code class="docutils literal notranslate"><span class="pre">tutorials/my-tutorial.ipynb</span></code> notebook file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>https://mybinder.org/v2/gh/myuser/watertap/mybranch?labpath=tutorials/my-tutorial.ipynb
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="how_to_contribute_development.html" class="btn btn-neutral float-left" title="How to contribute to WaterTAP’s development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../technical_reference/index.html" class="btn btn-neutral float-right" title="Technical Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

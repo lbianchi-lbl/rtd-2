@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coagulation Property Package &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="ASM1 Property Package" href="ASM1.html" />
+    <link rel="prev" title="Seawater Property Package" href="seawater.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Property Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="water.html">Water Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NaCl.html">NaCl Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NaCl_T_dep.html">NaCl Property Package with Temperature Dependence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="seawater.html">Seawater Property Package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Coagulation Property Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#state-variables">State variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#properties">Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relationships">Relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scaling">Scaling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reference">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ASM1.html">ASM1 Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ASM2D.html">ASM2D Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADM1.html">ADM1 Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modified_ADM1.html">Modified ADM1 Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modified_ASM2D.html">Modified ASM2D Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mc_aq_sol.html">Multi-Component Aqueous Solution (MCAS) Property Package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Property Models</a></li>
+      <li class="breadcrumb-item active">Coagulation Property Package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/property_models/coagulation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="coagulation-property-package">
+<h1>Coagulation Property Package<a class="headerlink" href="#coagulation-property-package" title="Permalink to this heading"></a></h1>
+<p>This package implements property relationships for water density as a function of
+temperature, pressure, and mass fraction of suspended/dissolved solids from
+<a class="reference external" href="https://www.engineeringtoolbox.com/water-density-specific-weight-d_595.html">Engineering Toolbox. (2003)</a>
+and water viscosity as a function of temperature from
+<a class="reference external" href="https://www.osti.gov/biblio/6562161">D.S. Viswananth, G. Natarajan. (1989)</a>.</p>
+<p><strong>Note: TDS = Total Dissolved Solids and TSS = Total Suspended Solids</strong></p>
+<dl class="simple">
+<dt>This coagulation property package:</dt><dd><ul class="simple">
+<li><p>supports only ‘H2O’, ‘TDS’, ‘TSS’, and ‘Sludge’ as Components</p></li>
+<li><p>supports only liquid phase</p></li>
+<li><p>is formulated on a mass basis</p></li>
+<li><p>does NOT support formulations on a molar basis</p></li>
+<li><p>includes mass density correction for fraction of suspended/dissolved solids</p></li>
+</ul>
+</dd>
+</dl>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Indices</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Components</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘H2O’, ‘TDS’, ‘TSS’, ‘Sludge’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phases</p></td>
+<td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
+<td><p>[‘Liq’]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="state-variables">
+<h2>State variables<a class="headerlink" href="#state-variables" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Component mass flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(M_j\)</span></p></td>
+<td><p>flow_mass_phase_comp</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Temperature</p></td>
+<td><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
+<td><p>temperature</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(P\)</span></p></td>
+<td><p>pressure</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Parameter</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Fluid specific heat capacity</p></td>
+<td><p><span class="math notranslate nohighlight">\(c_p\)</span></p></td>
+<td><p>cp</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{J/kg/K}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Reference density (at 273 K)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_{ref}\)</span></p></td>
+<td><p>ref_dens_liq</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Relative density contribution from salt mass fraction</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_s\)</span></p></td>
+<td><p>dens_slope</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>First density temperature coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(A\)</span></p></td>
+<td><p>dens_param_A</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}^{-2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Second density temperature coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(B\)</span></p></td>
+<td><p>dens_param_B</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Third density temperature coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td><p>dens_param_C</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>First pressure coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(\alpha\)</span></p></td>
+<td><p>ref_pressure_correction</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Second pressure coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(\beta\)</span></p></td>
+<td><p>ref_pressure_slope</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Reference viscosity (at 273 K)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mu_{ref}\)</span></p></td>
+<td><p>mu_A</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/}\text{m/}\text{s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>First viscosity temperature coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mu_B\)</span></p></td>
+<td><p>mu_B</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Second viscosity temperature coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mu_C\)</span></p></td>
+<td><p>mu_C</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The parameters provided are valid between 0 and 350 °C and up to 600 bar.</strong></p>
+</section>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Component mass fraction</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_j\)</span></p></td>
+<td><p>mass_frac_phase_comp</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass density of fluid</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
+<td><p>dens_mass_phase</p></td>
+<td><p>[p]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Phase volumetric flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(Q_p\)</span></p></td>
+<td><p>flow_vol_phase</p></td>
+<td><p>[p]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\text{/s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass concentration</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_j\)</span></p></td>
+<td><p>conc_mass_phase_comp</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Dynamic viscosity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mu\)</span></p></td>
+<td><p>visc_d_phase</p></td>
+<td><p>[p]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\cdotp\text{s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Enthalpy flow</p></td>
+<td><p><span class="math notranslate nohighlight">\(H\)</span></p></td>
+<td><p>enth_flow</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{J/s}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="relationships">
+<h2>Relationships<a class="headerlink" href="#relationships" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Component mass fraction</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_j = \frac{M_j}{\sum_{j} M_j}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho = (\rho_{ref} + \rho_s \cdotp \sum_{j} x_j) \cdotp (A \cdotp T^2 + B \cdotp T + C) \cdotp (\alpha + \beta \cdotp P)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Volumetric flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(Q = \frac{\sum_{j} M_j}{\rho}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass concentration</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_j = x_j \cdotp \rho\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Dynamic viscosity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mu = \mu_{ref} \cdotp exp( \frac{\mu_B}{T - \mu_C} )\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Enthalpy flow</p></td>
+<td><p><span class="math notranslate nohighlight">\(H = c_p \cdotp \sum_{j} M_j \cdotp (T - 273)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="scaling">
+<h2>Scaling<a class="headerlink" href="#scaling" title="Permalink to this heading"></a></h2>
+<p>This coagulation property package includes support for scaling, such as providing
+default or calculating scaling factors for almost all variables. The only variables
+that do not have scaling factors are the component mass flowrate and the user will
+receive a warning if these are not set.</p>
+<p>The user can specify the scaling factors for component mass flowrates with the following:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go"># relevant imports</span>
+<span class="go">import watertap.property_models.unit_specific.coagulation_prop_pack as props</span>
+<span class="go">from idaes.core.util.scaling import calculate_scaling_factors</span>
+
+<span class="go"># relevant assignments</span>
+<span class="go">m = ConcreteModel()</span>
+<span class="go">m.fs = FlowsheetBlock(dynamic=False)</span>
+<span class="go">m.fs.properties = props.CoagulationParameterBlock()</span>
+
+<span class="go"># set scaling for component mass flowrate</span>
+<span class="go">m.fs.properties.set_default_scaling(&#39;flow_mass_phase_comp&#39;, 1, index=(&#39;Liq&#39;,&#39;H2O&#39;))</span>
+<span class="go">m.fs.properties.set_default_scaling(&#39;flow_mass_phase_comp&#39;, 1e2, index=(&#39;Liq&#39;,&#39;TDS&#39;))</span>
+<span class="go">m.fs.properties.set_default_scaling(&#39;flow_mass_phase_comp&#39;, 1e2, index=(&#39;Liq&#39;,&#39;TSS&#39;))</span>
+<span class="go">m.fs.properties.set_default_scaling(&#39;flow_mass_phase_comp&#39;, 1e3, index=(&#39;Liq&#39;,&#39;Sludge&#39;))</span>
+
+<span class="go"># calculate scaling factors</span>
+<span class="go">calculate_scaling_factors(m.fs)</span>
+</pre></div>
+</div>
+<p>The default scaling factors are as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>1e-2 for temperature</p></li>
+<li><p>1e-6 for pressure</p></li>
+<li><p>1e-3 for mass density</p></li>
+<li><p>1e3 for dynamic viscosity</p></li>
+</ul>
+</div></blockquote>
+<p>Scaling factors for other variables can be calculated based on their relationships
+with the user-supplied or default scaling factors.</p>
+</section>
+<section id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h2>
+<p>Engineering Toolbox. Water - Density, Specific Weight, and
+Thermal Expansion Coefficients. (2003)
+<a class="reference external" href="https://www.engineeringtoolbox.com/water-density-specific-weight-d_595.html">https://www.engineeringtoolbox.com/water-density-specific-weight-d_595.html</a>
+[Accessed 02-01-2022]</p>
+<p>D.S. Viswananth, G. Natarajan. Data Book on the Viscosity of
+Liquids. Hemisphere Publishing Corp. (1989)</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="seawater.html" class="btn btn-neutral float-left" title="Seawater Property Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ASM1.html" class="btn btn-neutral float-right" title="ASM1 Property Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.costing.unit_models.surrogate_crystallizer &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.costing.unit_models.surrogate_crystallizer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.costing.unit_models.surrogate_crystallizer</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">register_costing_parameter_block</span><span class="p">,</span>
+    <span class="n">make_capital_cost_var</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">build_surrogate_crystallizer_cost_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">steam_pressure</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">bar</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Steam pressure (gauge) for crystallizer heating: 3 bar default based on Dutta example&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">efficiency_pump</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Crystallizer pump efficiency - assumed&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">pump_head_height</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Crystallizer pump head height -  assumed, unvalidated&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Crystallizer operating cost information from literature</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">fob_unit_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">675000</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Forced circulation crystallizer reference free-on-board cost (Woods, 2007)&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2007</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">ref_capacity</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Forced circulation crystallizer reference crystal capacity (Woods, 2007)&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">ref_exponent</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.53</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Forced circulation crystallizer cost exponent factor (Woods, 2007)&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">iec_percent</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">1.43</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Forced circulation crystallizer installed equipment cost (Diab and Gerogiorgis, 2017)&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">steam_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.004</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">meter</span><span class="o">**</span><span class="mi">3</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Steam cost, Panagopoulos (2019)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">costing</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+    <span class="n">costing</span><span class="o">.</span><span class="n">register_flow_type</span><span class="p">(</span><span class="s2">&quot;steam&quot;</span><span class="p">,</span> <span class="n">blk</span><span class="o">.</span><span class="n">steam_cost</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="cost_surrogate_crystallizer"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.surrogate_crystallizer.cost_surrogate_crystallizer">[docs]</a><span class="k">def</span> <span class="nf">cost_surrogate_crystallizer</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function for costing the surrogate crystallizer by the mass flow of produced crystals.</span>
+<span class="sd">    The operating cost model assumes that heat is supplied via condensation of saturated steam (see Dutta et al.)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cost_crystallizer_by_crystal_mass</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_cost_crystallizer_flows</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">cost_flow</span><span class="p">(</span>
+        <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">heat_required</span> <span class="o">/</span> <span class="n">_compute_steam_properties</span><span class="p">(</span><span class="n">blk</span><span class="p">)),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;steam&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="cost_crystallizer_by_crystal_mass"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.surrogate_crystallizer.cost_crystallizer_by_crystal_mass">[docs]</a><span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_surrogate_crystallizer_cost_param_block</span><span class="p">,</span>
+    <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;surrogate_crystallizer&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">cost_crystallizer_by_crystal_mass</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mass-based capital cost for FC crystallizer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">make_capital_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_cost_factor</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="s2">&quot;TIC&quot;</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># blk.costing_package.add_cost_factor(blk, &quot;TIC&quot;)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span>
+        <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span>
+        <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">surrogate_crystallizer</span><span class="o">.</span><span class="n">iec_percent</span>
+                <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">surrogate_crystallizer</span><span class="o">.</span><span class="n">fob_unit_cost</span>
+                <span class="o">*</span> <span class="p">(</span>
+                    <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">flow_mass_sol_total</span>
+                    <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">surrogate_crystallizer</span><span class="o">.</span><span class="n">ref_capacity</span>
+                <span class="p">)</span>
+                <span class="o">**</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">surrogate_crystallizer</span><span class="o">.</span><span class="n">ref_exponent</span>
+            <span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">_cost_crystallizer_flows</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_compute_steam_properties</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function for computing saturated steam properties for thermal heating estimation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pressure_sat:   Steam gauge pressure in bar</span>
+
+<span class="sd">    Out:</span>
+<span class="sd">        Steam thermal capacity (latent heat of condensation * density) in kJ/m3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pressure_sat</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">surrogate_crystallizer</span><span class="o">.</span><span class="n">steam_pressure</span>
+    <span class="c1"># 1. Compute saturation temperature of steam: computed from El-Dessouky expression</span>
+    <span class="n">tsat_constants</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="mf">42.6776</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">K</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">3892.7</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">K</span><span class="p">,</span>
+        <span class="mi">1000</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kPa</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">9.48654</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">psat</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">pressure_sat</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kPa</span><span class="p">)</span>
+        <span class="o">+</span> <span class="mf">101.325</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kPa</span>
+    <span class="p">)</span>
+    <span class="n">temperature_sat</span> <span class="o">=</span> <span class="n">tsat_constants</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">tsat_constants</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span>
+        <span class="n">pyo</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">psat</span> <span class="o">/</span> <span class="n">tsat_constants</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="n">tsat_constants</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 2. Compute latent heat of condensation/vaporization: computed from Sharqawy expression</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">temperature_sat</span> <span class="o">-</span> <span class="mf">273.15</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">K</span>
+    <span class="n">enth_mass_units</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">J</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span>
+    <span class="n">t_inv_units</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">K</span><span class="o">**-</span><span class="mi">1</span>
+    <span class="n">dh_constants</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="mf">2.501e6</span> <span class="o">*</span> <span class="n">enth_mass_units</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.369e3</span> <span class="o">*</span> <span class="n">enth_mass_units</span> <span class="o">*</span> <span class="n">t_inv_units</span><span class="o">**</span><span class="mi">1</span><span class="p">,</span>
+        <span class="mf">2.678e-1</span> <span class="o">*</span> <span class="n">enth_mass_units</span> <span class="o">*</span> <span class="n">t_inv_units</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">8.103e-3</span> <span class="o">*</span> <span class="n">enth_mass_units</span> <span class="o">*</span> <span class="n">t_inv_units</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">2.079e-5</span> <span class="o">*</span> <span class="n">enth_mass_units</span> <span class="o">*</span> <span class="n">t_inv_units</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">dh_vap</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">dh_constants</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">dh_constants</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span>
+        <span class="o">+</span> <span class="n">dh_constants</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">dh_constants</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="o">**</span><span class="mi">3</span>
+        <span class="o">+</span> <span class="n">dh_constants</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="o">**</span><span class="mi">4</span>
+    <span class="p">)</span>
+    <span class="n">dh_vap</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">dh_vap</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kJ</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span><span class="p">)</span>
+
+    <span class="c1"># 3. Compute specific volume: computed from Affandi expression (Eq 5)</span>
+    <span class="n">t_critical</span> <span class="o">=</span> <span class="mf">647.096</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">K</span>
+    <span class="n">t_red</span> <span class="o">=</span> <span class="n">temperature_sat</span> <span class="o">/</span> <span class="n">t_critical</span>  <span class="c1"># Reduced temperature</span>
+    <span class="n">sp_vol_constants</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="o">-</span><span class="mf">7.75883</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="mf">3.23753</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="mf">2.05755</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.06052</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="mf">0.00529</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">log_sp_vol</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">sp_vol_constants</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">sp_vol_constants</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">t_red</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.4</span>
+        <span class="o">+</span> <span class="n">sp_vol_constants</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_red</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">sp_vol_constants</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_red</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">sp_vol_constants</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">t_red</span><span class="o">**</span><span class="mi">5</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">sp_vol</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_sp_vol</span><span class="p">)</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span>
+
+    <span class="c1"># 4. Return specific energy: density * latent heat</span>
+    <span class="k">return</span> <span class="n">dh_vap</span> <span class="o">/</span> <span class="n">sp_vol</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

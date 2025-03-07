@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.tools.parameter_sweep.parameter_sweep_differential &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.tools.parameter_sweep.parameter_sweep_differential</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.tools.parameter_sweep.parameter_sweep_differential</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">ConfigValue</span>
+
+<span class="kn">from</span> <span class="nn">watertap.tools.parameter_sweep.sampling_types</span> <span class="kn">import</span> <span class="n">NormalSample</span>
+<span class="kn">from</span> <span class="nn">watertap.tools.parameter_sweep.parameter_sweep</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">_ParameterSweepBase</span><span class="p">,</span>
+    <span class="n">ParameterSweep</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">watertap.tools.parallel.single_process_parallel_manager</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SingleProcessParallelManager</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.common.deprecation</span> <span class="kn">import</span> <span class="n">deprecation_warning</span>
+<span class="kn">from</span> <span class="nn">watertap.tools.parameter_sweep.paramter_sweep_parallel_utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">_ParameterSweepParallelUtils</span><span class="p">,</span>
+    <span class="n">return_none</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="DifferentialParameterSweep"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parameter_sweep.html#watertap.tools.parameter_sweep.parameter_sweep_differential.DifferentialParameterSweep">[docs]</a><span class="k">class</span> <span class="nc">DifferentialParameterSweep</span><span class="p">(</span><span class="n">_ParameterSweepBase</span><span class="p">,</span> <span class="n">_ParameterSweepParallelUtils</span><span class="p">):</span>
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">_ParameterSweepBase</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;num_diff_samples&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of differntial sweep samples&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;guarantee_solves&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Guarantee a pre-specified number of solves.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;differential_sweep_specs&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dictionary containing the specifications for the differential sweep&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            A specification dictionary that contains details for how to construct the parameter sweep dictionary for differential sweep.</span>
+<span class="s2">            This is a nested dictionary where the first level denotes the variable names for which the differential sweep needs to be carried out.</span>
+<span class="s2">            The second level denotes various options to be used for wach variable.</span>
+<span class="s2">            The number of samples for each differential sweep is specified while initializing the DifferentialParameterSweep object wsing the keyword `num_diff_samples`</span>
+<span class="s2">            e.g.</span>
+<span class="s2">            </span>
+<span class="s2">            {</span>
+<span class="s2">                &quot;fs.a&quot;: {</span>
+<span class="s2">                    &quot;diff_mode&quot;: &quot;sum&quot;,</span>
+<span class="s2">                    &quot;diff_sample_type&quot;: NormalSample,</span>
+<span class="s2">                    &quot;std_dev&quot;: 0.01,</span>
+<span class="s2">                    &quot;pyomo_object&quot;: m.fs.input[&quot;a&quot;],</span>
+<span class="s2">                },</span>
+<span class="s2">                &quot;fs.b&quot;: {</span>
+<span class="s2">                    &quot;diff_mode&quot;: &quot;product&quot;,</span>
+<span class="s2">                    &quot;diff_sample_type&quot;: UniformSample,</span>
+<span class="s2">                    &quot;relative_lb&quot;: 0.01,</span>
+<span class="s2">                    &quot;relative_ub&quot;: 0.01,</span>
+<span class="s2">                    &quot;pyomo_object&quot;: m.fs.input[&quot;b&quot;],</span>
+<span class="s2">                },</span>
+<span class="s2">                &quot;fs.c&quot;: {</span>
+<span class="s2">                    &quot;diff_mode&quot;: &quot;sum&quot;,</span>
+<span class="s2">                    &quot;diff_sample_type&quot;: GeomSample,</span>
+<span class="s2">                    &quot;relative_lb&quot;: 0.01,</span>
+<span class="s2">                    &quot;relative_ub&quot;: 10.0,</span>
+<span class="s2">                    &quot;pyomo_object&quot;: m.fs.input[&quot;c&quot;],</span>
+<span class="s2">                },</span>
+<span class="s2">            }</span>
+
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;build_differential_sweep_specs&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="c1"># domain=function,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Function for building the differential_sweep_specs&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Must build a specification dictionary that contains details for how to construct the parameter sweep dictionary for differential sweep.</span>
+<span class="s2">            This is a nested dictionary where the first level denotes the variable names for which the differential sweep needs to be carried out.</span>
+<span class="s2">            The second level denotes various options to be used for wach variable.</span>
+<span class="s2">            The number of samples for each differential sweep is specified while initializing the DifferentialParameterSweep object wsing the keyword `num_diff_samples`</span>
+<span class="s2">            e.g.</span>
+<span class="s2">            </span>
+<span class="s2">            {</span>
+<span class="s2">                &quot;fs.a&quot;: {</span>
+<span class="s2">                    &quot;diff_mode&quot;: &quot;sum&quot;,</span>
+<span class="s2">                    &quot;diff_sample_type&quot;: NormalSample,</span>
+<span class="s2">                    &quot;std_dev&quot;: 0.01,</span>
+<span class="s2">                    &quot;pyomo_object&quot;: m.fs.input[&quot;a&quot;],</span>
+<span class="s2">                },</span>
+<span class="s2">                &quot;fs.b&quot;: {</span>
+<span class="s2">                    &quot;diff_mode&quot;: &quot;product&quot;,</span>
+<span class="s2">                    &quot;diff_sample_type&quot;: UniformSample,</span>
+<span class="s2">                    &quot;relative_lb&quot;: 0.01,</span>
+<span class="s2">                    &quot;relative_ub&quot;: 0.01,</span>
+<span class="s2">                    &quot;pyomo_object&quot;: m.fs.input[&quot;b&quot;],</span>
+<span class="s2">                },</span>
+<span class="s2">                &quot;fs.c&quot;: {</span>
+<span class="s2">                    &quot;diff_mode&quot;: &quot;sum&quot;,</span>
+<span class="s2">                    &quot;diff_sample_type&quot;: GeomSample,</span>
+<span class="s2">                    &quot;relative_lb&quot;: 0.01,</span>
+<span class="s2">                    &quot;relative_ub&quot;: 10.0,</span>
+<span class="s2">                    &quot;pyomo_object&quot;: m.fs.input[&quot;c&quot;],</span>
+<span class="s2">                },</span>
+<span class="s2">            }</span>
+
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;build_differential_sweep_specs_kwargs&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span>
+            <span class="n">domain</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Keyword argument for the building differential sweep function&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="DifferentialParameterSweep.__init__"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parameter_sweep.html#watertap.tools.parameter_sweep.parameter_sweep_differential.DifferentialParameterSweep.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">options</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># Initialize the base Class</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">index_global_combo_array</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">guarantee_solves</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">debugging_data_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;debugging_data_dir is not configured to work with differential parameter sweep.&quot;</span>
+            <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_differential_sweep_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_values</span><span class="p">):</span>
+        <span class="n">differential_sweep_specs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_differential_sweep_specs</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_manager</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_differential_sweep_specs_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">diff_sweep_param</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">non_indexed_values</span> <span class="o">=</span> <span class="n">local_values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="n">ctr</span><span class="p">,</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">specs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">differential_sweep_specs</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">nominal_val</span> <span class="o">=</span> <span class="n">non_indexed_values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">diff_spec_index</span><span class="p">[</span><span class="n">ctr</span><span class="p">]]</span>
+            <span class="n">pyomo_object</span> <span class="o">=</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;pyomo_object&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;diff_sample_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">NormalSample</span><span class="p">:</span>
+                <span class="n">std_dev</span> <span class="o">=</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;std_dev&quot;</span><span class="p">]</span>
+                <span class="n">diff_sweep_param</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">NormalSample</span><span class="p">(</span>
+                    <span class="n">pyomo_object</span><span class="p">,</span> <span class="n">nominal_val</span><span class="p">,</span> <span class="n">std_dev</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_diff_samples</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">relative_lb</span> <span class="o">=</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;relative_lb&quot;</span><span class="p">]</span>
+                <span class="n">relative_ub</span> <span class="o">=</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;relative_ub&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;diff_mode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;sum&quot;</span><span class="p">:</span>
+                    <span class="n">lb</span> <span class="o">=</span> <span class="n">nominal_val</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">relative_lb</span><span class="p">)</span>
+                    <span class="n">ub</span> <span class="o">=</span> <span class="n">nominal_val</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">relative_ub</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;diff_mode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;product&quot;</span><span class="p">:</span>
+                    <span class="n">lb</span> <span class="o">=</span> <span class="n">nominal_val</span> <span class="o">*</span> <span class="n">relative_lb</span>
+                    <span class="n">ub</span> <span class="o">=</span> <span class="n">nominal_val</span> <span class="o">*</span> <span class="n">relative_ub</span>
+                <span class="k">elif</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;diff_mode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;percentile&quot;</span><span class="p">:</span>
+                    <span class="n">lower_nominal</span> <span class="o">=</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;nominal_lb&quot;</span><span class="p">]</span>
+                    <span class="n">upper_nominal</span> <span class="o">=</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;nominal_ub&quot;</span><span class="p">]</span>
+                    <span class="n">delta_nominal</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">upper_nominal</span> <span class="o">-</span> <span class="n">lower_nominal</span><span class="p">)</span>
+                    <span class="n">lb</span> <span class="o">=</span> <span class="n">nominal_val</span> <span class="o">+</span> <span class="n">delta_nominal</span> <span class="o">*</span> <span class="n">relative_lb</span>
+                    <span class="n">ub</span> <span class="o">=</span> <span class="n">nominal_val</span> <span class="o">+</span> <span class="n">delta_nominal</span> <span class="o">*</span> <span class="n">relative_ub</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+                <span class="n">diff_sweep_param</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">specs</span><span class="p">[</span><span class="s2">&quot;diff_sample_type&quot;</span><span class="p">](</span>
+                    <span class="n">pyomo_object</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_diff_samples</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">diff_sweep_param</span>
+
+    <span class="k">def</span> <span class="nf">_check_differential_sweep_key_validity</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">differential_sweep_spec</span><span class="p">,</span> <span class="n">sweep_params</span>
+    <span class="p">):</span>
+        <span class="n">diff_specs_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">differential_sweep_spec</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">sweep_param_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sweep_params</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">sweep_param_keys</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">diff_specs_keys</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diff_spec_index</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">sweep_param_keys</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">diff_specs_keys</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;differential_sweep_specs keys don&#39;t match with sweep_param keys&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_define_differential_sweep_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">sweep_params</span><span class="p">):</span>
+        <span class="c1"># Currently used in do_build function only (check paramter_sweep_parallel_utils.py)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">differential_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_outputs</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_outputs_kwargs</span>
+        <span class="p">)</span>
+        <span class="n">differential_sweep_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_differential_sweep_specs</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_differential_sweep_specs_kwargs</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">differential_outputs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sweep_params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">differential_sweep_spec</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">differential_outputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">sweep_params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">pyomo_object</span>
+
+    <span class="k">def</span> <span class="nf">_create_local_output_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">sweep_params</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">):</span>
+        <span class="n">output_dict</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_create_local_output_skeleton</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span> <span class="n">sweep_params</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">num_samples</span>
+        <span class="p">)</span>
+        <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;nominal_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+            <span class="n">num_samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+        <span class="p">)</span>  <span class="c1"># [*range(num_samples)]</span>
+        <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;differential_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_samples</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output_dict</span>
+
+    <span class="k">def</span> <span class="nf">_append_differential_results</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">local_output_dict</span><span class="p">,</span> <span class="n">diff_results_dict</span><span class="p">,</span> <span class="n">local_values</span>
+    <span class="p">):</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">diff_sol</span> <span class="ow">in</span> <span class="n">diff_results_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">diff_sol</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># Solve status</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;solve_successful&quot;</span><span class="p">:</span>
+                    <span class="n">n_diff_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;solve_successful&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;nominal_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                        <span class="p">(</span>
+                            <span class="n">local_values</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                                <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">local_values</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">n_diff_samples</span><span class="p">)</span>
+                            <span class="p">),</span>
+                        <span class="p">),</span>
+                        <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                    <span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;differential_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                        <span class="p">(</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="o">*</span> <span class="n">local_values</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">local_values</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">n_diff_samples</span><span class="p">),</span>
+                        <span class="p">),</span>
+                        <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># TODO review for correct implementation with selected outputs</span>
+                    <span class="k">for</span> <span class="n">subkey</span><span class="p">,</span> <span class="n">subitem</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">local_output_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                            <span class="n">local_output_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                                <span class="p">(</span>
+                                    <span class="n">local_output_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+                                    <span class="n">subitem</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                    <span class="c1"># We also need to capture sweep_params variables that are not a part of differential_sweep_specs</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;sweep_params&quot;</span><span class="p">:</span>
+                        <span class="n">missing_sub_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">^</span> <span class="nb">set</span><span class="p">(</span>
+                            <span class="n">local_output_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+                        <span class="p">)</span>
+                        <span class="c1"># This loop shouldn&#39;t run if the above set is empty</span>
+                        <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">missing_sub_keys</span><span class="p">:</span>
+                            <span class="c1"># We are picking the unchanged sweep_params from the outputs. In the ideal world, they would be the same.</span>
+                            <span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;sweep_params&quot;</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                                    <span class="p">(</span>
+                                        <span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;sweep_params&quot;</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span>
+                                            <span class="s2">&quot;value&quot;</span>
+                                        <span class="p">],</span>
+                                        <span class="n">diff_sol</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">][</span><span class="n">subkey</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+                                    <span class="p">)</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_global_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_output_dict</span><span class="p">):</span>  <span class="c1"># , req_num_samples=None):</span>
+        <span class="n">global_output_dict</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_create_global_output</span><span class="p">(</span><span class="n">local_output_dict</span><span class="p">)</span>
+
+        <span class="c1"># We now need to get the mapping array. This only needs to happen on root</span>
+        <span class="n">local_num_cases_all</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;solve_successful&quot;</span><span class="p">])</span>
+        <span class="c1"># AllGather the total size of the value array on each MPI rank</span>
+        <span class="n">sample_split_arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_manager</span><span class="o">.</span><span class="n">combine_data_with_peers</span><span class="p">(</span>
+            <span class="n">local_num_cases_all</span>
+        <span class="p">)</span>
+        <span class="n">num_total_samples</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">sample_split_arr</span><span class="p">)</span>
+
+        <span class="c1"># AllGather nominal values for creating the parallel offset</span>
+        <span class="n">nominal_sample_split_arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_manager</span><span class="o">.</span><span class="n">combine_data_with_peers</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_nominal_local</span>
+        <span class="p">)</span>
+
+        <span class="c1"># We need to create a global index and offset items accordingly. This</span>
+        <span class="c1"># needs to happen on all ranks/workers.</span>
+        <span class="n">my_rank</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_manager</span><span class="o">.</span><span class="n">get_rank</span><span class="p">()</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">my_rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nominal_sample_split_arr</span><span class="p">[:</span><span class="n">my_rank</span><span class="p">])</span>
+        <span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;nominal_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;nominal_idx&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span>
+        <span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;differential_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;differential_idx&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Resize global index array</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_manager</span><span class="o">.</span><span class="n">is_root_process</span><span class="p">():</span>
+            <span class="n">global_output_dict</span><span class="p">[</span><span class="s2">&quot;nominal_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_total_samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">global_output_dict</span><span class="p">[</span><span class="s2">&quot;differential_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                <span class="n">num_total_samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Now we need to collect it on global_output_dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parallel_manager</span><span class="o">.</span><span class="n">gather_arrays_to_root</span><span class="p">(</span>
+            <span class="n">sendbuf</span><span class="o">=</span><span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;nominal_idx&quot;</span><span class="p">],</span>
+            <span class="n">recvbuf_spec</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">global_output_dict</span><span class="p">[</span><span class="s2">&quot;nominal_idx&quot;</span><span class="p">],</span>
+                <span class="n">sample_split_arr</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parallel_manager</span><span class="o">.</span><span class="n">gather_arrays_to_root</span><span class="p">(</span>
+            <span class="n">sendbuf</span><span class="o">=</span><span class="n">local_output_dict</span><span class="p">[</span><span class="s2">&quot;differential_idx&quot;</span><span class="p">],</span>
+            <span class="n">recvbuf_spec</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">global_output_dict</span><span class="p">[</span><span class="s2">&quot;differential_idx&quot;</span><span class="p">],</span>
+                <span class="n">sample_split_arr</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">global_output_dict</span>
+
+    <span class="k">def</span> <span class="nf">_run_differential_sweep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_value</span><span class="p">):</span>
+        <span class="n">diff_sweep_param_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_differential_sweep_params</span><span class="p">(</span><span class="n">local_value</span><span class="p">)</span>
+
+        <span class="c1"># We want this instance of the parameter sweep to run in serial</span>
+        <span class="n">diff_ps</span> <span class="o">=</span> <span class="n">ParameterSweep</span><span class="p">(</span>
+            <span class="n">optimize_function</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">optimize_function</span><span class="p">,</span>
+            <span class="n">optimize_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">optimize_kwargs</span><span class="p">,</span>
+            <span class="n">reinitialize_function</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reinitialize_function</span><span class="p">,</span>
+            <span class="n">reinitialize_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reinitialize_kwargs</span><span class="p">,</span>
+            <span class="n">reinitialize_before_sweep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reinitialize_before_sweep</span><span class="p">,</span>
+            <span class="n">parallel_manager_class</span><span class="o">=</span><span class="n">SingleProcessParallelManager</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># pass model_manager from refernce sweep, to diff sweep</span>
+        <span class="c1"># so we don&#39;t have to reijnit he model</span>
+        <span class="n">diff_ps</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">index_global_combo_array</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">diff_ps</span><span class="o">.</span><span class="n">model_manager</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_manager</span>
+        <span class="n">diff_ps</span><span class="o">.</span><span class="n">model_manager</span><span class="o">.</span><span class="n">_is_rebuild_and_init_enabled</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">differential_sweep_output_dict</span> <span class="o">=</span> <span class="n">diff_ps</span><span class="o">.</span><span class="n">parameter_sweep</span><span class="p">(</span>
+            <span class="n">diff_ps</span><span class="o">.</span><span class="n">model_manager</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">diff_sweep_param_dict</span><span class="p">,</span>
+            <span class="n">build_outputs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">differential_outputs</span><span class="p">,</span>
+            <span class="n">num_samples</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_diff_samples</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">diff_ps</span><span class="o">.</span><span class="n">model_manager</span><span class="o">.</span><span class="n">_is_rebuild_and_init_enabled</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">differential_sweep_output_dict</span>
+
+    <span class="k">def</span> <span class="nf">_run_sample</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">local_value_k</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">,</span>
+        <span class="n">sweep_params</span><span class="p">,</span>
+        <span class="n">local_output_dict</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">run_successful</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_run_sample</span><span class="p">(</span>
+            <span class="n">local_value_k</span><span class="p">,</span>
+            <span class="n">k</span><span class="p">,</span>
+            <span class="n">sweep_params</span><span class="p">,</span>
+            <span class="n">local_output_dict</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">differential_sweep_output_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_differential_sweep</span><span class="p">(</span>
+            <span class="n">local_value_k</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">run_successful</span>
+
+    <span class="k">def</span> <span class="nf">_do_param_sweep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sweep_params</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">local_values</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">differential_sweep_output_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">local_output_dict</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_do_param_sweep</span><span class="p">(</span><span class="n">sweep_params</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">local_values</span><span class="p">)</span>
+
+        <span class="c1"># Now append the outputs of the differential solves</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_append_differential_results</span><span class="p">(</span>
+            <span class="n">local_output_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">differential_sweep_output_dict</span><span class="p">,</span> <span class="n">local_values</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">local_output_dict</span>
+
+    <span class="k">def</span> <span class="nf">parameter_sweep</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">build_model</span><span class="p">,</span>
+        <span class="n">build_sweep_params</span><span class="p">,</span>
+        <span class="n">build_outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">build_outputs_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">build_model_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">build_sweep_params_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># Create a base sweep_params</span>
+
+        <span class="n">build_model_kwargs</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">build_model_kwargs</span> <span class="k">if</span> <span class="n">build_model_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">build_outputs_kwargs</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">build_outputs_kwargs</span> <span class="k">if</span> <span class="n">build_outputs_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">build_sweep_params_kwargs</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">build_sweep_params_kwargs</span>
+            <span class="k">if</span> <span class="n">build_sweep_params_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">build_model</span><span class="p">):</span>
+            <span class="n">_model</span> <span class="o">=</span> <span class="n">build_model</span>
+            <span class="n">build_model</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">_model</span>
+            <span class="n">deprecation_warning</span><span class="p">(</span>
+                <span class="s2">&quot;Passing a model directly to the parameter_sweep function is deprecated </span><span class="se">\</span>
+<span class="s2">                                and will not work with future implementations of parallelism.&quot;</span><span class="p">,</span>
+                <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.10.0&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">build_sweep_params</span><span class="p">):</span>
+            <span class="n">_sweep_params</span> <span class="o">=</span> <span class="n">build_sweep_params</span>
+            <span class="n">build_sweep_params</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">:</span> <span class="n">_sweep_params</span>
+            <span class="n">deprecation_warning</span><span class="p">(</span>
+                <span class="s2">&quot;Passing sweep params directly to the parameter_sweep function is deprecated </span><span class="se">\</span>
+<span class="s2">                                and will not work with future implementations of parallelism.&quot;</span><span class="p">,</span>
+                <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.10.0&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">build_outputs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">build_outputs</span> <span class="o">=</span> <span class="n">return_none</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">build_outputs</span><span class="p">):</span>
+            <span class="n">_combined_outputs</span> <span class="o">=</span> <span class="n">build_outputs</span>
+            <span class="n">build_outputs</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">:</span> <span class="n">_combined_outputs</span>
+            <span class="n">deprecation_warning</span><span class="p">(</span>
+                <span class="s2">&quot;Passing the output dict directly to the parameter_sweep function is deprecated </span><span class="se">\</span>
+<span class="s2">                                and will not work with future implementations of parallelism.&quot;</span><span class="p">,</span>
+                <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.10.0&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_differential_sweep_specs</span><span class="p">):</span>
+            <span class="n">_diff_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_differential_sweep_specs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_differential_sweep_specs</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">:</span> <span class="n">_diff_spec</span>
+            <span class="n">deprecation_warning</span><span class="p">(</span>
+                <span class="s2">&quot;Passing the differential sweep spec dict directly to the parameter_sweep function is deprecated </span><span class="se">\</span>
+<span class="s2">                                and will not work with future implementations of parallelism. Please instead pass </span><span class="se">\</span>
+<span class="s2">                                    a build_differential_sweep_specs function instead&quot;</span><span class="p">,</span>
+                <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.10.0&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># This should be depreciated in future versions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_model</span> <span class="o">=</span> <span class="n">build_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_sweep_params</span> <span class="o">=</span> <span class="n">build_sweep_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_outputs</span> <span class="o">=</span> <span class="n">build_outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_outputs_kwargs</span> <span class="o">=</span> <span class="n">build_outputs_kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_model_kwargs</span> <span class="o">=</span> <span class="n">build_model_kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_sweep_params_kwargs</span> <span class="o">=</span> <span class="n">build_sweep_params_kwargs</span>
+
+        <span class="n">model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">(</span><span class="o">**</span><span class="n">build_model_kwargs</span><span class="p">)</span>
+        <span class="n">sweep_params</span> <span class="o">=</span> <span class="n">build_sweep_params</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">build_sweep_params_kwargs</span><span class="p">)</span>
+        <span class="n">sweep_params</span><span class="p">,</span> <span class="n">sampling_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_sweep_params</span><span class="p">(</span><span class="n">sweep_params</span><span class="p">)</span>
+        <span class="n">differential_sweep_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_differential_sweep_specs</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">build_differential_sweep_specs_kwargs</span>
+        <span class="p">)</span>
+        <span class="c1"># Check if the keys in the differential sweep specs exist in sweep params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_differential_sweep_key_validity</span><span class="p">(</span>
+            <span class="n">differential_sweep_spec</span><span class="p">,</span> <span class="n">sweep_params</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Set the seed before sampling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="c1"># Enumerate/Sample the parameter space</span>
+        <span class="n">all_parameter_combinations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_combinations</span><span class="p">(</span>
+            <span class="n">sweep_params</span><span class="p">,</span> <span class="n">sampling_type</span><span class="p">,</span> <span class="n">num_samples</span>
+        <span class="p">)</span>
+
+        <span class="n">all_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_scatter_gather</span><span class="p">(</span>
+            <span class="n">all_parameter_combinations</span><span class="p">,</span> <span class="n">DifferentialParameterSweep</span>
+        <span class="p">)</span>
+        <span class="n">global_sweep_results_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_gather_results</span><span class="p">(</span><span class="n">all_results</span><span class="p">)</span>
+        <span class="n">combined_output_arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_output_array</span><span class="p">(</span><span class="n">global_sweep_results_dict</span><span class="p">)</span>
+        <span class="n">all_parameter_combinations_solved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_input_array</span><span class="p">(</span>
+            <span class="n">global_sweep_results_dict</span>
+        <span class="p">)</span>
+
+        <span class="c1"># save the results for all simulations run by this process and its children</span>
+        <span class="k">for</span> <span class="n">results</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_manager</span><span class="o">.</span><span class="n">results_from_local_tree</span><span class="p">(</span><span class="n">all_results</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span>
+                <span class="n">sweep_params</span><span class="p">,</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+                <span class="n">all_parameter_combinations_solved</span><span class="p">,</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">results</span><span class="p">,</span>
+                <span class="n">global_sweep_results_dict</span><span class="p">,</span>
+                <span class="n">combined_output_arr</span><span class="p">,</span>
+                <span class="n">process_number</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">process_number</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">global_save_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">all_parameter_combinations_solved</span><span class="p">,</span> <span class="n">combined_output_arr</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">global_save_data</span><span class="p">,</span> <span class="n">global_sweep_results_dict</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

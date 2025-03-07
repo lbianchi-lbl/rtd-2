@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.tools.parameter_sweep.parameter_sweep_functions &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.tools.parameter_sweep.parameter_sweep_functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.tools.parameter_sweep.parameter_sweep_functions</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">watertap.tools.parameter_sweep.parameter_sweep</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ParameterSweep</span><span class="p">,</span>
+    <span class="n">RecursiveParameterSweep</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">watertap.tools.parameter_sweep.parameter_sweep_differential</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DifferentialParameterSweep</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="parameter_sweep"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parameter_sweep.html#watertap.tools.parameter_sweep.parameter_sweep_functions.parameter_sweep">[docs]</a><span class="k">def</span> <span class="nf">parameter_sweep</span><span class="p">(</span>
+    <span class="n">build_model</span><span class="p">,</span>
+    <span class="n">build_sweep_params</span><span class="p">,</span>
+    <span class="n">build_outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">csv_results_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">h5_results_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">h5_parent_group_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">optimize_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">optimize_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">reinitialize_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">reinitialize_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">reinitialize_before_sweep</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">probe_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">debugging_data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">interpolate_nan_outputs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">number_of_subprocesses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">build_model_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">build_sweep_params_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">build_outputs_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function offers a general way to perform repeated optimizations</span>
+<span class="sd">    of a model for the purposes of exploring a parameter space while</span>
+<span class="sd">    monitoring multiple outputs.</span>
+<span class="sd">    If provided, writes single CSV file to ``results_file`` with all inputs and resulting outputs.</span>
+
+<span class="sd">    Arguments:</span>
+
+<span class="sd">        build_model : A function that can be called to build a Pyomo ConcreteModel, OR</span>
+<span class="sd">                      (deprecated) a Pyomo ConcreteModel containing a watertap flowsheet.</span>
+
+<span class="sd">        build_sweep_params: A function that can be called to build a dictionary containing the values to vary</span>
+<span class="sd">                            with the format ``sweep_params[&#39;Short/Pretty-print Name&#39;] =</span>
+<span class="sd">                            (model.fs.variable_or_param[index], lower_limit, upper_limit, num_samples)``.</span>
+<span class="sd">                            A uniform number of samples ``num_samples`` will be take between</span>
+<span class="sd">                            the ``lower_limit`` and ``upper_limit``.</span>
+<span class="sd">                            OR (deprecated) the dictionary itself rather than a function for creating it.</span>
+
+<span class="sd">        outputs (optional) : An optional function to produce a dictionary containing &quot;short names&quot; as</span>
+<span class="sd">                             keys and and Pyomo objects on ``model`` whose values to report as values. E.g.,</span>
+<span class="sd">                             ``outputs[&#39;Short/Pretty-print Name&#39;] = model.fs.variable_or_expression_to_report``.</span>
+<span class="sd">                             OR (deprecated) the dictionary itself rather than a function for creating it.</span>
+<span class="sd">                             If neither is provided, i.e., outputs = None, the default behavior is to save all model</span>
+<span class="sd">                             variables, parameters, and expressions which provides very thorough results</span>
+<span class="sd">                             at the cost of large file sizes.</span>
+
+<span class="sd">        csv_results_file_name (optional) : The path and file name to write a csv file. The default `None`</span>
+<span class="sd">                                           does not write a csv file.</span>
+
+<span class="sd">        h5_results_file_name (optional) : The path and file name to write a h5 file. The default `None`</span>
+<span class="sd">                                          does not write a file.</span>
+<span class="sd">                                          Writing an h5 file will also create a companion text file `{h5_results_file_name}.txt`</span>
+<span class="sd">                                          which contains the variable names contained within the H5 file.</span>
+
+<span class="sd">        h5_parent_group_name (optional) : Parent h5 groups for the parameter sweep inputs and outputs to be embedded in.</span>
+<span class="sd">                                          The default is `None` and it accepts a string for the h5 group.</span>
+
+<span class="sd">        optimize_function (optional) : A user-defined function to perform the optimization of flowsheet</span>
+<span class="sd">                                       ``model`` and loads the results back into ``model``. The first</span>
+<span class="sd">                                       argument of this function is ``model``. The default uses the</span>
+<span class="sd">                                       default IDAES solver, raising an exception if the termination</span>
+<span class="sd">                                       condition is not optimal.</span>
+
+<span class="sd">        optimize_kwargs (optional) : Dictionary of kwargs to pass into every call to</span>
+<span class="sd">                                     ``optimize_function``. The first arg will always be ``model``,</span>
+<span class="sd">                                     e.g., ``optimize_function(model, **optimize_kwargs)``. The default</span>
+<span class="sd">                                     uses no kwargs.</span>
+
+<span class="sd">        reinitialize_function (optional) : A user-defined function to perform the re-initialize the</span>
+<span class="sd">                                           flowsheet ``model`` if the first call to ``optimize_function``</span>
+<span class="sd">                                           fails for any reason. After ``reinitialize_function``, the</span>
+<span class="sd">                                           parameter sweep tool will immediately call</span>
+<span class="sd">                                           ``optimize_function`` again.</span>
+
+<span class="sd">        reinitialize_kwargs (optional) : Dictionary or kwargs to pass into every call to</span>
+<span class="sd">                                         ``reinitialize_function``. The first arg will always be</span>
+<span class="sd">                                         ``model``, e.g.,</span>
+<span class="sd">                                         ``reinitialize_function(model, **reinitialize_kwargs)``.</span>
+<span class="sd">                                         The default uses no kwargs.</span>
+
+<span class="sd">        reinitialize_before_sweep (optional): Boolean option to reinitialize the flow sheet model before</span>
+<span class="sd">                                              every parameter sweep realization. The default is False.</span>
+<span class="sd">                                              Note the parameter sweep model will try to reinitialize the</span>
+<span class="sd">                                              solve regardless of the option if the run fails.</span>
+
+<span class="sd">        probe_function (optional): A user-defined function that can cheaply check if a current model</span>
+<span class="sd">                                  configuration is solvable without actually reinitializing or solving.</span>
+
+<span class="sd">        debugging_data_dir (optional) : Save results on a per-process basis for parallel debugging</span>
+<span class="sd">                                        purposes. If None no `debugging` data will be saved.</span>
+
+<span class="sd">        interpolate_nan_outputs (optional) : When the parameter sweep has finished, interior values</span>
+<span class="sd">                                             of np.nan will be replaced with a value obtained via</span>
+<span class="sd">                                             a linear interpolation of their surrounding valid neighbors.</span>
+<span class="sd">                                             If true, a second output file with the extension &quot;_clean&quot;</span>
+<span class="sd">                                             will be saved alongside the raw (un-interpolated) values.</span>
+
+<span class="sd">        num_samples (optional) : If the user is using sampling techniques rather than a linear grid</span>
+<span class="sd">                                 of values, they need to set the number of samples</span>
+
+<span class="sd">        seed (optional) : If the user is using a random sampling technique, this sets the seed</span>
+
+<span class="sd">        number_of_subprocesses (optional) : Directive for fanning out subprocesses to perform</span>
+<span class="sd">                                            parallel computation.</span>
+
+<span class="sd">        build_model_kwargs (optional): A dictionary of kwargs to pass into the build_model function.</span>
+
+<span class="sd">        build_sweep_params_kwargs (optional): A dictionary of kwargs to pass into the build_sweep_params</span>
+<span class="sd">                                              function.</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        save_data : A list were the first N columns are the values of the parameters passed</span>
+<span class="sd">                    by ``sweep_params`` and the remaining columns are the values of the</span>
+<span class="sd">                    simulation identified by the ``outputs`` argument.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">csv_results_file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;csv_results_file_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">csv_results_file_name</span>
+    <span class="k">if</span> <span class="n">h5_results_file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;h5_results_file_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5_results_file_name</span>
+    <span class="k">if</span> <span class="n">h5_parent_group_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;h5_parent_group_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5_parent_group_name</span>
+    <span class="k">if</span> <span class="n">optimize_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optimize_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optimize_function</span>
+    <span class="k">if</span> <span class="n">optimize_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optimize_kwargs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optimize_kwargs</span>
+    <span class="k">if</span> <span class="n">reinitialize_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;reinitialize_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reinitialize_function</span>
+    <span class="k">if</span> <span class="n">reinitialize_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;reinitialize_kwargs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reinitialize_kwargs</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;reinitialize_before_sweep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reinitialize_before_sweep</span>
+    <span class="k">if</span> <span class="n">probe_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;probe_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">probe_function</span>
+    <span class="k">if</span> <span class="n">debugging_data_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;debugging_data_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">debugging_data_dir</span>
+    <span class="k">if</span> <span class="n">interpolate_nan_outputs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;interpolate_nan_outputs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interpolate_nan_outputs</span>
+    <span class="k">if</span> <span class="n">number_of_subprocesses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;number_of_subprocesses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">number_of_subprocesses</span>
+    <span class="k">if</span> <span class="n">build_outputs_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;build_outputs_kwargs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">build_outputs_kwargs</span>
+
+    <span class="n">ps</span> <span class="o">=</span> <span class="n">ParameterSweep</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ps</span><span class="o">.</span><span class="n">parameter_sweep</span><span class="p">(</span>
+        <span class="n">build_model</span><span class="p">,</span>
+        <span class="n">build_sweep_params</span><span class="p">,</span>
+        <span class="n">build_outputs</span><span class="o">=</span><span class="n">build_outputs</span><span class="p">,</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+        <span class="n">build_model_kwargs</span><span class="o">=</span><span class="n">build_model_kwargs</span><span class="p">,</span>
+        <span class="n">build_sweep_params_kwargs</span><span class="o">=</span><span class="n">build_sweep_params_kwargs</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="recursive_parameter_sweep"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parameter_sweep.html#watertap.tools.parameter_sweep.parameter_sweep_functions.recursive_parameter_sweep">[docs]</a><span class="k">def</span> <span class="nf">recursive_parameter_sweep</span><span class="p">(</span>
+    <span class="n">build_model</span><span class="p">,</span>
+    <span class="n">build_sweep_params</span><span class="p">,</span>
+    <span class="n">build_outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">csv_results_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">h5_results_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">h5_parent_group_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">optimize_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">optimize_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">reinitialize_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">reinitialize_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">reinitialize_before_sweep</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">probe_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">debugging_data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">interpolate_nan_outputs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">number_of_subprocesses</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is similar to the `parameter_sweep` function for exploring the parameter space while guranteeing a required number of solves.</span>
+<span class="sd">    If provided, writes single CSV file to ``results_file`` with all inputs and resulting outputs.</span>
+
+<span class="sd">    Arguments:</span>
+
+<span class="sd">        model : A Pyomo ConcreteModel containing a watertap flowsheet, for best</span>
+<span class="sd">                results it should be initialized before being passed to this</span>
+<span class="sd">                function.</span>
+
+<span class="sd">        sweep_params: A dictionary containing the values to vary with the format</span>
+<span class="sd">                      ``sweep_params[&#39;Short/Pretty-print Name&#39;] =</span>
+<span class="sd">                      (model.fs.variable_or_param[index], lower_limit, upper_limit, num_samples)``.</span>
+<span class="sd">                      A uniform number of samples ``num_samples`` will be take between</span>
+<span class="sd">                      the ``lower_limit`` and ``upper_limit``.</span>
+
+<span class="sd">        outputs : An optional dictionary containing &quot;short names&quot; as keys and and Pyomo objects</span>
+<span class="sd">                  on ``model`` whose values to report as values. E.g.,</span>
+<span class="sd">                  ``outputs[&#39;Short/Pretty-print Name&#39;] = model.fs.variable_or_expression_to_report``.</span>
+<span class="sd">                  If not provided, i.e., outputs = None, the default behavior is to save all model</span>
+<span class="sd">                  variables, parameters, and expressions which provides very thorough results</span>
+<span class="sd">                  at the cost of large file sizes.</span>
+
+<span class="sd">        csv_results_file_name (optional) : The path and file name to write a csv file. The default `None`</span>
+<span class="sd">                                           does not write a csv file.</span>
+
+<span class="sd">        h5_results_file_name (optional) : The path and file name to write a h5 file. The default `None`</span>
+<span class="sd">                                          does not write a file.</span>
+<span class="sd">                                          Writing an h5 file will also create a companion text file `{h5_results_file_name}.txt`</span>
+<span class="sd">                                          which contains the variable names contained within the H5 file.</span>
+
+<span class="sd">        h5_parent_group_name (optional) : Parent h5 groups for the parameter sweep inputs and outputs to be embedded in.</span>
+<span class="sd">                                          The default is `None` and it accepts a string for the h5 group.</span>
+
+<span class="sd">        optimize_function (optional) : A user-defined function to perform the optimization of flowsheet</span>
+<span class="sd">                                       ``model`` and loads the results back into ``model``. The first</span>
+<span class="sd">                                       argument of this function is ``model``. The default uses the</span>
+<span class="sd">                                       default IDAES solver, raising an exception if the termination</span>
+<span class="sd">                                       condition is not optimal.</span>
+
+<span class="sd">        optimize_kwargs (optional) : Dictionary of kwargs to pass into every call to</span>
+<span class="sd">                                     ``optimize_function``. The first arg will always be ``model``,</span>
+<span class="sd">                                     e.g., ``optimize_function(model, **optimize_kwargs)``. The default</span>
+<span class="sd">                                     uses no kwargs.</span>
+
+<span class="sd">        reinitialize_function (optional) : A user-defined function to perform the re-initialize the</span>
+<span class="sd">                                           flowsheet ``model`` if the first call to ``optimize_function``</span>
+<span class="sd">                                           fails for any reason. After ``reinitialize_function``, the</span>
+<span class="sd">                                           parameter sweep tool will immediately call</span>
+<span class="sd">                                           ``optimize_function`` again.</span>
+
+<span class="sd">        reinitialize_kwargs (optional) : Dictionary or kwargs to pass into every call to</span>
+<span class="sd">                                         ``reinitialize_function``. The first arg will always be</span>
+<span class="sd">                                         ``model``, e.g.,</span>
+<span class="sd">                                         ``reinitialize_function(model, **reinitialize_kwargs)``.</span>
+<span class="sd">                                         The default uses no kwargs.</span>
+
+<span class="sd">        reinitialize_before_sweep (optional): Boolean option to reinitialize the flow sheet model before</span>
+<span class="sd">                                              every parameter sweep realization. The default is False.</span>
+<span class="sd">                                              Note the parameter sweep model will try to reinitialize the</span>
+<span class="sd">                                              solve regardless of the option if the run fails.</span>
+
+<span class="sd">        probe_function (optional): A user-defined function that can cheaply check if a current model</span>
+<span class="sd">                                  configuration is solvable without actually reinitializing or solving.</span>
+
+<span class="sd">        debugging_data_dir (optional) : Save results on a per-process basis for parallel debugging</span>
+<span class="sd">                                        purposes. If None no `debugging` data will be saved.</span>
+
+<span class="sd">        interpolate_nan_outputs (optional) : When the parameter sweep has finished, interior values</span>
+<span class="sd">                                             of np.nan will be replaced with a value obtained via</span>
+<span class="sd">                                             a linear interpolation of their surrounding valid neighbors.</span>
+<span class="sd">                                             If true, a second output file with the extension &quot;_clean&quot;</span>
+<span class="sd">                                             will be saved alongside the raw (un-interpolated) values.</span>
+
+<span class="sd">        num_samples (optional) : If the user is using sampling techniques rather than a linear grid</span>
+<span class="sd">                                 of values, they need to set the required number of samples. This is the</span>
+<span class="sd">                                 guaranteed number of solves that the user requires.</span>
+
+<span class="sd">        seed (optional) : If the user is using a random sampling technique, this sets the seed</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        save_data : A list were the first N columns are the values of the parameters passed</span>
+<span class="sd">                    by ``sweep_params`` and the remaining columns are the values of the</span>
+<span class="sd">                    simulation identified by the ``outputs`` argument.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">csv_results_file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;csv_results_file_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">csv_results_file_name</span>
+    <span class="k">if</span> <span class="n">h5_results_file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;h5_results_file_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5_results_file_name</span>
+    <span class="k">if</span> <span class="n">h5_parent_group_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;h5_parent_group_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5_parent_group_name</span>
+    <span class="k">if</span> <span class="n">optimize_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optimize_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optimize_function</span>
+    <span class="k">if</span> <span class="n">optimize_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optimize_kwargs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optimize_kwargs</span>
+    <span class="k">if</span> <span class="n">reinitialize_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;reinitialize_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reinitialize_function</span>
+    <span class="k">if</span> <span class="n">reinitialize_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;reinitialize_kwargs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reinitialize_kwargs</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;reinitialize_before_sweep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reinitialize_before_sweep</span>
+    <span class="k">if</span> <span class="n">probe_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;probe_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">probe_function</span>
+    <span class="k">if</span> <span class="n">debugging_data_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;debugging_data_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">debugging_data_dir</span>
+    <span class="k">if</span> <span class="n">interpolate_nan_outputs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;interpolate_nan_outputs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interpolate_nan_outputs</span>
+    <span class="k">if</span> <span class="n">number_of_subprocesses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;number_of_subprocesses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">number_of_subprocesses</span>
+
+    <span class="n">rps</span> <span class="o">=</span> <span class="n">RecursiveParameterSweep</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rps</span><span class="o">.</span><span class="n">parameter_sweep</span><span class="p">(</span>
+        <span class="n">build_model</span><span class="p">,</span>
+        <span class="n">build_sweep_params</span><span class="p">,</span>
+        <span class="n">build_outputs</span><span class="o">=</span><span class="n">build_outputs</span><span class="p">,</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="differential_parameter_sweep"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parameter_sweep.html#watertap.tools.parameter_sweep.parameter_sweep_functions.differential_parameter_sweep">[docs]</a><span class="k">def</span> <span class="nf">differential_parameter_sweep</span><span class="p">(</span>
+    <span class="n">build_model</span><span class="p">,</span>
+    <span class="n">build_sweep_params</span><span class="p">,</span>
+    <span class="n">build_differential_sweep_specs</span><span class="p">,</span>
+    <span class="n">build_outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">csv_results_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">h5_results_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">h5_parent_group_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">optimize_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">optimize_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">initialize_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">initialize_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">initialize_before_sweep</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">probe_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">debugging_data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">interpolate_nan_outputs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">num_diff_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">guarantee_solves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is similar to the `parameter_sweep` function for exploring the parameter space while guranteeing a required number of solves.</span>
+<span class="sd">    If provided, writes single CSV file to ``results_file`` with all inputs and resulting outputs.</span>
+
+<span class="sd">    Arguments:</span>
+
+<span class="sd">        model : A Pyomo ConcreteModel containing a watertap flowsheet, for best</span>
+<span class="sd">                results it should be initialized before being passed to this</span>
+<span class="sd">                function.</span>
+
+<span class="sd">        sweep_params: A dictionary containing the values to vary with the format</span>
+<span class="sd">                      ``sweep_params[&#39;Short/Pretty-print Name&#39;] =</span>
+<span class="sd">                      (model.fs.variable_or_param[index], lower_limit, upper_limit, num_samples)``.</span>
+<span class="sd">                      A uniform number of samples ``num_samples`` will be take between</span>
+<span class="sd">                      the ``lower_limit`` and ``upper_limit``.</span>
+
+<span class="sd">        differential_sweep_specs: A specification dictionary that contains details for how to construct the parameter sweep dictionary for differential sweep.</span>
+<span class="sd">            This is a nested dictionary where the first level denotes the variable names for which the differential sweep needs to be carried out.</span>
+<span class="sd">            The second level denotes various options to be used for wach variable.</span>
+<span class="sd">            The number of samples for each differential sweep is specified while initializing the DifferentialParameterSweep object wsing the keyword `num_diff_samples`</span>
+<span class="sd">            e.g.</span>
+
+<span class="sd">        .. highlight::</span>
+
+<span class="sd">            {&quot;fs.a&quot;: {&quot;diff_mode&quot;: &quot;sum&quot;, \</span>
+<span class="sd">                      &quot;diff_sample_type&quot;: NormalSample, \</span>
+<span class="sd">                      &quot;std_dev&quot;: 0.01, \</span>
+<span class="sd">                      &quot;pyomo_object&quot;: m.fs.input[&quot;a&quot;]}, \</span>
+<span class="sd">             &quot;fs.b&quot;: {&quot;diff_mode&quot;: &quot;product&quot;, \</span>
+<span class="sd">                      &quot;diff_sample_type&quot;: UniformSample, \</span>
+<span class="sd">                      &quot;relative_lb&quot;: 0.01, \</span>
+<span class="sd">                      &quot;relative_ub&quot;: 0.01, \</span>
+<span class="sd">                      &quot;pyomo_object&quot;: m.fs.input[&quot;b&quot;]}, \</span>
+<span class="sd">             &quot;fs.c&quot;: {&quot;diff_mode&quot;: &quot;sum&quot;, \</span>
+<span class="sd">                      &quot;diff_sample_type&quot;: GeomSample, \</span>
+<span class="sd">                      &quot;relative_lb&quot;: 0.01, \</span>
+<span class="sd">                      &quot;relative_ub&quot;: 10.0, \</span>
+<span class="sd">                      &quot;pyomo_object&quot;: m.fs.input[&quot;c&quot;]}} \</span>
+
+<span class="sd">        outputs (optional) : An optional dictionary containing &quot;short names&quot; as keys and and Pyomo objects</span>
+<span class="sd">                  on ``model`` whose values to report as values. E.g.,</span>
+<span class="sd">                  ``outputs[&#39;Short/Pretty-print Name&#39;] = model.fs.variable_or_expression_to_report``.</span>
+<span class="sd">                  If not provided, i.e., outputs = None, the default behavior is to save all model</span>
+<span class="sd">                  variables, parameters, and expressions which provides very thorough results</span>
+<span class="sd">                  at the cost of large file sizes.</span>
+
+<span class="sd">        csv_results_file_name (optional) : The path and file name to write a csv file. The default `None`</span>
+<span class="sd">                                           does not write a csv file.</span>
+
+<span class="sd">        h5_results_file_name (optional) : The path and file name to write a h5 file. The default `None`</span>
+<span class="sd">                                          does not write a file.</span>
+<span class="sd">                                          Writing an h5 file will also create a companion text file `{h5_results_file_name}.txt`</span>
+<span class="sd">                                          which contains the variable names contained within the H5 file.</span>
+
+<span class="sd">        h5_parent_group_name (optional) : Parent h5 groups for the parameter sweep inputs and outputs to be embedded in.</span>
+<span class="sd">                                          The default is `None` and it accepts a string for the h5 group.</span>
+
+<span class="sd">        optimize_function (optional) : A user-defined function to perform the optimization of flowsheet</span>
+<span class="sd">                                       ``model`` and loads the results back into ``model``. The first</span>
+<span class="sd">                                       argument of this function is ``model``. The default uses the</span>
+<span class="sd">                                       default IDAES solver, raising an exception if the termination</span>
+<span class="sd">                                       condition is not optimal.</span>
+
+<span class="sd">        optimize_kwargs (optional) : Dictionary of kwargs to pass into every call to</span>
+<span class="sd">                                     ``optimize_function``. The first arg will always be ``model``,</span>
+<span class="sd">                                     e.g., ``optimize_function(model, **optimize_kwargs)``. The default</span>
+<span class="sd">                                     uses no kwargs.</span>
+
+<span class="sd">        reinitialize_function (optional) : A user-defined function to perform the re-initialize the</span>
+<span class="sd">                                           flowsheet ``model`` if the first call to ``optimize_function``</span>
+<span class="sd">                                           fails for any reason. After ``reinitialize_function``, the</span>
+<span class="sd">                                           parameter sweep tool will immediately call</span>
+<span class="sd">                                           ``optimize_function`` again.</span>
+
+<span class="sd">        reinitialize_kwargs (optional) : Dictionary or kwargs to pass into every call to</span>
+<span class="sd">                                         ``reinitialize_function``. The first arg will always be</span>
+<span class="sd">                                         ``model``, e.g.,</span>
+<span class="sd">                                         ``reinitialize_function(model, **reinitialize_kwargs)``.</span>
+<span class="sd">                                         The default uses no kwargs.</span>
+
+<span class="sd">        reinitialize_before_sweep (optional): Boolean option to reinitialize the flow sheet model before</span>
+<span class="sd">                                              every parameter sweep realization. The default is False.</span>
+<span class="sd">                                              Note the parameter sweep model will try to reinitialize the</span>
+<span class="sd">                                              solve regardless of the option if the run fails.</span>
+
+<span class="sd">        probe_function (optional): A user-defined function that can cheaply check if a current model</span>
+<span class="sd">                                  configuration is solvable without actually reinitializing or solving.</span>
+
+<span class="sd">        debugging_data_dir (optional) : Save results on a per-process basis for parallel debugging</span>
+<span class="sd">                                        purposes. If None no `debugging` data will be saved.</span>
+
+<span class="sd">        interpolate_nan_outputs (optional) : When the parameter sweep has finished, interior values</span>
+<span class="sd">                                             of np.nan will be replaced with a value obtained via</span>
+<span class="sd">                                             a linear interpolation of their surrounding valid neighbors.</span>
+<span class="sd">                                             If true, a second output file with the extension &quot;_clean&quot;</span>
+<span class="sd">                                             will be saved alongside the raw (un-interpolated) values.</span>
+
+<span class="sd">        num_samples (optional) : If the user is using sampling techniques rather than a grid</span>
+<span class="sd">                                 of values, they need to set the required number of samples. This is the</span>
+<span class="sd">                                 number of base solves that the user desires. The differential sweep will</span>
+<span class="sd">                                 be performed on these base solves.</span>
+
+<span class="sd">        num_diff_samples (optional) : Number of samples for the differential sweep at a given base value.</span>
+
+<span class="sd">        seed (optional) : If the user is using a random sampling technique, this sets the seed</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">        save_data : A list were the first N columns are the values of the parameters passed</span>
+<span class="sd">                    by ``sweep_params`` and the remaining columns are the values of the</span>
+<span class="sd">                    simulation identified by the ``outputs`` argument.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;build_differential_sweep_specs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">build_differential_sweep_specs</span>
+    <span class="k">if</span> <span class="n">csv_results_file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;csv_results_file_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">csv_results_file_name</span>
+    <span class="k">if</span> <span class="n">h5_results_file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;h5_results_file_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5_results_file_name</span>
+    <span class="k">if</span> <span class="n">h5_parent_group_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;h5_parent_group_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h5_parent_group_name</span>
+    <span class="k">if</span> <span class="n">optimize_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optimize_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optimize_function</span>
+    <span class="k">if</span> <span class="n">optimize_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optimize_kwargs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optimize_kwargs</span>
+    <span class="k">if</span> <span class="n">initialize_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;initialize_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initialize_function</span>
+    <span class="k">if</span> <span class="n">initialize_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;initialize_kwargs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initialize_kwargs</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;initialize_before_sweep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initialize_before_sweep</span>
+    <span class="k">if</span> <span class="n">probe_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;probe_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">probe_function</span>
+    <span class="k">if</span> <span class="n">debugging_data_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;debugging_data_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">debugging_data_dir</span>
+    <span class="k">if</span> <span class="n">interpolate_nan_outputs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;interpolate_nan_outputs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interpolate_nan_outputs</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;num_diff_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_diff_samples</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;guarantee_solves&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">guarantee_solves</span>
+
+    <span class="n">dps</span> <span class="o">=</span> <span class="n">DifferentialParameterSweep</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dps</span><span class="o">.</span><span class="n">parameter_sweep</span><span class="p">(</span>
+        <span class="n">build_model</span><span class="p">,</span>
+        <span class="n">build_sweep_params</span><span class="p">,</span>
+        <span class="n">build_outputs</span><span class="o">=</span><span class="n">build_outputs</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

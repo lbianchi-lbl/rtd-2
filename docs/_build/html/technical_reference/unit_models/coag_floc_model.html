@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coagulation-Flocculation &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Crystallization (0D)" href="crystallizer_0D.html" />
+    <link rel="prev" title="Clarifier" href="clarifier.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Unit Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="anaerobic_digester.html">Anaerobic Digester</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aeration_tank.html">Aeration Tank</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boron_removal.html">Boron Removal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clarifier.html">Clarifier</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Coagulation-Flocculation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ports">Ports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#degrees-of-freedom-and-variables">Degrees of Freedom and Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#chemical-dosing-parameters">Chemical Dosing Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#equations-and-relationships">Equations and Relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="crystallizer_0D.html">Crystallization (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr.html">Continuously Stirred Tank Reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr_injection.html">Continuously Stirred Tank Reactor with Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewatering.html">Dewatering Unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_0D.html">Electrodialysis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1D.html">Electrodialysis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrolyzer.html">Electrolyzer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electroNP_ZO.html">ElectroNP (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_recovery_device.html">Energy Recovery Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gac.html">Granular Activated Carbon (GAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_desalter.html">Generic desalter unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_separator.html">Generic separator unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ion_exchange_0D.html">Ion Exchange (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="membrane_distillation_0D.html">Membrane Distillation (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mvc.html">Mechanical Vapor Compression (MVC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_ZO.html">Nanofiltration (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_dspmde_0D.html">Nanofiltration- Donnan Steric Pore Model with Dielectric Exclusion (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_0D.html">Osmotically Assisted Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_1D.html">Osmotically Assisted Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pressure_exchanger.html">Pressure Exchanger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pump.html">Pump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_0D.html">Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_1D.html">Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stoichiometric_reactor.html">Stoichiometric reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thickener.html">Thickener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="translators/index.html">Translators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uv_aop.html">Ultraviolet Advanced Oxidation Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="zero_order_unit_models/index.html">Zero-Order Unit Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Unit Models</a></li>
+      <li class="breadcrumb-item active">Coagulation-Flocculation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/unit_models/coag_floc_model.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="coagulation-flocculation">
+<h1>Coagulation-Flocculation<a class="headerlink" href="#coagulation-flocculation" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>Coagulation-Flocculation is a water treatment process  designed to remove total suspended
+solids (TSS) from solution by converting small suspended and/or colloidal matter, and some
+natural organic matter, into larger ‘floccs’ (or ‘Sludge’) that can then be separated by
+sedimentation and/or filtration (or other separation processes) later in the treatment train.
+This is accomplished in a 2-stage process:</p>
+<p>Stage 1) Coagulation (where chemical coagulants and other aids are rapidly mixed into solution)
+Stage 2) Flocculation (where the ‘floccs’ are formed through slow, gentle mixing/agitation)</p>
+<p>In this implementation of the model, the user MUST provide a measured final Turbidity (in NTU) made
+during a Jar Test for the given water source. This measurement is then used to estimate how much
+TSS would be removed during the Coagulation-Flocculation process. Users may also
+provide the specific chemical composition of additives used to achieve this final Turbidity, and
+can provide information on the level of salts in those additives. This information can be used
+to estimate an increase in total dissolved salts (TDS) that may occur due to the addition of
+those chemicals.</p>
+<p>This model also includes relationships for power usage in the rapid mixing and flocculation
+basins. Users will need to provide information for power usage such as retention times of
+each basin, mixing paddle sizes, number of mixers, etc.</p>
+<p>The main assumptions of the implemented model are as follows:</p>
+<ol class="arabic simple">
+<li><p>Coagulation-Flocculation can be modeled together in a single combined unit (Figure 1)</p></li>
+<li><p>Model dimensionality is limited to a 0D control volume</p></li>
+<li><p>Predicted levels of suspended solid removal can be determined solely by Jar Test measurements</p></li>
+<li><p>Single liquid phase only</p></li>
+<li><p>Isothermal operation</p></li>
+</ol>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../../_images/coagulation_flocculation.png"><img alt="../../_images/coagulation_flocculation.png" src="../../_images/coagulation_flocculation.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 1. Schematic representation of a coagulation-flocculation unit modeled in WaterTAP</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="ports">
+<h2>Ports<a class="headerlink" href="#ports" title="Permalink to this heading"></a></h2>
+<p>The model provides two ports (Pyomo notation in parenthesis):</p>
+<ul class="simple">
+<li><p>Inlet port (inlet)</p></li>
+<li><p>Outlet port (outlet)</p></li>
+</ul>
+</section>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Indices</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Time</p></td>
+<td><p><span class="math notranslate nohighlight">\(t\)</span></p></td>
+<td><p>[0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phases</p></td>
+<td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
+<td><p>[‘Liq’]</p></td>
+</tr>
+<tr class="row-even"><td><p>Components</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘H2O’, ‘TDS’, ‘TSS’, ‘Sludge’, …]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Chemical Additives</p></td>
+<td><p><span class="math notranslate nohighlight">\(i\)</span></p></td>
+<td><p>[‘chem_A’, ‘chem_B’, …]</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Users are responsible for naming any chemical additives and defining all parameters associated with them</strong></p>
+</section>
+<section id="degrees-of-freedom-and-variables">
+<h2>Degrees of Freedom and Variables<a class="headerlink" href="#degrees-of-freedom-and-variables" title="Permalink to this heading"></a></h2>
+<p>Aside from the inlet feed state variables (i.e., temperature, pressure, component mass flowrates),</p>
+<p>the Coagulation-Flocculation model has at least an additional 13 degrees of freedom that
+the user must specify. The table below gives an outline of these.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable Name</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Fluid temperature</p></td>
+<td><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
+<td><p>temperature</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Fluid pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(P\)</span></p></td>
+<td><p>pressure</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Mass flowrate of components</p></td>
+<td><p><span class="math notranslate nohighlight">\(M_j\)</span></p></td>
+<td><p>flow_mass_phase_comp</p></td>
+<td><p>[t, ‘Liq’, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Slope relationship between measured Turbidity and TSS</p></td>
+<td><p><span class="math notranslate nohighlight">\(a\)</span></p></td>
+<td><p>slope</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mg/L/NTU}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Intercept relationship between measured Turbidity and TSS</p></td>
+<td><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
+<td><p>intercept</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mg/L}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Turbidity measured before Jar Test</p></td>
+<td><p><span class="math notranslate nohighlight">\(Turb_o\)</span></p></td>
+<td><p>initial_turbidity_ntu</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{NTU}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Turbidity measured after Jar Test</p></td>
+<td><p><span class="math notranslate nohighlight">\(Turb_f\)</span></p></td>
+<td><p>final_turbidity_ntu</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{NTU}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Chemical Doses added during Jar Test</p></td>
+<td><p><span class="math notranslate nohighlight">\(D_i\)</span></p></td>
+<td><p>chemical_doses</p></td>
+<td><p>[t, i]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mg/L}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Retention time for each rapid mixer</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau_r\)</span></p></td>
+<td><p>rapid_mixing_retention_time</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Number of rapid mixers in series</p></td>
+<td><p><span class="math notranslate nohighlight">\(n_r\)</span></p></td>
+<td><p>num_rapid_mixing_basins</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p>Rapid mixer velocity gradient</p></td>
+<td><p><span class="math notranslate nohighlight">\(G_r\)</span></p></td>
+<td><p>rapid_mixing_vel_grad</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{s}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Retention time of flocculation basin</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau_f\)</span></p></td>
+<td><p>floc_retention_time</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Flocculation single paddle length (from center of rotation to blade edge)</p></td>
+<td><p><span class="math notranslate nohighlight">\(L\)</span></p></td>
+<td><p>single_paddle_length</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Flocculation single paddle width</p></td>
+<td><p><span class="math notranslate nohighlight">\(w\)</span></p></td>
+<td><p>single_paddle_width</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Flocculation paddle rotational speed</p></td>
+<td><p><span class="math notranslate nohighlight">\(\omega\)</span></p></td>
+<td><p>paddle_rotational_speed</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{revolutions/s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Flocculation paddle drag coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_D\)</span></p></td>
+<td><p>paddle_drag_coef</p></td>
+<td><p>[t]</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p>Flocculation paddle velocity fraction</p></td>
+<td><p><span class="math notranslate nohighlight">\(f\)</span></p></td>
+<td><p>vel_fraction</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p>Number of rotating paddle wheels</p></td>
+<td><p><span class="math notranslate nohighlight">\(n_w\)</span></p></td>
+<td><p>num_paddle_wheels</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p>Number of paddles per wheel</p></td>
+<td><p><span class="math notranslate nohighlight">\(n_p\)</span></p></td>
+<td><p>num_paddles_per_wheel</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Users must provide values for and ‘fix’ these variables to solve the model with DOF=0. However, users may also leave variables unfixed for optimization purposes.</strong></p>
+<p><strong>NOTE: Default values are provided for the slope and intercept relationships between Turbidity and TSS. These come from Rugner et al. (2013) but can be substituted as needed to match any data available relating turbidity to TSS.</strong></p>
+<p><strong>NOTE: Variables for ‘temperature’, ‘pressure’, and ‘flow_mass_phase_comp’ come from the associated property package as state variables and are accessed via {port_name}.{state_var_name}</strong></p>
+</section>
+<section id="chemical-dosing-parameters">
+<h2>Chemical Dosing Parameters<a class="headerlink" href="#chemical-dosing-parameters" title="Permalink to this heading"></a></h2>
+<p>In addition to providing and fixing values for chemical additives, the users will
+need to provide parameter information for each additive including molecular weight (<span class="math notranslate nohighlight">\(MW_{a,i}\)</span>),
+moles of salt that would be added per mole of additive (<span class="math notranslate nohighlight">\(N_i\)</span>), and a representative molecular
+weight of the salt species that would be formed from addition of the additive (<span class="math notranslate nohighlight">\(MW_{s,i}\)</span>). If a user
+does not have this information off hand, then the user can simply give a value of ‘0’ for
+the moles of salt added per mole of additive (and dummy values for the molecular weights).
+This information is only used to estimate the rise in TDS when salts are added, so it
+is not critical for the determination of the main objective of Coagulation-Flocculation,
+which is the removal of TSS.</p>
+<p>To provide this information to the unit model, users must add a ‘chemical_additives’
+dictionary to the initialization of the unit model. That dictionary must have the
+following format.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chem_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;chem_A&#39;</span><span class="p">:</span>
+               <span class="p">{</span><span class="s1">&#39;parameter_data&#39;</span><span class="p">:</span>
+                 <span class="p">{</span><span class="s1">&#39;mw_additive&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">),</span>
+                  <span class="s1">&#39;moles_per_mole_additive&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+                  <span class="s1">&#39;mw_salt&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">)</span>
+                 <span class="p">}</span>
+               <span class="p">},</span>
+             <span class="s1">&#39;chem_B&#39;</span><span class="p">:</span>
+               <span class="p">{</span><span class="s1">&#39;parameter_data&#39;</span><span class="p">:</span>
+                 <span class="p">{</span><span class="s1">&#39;mw_additive&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">),</span>
+                  <span class="s1">&#39;moles_per_mole_additive&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+                  <span class="s1">&#39;mw_salt&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">)</span>
+                 <span class="p">}</span>
+               <span class="p">}</span>
+           <span class="p">}</span>
+</pre></div>
+</div>
+<p>For example, this ‘chem_dict’ would be passed into the model on construction as
+one of the configuration options as shown below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">CoagulationFlocculation</span><span class="p">(</span>
+    <span class="n">property_package</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span>
+    <span class="n">chemical_additives</span><span class="o">=</span><span class="n">chem_dict</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>NOTE: The above example assumes you have already constructed a pyomo model named ‘model’ and attached an IDAES flowsheet named ‘fs’ to it, as well as a properties block named ‘properties’</strong></p>
+</section>
+<section id="equations-and-relationships">
+<h2>Equations and Relationships<a class="headerlink" href="#equations-and-relationships" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TSS relationship with initial Turbidity</p></td>
+<td><p><span class="math notranslate nohighlight">\(TSS_o = b + a(Turb_o)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>TSS relationship with final Turbidity</p></td>
+<td><p><span class="math notranslate nohighlight">\(TSS_f = b + a(Turb_f)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>TSS loss rate</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{TSS} = M_{TSS,in} - Q \cdotp TSS_f\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>TSS mass balance</p></td>
+<td><p><span class="math notranslate nohighlight">\(0 = M_{TSS,in} - M_{TSS,out} - S_{TSS}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Sludge mass balance</p></td>
+<td><p><span class="math notranslate nohighlight">\(0 = M_{Sludge,in} - M_{Sludge,out} + S_{TSS}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>TDS gain rate</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{TDS} = Q \cdotp {\sum_{i} \frac{D_i}{MW_{a,i}} \cdotp N_i \cdotp MW_{s,i} }\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>TDS mass balance</p></td>
+<td><p><span class="math notranslate nohighlight">\(0 = M_{TDS,in} - M_{TDS,out} + S_{TDS}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Rapid Mixer Total Volume</p></td>
+<td><p><span class="math notranslate nohighlight">\(V_r = Q \cdotp \tau_r \cdotp n_r\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Rapid Mixer Total Power Usage</p></td>
+<td><p><span class="math notranslate nohighlight">\(P_r = {G_r}^2 \cdotp \mu \cdotp V_r\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Flocculation Basin Total Volume</p></td>
+<td><p><span class="math notranslate nohighlight">\(V_f = Q \cdotp \tau_f\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Paddle Wheel Speed</p></td>
+<td><p><span class="math notranslate nohighlight">\(v_p = \pi \cdotp L \cdotp \omega\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Flocculation Power Usage</p></td>
+<td><p><span class="math notranslate nohighlight">\(P_p = 0.5 \cdotp C_D \cdotp L \cdotp w \cdotp n_w \cdotp n_p \cdotp \rho {(f \cdotp v_p)}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Total Power Usage</p></td>
+<td><p><span class="math notranslate nohighlight">\(P_T = P_p + P_r\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Relationships for power usage all come from Mines (2014)</strong></p>
+<p><strong>NOTE:</strong> <span class="math notranslate nohighlight">\(Q\)</span> <strong>is defined as the total volumetric flow rate and</strong> <span class="math notranslate nohighlight">\(S_{j}\)</span> <strong>is the source/sink term for component</strong> <span class="math notranslate nohighlight">\(j\)</span></p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>H. Rugner, M. Schwientek, B. Beckingham, B. Kuch, P. Grathwohl,
+Environ. Earth Sci. 69 (2013) 373-380. DOI:<a class="reference external" href="https://doi.org/10.1007/s12665-013-2307-1">10.1007/s12665-013-2307-1</a></p>
+<p>R.O. Mines <a class="reference external" href="https://www.biblio.com/9781118801451">Environmental Engineering: Principles and Practice</a>,
+1st Ed, John Wiley &amp; Sons, 2014. Ch. 6.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="clarifier.html" class="btn btn-neutral float-left" title="Clarifier" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="crystallizer_0D.html" class="btn btn-neutral float-right" title="Crystallization (0D)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

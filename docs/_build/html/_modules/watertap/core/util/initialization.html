@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.core.util.initialization &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.core.util.initialization</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.core.util.initialization</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains utility functions for initialization of WaterTAP models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Adam Atia&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">check_optimal_termination</span><span class="p">,</span> <span class="n">ComponentMap</span><span class="p">,</span> <span class="n">Var</span>
+<span class="kn">from</span> <span class="nn">pyomo.contrib.fbbt.fbbt</span> <span class="kn">import</span> <span class="n">fbbt</span>
+
+<span class="kn">from</span> <span class="nn">idaes.core.util.exceptions</span> <span class="kn">import</span> <span class="n">InitializationError</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.model_statistics</span> <span class="kn">import</span> <span class="n">degrees_of_freedom</span>
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="check_solve"><a class="viewcode-back" href="../../../../apidoc/watertap.core.util.html#watertap.core.util.initialization.check_solve">[docs]</a><span class="k">def</span> <span class="nf">check_solve</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">_log</span><span class="p">,</span> <span class="n">fail_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that solver termination is optimal and OK in an initialization routine.</span>
+<span class="sd">    If the check fails, proceed through initialization with only a logger warning by default,</span>
+<span class="sd">    or set fail_flag=True to raise an error. This should also work for checking a solve outside</span>
+<span class="sd">    of an initialization routine.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">            results : solver results</span>
+<span class="sd">            checkpoint : Optional string argument to specify the step of initialization being checked</span>
+<span class="sd">                        (e.g., checkpoint=&quot;Initialization step 1: solve indexed blocks&quot;)</span>
+<span class="sd">            logger : Optional argument for loading idaes.getInitLogger object (e.g., logger=init_log)</span>
+<span class="sd">            fail_flag : Boolean argument to specify error or warning (Default: fail_flag=False produces logger warning.</span>
+<span class="sd">                        set fail_flag=True to raise an error and stop the initialization routine.)</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">check_optimal_termination</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">checkpoint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Solve successful.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">checkpoint</span><span class="si">}</span><span class="s2"> successful.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">checkpoint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The solver failed to converge to an optimal solution. &quot;</span>
+                <span class="s2">&quot;This suggests that the user provided infeasible inputs or that the model &quot;</span>
+                <span class="s2">&quot;is poorly scaled, poorly initialized, or degenerate.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot; The solver at the </span><span class="si">{</span><span class="n">checkpoint</span><span class="si">}</span><span class="s2"> step failed to converge to an optimal solution.&quot;</span>
+                <span class="s2">&quot;This suggests that the user provided infeasible inputs or that the model &quot;</span>
+                <span class="s2">&quot;is poorly scaled, poorly initialized, or degenerate.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">fail_flag</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">InitializationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_dof"><a class="viewcode-back" href="../../../../apidoc/watertap.core.util.html#watertap.core.util.initialization.check_dof">[docs]</a><span class="k">def</span> <span class="nf">check_dof</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">fail_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">_log</span><span class="p">,</span> <span class="n">expected_dof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that degrees of freedom are 0, or the expected amount ``expected_dof``.</span>
+<span class="sd">    If not 0 or ``expected_dof``, either throw a warning and continue or throw an error and stop.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">            blk : block to check</span>
+<span class="sd">            fail_flag : Boolean argument to specify error or warning</span>
+<span class="sd">            (Default: fail_flag=False produces logger warning. Set fail_flag=True to raise an error and stop</span>
+<span class="sd">             the initialization routine.)</span>
+<span class="sd">            logger : Optional argument for loading idaes.getInitLogger object (e.g., logger=init_log)</span>
+<span class="sd">            expected_dof : Integer number of degrees of freedom ``blk`` should have</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">!=</span> <span class="n">expected_dof</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">expected_dof</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Non-zero degrees of freedom: Degrees of freedom on </span><span class="si">{</span><span class="n">blk</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Fix </span><span class="si">{</span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="si">}</span><span class="s2"> more variable(s)&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">expected_dof</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unexpected degrees of freedom: Degrees of freedom on </span><span class="si">{</span><span class="n">blk</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">expected_dof</span><span class="si">}</span><span class="s2">. Unfix </span><span class="si">{</span><span class="n">expected_dof</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="si">}</span><span class="s2"> variable(s)&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">expected_dof</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unexpected degrees of freedom: Degrees of freedom on </span><span class="si">{</span><span class="n">blk</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">expected_dof</span><span class="si">}</span><span class="s2">. Fix </span><span class="si">{</span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">expected_dof</span><span class="si">}</span><span class="s2"> variable(s)&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">fail_flag</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">InitializationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="assert_degrees_of_freedom"><a class="viewcode-back" href="../../../../apidoc/watertap.core.util.html#watertap.core.util.initialization.assert_degrees_of_freedom">[docs]</a><span class="k">def</span> <span class="nf">assert_degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">expected_dof</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assert that degrees of freedom are ``expected_dof``.</span>
+<span class="sd">    If not ``expected_dof``, throw an error and stop.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">            blk : block to check</span>
+<span class="sd">            expected_dof : Integer number of degrees of freedom ``blk`` should have</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_dof</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">expected_dof</span><span class="o">=</span><span class="n">expected_dof</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="assert_no_degrees_of_freedom"><a class="viewcode-back" href="../../../../apidoc/watertap.core.util.html#watertap.core.util.initialization.assert_no_degrees_of_freedom">[docs]</a><span class="k">def</span> <span class="nf">assert_no_degrees_of_freedom</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assert that degrees of freedom are 0.</span>
+<span class="sd">    If ``blk`` has non-zero degrees of freedom, throw an error and stop.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">            blk : block to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_dof</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="interval_initializer"><a class="viewcode-back" href="../../../../apidoc/watertap.core.util.html#watertap.core.util.initialization.interval_initializer">[docs]</a><span class="k">def</span> <span class="nf">interval_initializer</span><span class="p">(</span>
+    <span class="n">blk</span><span class="p">,</span> <span class="n">feasibility_tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">default_initial_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">_log</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Improve the initialization of ``blk`` utilizing interval arithmetic.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">        blk : block to initialize</span>
+<span class="sd">        feasibility_tol : tolerance to use for FBBT (default: 1e-6)</span>
+<span class="sd">        default_initial_value: set uninitialized variables to this value (default: 0.0)</span>
+<span class="sd">        logger : logger to use (default: watertap.core.util.initialization)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bound_cache</span> <span class="o">=</span> <span class="n">ComponentMap</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">blk</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">Var</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">descend_into</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">bound_cache</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">bounds</span>
+
+    <span class="n">fbbt</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">feasibility_tol</span><span class="o">=</span><span class="n">feasibility_tol</span><span class="p">,</span> <span class="n">deactivate_satisfied_constraints</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">bounds</span> <span class="ow">in</span> <span class="n">bound_cache</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;variable </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has no initial value: setting to </span><span class="si">{</span><span class="n">default_initial_value</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">default_initial_value</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">lb</span> <span class="o">==</span> <span class="n">v</span><span class="o">.</span><span class="n">ub</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;setting </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> to derived value </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="n">v</span><span class="o">.</span><span class="n">lb</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;projecting </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> at value </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> onto derived lower bound </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">lb</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">ub</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;projecting </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> at value </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> onto derived upper bound </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">ub</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">ub</span><span class="p">,</span> <span class="n">skip_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">bounds</span> <span class="ow">in</span> <span class="n">bound_cache</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># restore bounds to original</span>
+        <span class="n">v</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">bounds</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

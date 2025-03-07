@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reverse Osmosis (1D) &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Stoichiometric reactor" href="stoichiometric_reactor.html" />
+    <link rel="prev" title="Reverse Osmosis (0D)" href="reverse_osmosis_0D.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Unit Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="anaerobic_digester.html">Anaerobic Digester</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aeration_tank.html">Aeration Tank</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boron_removal.html">Boron Removal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clarifier.html">Clarifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coag_floc_model.html">Coagulation-Flocculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crystallizer_0D.html">Crystallization (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr.html">Continuously Stirred Tank Reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr_injection.html">Continuously Stirred Tank Reactor with Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewatering.html">Dewatering Unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_0D.html">Electrodialysis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1D.html">Electrodialysis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrolyzer.html">Electrolyzer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electroNP_ZO.html">ElectroNP (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_recovery_device.html">Energy Recovery Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gac.html">Granular Activated Carbon (GAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_desalter.html">Generic desalter unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_separator.html">Generic separator unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ion_exchange_0D.html">Ion Exchange (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="membrane_distillation_0D.html">Membrane Distillation (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mvc.html">Mechanical Vapor Compression (MVC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_ZO.html">Nanofiltration (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_dspmde_0D.html">Nanofiltration- Donnan Steric Pore Model with Dielectric Exclusion (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_0D.html">Osmotically Assisted Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_1D.html">Osmotically Assisted Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pressure_exchanger.html">Pressure Exchanger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pump.html">Pump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_0D.html">Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Reverse Osmosis (1D)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#degrees-of-freedom">Degrees of Freedom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-structure">Model Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#equations">Equations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class-documentation">Class Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stoichiometric_reactor.html">Stoichiometric reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thickener.html">Thickener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="translators/index.html">Translators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uv_aop.html">Ultraviolet Advanced Oxidation Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="zero_order_unit_models/index.html">Zero-Order Unit Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Unit Models</a></li>
+      <li class="breadcrumb-item active">Reverse Osmosis (1D)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/unit_models/reverse_osmosis_1D.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="reverse-osmosis-1d">
+<h1>Reverse Osmosis (1D)<a class="headerlink" href="#reverse-osmosis-1d" title="Permalink to this heading"></a></h1>
+<dl class="simple">
+<dt>This reverse osmosis (RO) unit model</dt><dd><ul class="simple">
+<li><p>is 1-dimensional</p></li>
+<li><p>supports a single liquid phase only</p></li>
+<li><p>supports steady-state only</p></li>
+<li><p>supports both solution-diffusion (SD) and Spiegler-Kedem-Katchalsky (SKK) models [1]</p></li>
+<li><p>supports flat-sheet and spiral-wound module designs</p></li>
+<li><p>assumes isothermal conditions</p></li>
+</ul>
+</dd>
+</dl>
+<section id="degrees-of-freedom">
+<span id="index-0"></span><h2>Degrees of Freedom<a class="headerlink" href="#degrees-of-freedom" title="Permalink to this heading"></a></h2>
+<p>Aside from the inlet feed state variables (i.e. temperature, pressure, component flowrates), the RO model has
+at least 4 degrees of freedom that should be fixed for the unit to be fully specified.</p>
+<dl class="simple">
+<dt>Typically, the following variables are fixed, in addition to state variables at the inlet:</dt><dd><ul class="simple">
+<li><p>membrane water permeability, A</p></li>
+<li><p>membrane salt permeability, B</p></li>
+<li><p>permeate outlet pressure</p></li>
+<li><p>membrane area <em>or</em> length <em>or</em> width</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="model-structure">
+<h2>Model Structure<a class="headerlink" href="#model-structure" title="Permalink to this heading"></a></h2>
+<p>This RO model consists of 1 MembraneChannel1DBlock for the feed-side (feed_side.properties[t, x]), a StateBlock indexed by time and space for the permeate-side (permeate_side[t, x]),
+and a StateBlock for the final permeate at the outlet (mixed_permeate).</p>
+</section>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Indices</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Time</p></td>
+<td><p><span class="math notranslate nohighlight">\(t\)</span></p></td>
+<td><p>[0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Space</p></td>
+<td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
+<td><p>Normalized ContinuousSet [0 … 1] discretized by number of finite elements</p></td>
+</tr>
+<tr class="row-even"><td><p>Phases</p></td>
+<td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
+<td><p>[‘Liq’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Components</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘H2O’, ‘NaCl’]*</p></td>
+</tr>
+</tbody>
+</table>
+<p>*Solute depends on the imported property model; example shown here is for the NaCl property model.</p>
+</section>
+<section id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this heading"></a></h2>
+<p>Refer to the <a class="reference internal" href="reverse_osmosis_0D.html#dro-variables"><span class="std std-ref">Variables</span></a> section in the  0DRO model.</p>
+</section>
+<section id="equations">
+<h2>Equations<a class="headerlink" href="#equations" title="Permalink to this heading"></a></h2>
+<p>Refer to the <a class="reference internal" href="reverse_osmosis_0D.html#dro-equations"><span class="std std-ref">Equations</span></a> section in the 0DRO model.</p>
+</section>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.unit_models.reverse_osmosis_1D.</span></span><span class="sig-name descname"><span class="pre">ReverseOsmosis1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl>
+<dt>dynamic</dt><dd><p>Indicates whether this model will be dynamic or not.
+<strong>default</strong> - False. Membrane units do not yet support
+dynamic behavior.</p>
+</dd>
+<dt>has_holdup</dt><dd><p>Indicates whether holdup terms should be constructed or
+not. <strong>default</strong> - False. Membrane units do not have
+defined volume, thus this must be False.</p>
+</dd>
+<dt>property_package</dt><dd><p>Property parameter object used to define property
+calculations, <strong>default</strong> - useDefault. <strong>Valid values:</strong>
+{ <strong>useDefault</strong> - use default package from parent model
+or flowsheet, <strong>PhysicalParameterObject</strong> - a
+PhysicalParameterBlock object.}</p>
+</dd>
+<dt>property_package_args</dt><dd><p>A ConfigDict with arguments to be passed to a property
+block(s) and used when constructing these. <strong>default</strong> -
+None. <strong>Valid values:</strong> { see property package for
+documentation.}</p>
+</dd>
+<dt>material_balance_type</dt><dd><p>Indicates what type of mass balance should be constructed,
+<strong>default</strong> - useDefault. <strong>Valid values:</strong> {
+<strong>MaterialBalanceType.useDefault</strong> - refer to property
+package for default balance type
+<strong>MaterialBalanceType.none</strong> - exclude material balances,
+<strong>MaterialBalanceType.componentPhase</strong> - use phase
+component balances, <strong>MaterialBalanceType.componentTotal</strong>
+- use total component balances,
+<strong>MaterialBalanceType.elementTotal</strong> - use total element
+balances, <strong>MaterialBalanceType.total</strong> - use total
+material balance.}</p>
+</dd>
+<dt>energy_balance_type</dt><dd><p>Indicates what type of energy balance should be
+constructed. <strong>default</strong> - useDefault. <strong>Valid values:</strong> {
+<strong>EnergyBalanceType.useDefault</strong> - refer to property
+package for default balance type
+<strong>EnergyBalanceType.none</strong> - exclude energy balances,
+<strong>EnergyBalanceType.enthalpyTotal</strong> - single enthalpy
+balance for material, <strong>EnergyBalanceType.enthalpyPhase</strong>
+- enthalpy balances for each phase,
+<strong>EnergyBalanceType.energyTotal</strong> - single energy balance
+for material, <strong>EnergyBalanceType.energyPhase</strong> - energy
+balances for each phase.}</p>
+</dd>
+<dt>momentum_balance_type</dt><dd><p>Indicates what type of momentum balance should be
+constructed, <strong>default</strong> -
+MomentumBalanceType.pressureTotal. <strong>Valid values:</strong> {
+<strong>MomentumBalanceType.none</strong> - exclude momentum balances,
+<strong>MomentumBalanceType.pressureTotal</strong> - single pressure
+balance for material,
+<strong>MomentumBalanceType.pressurePhase</strong> - pressure balances
+for each phase, <strong>MomentumBalanceType.momentumTotal</strong> -
+single momentum balance for material,
+<strong>MomentumBalanceType.momentumPhase</strong> - momentum balances
+for each phase.}</p>
+</dd>
+<dt>concentration_polarization_type</dt><dd><p>Options to account for concentration polarization.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">ConcentrationPolarizationType.calculated</span></code></p>
+</dd>
+</dl>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ConcentrationPolarizationType.none</span></code></p></td>
+<td><p>Simplifying assumption to ignore concentration polarization</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ConcentrationPolarizationType.fixed</span></code></p></td>
+<td><p>Specify an estimated value for the concentration polarization modulus</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ConcentrationPolarizationType.calculated</span></code></p></td>
+<td><p>Allow model to perform calculation of membrane-interface concentration</p></td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>mass_transfer_coefficient</dt><dd><p>Options to account for mass transfer coefficient.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">MassTransferCoefficient.calculated</span></code></p>
+</dd>
+</dl>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MassTransferCoefficient.none</span></code></p></td>
+<td><p>Mass transfer coefficient not used in calculations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MassTransferCoefficient.fixed</span></code></p></td>
+<td><p>Specify an estimated value for the mass transfer coefficient in the feed channel</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MassTransferCoefficient.calculated</span></code></p></td>
+<td><p>Allow model to perform calculation of mass transfer coefficient</p></td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>transport_model</dt><dd><p>Options to account for mass transfer model.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">TransportModel.SD</span></code></p>
+<p>”<code class="docutils literal notranslate"><span class="pre">TransportModel.SD</span></code>”, “Solution-diffusion model for describing water and salt transport for most membrane types”
+“<code class="docutils literal notranslate"><span class="pre">TransportModel.SKK</span></code>”, “Speigler-Kedem-Katchalsky model for describing water and salt transport”</p>
+</dd>
+<dt>module_type</dt><dd><p>Options to account for geometry differences between flat sheet and spiral wound membranes.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">ModuleType.flat_sheet</span></code></p>
+<p>”<code class="docutils literal notranslate"><span class="pre">ModuleType.flat_sheet</span></code>”, “Module type option for flat-sheet membrane modules”
+“<code class="docutils literal notranslate"><span class="pre">ModuleType.spiral_wound</span></code>”, “Module type option for spiral-wound membrane modules, this option accounts for how membranes in spiral-wound modules are folded which reduces the channel width by half”</p>
+</dd>
+<dt>has_pressure_change</dt><dd><p>Indicates whether terms for pressure change should be
+constructed, <strong>default</strong> - False. <strong>Valid values:</strong> {
+<strong>True</strong> - include pressure change terms, <strong>False</strong> -
+exclude pressure change terms.}</p>
+</dd>
+</dl>
+<p>pressure_change_type
+Indicates what type of pressure change calculation will be made. To use any of the
+<code class="docutils literal notranslate"><span class="pre">pressure_change_type</span></code> options to account for pressure drop, the configuration keyword
+<code class="docutils literal notranslate"><span class="pre">has_pressure_change</span></code> must also be set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. Also, if a value is specified for pressure
+change, it should be negative to represent pressure drop.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">PressureChangeType.fixed_per_stage</span></code></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PressureChangeType.fixed_per_stage</span></code></p></td>
+<td><p>Specify an estimated value for pressure drop across the membrane feed channel</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PressureChangeType.fixed_per_unit_length</span></code></p></td>
+<td><p>Specify an estimated value for pressure drop per unit length across the membrane feed channel</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PressureChangeType.calculated</span></code></p></td>
+<td><p>Allow model to perform calculation of pressure drop across the membrane feed channel</p></td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>friction_factor</dt><dd><p>Options to account for friction factor correlations.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">FrictionFactor.default_by_module_type</span></code></p>
+</dd>
+</dl>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FrictionFactor.default_by_module_type</span></code></p></td>
+<td><p>Friction factor correlation that is specific to the supported membrane modules type</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="simple">
+<dt>area_definition</dt><dd><p>Argument defining whether area variable should be
+spatially variant or not. <strong>default</strong> -
+DistributedVars.uniform. <strong>Valid values:</strong> {
+DistributedVars.uniform - area does not vary across
+spatial domain, DistributedVars.variant - area can vary
+over the domain and is indexed by time and space.}</p>
+</dd>
+<dt>transformation_method</dt><dd><p>Discretization method to use for DAE transformation. See
+Pyomo documentation for supported transformations.</p>
+</dd>
+<dt>transformation_scheme</dt><dd><p>Discretization scheme to use when transforming domain. See
+Pyomo documentation for supported schemes.</p>
+</dd>
+<dt>finite_elements</dt><dd><p>Number of finite elements to use when discretizing length
+domain (default=10)</p>
+</dd>
+<dt>collocation_points</dt><dd><p>Number of collocation points to use per finite element
+when discretizing length domain (default=5)</p>
+</dd>
+<dt>has_full_reporting</dt><dd><p>Level of reporting results. <strong>default</strong> - False. <strong>Valid
+values:</strong> { <strong>False</strong> - include minimal reporting of
+results, <strong>True</strong> - report additional properties of
+interest that aren’t constructed by the unit model by
+default. Also, report averaged expression values</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ReverseOsmosis1D) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.unit_models.reverse_osmosis_1D.</span></span><span class="sig-name descname"><span class="pre">ReverseOsmosis1DData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/watertap/unit_models/reverse_osmosis_1D.html#ReverseOsmosis1DData"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Standard 1D Reverse Osmosis Unit Model Class.</p>
+</dd></dl>
+
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>Spiegler, K. S., &amp; Kedem, O. (1966). Thermodynamics of hyperfiltration (reverse osmosis): criteria for efficient membranes. Desalination, 1(4), 311-326.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reverse_osmosis_0D.html" class="btn btn-neutral float-left" title="Reverse Osmosis (0D)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="stoichiometric_reactor.html" class="btn btn-neutral float-right" title="Stoichiometric reactor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

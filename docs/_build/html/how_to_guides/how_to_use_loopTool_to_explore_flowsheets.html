@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to use loopTool to explore flowsheets &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="How to use the debugging solver wrapper" href="how_to_use_debugging_solver_wrapper.html" />
+    <link rel="prev" title="How to Run Differential Parameter Sweep" href="how_to_run_differential_parameter_sweep.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How To Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_models_in_a_py_script.html">How to run models in a Python script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_zero_order_model.html">How to run a zero-order model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_a_property_model.html">How to use a property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_RO.html">How to setup a simple RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_RO_config_options.html">How to use configuration options in the RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_MCAS_property_model.html">How to use the multicomponent aqueous solution (MCAS) property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_chemistry.html">How to setup simple chemistry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_apparent_and_true_chemical_species.html">How to use apparent and true chemical species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_inherent_reactions.html">How to use inherent reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_a_model.html">How to scale a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_reactions.html">How to scale chemical reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_species.html">How to scale chemical species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_process_energy_balance.html">How to scale energy balance for chemical process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep.html">How to explore a model with parameter sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep_monte_carlo.html">Monte Carlo testing with the Parameter Sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_differential_parameter_sweep.html">How to Run Differential Parameter Sweep</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to use loopTool to explore flowsheets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-looptool">Setting up loopTool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-a-flowsheet-for-use-with-looptool">Setting up a flowsheet for use with loopTool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-the-yaml-configuration-file">Setting up the .yaml configuration file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-the-looptool">Setting up the loopTool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#output-data-structure-and-data-protection">Output data structure and data protection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_debugging_solver_wrapper.html">How to use the debugging solver wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_property_test_harness.html">How to use the property test harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_ui_api.html">Add a flowsheet to the UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_ui_api.html#testing-flowsheet-interfaces">Testing flowsheet interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_unit_test_harness.html">How to use the unit test harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_contribute_development.html">How to contribute to WaterTAP’s development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks.html">How to run WaterTAP with Jupyter notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">How To Guides</a></li>
+      <li class="breadcrumb-item active">How to use loopTool to explore flowsheets</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/how_to_guides/how_to_use_loopTool_to_explore_flowsheets.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="how-to-use-looptool-to-explore-flowsheets">
+<h1>How to use loopTool to explore flowsheets<a class="headerlink" href="#how-to-use-looptool-to-explore-flowsheets" title="Permalink to this heading"></a></h1>
+<p id="index-0">The loopTool is a wrapper for the parameter sweep (PS) tool set, and is designed to simplify setting up parametric sweeps, enabling sweeping over discrete design choices, and providing structured data management.</p>
+<p>The loopTool uses the full features of PS tool set, including standard PS tool and differential PS tool, but brings in the ability to run iteratively over different build options, initialization options, and solve options that might be required for full flowsheet analysis.</p>
+<p>A common example is solving processes with multiple stages such as LSRRO flow sheet, or options where different design choices need to be evaluated such as different pressure exchanger types in RO. Other examples could be exploring different initialization guesses, or setting up different solve constraints. All of these options can be run in nested configuration (e.g. for every stage simulate N number of build configurations).</p>
+<p>The loopTool uses .h5 format for structured data management, and a companion tool dataImporter, provides a simple interface to explore these files (coming soon). The .h5 format enables saving data in a file using directories, such that each unique simulation run with PS tool is stored in its own directory, enabling one file to store a large number of different simulations. The loopTool does not support storing data in CSV format.</p>
+<section id="setting-up-looptool">
+<h2>Setting up loopTool<a class="headerlink" href="#setting-up-looptool" title="Permalink to this heading"></a></h2>
+<p>The loopTool setup involves creating the following:</p>
+<ol class="arabic simple">
+<li><p>A flowsheet with build, initialize (optional), and optimize function</p></li>
+<li><p>A .yaml file with simulation configuration</p></li>
+<li><p>A .py file that connects loopTool to the flowsheet, directories for where to save data, and yaml file, as well as other solve or PS options</p></li>
+</ol>
+</section>
+<section id="setting-up-a-flowsheet-for-use-with-looptool">
+<h2>Setting up a flowsheet for use with loopTool<a class="headerlink" href="#setting-up-a-flowsheet-for-use-with-looptool" title="Permalink to this heading"></a></h2>
+<p>The loopTool requires a similar functional setup as PS tool kit. Here we will setup RO_with_energy_recovery.py example flowsheet for use with PS and loopTool. The RO_with_energy_recovery flowsheet has an option
+that selects the type of ERD used, by passing erd_type option at build (either a pressure_exchanger, pump_as_turbine, or None). The user likely would want to run a parameter sweep across these options, and we will setup the loopTool to do so.</p>
+<p><em>The user will need to set up the following three functions:</em></p>
+<ol class="arabic">
+<li><p>The <em>build_function</em> that builds the flowsheet (ro_build)- This function should build the flowsheet, and accept any kwargs for its configuration. Herein we pass explicitly erd_type, but also include <em>kwargs</em> in case we want to pass in other options in the future. When loopTool runs, it will pass selected <em>kwargs</em> into this function before running the sweep. (This function ideally should not initialize the model but should build all relevant vars, parameters, and constraints).</p></li>
+<li><p>The <em>initialization_function</em> (ro_init)- This function should initialize the model and set it up for optimization or simulation run.</p>
+<p>If the user enables update_sweep_params_before_init option (default: False), the PS tool (and loopTool) will update the parameters on the model tree that are being swept across before calling the initialize function, as well as before solving the optimize function. In the current example, we will use the default setting.</p>
+<p><em>Your initialization function should also be used to prepare the model for solving or optimization run, and thus should call on any additional functions to do so. In our example, a function “optimize_set_up” needs to be called before we run actual optimization. This function unfixes variables we want to optimize and fixes those that should be fixed. For PS/LoopTool, it does not matter if you are planning to do optimization (&gt;0 DOFS) or simulation (0 DOFs), and as such you can set up the model to do either.</em></p>
+</li>
+<li><p>The <em>optimize_function</em> this function will run your optimization or simulation, and should return the result. In general, you are free to include tests to see if the result is optimal, but PS/loopTool will do that check before saving data from the solution. A common error is to have an optimization function that does not return a result, resulting in all of the solves failing during run, even if the model is successfully solved.</p>
+<p><em>The optimize function can include complex solution steps beyond just running the solve call. For example, a user can specify in the optimize function to first solve a model using a continuous approach, followed by a resolve with discrete choices. The user just needs to remember that PS tool will update the sweep parameters only before the call, but not verify that they were applied after execution.</em></p>
+</li>
+</ol>
+<p>An example of the functions setup for use with loopTool for RO_with_energy_recovery flowsheet example.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">watertap.flowsheets.RO_with_energy_recovery.RO_with_energy_recovery</span> <span class="k">as</span> <span class="nn">ro_erd</span>
+<span class="k">def</span> <span class="nf">ro_build</span><span class="p">(</span><span class="n">erd_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+   <span class="n">m</span> <span class="o">=</span> <span class="n">ro_erd</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">erd_type</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">m</span>
+
+<span class="k">def</span> <span class="nf">ro_init</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+   <span class="n">ro_erd</span><span class="o">.</span><span class="n">set_operating_conditions</span><span class="p">(</span>
+      <span class="n">m</span><span class="p">,</span> <span class="n">water_recovery</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">over_pressure</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">solver</span>
+   <span class="p">)</span>
+   <span class="n">ro_erd</span><span class="o">.</span><span class="n">initialize_system</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">)</span>
+   <span class="n">ro_erd</span><span class="o">.</span><span class="n">optimize_set_up</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">ro_solve</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+   <span class="n">result</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</section>
+<section id="setting-up-the-yaml-configuration-file">
+<h2>Setting up the .yaml configuration file<a class="headerlink" href="#setting-up-the-yaml-configuration-file" title="Permalink to this heading"></a></h2>
+<p>The loopTool uses a .yaml configuration file to generate all sweep configurations, define variables to sweep over, and other options.
+This enables user to have multiple setup files that can be used to run simulations without having to change any underlying code, except changing which .yaml file the loopTool uses.</p>
+<p><strong>The loopTool .yaml configuration file accepts two types of options:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>default options</em> - these configure simulation defaults that either define PS tool behavior, loopTool behavior, or default keys that are passed into build, initialize, or optimize functions unless they are overridden by loop options</p></li>
+<li><p><em>loop options</em> - these define options that build iterative loops, and will override existing default values or be included with them.</p></li>
+</ul>
+</div></blockquote>
+<p><strong>default options:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>initialize_before_sweep</em> –(default: False) option to force run initialization_function before every optimize_function call</p></li>
+<li><p><em>update_sweep_params_before_init</em> –(default: False) if set to true, will result in parameters being swept over to be updated before the initialize call.</p></li>
+<li><p><em>number_of_subprocesses</em> –(default: 1)  Number of logical cores to use if running in a parallel manner (not used with MPI or RayIo in cluster mode), default: 1</p></li>
+<li><p><em>parallel_back_end</em> – (default: MultiProcessing)  Parallel back end to use if number_of_subprocesses &gt; 1. (refer to Parallel manager doc for further info)</p></li>
+<li><p><em>build_defaults</em> – default arguments that are passed for every sweep. For example in ro_erd flowsheet, shown here, this could be erd_type, but in other flowsheets, this could define any default options, from file locations to the number of stages, etc. The defaults will be passed along with loop values unless the loop value overrides them.</p></li>
+<li><p><em>init_defaults</em> - defaults for initialization_function, same behavior as build-defaults but used for initialization_function</p></li>
+<li><p><em>optimize_defaults</em> - defaults for optimize_function, same behavior as build or init defaults, but for optimize function.</p></li>
+<li><p><em>build_output_kwargs</em> - a list of keys to only save in .h5 file. loopTool provides a default build_outputs function that takes in a dict containing model key name and model key (e.g., to output only m.fs.costing.LCOW user would include following dict <em>LCOW : fs.costing.LCOW</em>). The default function uses model.find_component to construct an output dict. Alternatively user can provide  kwargs to a user-provided build_outputs function that would be linked to loopTool (shown below).</p></li>
+</ul>
+</div></blockquote>
+<p><strong>loop options:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>build_loop</em> - defines list of keywords arguments to loop over for the <em>build_function</em></p></li>
+<li><p><em>init_loop</em> - defines list of keywords arguments to loop over for the <em>initialization_function</em></p></li>
+<li><p><em>optimize_loop</em> - defines list of keywords arguments to loop over for the <em>optimize_function</em></p></li>
+<li><p><em>sim_cases</em> - defines specific cases to run for given build_loop, init_loop, or optimize_loop.</p></li>
+<li><p><em>sweep_param_loop</em> - defines sweep parameters to loop over</p></li>
+<li><p><em>diff_param_loop</em> - defines differential parameter sweep, the first set of sweep_params define differential sweep parameters, and second key has to be <em>sweep_reference_params</em> - which defines the parameters to use for generation of references simulations, from which differential simulations are performed.</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Defining sweep_param_loop and diff_param_loop:</strong></p>
+<p>The sweep_param_loop and diff_param_loop define the parameters to perform sweeps over using PS tool kit, and support standard configurations in the following structure.</p>
+<p>These configuration arguments are designed to be defined and set up in a .yaml file. The general structure for .yaml file structure should be as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for parametric sweeps</span>
+<span class="c1"># for LinearSamples, UniformSample, GeomSample, ReverseGeomSample, LatinHypercubeSample</span>
+<span class="n">sweep_param_loop</span><span class="p">:</span>
+   <span class="n">sweep_param_name</span><span class="p">:</span>
+      <span class="nb">type</span><span class="p">:</span> <span class="n">Any</span> <span class="nb">type</span> <span class="n">supported</span> <span class="n">by</span> <span class="n">PS</span> <span class="n">toolkit</span> <span class="p">(</span><span class="n">LinearSample</span><span class="p">,</span> <span class="n">UniformSample</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span><span class="p">)</span>
+      <span class="n">param</span><span class="p">:</span> <span class="n">key</span> <span class="n">on</span> <span class="n">the</span> <span class="n">flowsheet</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">found</span> <span class="n">using</span> <span class="n">m</span><span class="o">.</span><span class="n">find_component</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span><span class="p">)</span>
+      <span class="n">lower_limit</span><span class="p">:</span> <span class="n">lower</span> <span class="n">value</span> <span class="k">for</span> <span class="n">sampling</span>
+      <span class="n">upper_limit</span><span class="p">:</span> <span class="n">upper</span> <span class="n">value</span> <span class="k">for</span> <span class="n">sampling</span>
+      <span class="n">num_samples</span><span class="p">:</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span> <span class="n">to</span> <span class="n">run</span>
+
+<span class="c1"># for NormalSample</span>
+<span class="n">sweep_param_loop</span><span class="p">:</span>
+   <span class="n">sweep_param_name</span><span class="p">:</span>
+      <span class="nb">type</span><span class="p">:</span> <span class="n">Any</span> <span class="nb">type</span> <span class="n">supported</span> <span class="n">by</span> <span class="n">PS</span> <span class="n">toolkit</span> <span class="p">(</span><span class="n">NormalSample</span> <span class="n">only</span><span class="p">)</span>
+      <span class="n">param</span><span class="p">:</span> <span class="n">key</span> <span class="n">on</span> <span class="n">the</span> <span class="n">flowsheet</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">found</span> <span class="n">using</span> <span class="n">m</span><span class="o">.</span><span class="n">find_component</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span><span class="p">)</span>
+      <span class="n">mean</span><span class="p">:</span> <span class="n">mean</span> <span class="n">value</span> <span class="n">of</span> <span class="n">normal</span> <span class="n">sample</span>
+      <span class="n">std</span><span class="p">:</span> <span class="n">standard</span> <span class="n">deviation</span>
+      <span class="n">num_samples</span><span class="p">:</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span> <span class="n">to</span> <span class="n">run</span>
+</pre></div>
+</div>
+<p>The sweep_param_loop parameters will be iterated over one by one, to sweep over multiple parameters at once you can define a group as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for parametric sweeps</span>
+<span class="c1"># for LinearSamples, UniformSample, GeomSample, ReverseGeomSample, LatinHypercubeSample</span>
+<span class="n">sweep_param_loop</span><span class="p">:</span>
+   <span class="n">sweep_group_name</span><span class="p">:</span>
+      <span class="n">sweep_param_name_1</span><span class="p">:</span>
+         <span class="nb">type</span><span class="p">:</span> <span class="n">Any</span> <span class="nb">type</span> <span class="n">supported</span> <span class="n">by</span> <span class="n">PS</span> <span class="n">toolkit</span> <span class="p">(</span><span class="n">LinearSample</span><span class="p">,</span> <span class="n">UniformSample</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span><span class="p">)</span>
+         <span class="n">param</span><span class="p">:</span> <span class="n">key</span> <span class="n">on</span> <span class="n">the</span> <span class="n">flowsheet</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">found</span> <span class="n">using</span> <span class="n">m</span><span class="o">.</span><span class="n">find_component</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span><span class="p">)</span>
+         <span class="n">lower_limit</span><span class="p">:</span> <span class="n">lower</span> <span class="n">value</span> <span class="k">for</span> <span class="n">sampling</span>
+         <span class="n">upper_limit</span><span class="p">:</span> <span class="n">upper</span> <span class="n">value</span> <span class="k">for</span> <span class="n">sampling</span>
+         <span class="n">num_samples</span><span class="p">:</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span> <span class="n">to</span> <span class="n">run</span>
+      <span class="n">sweep_param_name_2</span><span class="p">:</span>
+         <span class="nb">type</span><span class="p">:</span> <span class="n">Any</span> <span class="nb">type</span> <span class="n">supported</span> <span class="n">by</span> <span class="n">PS</span> <span class="n">toolkit</span> <span class="p">(</span><span class="n">LinearSample</span><span class="p">,</span> <span class="n">UniformSample</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span><span class="p">)</span>
+         <span class="n">param</span><span class="p">:</span> <span class="n">key</span> <span class="n">on</span> <span class="n">the</span> <span class="n">flowsheet</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">found</span> <span class="n">using</span> <span class="n">m</span><span class="o">.</span><span class="n">find_component</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span><span class="p">)</span>
+         <span class="n">lower_limit</span><span class="p">:</span> <span class="n">lower</span> <span class="n">value</span> <span class="k">for</span> <span class="n">sampling</span>
+         <span class="n">upper_limit</span><span class="p">:</span> <span class="n">upper</span> <span class="n">value</span> <span class="k">for</span> <span class="n">sampling</span>
+         <span class="n">num_samples</span><span class="p">:</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span> <span class="n">to</span> <span class="n">run</span>
+      <span class="n">sweep_param_name_N</span><span class="p">:</span>
+         <span class="nb">type</span><span class="p">:</span> <span class="n">Any</span> <span class="nb">type</span> <span class="n">supported</span> <span class="n">by</span> <span class="n">PS</span> <span class="n">toolkit</span> <span class="p">(</span><span class="n">LinearSample</span><span class="p">,</span> <span class="n">UniformSample</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span><span class="p">)</span>
+         <span class="n">param</span><span class="p">:</span> <span class="n">key</span> <span class="n">on</span> <span class="n">the</span> <span class="n">flowsheet</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">found</span> <span class="n">using</span> <span class="n">m</span><span class="o">.</span><span class="n">find_component</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span><span class="p">)</span>
+         <span class="n">lower_limit</span><span class="p">:</span> <span class="n">lower</span> <span class="n">value</span> <span class="k">for</span> <span class="n">sampling</span>
+         <span class="n">upper_limit</span><span class="p">:</span> <span class="n">upper</span> <span class="n">value</span> <span class="k">for</span> <span class="n">sampling</span>
+         <span class="n">num_samples</span><span class="p">:</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span> <span class="n">to</span> <span class="n">run</span>
+</pre></div>
+</div>
+<p><strong>Defining diff_param_loop</strong></p>
+<p>The diff_param_loop defines a run for parameter_sweep_differential tool and requires the same parametrization. Namely the differential spec and parameter sweep values. In the .yaml file, when setting up diff_param_loop, the first set of parameters will define the differential spec, while values after <em>sweep_reference_params</em> will define the parameters for reference sweep.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for differenatial sweeps</span>
+<span class="n">diff_param_loop</span><span class="p">:</span>
+   <span class="c1"># percentile diff_type</span>
+   <span class="n">diff_param_name</span><span class="p">:</span>
+      <span class="n">diff_mode</span><span class="p">:</span> <span class="n">percentile</span>
+      <span class="n">diff_sample_type</span><span class="p">:</span> <span class="n">UniformSample</span>
+      <span class="n">nominal_lb</span><span class="p">:</span> <span class="n">lower</span> <span class="n">nominal</span> <span class="n">value</span>
+      <span class="n">nominal_ub</span><span class="p">:</span> <span class="n">upper</span> <span class="n">nominal</span> <span class="n">value</span>
+      <span class="n">num_samples</span><span class="p">:</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span><span class="p">,</span> <span class="k">if</span> <span class="n">you</span> <span class="n">have</span> <span class="n">no</span> <span class="n">difference</span> <span class="n">between</span> <span class="n">relative_lb</span> <span class="ow">and</span> <span class="n">relative_ub</span><span class="p">,</span> <span class="nb">set</span> <span class="n">to</span> <span class="mi">1</span>
+      <span class="n">param</span><span class="p">:</span> <span class="n">key</span> <span class="n">on</span> <span class="n">the</span> <span class="n">flowsheet</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">found</span> <span class="n">using</span> <span class="n">m</span><span class="o">.</span><span class="n">find_component</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span><span class="p">)</span>
+      <span class="n">relative_lb</span><span class="p">:</span> <span class="n">lower</span> <span class="n">percentile</span> <span class="n">bound</span> <span class="n">to</span> <span class="n">sample</span>
+      <span class="n">relative_ub</span><span class="p">:</span> <span class="n">upper</span> <span class="n">percentile</span> <span class="n">bound</span> <span class="n">to</span> <span class="n">sample</span><span class="p">,</span> <span class="n">can</span>  <span class="n">be</span> <span class="n">same</span> <span class="k">as</span> <span class="n">relative</span> <span class="n">lb</span><span class="p">,</span> <span class="n">to</span> <span class="n">sample</span> <span class="n">single</span> <span class="n">value</span>
+   <span class="c1"># sum or product diff_type</span>
+   <span class="n">diff_param_name</span><span class="p">:</span>
+      <span class="n">diff_mode</span><span class="p">:</span> <span class="nb">sum</span> <span class="ow">or</span> <span class="n">product</span>
+      <span class="n">diff_sample_type</span><span class="p">:</span> <span class="n">UniformSample</span>
+      <span class="n">num_samples</span><span class="p">:</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span><span class="p">,</span> <span class="k">if</span> <span class="n">you</span> <span class="n">have</span> <span class="n">no</span> <span class="n">difference</span> <span class="n">between</span> <span class="n">relative_lb</span> <span class="ow">and</span> <span class="n">relative_ub</span><span class="p">,</span> <span class="nb">set</span> <span class="n">to</span> <span class="mi">1</span>
+      <span class="n">param</span><span class="p">:</span> <span class="n">key</span> <span class="n">on</span> <span class="n">the</span> <span class="n">flowsheet</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">found</span> <span class="n">using</span> <span class="n">m</span><span class="o">.</span><span class="n">find_component</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span><span class="p">)</span>
+      <span class="n">relative_lb</span><span class="p">:</span> <span class="n">lower</span> <span class="n">relative</span> <span class="n">value</span> <span class="n">to</span> <span class="n">sample</span>
+      <span class="n">relative_ub</span><span class="p">:</span> <span class="n">upper</span> <span class="n">relative</span> <span class="n">value</span> <span class="n">to</span> <span class="n">sample</span>
+   <span class="n">sweep_reference_params</span><span class="p">:</span> <span class="c1"># normal sweep-param input to generate reference simulations</span>
+      <span class="n">sweep_param_name</span><span class="p">:</span>
+         <span class="nb">type</span><span class="p">:</span> <span class="n">Any</span> <span class="nb">type</span> <span class="n">supported</span> <span class="n">by</span> <span class="n">PS</span> <span class="n">toolkit</span> <span class="p">(</span><span class="n">LinearSample</span><span class="p">,</span> <span class="n">UniformSample</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span><span class="p">)</span>
+         <span class="n">param</span><span class="p">:</span> <span class="n">key</span> <span class="n">on</span> <span class="n">the</span> <span class="n">flowsheet</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">found</span> <span class="n">using</span> <span class="n">m</span><span class="o">.</span><span class="n">find_component</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span><span class="p">)</span>
+         <span class="n">mean</span><span class="p">:</span> <span class="n">mean</span> <span class="n">value</span> <span class="n">of</span> <span class="n">normal</span> <span class="n">sample</span>
+         <span class="n">sd</span><span class="p">:</span> <span class="n">standard</span> <span class="n">deviation</span>
+         <span class="n">num_samples</span><span class="p">:</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span> <span class="n">to</span> <span class="n">run</span>
+</pre></div>
+</div>
+<p><strong>General .yaml configuration file structure:</strong></p>
+<p>The general structure starts with the analysis name, which will be used in the file name when saving, followed by default options and configurations, and finally by loops options. The general structure is shown below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_name</span><span class="p">:</span>
+   <span class="n">initialize_before_sweep</span><span class="p">:</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span> <span class="kc">False</span> <span class="ow">or</span> <span class="kc">True</span>
+   <span class="n">update_sweep_params_before_init</span><span class="p">:</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span> <span class="kc">False</span> <span class="ow">or</span> <span class="kc">True</span>
+   <span class="n">number_of_subprocesses</span><span class="p">:</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span> <span class="nb">int</span> <span class="o">&gt;</span> <span class="mi">1</span>
+   <span class="n">parallel_back_end</span><span class="p">:</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span> <span class="n">MultiProcessing</span><span class="p">,</span> <span class="n">RayIo</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span>
+   <span class="n">build_defaults</span><span class="p">:</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+      <span class="n">default_a</span><span class="p">:</span> <span class="n">value_a</span>
+   <span class="n">init_defaults</span><span class="p">:</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+      <span class="n">init_a</span><span class="p">:</span> <span class="n">value_a</span>
+   <span class="n">optimize_defaults</span><span class="p">:</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+      <span class="n">opt_a</span><span class="p">:</span> <span class="n">value_a</span>
+   <span class="n">build_loop</span><span class="p">:</span>
+      <span class="n">buld_arg</span><span class="p">:</span>
+         <span class="o">-</span> <span class="n">value_a</span>
+         <span class="o">-</span> <span class="n">vlaue_b</span>
+         <span class="o">-</span> <span class="n">etc</span>
+         <span class="n">init_loop</span><span class="p">:</span>
+            <span class="n">init_arg</span><span class="p">:</span>
+               <span class="o">-</span> <span class="n">value_a</span>
+               <span class="o">-</span> <span class="n">vlaue_b</span>
+               <span class="o">-</span> <span class="n">etc</span>
+            <span class="n">etc_loop</span><span class="p">:</span>
+               <span class="n">etc_arg</span><span class="p">:</span>
+                  <span class="o">-</span> <span class="n">etc_val</span>
+               <span class="n">param_sweep_loop</span><span class="p">:</span>
+                  <span class="n">sweep_param_name_a</span><span class="p">:</span>
+                     <span class="n">sweep_param_configs</span>
+                  <span class="n">sweep_param_name_b</span><span class="p">:</span>
+                     <span class="n">sweep_param_configs</span>
+                  <span class="n">sweep_param_etc</span><span class="p">:</span>
+                     <span class="n">etc</span>
+</pre></div>
+</div>
+<p><strong>Examples for RO with ERD</strong></p>
+<p>Here we setup a simple run on RO erd flowsheet, requesting loopTool to run PS tool over two RO erd_type configurations, for each erd_configuration, we run a linear sweep over membrane cost, a linear sweep over factor_membrane_replacment, and map sweep over NaCl loading and RO recovery, the map sweep will generate a mesh grid using NaCl loading and RO recovery, producing 9 samples total. The example of map sweep can include as many or as few parameters as user desires.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ro_erd_type_analysis</span><span class="p">:</span>
+   <span class="n">reinitialize_before_sweep</span><span class="p">:</span> <span class="kc">False</span> <span class="c1"># We don&#39;t need to reinit before each solve</span>
+     <span class="n">build_output_kwargs</span><span class="p">:</span>
+             <span class="n">LCOW</span> <span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">LCOW</span> <span class="c1"># only save process cost in h5file</span>
+   <span class="n">build_loop</span><span class="p">:</span> <span class="c1"># We are only gonna loop over each build function</span>
+      <span class="n">erd_type</span><span class="p">:</span>
+         <span class="o">-</span> <span class="n">pressure_exchanger</span>
+         <span class="o">-</span> <span class="n">pump_as_turbine</span>
+      <span class="n">sweep_param_loop</span>
+         <span class="n">membrane_cost</span><span class="p">:</span>  <span class="c1"># Runs over different membrane costs, generating 3 steps</span>
+            <span class="nb">type</span><span class="p">:</span> <span class="n">LinearSample</span>
+            <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span>
+            <span class="n">lower_limit</span><span class="p">:</span> <span class="mi">10</span>
+            <span class="n">upper_limit</span><span class="p">:</span> <span class="mi">30</span>
+            <span class="n">num_samples</span><span class="p">:</span> <span class="mi">3</span>
+         <span class="n">factor_membrane_replacement</span><span class="p">:</span>  <span class="c1"># Runs over membrane_replacement costs, generating 3 steps</span>
+            <span class="nb">type</span><span class="p">:</span> <span class="n">LinearSample</span>
+            <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">factor_membrane_replacement</span>
+            <span class="n">lower_limit</span><span class="p">:</span> <span class="mf">0.1</span>
+            <span class="n">upper_limit</span><span class="p">:</span> <span class="mf">0.2</span>
+            <span class="n">num_samples</span><span class="p">:</span> <span class="mi">3</span>
+         <span class="n">map_sweep</span><span class="p">:</span> <span class="c1"># Will run meshgrid sweep over feed_mass_nacl and ro_recovery, generating 9 samples</span>
+            <span class="n">feed_mass_nacl</span><span class="p">:</span>  <span class="c1"># Runs over salt mass flow rate only, generating 3 steps</span>
+               <span class="nb">type</span><span class="p">:</span> <span class="n">LinearSample</span>
+               <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="n">Liq</span><span class="p">,</span><span class="n">NaCl</span><span class="p">]</span>
+               <span class="n">lower_limit</span><span class="p">:</span> <span class="mf">0.03</span>
+               <span class="n">upper_limit</span><span class="p">:</span> <span class="mf">0.04</span>
+               <span class="n">num_samples</span><span class="p">:</span> <span class="mi">3</span>
+            <span class="n">ro_recovery</span><span class="p">:</span>  <span class="c1"># Runs over ro recovery, generating 3 steps</span>
+               <span class="nb">type</span><span class="p">:</span> <span class="n">LinearSample</span>
+               <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">recovery_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">Liq</span><span class="p">,</span><span class="n">H2O</span><span class="p">]</span>
+               <span class="n">lower_limit</span><span class="p">:</span> <span class="mf">0.3</span>
+               <span class="n">upper_limit</span><span class="p">:</span> <span class="mf">0.5</span>
+               <span class="n">num_samples</span><span class="p">:</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Example using sim_case, here we assume ro_build function takes in 2 options, a water type, and erd type.
+The loop tool will ran a parameter sweep over each case.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ro_erd_analysis_simple</span><span class="p">:</span>
+   <span class="n">build_loop</span><span class="p">:</span>
+      <span class="n">sim_cases</span><span class="p">:</span>
+         <span class="n">BGW_with_erd</span><span class="p">:</span>
+            <span class="n">water_type</span><span class="p">:</span> <span class="n">BGW</span>
+            <span class="n">erd_type</span><span class="p">:</span> <span class="n">pump_as_turbine</span>
+         <span class="n">BGW_without_ERD</span><span class="p">:</span>
+            <span class="n">water_type</span><span class="p">:</span> <span class="n">BGW</span>
+            <span class="n">erd_type</span><span class="p">:</span> <span class="n">null</span> <span class="c1"># none in .yaml is null</span>
+         <span class="n">SW_with_ERD</span><span class="p">:</span>
+            <span class="n">water_type</span><span class="p">:</span> <span class="n">SW</span>
+            <span class="n">erd_type</span><span class="p">:</span> <span class="n">pump_as_turbine</span>
+      <span class="n">sweep_param_loop</span><span class="p">:</span>
+            <span class="n">membrane_cost</span><span class="p">:</span>  <span class="c1"># Runs over different membrane costs</span>
+               <span class="nb">type</span><span class="p">:</span> <span class="n">LinearSample</span>
+               <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span>
+               <span class="n">lower_limit</span><span class="p">:</span> <span class="mi">10</span>
+               <span class="n">upper_limit</span><span class="p">:</span> <span class="mi">30</span>
+               <span class="n">num_samples</span><span class="p">:</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Example when we don’t do any build loops, init loops etc., this will simply run membrane_cost sweep. This is the same as using PS tool directly, but it gives a simple data management structure if user wants to sweep over many variables in the model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ro_erd_analysis_simple</span><span class="p">:</span>
+    <span class="n">sweep_param_loop</span><span class="p">:</span>
+         <span class="n">membrane_cost</span><span class="p">:</span>  <span class="c1"># Runs over different membrane costs</span>
+            <span class="nb">type</span><span class="p">:</span> <span class="n">LinearSample</span>
+            <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span>
+            <span class="n">lower_limit</span><span class="p">:</span> <span class="mi">10</span>
+            <span class="n">upper_limit</span><span class="p">:</span> <span class="mi">30</span>
+            <span class="n">num_samples</span><span class="p">:</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Example of setting up differential sweep.</p>
+<p><em>Briefly, this type of analysis can provide insight into how reducing membrane cost and increasing membrane lifespan (reducing replacement rate), can reduce RO costs, even when the exact membrane cost is not known. This sweep will produce reference cost-optimal RO designs with different membrane cost, and for each design, we will simulate a differential design where only the membrane cost, or membrane replacement rate is reduced. The difference between the reference designs and differential design in LCOW provides a quantitative measure in how reducing membrane cost or reducing replacement cost would typically impact cost of RO. In practice, we would vary many design and decision variables for RO as they are uncertain, and this could include replacement factors, membrane performance metrics, pump costs, etc. All of these could be added to sweep_reference_params.</em></p>
+<p><em>Additionally, diff spec params in diff_param_loop can be provided in param_groups like with the standard parameter sweep shown above, allowing changing multiple parameters at the same time.</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ro_diff_analysis</span><span class="p">:</span>
+   <span class="n">reinitialize_before_sweep</span><span class="p">:</span> <span class="kc">False</span> <span class="c1"># We don&#39;t need to reinit before each solve</span>
+   <span class="n">build_loop</span><span class="p">:</span> <span class="c1"># We are only gonna loop over each build function</span>
+      <span class="n">erd_type</span><span class="p">:</span>
+         <span class="o">-</span> <span class="n">pressure_exchanger</span>
+         <span class="o">-</span> <span class="n">pump_as_turbine</span>
+      <span class="n">diff_param_loop</span><span class="p">:</span> <span class="c1">#the params below will be run iteratively, differentiating from the simulation created with sweep_reference_params</span>
+         <span class="n">membrane_cost</span><span class="p">:</span>  <span class="c1"># Runs over different membrane costs</span>
+            <span class="n">diff_mode</span><span class="p">:</span> <span class="n">percentile</span>
+            <span class="n">diff_sample_type</span><span class="p">:</span> <span class="n">UniformSample</span>
+            <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span>
+            <span class="n">relative_lb</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.01</span>
+            <span class="n">relative_ub</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.01</span>
+            <span class="n">nominal_lb</span><span class="p">:</span> <span class="mi">10</span>
+            <span class="n">nominal_ub</span><span class="p">:</span> <span class="mi">30</span>
+            <span class="n">num_samples</span><span class="p">:</span> <span class="mi">1</span>
+         <span class="n">factor_membrane_replacement</span><span class="p">:</span>  <span class="c1"># Runs over different replacement rates</span>
+            <span class="n">diff_mode</span><span class="p">:</span> <span class="n">percentile</span>
+            <span class="n">diff_sample_type</span><span class="p">:</span> <span class="n">UniformSample</span>
+            <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span>
+            <span class="n">relative_lb</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.01</span>
+            <span class="n">relative_ub</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.01</span>
+            <span class="n">nominal_lb</span><span class="p">:</span> <span class="mf">0.1</span>
+            <span class="n">nominal_ub</span><span class="p">:</span> <span class="mf">0.2</span>
+            <span class="n">num_samples</span><span class="p">:</span> <span class="mi">1</span>
+         <span class="n">sweep_reference_params</span><span class="p">:</span> <span class="c1"># The parameters below will be used to generate reference design and will be run simultaneously (e.g. all of them will be changed to generate a new hypothetical design here, we only provide one parameter, membrane cost, but could provide many others)</span>
+            <span class="n">membrane_cost</span><span class="p">:</span>
+               <span class="nb">type</span><span class="p">:</span> <span class="n">UniformSample</span>
+               <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span>
+               <span class="n">lower_limit</span><span class="p">:</span> <span class="mi">10</span>
+               <span class="n">upper_limit</span><span class="p">:</span> <span class="mi">30</span>
+               <span class="n">num_samples</span><span class="p">:</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</section>
+<section id="setting-up-the-looptool">
+<h2>Setting up the loopTool<a class="headerlink" href="#setting-up-the-looptool" title="Permalink to this heading"></a></h2>
+<p>To loopTool can be executed by passing in the flowsheet functions, .yaml configuraiton file, and save locations into the loopTool, as well as additional optional arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>loop_file (required): .yaml config file that contains iterative loops to run</p></li>
+<li><p>solver (optional): solver to use in model, default uses watertap solver</p></li>
+<li><p>build_function (required): function to build unit model</p></li>
+<li><p>initialize_function (optional): function for initialization of the unit model</p></li>
+<li><p>optimize_function (required): function for solving model</p></li>
+<li><p>build_outputs : (optional) function to build selected outputs, if not provided, defaults to a loopTool built-in default function when user provides build_outputs_kwargs in .yaml configuration file.</p></li>
+<li><p>probe_function (optional): Function to probe if a solution should be attempted or not</p></li>
+<li><p>save_name (required): name to use when saving the file with</p></li>
+<li><p>save_dir (required): directory to save the file in</p></li>
+<li><p>number_of_subprocesses (optional): user defined number of subprocesses to use for parallel run should be 1 or greater</p></li>
+<li><p>parallel_back_end (optional): backend to use for a parallel run if MPI is not used and number_of_subprocesses &gt; 1</p></li>
+<li><p>custom_do_param_sweep (optional): custom param function (refer to parameter sweep tool)</p></li>
+<li><p>custom_do_param_sweep_kwargs (optional): custom param kwargs (refer to parameter sweep tool)</p></li>
+<li><p>execute_simulations (optional): sets if looptool should execute simulations upon setup, otherwise user can call build_run_dict, and run_simulations call manually</p></li>
+<li><p>h5_backup (optional): Set location for backup file, if set to False, no backup will be created, otherwise the backup will be auto-created</p></li>
+</ul>
+</div></blockquote>
+<p>Example of code for setting up our example of RO with ERD</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># This imports the function created in the example for RO_with_energy_recovery above
+import ro_erd as ro_setup
+# import the loopTool and utility function for getting a working directory
+from watertap.tools.analysis_tools.loop_tool.loop_tool import loopTool, get_working_dir
+
+if __name__==&#39;__main__&#39;: we will execute the loopTool script here, required for safe execution of parallel scripts
+   # We assume our .yaml file is in the same directory as this script
+
+   lp = loopTool(
+     &quot;ro_erd_sweep.yaml&quot;, # name of the yaml files we created in the example above
+     build_function=ro_setup.ro_build,  # our build_function
+     initialize_function=ro_setup.ro_init,  # our initialize function
+     optimize_function=ro_setup.ro_solve, # our solve function
+     saving_dir=get_working_dir(), # this gets working directory for script so we can save files in same dirctory
+     save_name=&quot;ro_with_erd&quot;, # this will be the name of this loop run
+     parallel_back_end=”RayIo”, # backend we want to use for parallel runs
+     number_of_subprocesses = 8, #use 8 logical cores on our computer
+ )
+</pre></div>
+</div>
+<p>The above code example will run the RO_erd flowsheet through loops specified with our .yaml file using RayIo for parallel backend and 8 processes..</p>
+<p>The loopTool will create an output folder in the directory as found by get_working_dir().</p>
+<p>Upon succesfull run there will be an output folder with an h5 File that has name with the following structure <strong>save_name_analysisType_analysis_name</strong>. The save_name is specified in loopTool, while analysis_name is specified in .yaml configuration file (this means you can have multiple analysis types in the same .yaml configuration file, and each analysis will be saved in its own file).</p>
+</section>
+<section id="output-data-structure-and-data-protection">
+<h2>Output data structure and data protection<a class="headerlink" href="#output-data-structure-and-data-protection" title="Permalink to this heading"></a></h2>
+<p>The loopTool will store data in h5 file, with a structure similar to that of the .yaml file being run. For example, for the ro_erd_type_analysis example, the h5 file structure would be as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ro_erd_type_analysis</span>
+<span class="o">|-</span><span class="n">erd_type</span>
+   <span class="o">|-</span><span class="n">pressure_exchanger</span>
+   <span class="o">|</span>  <span class="o">|-</span><span class="n">membrane_cost</span> <span class="c1"># contains standard PS h5 output</span>
+   <span class="o">|</span>  <span class="o">|</span>  <span class="o">|-</span><span class="n">outputs</span>
+   <span class="o">|</span>  <span class="o">|</span>  <span class="o">|-</span><span class="n">solve_successful</span>
+   <span class="o">|</span>  <span class="o">|</span>  <span class="o">|-</span><span class="n">sweep_params</span>
+   <span class="o">|</span>  <span class="o">|</span>
+   <span class="o">|</span>  <span class="o">|-</span><span class="n">factor_membrane_replacement</span> <span class="c1"># contains standard PS h5 output</span>
+   <span class="o">|</span>  <span class="o">|</span>  <span class="o">|-</span><span class="n">outputs</span>
+   <span class="o">|</span>  <span class="o">|</span>  <span class="o">|-</span><span class="n">solve_successful</span>
+   <span class="o">|</span>  <span class="o">|</span>  <span class="o">|-</span><span class="n">sweep_params</span>
+   <span class="o">|</span>  <span class="o">|</span>
+   <span class="o">|</span>  <span class="o">|-</span><span class="n">map_sweep</span> <span class="c1"># contains standard PS h5 output</span>
+   <span class="o">|</span>     <span class="o">|-</span><span class="n">outputs</span>
+   <span class="o">|</span>     <span class="o">|-</span><span class="n">solve_successful</span>
+   <span class="o">|</span>     <span class="o">|-</span><span class="n">sweep_params</span>
+   <span class="o">|</span>
+   <span class="o">|-</span><span class="n">pump_as_turbine</span>
+      <span class="o">|-</span><span class="n">membrane_cost</span> <span class="c1"># contains standard PS h5 output</span>
+      <span class="o">|</span>  <span class="o">|-</span><span class="n">outputs</span>
+      <span class="o">|</span>  <span class="o">|-</span><span class="n">solve_successful</span>
+      <span class="o">|</span>  <span class="o">|-</span><span class="n">sweep_params</span>
+      <span class="o">|</span>
+      <span class="o">|-</span><span class="n">factor_membrane_replacement</span> <span class="c1"># contains standard PS h5 output</span>
+      <span class="o">|</span>  <span class="o">|-</span><span class="n">outputs</span>
+      <span class="o">|</span>  <span class="o">|-</span><span class="n">solve_successful</span>
+      <span class="o">|</span>  <span class="o">|-</span><span class="n">sweep_params</span>
+      <span class="o">|</span>
+      <span class="o">|-</span><span class="n">map_sweep</span> <span class="c1"># contains standard PS h5 output</span>
+         <span class="o">|-</span><span class="n">outputs</span>
+         <span class="o">|-</span><span class="n">solve_successful</span>
+         <span class="o">|-</span><span class="n">sweep_params</span>
+</pre></div>
+</div>
+<p>We can readily access the data for processing by using h5py.
+To visually explore the h5 file, use HDFviewer ( <a class="reference external" href="https://www.hdfgroup.org/downloads/hdfview/">https://www.hdfgroup.org/downloads/hdfview/</a> )
+All the parameters will use their param names or object keys as reference (e.g. if you set up yaml file to sweep over ‘RO_recovery’ for which param is ‘fs.ro.ro_recovery’, the file will store data for RO_recovery under key ‘fs.ro.ro_recovery’. Alternatively, if you provided build_outputs_kwargs, and specified a name for a key (e.g., <em>RO recovery: fs.ro.ro_recovery</em> than this result will be saved under <em>RO recovery</em>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">h5py</span>
+ <span class="n">h5file</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span>
+     <span class="s2">&quot;ro_with_erd_analysisType_ro_erd_type_analysis.h5&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span>
+ <span class="p">)</span>
+
+ <span class="c1"># get data for cost from  pressure_exchanger erd device, not the dir path structure</span>
+ <span class="c1"># if not providing any outputs</span>
+ <span class="n">data</span> <span class="o">=</span> <span class="n">h5file</span><span class="p">[</span>
+     <span class="s2">&quot;ro_erd_type_analysis/erd_type/pressure_exchanger/membrane_cost/outputs/fs.ro.ro_recovery/value&quot;</span>
+ <span class="p">][()]</span> <span class="c1"># wil create a list</span>
+
+ <span class="c1"># if specified output names with build_output_kwargs (RO recovery)</span>
+ <span class="n">data</span> <span class="o">=</span> <span class="n">h5file</span><span class="p">[</span>
+     <span class="s2">&quot;ro_erd_type_analysis/erd_type/pressure_exchanger/membrane_cost/outputs/RO recovery/value&quot;</span>
+ <span class="p">][()]</span> <span class="c1"># wil create a list</span>
+</pre></div>
+</div>
+<p><strong>Backup management</strong></p>
+<p>The loopTool includes a naïve data management schema to prevent overwriting existing files and minimize simulation runs. This is accomplished by:</p>
+<p><strong>Creating backups:</strong> The loopTool will never overwrite exiting file.  When the loopTool starts it will check if a file with the same name and directory already exists. If it does, it will rename that file to include a date and time (file_name_M_D-H_M-S.h5.bak).</p>
+<p><strong>Checking existng solutions:</strong> The backup file will be used to check if existing completed simulations exist before running a simulation. It will check if the backup file contains a complete simulation for the current run, (this only checks the number of successfully solved samples but does not check if the sweep_parameters match). If all of the simulations were successfully solved in the backup file, it would copy over the data from the backup file into the new file. Otherwise, it will re-run the simulations.
+The user can specify the expected number of samples if it differs from num_samples by passing additional <em>expected_num_samples</em>, or if there is minimum number of samples expected using <em>min_num_samples</em>.
+User can also specify to force a re-run or to not re-run by passing <em>force_rerun</em>.
+Example of use as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># single parameter</span>
+<span class="n">ro_erd_analysis_simple</span><span class="p">:</span>
+    <span class="n">sweep_param_loop</span><span class="p">:</span>
+         <span class="n">membrane_cost</span><span class="p">:</span>  <span class="c1"># Runs over different membrane costs</span>
+            <span class="nb">type</span><span class="p">:</span> <span class="n">LinearSample</span>
+            <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">reverse_osmosis</span><span class="o">.</span><span class="n">membrane_cost</span>
+            <span class="n">lower_limit</span><span class="p">:</span> <span class="mi">10</span>
+            <span class="n">upper_limit</span><span class="p">:</span> <span class="mi">30</span>
+            <span class="n">num_samples</span><span class="p">:</span> <span class="mi">3</span>
+            <span class="n">min_num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="p">(</span><span class="k">if</span> <span class="nb">set</span><span class="p">,</span> <span class="n">loopTool</span> <span class="n">will</span> <span class="n">only</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="k">if</span> <span class="n">there</span> <span class="ow">is</span> <span class="n">fewer</span> <span class="n">samples</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">backup</span> <span class="n">file</span> <span class="n">than</span> <span class="n">the</span> <span class="nb">set</span> <span class="n">value</span><span class="p">)</span>
+            <span class="n">expected_num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="p">(</span><span class="k">if</span> <span class="nb">set</span><span class="p">,</span> <span class="n">loopTool</span> <span class="n">will</span> <span class="n">only</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="k">if</span> <span class="n">the</span> <span class="n">expected_num_samples</span> <span class="n">differs</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">backup</span> <span class="n">file</span><span class="p">)</span>
+            <span class="n">force_rerun</span><span class="p">:</span> <span class="kc">False</span> <span class="ow">or</span> <span class="kc">True</span> <span class="p">(</span><span class="k">if</span> <span class="nb">set</span> <span class="n">to</span> <span class="kc">True</span><span class="p">,</span> <span class="n">will</span> <span class="n">force</span> <span class="n">to</span> <span class="n">always</span> <span class="n">rerun</span> <span class="n">given</span> <span class="n">parameter</span> <span class="n">sweep</span><span class="p">,</span> <span class="k">if</span> <span class="kc">False</span><span class="p">,</span> <span class="n">will</span> <span class="ow">not</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="n">the</span> <span class="n">parameter</span> <span class="n">sweep</span><span class="p">)</span>
+         <span class="n">map_sweep</span><span class="p">:</span> <span class="c1"># Will run meshgrid sweep over feed_mass_nacl and ro_recovery, generating 9 samples</span>
+            <span class="n">feed_mass_nacl</span><span class="p">:</span>  <span class="c1"># Runs over salt mass flow rate only, generating 3 steps</span>
+               <span class="nb">type</span><span class="p">:</span> <span class="n">LinearSample</span>
+               <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="n">Liq</span><span class="p">,</span><span class="n">NaCl</span><span class="p">]</span>
+               <span class="n">lower_limit</span><span class="p">:</span> <span class="mf">0.03</span>
+               <span class="n">upper_limit</span><span class="p">:</span> <span class="mf">0.04</span>
+               <span class="n">num_samples</span><span class="p">:</span> <span class="mi">3</span>
+            <span class="n">ro_recovery</span><span class="p">:</span>  <span class="c1"># Runs over ro recovery, generating 3 steps</span>
+               <span class="nb">type</span><span class="p">:</span> <span class="n">LinearSample</span>
+               <span class="n">param</span><span class="p">:</span> <span class="n">fs</span><span class="o">.</span><span class="n">RO</span><span class="o">.</span><span class="n">recovery_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">Liq</span><span class="p">,</span><span class="n">H2O</span><span class="p">]</span>
+               <span class="n">lower_limit</span><span class="p">:</span> <span class="mf">0.3</span>
+               <span class="n">upper_limit</span><span class="p">:</span> <span class="mf">0.5</span>
+               <span class="n">num_samples</span><span class="p">:</span> <span class="mi">3</span>
+               <span class="n">min_num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="p">(</span><span class="k">if</span> <span class="nb">set</span><span class="p">,</span> <span class="n">loopTool</span> <span class="n">will</span> <span class="n">only</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="k">if</span> <span class="n">there</span> <span class="ow">is</span> <span class="n">less</span> <span class="n">samples</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">backup</span> <span class="n">file</span> <span class="n">than</span> <span class="n">the</span> <span class="nb">set</span> <span class="n">value</span><span class="p">)</span>
+               <span class="n">expected_num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="p">(</span><span class="k">if</span> <span class="nb">set</span><span class="p">,</span> <span class="n">loopTool</span> <span class="n">will</span> <span class="n">only</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="k">if</span> <span class="n">the</span> <span class="n">expected_num_samples</span> <span class="n">differs</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">samples</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">backup</span> <span class="n">file</span><span class="p">)</span>
+               <span class="n">force_rerun</span><span class="p">:</span> <span class="kc">False</span> <span class="ow">or</span> <span class="kc">True</span> <span class="p">(</span><span class="k">if</span> <span class="nb">set</span> <span class="n">to</span> <span class="kc">True</span><span class="p">,</span> <span class="n">will</span> <span class="n">force</span> <span class="n">to</span> <span class="n">always</span> <span class="n">rerun</span> <span class="n">given</span> <span class="n">parameter</span> <span class="n">sweep</span><span class="p">,</span> <span class="k">if</span> <span class="kc">False</span><span class="p">,</span> <span class="n">will</span> <span class="ow">not</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="n">the</span> <span class="n">parameter</span> <span class="n">sweep</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This feature is designed to help with getting complete simulation sets, without needing to re-run all the looped options. For example, you might run a certain build loop, where only in one build option, some solutions failed. After fixing the reason, you can rerun the loopTool, and it will only rerun those build options that failed to solve.</p>
+<p>The user can disable the backup generation by setting h5_backup argument in loopTool to False, or, ideally, by deleting the existing h5 file if the simulation results in it are not needed. The loopTool will avoid overwriting existing files, and if a file with the same name exists, it will error out.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="how_to_run_differential_parameter_sweep.html" class="btn btn-neutral float-left" title="How to Run Differential Parameter Sweep" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="how_to_use_debugging_solver_wrapper.html" class="btn btn-neutral float-right" title="How to use the debugging solver wrapper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

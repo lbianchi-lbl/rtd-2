@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.costing.zero_order_costing &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.costing.zero_order_costing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.costing.zero_order_costing</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">General costing package for zero-order processes.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">ConfigValue</span>
+<span class="kn">from</span> <span class="nn">pyomo.util.calc_var_value</span> <span class="kn">import</span> <span class="n">calculate_variable_from_constraint</span>
+
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">declare_process_block_class</span>
+<span class="kn">from</span> <span class="nn">idaes.core.base.costing_base</span> <span class="kn">import</span> <span class="n">register_idaes_currency_units</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.watertap_costing_package</span> <span class="kn">import</span> <span class="n">WaterTAPCostingDetailedData</span>
+
+<span class="c1"># NOTE: some of these are defined in WaterTAPCostingBlockData</span>
+<span class="n">global_params</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;plant_lifetime&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;utilization_factor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;land_cost_percent_FCI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;working_capital_percent_FCI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;salaries_percent_FCI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;benefit_percent_of_salary&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;maintenance_costs_percent_FCI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;laboratory_fees_percent_FCI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;insurance_and_taxes_percent_FCI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wacc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TPEC&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TIC&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="ZeroOrderCostingData"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.zero_order_costing.ZeroOrderCostingData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;ZeroOrderCosting&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ZeroOrderCostingData</span><span class="p">(</span><span class="n">WaterTAPCostingDetailedData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    General costing package for zero-order processes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">WaterTAPCostingDetailedData</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;case_study_definition&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Path to YAML file defining global parameters for case study. If &quot;</span>
+            <span class="s2">&quot;not provided, default values from the WaterTap database are used.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">register_currency_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Register currency and conversion rates</span>
+        <span class="k">if</span> <span class="s2">&quot;currency_definitions&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cs_def</span><span class="p">:</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">load_definitions_from_strings</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cs_def</span><span class="p">[</span><span class="s2">&quot;currency_definitions&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">register_idaes_currency_units</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set_base_currency_base_period</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Set the base year for all costs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_currency</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cs_def</span><span class="p">[</span><span class="s2">&quot;base_currency&quot;</span><span class="p">])</span>
+        <span class="c1"># Set a base period for all operating costs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cs_def</span><span class="p">[</span><span class="s2">&quot;base_period&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="ZeroOrderCostingData.build_global_params"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.zero_order_costing.ZeroOrderCostingData.build_global_params">[docs]</a>    <span class="k">def</span> <span class="nf">build_global_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        To minimize overhead, only create global parameters for now.</span>
+<span class="sd">        Unit-specific parameters will be added as sub-Blocks on a case-by-case</span>
+<span class="sd">        basis as a unit of that type is costed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Load case study definition from file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cs_def</span> <span class="o">=</span> <span class="n">_load_case_study_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build_global_params</span><span class="p">()</span>
+
+        <span class="c1"># Define expected flows</span>
+        <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cs_def</span><span class="p">[</span><span class="s2">&quot;defined_flows&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">f</span> <span class="o">+</span> <span class="s2">&quot;_cost&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">f</span> <span class="o">+</span> <span class="s2">&quot;_cost&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="n">units</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">defined_flows</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">units</span>
+
+        <span class="c1"># Fix all Vars from database</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">global_params</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cs_def</span><span class="p">[</span><span class="s2">&quot;global_parameters&quot;</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cs_def</span><span class="p">[</span><span class="s2">&quot;global_parameters&quot;</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;units&quot;</span><span class="p">]</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="n">units</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid case study definition file - no entry found &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;for </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">, or entry lacks value and units.&quot;</span>
+                <span class="p">)</span>
+        <span class="c1"># this variable floats in this package, so initialize it appropriately here</span>
+        <span class="n">calculate_variable_from_constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor_constraint</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">_load_case_study_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load data from case study definition file into a Python dict.</span>
+<span class="sd">    If users did not provide a definition file as a config argument, the</span>
+<span class="sd">    default definition from the WaterTap techno-economic database is used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">source_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">case_study_definition</span>
+    <span class="k">if</span> <span class="n">source_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">source_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span>
+            <span class="s2">&quot;..&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;techno_economic&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;default_case_study.yaml&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">source_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span>
+            <span class="s2">&quot;Could not find specified case study definition file. &quot;</span>
+            <span class="s2">&quot;Please check the path provided.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">yaml</span><span class="o">.</span><span class="n">Loader</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

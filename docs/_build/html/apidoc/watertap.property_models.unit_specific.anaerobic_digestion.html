@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.property_models.unit_specific.anaerobic_digestion package &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="watertap.tools package" href="watertap.tools.html" />
+    <link rel="prev" title="watertap.property_models.unit_specific.activated_sludge package" href="watertap.property_models.unit_specific.activated_sludge.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">Module Reference</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="watertap.html">watertap package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="watertap.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap.conftest">watertap.conftest module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../technical_reference/index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">watertap</a></li>
+          <li class="breadcrumb-item"><a href="watertap.html">watertap package</a></li>
+          <li class="breadcrumb-item"><a href="watertap.property_models.html">watertap.property_models package</a></li>
+          <li class="breadcrumb-item"><a href="watertap.property_models.unit_specific.html">watertap.property_models.unit_specific package</a></li>
+      <li class="breadcrumb-item active">watertap.property_models.unit_specific.anaerobic_digestion package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/watertap.property_models.unit_specific.anaerobic_digestion.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="watertap-property-models-unit-specific-anaerobic-digestion-package">
+<h1>watertap.property_models.unit_specific.anaerobic_digestion package<a class="headerlink" href="#watertap-property-models-unit-specific-anaerobic-digestion-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties">
+<span id="watertap-property-models-unit-specific-anaerobic-digestion-adm1-properties-module"></span><h2>watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties module<a class="headerlink" href="#module-watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties" title="Permalink to this heading"></a></h2>
+<p>Thermophysical property package to be used in conjunction with ADM1 reactions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1ParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.</span></span><span class="sig-name descname"><span class="pre">ADM1ParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1ParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ADM1ParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1ParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.</span></span><span class="sig-name descname"><span class="pre">ADM1ParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1ParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1ParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
+<p>Property Parameter Block Class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1ParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1ParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1ParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1ParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1ParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1ParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Set all the metadata for properties and units.</p>
+<p>This method should be implemented by subclasses.
+In the implementation, they should set information into the
+object provided as an argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pcm</strong> (<em>PropertyClassMetadata</em>) – Add metadata to this object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.</span></span><span class="sig-name descname"><span class="pre">ADM1StateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ADM1StateBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Property Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>defined_state</dt><dd><p>Flag indicating whether the state should be considered
+fully defined, and thus whether constraints such as sum of
+mass/mole fractions should be included, <strong>default</strong> -
+False. <strong>Valid values:</strong> { <strong>True</strong> - state variables will
+be fully defined, <strong>False</strong> - state variables will not be
+fully defined.}</p>
+</dd>
+<dt>has_phase_equilibrium</dt><dd><p>Flag indicating whether phase equilibrium constraints
+should be constructed in this state block, <strong>default</strong> -
+True. <strong>Valid values:</strong> { <strong>True</strong> - StateBlock should
+calculate phase equilibrium, <strong>False</strong> - StateBlock should
+not calculate phase equilibrium.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ADM1StateBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.</span></span><span class="sig-name descname"><span class="pre">ADM1StateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1StateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
+<p>StateBlock for calculating thermophysical properties associated with the ADM1
+reaction system.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1StateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.define_display_vars">
+<span class="sig-name descname"><span class="pre">define_display_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1StateBlockData.define_display_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.define_display_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to specify components to use to generate stream tables and
+other outputs. Defaults to define_state_vars, and developers should
+overload as required.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.define_state_vars">
+<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1StateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.define_state_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Method that returns a dictionary of state variables used in property
+package. Implement a placeholder method which returns an Exception to
+force users to overload this.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_energy_density_terms">
+<span class="sig-name descname"><span class="pre">get_energy_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1StateBlockData.get_energy_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_energy_density_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for enthalpy density to use in
+the energy balances.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_enthalpy_flow_terms">
+<span class="sig-name descname"><span class="pre">get_enthalpy_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1StateBlockData.get_enthalpy_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_enthalpy_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for enthalpy flow to use in
+the energy balances.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_material_density_terms">
+<span class="sig-name descname"><span class="pre">get_material_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1StateBlockData.get_material_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_material_density_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for material density to use in
+the material balances .</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_material_flow_basis">
+<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1StateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_material_flow_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the material flow
+term.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_material_flow_terms">
+<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties.html#ADM1StateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties.ADM1StateBlockData.get_material_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for material flow to use in
+the material balances.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor">
+<span id="watertap-property-models-unit-specific-anaerobic-digestion-adm1-properties-vapor-module"></span><h2>watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor module<a class="headerlink" href="#module-watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor" title="Permalink to this heading"></a></h2>
+<p>Thermophysical property package to be used in conjunction with ADM1 reactions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.</span></span><span class="sig-name descname"><span class="pre">ADM1_vaporParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ADM1_vaporParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.</span></span><span class="sig-name descname"><span class="pre">ADM1_vaporParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
+<p>Property Parameter Block Class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Set all the metadata for properties and units.</p>
+<p>This method should be implemented by subclasses.
+In the implementation, they should set information into the
+object provided as an argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pcm</strong> (<em>PropertyClassMetadata</em>) – Add metadata to this object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.</span></span><span class="sig-name descname"><span class="pre">ADM1_vaporStateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ADM1_vaporStateBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Property Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>defined_state</dt><dd><p>Flag indicating whether the state should be considered
+fully defined, and thus whether constraints such as sum of
+mass/mole fractions should be included, <strong>default</strong> -
+False. <strong>Valid values:</strong> { <strong>True</strong> - state variables will
+be fully defined, <strong>False</strong> - state variables will not be
+fully defined.}</p>
+</dd>
+<dt>has_phase_equilibrium</dt><dd><p>Flag indicating whether phase equilibrium constraints
+should be constructed in this state block, <strong>default</strong> -
+True. <strong>Valid values:</strong> { <strong>True</strong> - StateBlock should
+calculate phase equilibrium, <strong>False</strong> - StateBlock should
+not calculate phase equilibrium.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ADM1_vaporStateBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.</span></span><span class="sig-name descname"><span class="pre">ADM1_vaporStateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporStateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
+<p>StateBlock for calculating thermophysical properties associated with the ADM1
+reaction system.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporStateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.define_display_vars">
+<span class="sig-name descname"><span class="pre">define_display_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporStateBlockData.define_display_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.define_display_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to specify components to use to generate stream tables and
+other outputs. Defaults to define_state_vars, and developers should
+overload as required.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.define_state_vars">
+<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporStateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.define_state_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Method that returns a dictionary of state variables used in property
+package. Implement a placeholder method which returns an Exception to
+force users to overload this.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_energy_density_terms">
+<span class="sig-name descname"><span class="pre">get_energy_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporStateBlockData.get_energy_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_energy_density_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for enthalpy density to use in
+the energy balances.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_enthalpy_flow_terms">
+<span class="sig-name descname"><span class="pre">get_enthalpy_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporStateBlockData.get_enthalpy_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_enthalpy_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for enthalpy flow to use in
+the energy balances.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_material_density_terms">
+<span class="sig-name descname"><span class="pre">get_material_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporStateBlockData.get_material_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_material_density_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for material density to use in
+the material balances .</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_material_flow_basis">
+<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporStateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_material_flow_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the material flow
+term.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_material_flow_terms">
+<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_properties_vapor.html#ADM1_vaporStateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor.ADM1_vaporStateBlockData.get_material_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for material flow to use in
+the material balances.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions">
+<span id="watertap-property-models-unit-specific-anaerobic-digestion-adm1-reactions-module"></span><h2>watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions module<a class="headerlink" href="#module-watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions" title="Permalink to this heading"></a></h2>
+<p>ADM1 reaction package.</p>
+<p>References:</p>
+<p>[1] D.J. Batstone, J. Keller, I. Angelidaki, S.V. Kalyuzhnyi, S.G. Pavlostathis,
+A. Rozzi, W.T.M. Sanders, H. Siegrist, V.A. Vavilin,
+The IWA Anaerobic Digestion Model No 1 (ADM1), Water Science and Technology.
+45 (2002) 65–73. <a class="reference external" href="https://doi.org/10.2166/wst.2002.0292">https://doi.org/10.2166/wst.2002.0292</a>.</p>
+<p>[2] C. Rosén, U. Jeppsson, Aspects on ADM1 Implementation within the BSM2 Framework,
+Department of Industrial Electrical Engineering and Automation, Lund University, Lund, Sweden. (2006) 1–35.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ADM1ReactionBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ADM1ReactionBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Reaction Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>state_block</dt><dd><p>A reference to an instance of a StateBlock with which this
+reaction block should be associated.</p>
+</dd>
+<dt>has_equilibrium</dt><dd><p>Flag indicating whether equilibrium constraints should be
+constructed in this reaction block, <strong>default</strong> - True.
+<strong>Valid values:</strong> { <strong>True</strong> - ReactionBlock should
+enforce equilibrium constraints, <strong>False</strong> - ReactionBlock
+should not enforce equilibrium constraints.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ADM1ReactionBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ADM1ReactionBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_reactions.html#ADM1ReactionBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/reaction_property_class.html#idaes.core.base.reaction_base.ReactionBlockDataBase" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReactionBlockDataBase</span></code></a></p>
+<p>ReactionBlock for ADM1.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_reactions.html#ADM1ReactionBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionBlockData.get_reaction_rate_basis">
+<span class="sig-name descname"><span class="pre">get_reaction_rate_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_reactions.html#ADM1ReactionBlockData.get_reaction_rate_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionBlockData.get_reaction_rate_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the reaction rate
+term.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ADM1ReactionParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>property_package</dt><dd><p>Reference to associated PropertyPackageParameter object</p>
+</dd>
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ADM1ReactionParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ADM1ReactionParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_reactions.html#ADM1ReactionParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/reaction_property_class.html#idaes.core.base.reaction_base.ReactionParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReactionParameterBlock</span></code></a></p>
+<p>Property Parameter Block Class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_reactions.html#ADM1ReactionParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/adm1_reactions.html#ADM1ReactionParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions.ADM1ReactionParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Set all the metadata for properties and units.</p>
+<p>This method should be implemented by subclasses.
+In the implementation, they should set information into the
+object provided as an argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pcm</strong> (<em>PropertyClassMetadata</em>) – Add metadata to this object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties">
+<span id="watertap-property-models-unit-specific-anaerobic-digestion-modified-adm1-properties-module"></span><h2>watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties module<a class="headerlink" href="#module-watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties" title="Permalink to this heading"></a></h2>
+<p>Thermophysical property package to be used in conjunction with ADM1 reactions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1ParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.</span></span><span class="sig-name descname"><span class="pre">ModifiedADM1ParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1ParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ModifiedADM1ParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1ParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.</span></span><span class="sig-name descname"><span class="pre">ModifiedADM1ParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1ParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1ParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
+<p>Property Parameter Block Class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1ParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1ParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1ParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1ParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1ParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1ParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Set all the metadata for properties and units.</p>
+<p>This method should be implemented by subclasses.
+In the implementation, they should set information into the
+object provided as an argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pcm</strong> (<em>PropertyClassMetadata</em>) – Add metadata to this object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.</span></span><span class="sig-name descname"><span class="pre">ModifiedADM1StateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ModifiedADM1StateBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Property Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>defined_state</dt><dd><p>Flag indicating whether the state should be considered
+fully defined, and thus whether constraints such as sum of
+mass/mole fractions should be included, <strong>default</strong> -
+False. <strong>Valid values:</strong> { <strong>True</strong> - state variables will
+be fully defined, <strong>False</strong> - state variables will not be
+fully defined.}</p>
+</dd>
+<dt>has_phase_equilibrium</dt><dd><p>Flag indicating whether phase equilibrium constraints
+should be constructed in this state block, <strong>default</strong> -
+True. <strong>Valid values:</strong> { <strong>True</strong> - StateBlock should
+calculate phase equilibrium, <strong>False</strong> - StateBlock should
+not calculate phase equilibrium.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ModifiedADM1StateBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.</span></span><span class="sig-name descname"><span class="pre">ModifiedADM1StateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1StateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
+<p>StateBlock for calculating thermophysical properties associated with the modified ADM1
+reaction system.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1StateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.define_display_vars">
+<span class="sig-name descname"><span class="pre">define_display_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1StateBlockData.define_display_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.define_display_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Method used to specify components to use to generate stream tables and
+other outputs. Defaults to define_state_vars, and developers should
+overload as required.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.define_state_vars">
+<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1StateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.define_state_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Method that returns a dictionary of state variables used in property
+package. Implement a placeholder method which returns an Exception to
+force users to overload this.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_energy_density_terms">
+<span class="sig-name descname"><span class="pre">get_energy_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1StateBlockData.get_energy_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_energy_density_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for enthalpy density to use in
+the energy balances.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_enthalpy_flow_terms">
+<span class="sig-name descname"><span class="pre">get_enthalpy_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1StateBlockData.get_enthalpy_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_enthalpy_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for enthalpy flow to use in
+the energy balances.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_material_density_terms">
+<span class="sig-name descname"><span class="pre">get_material_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1StateBlockData.get_material_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_material_density_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for material density to use in
+the material balances .</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_material_flow_basis">
+<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1StateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_material_flow_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the material flow
+term.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_material_flow_terms">
+<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_properties.html#ModifiedADM1StateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties.ModifiedADM1StateBlockData.get_material_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns a valid expression for material flow to use in
+the material balances.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions">
+<span id="watertap-property-models-unit-specific-anaerobic-digestion-modified-adm1-reactions-module"></span><h2>watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions module<a class="headerlink" href="#module-watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions" title="Permalink to this heading"></a></h2>
+<p>Modified ADM1 reaction package.</p>
+<p>Reference:</p>
+<p>X. Flores-Alsina, K. Solon, C.K. Mbamba, S. Tait, K.V. Gernaey, U. Jeppsson, D.J. Batstone,
+Modelling phosphorus (P), sulfur (S) and iron (Fe) interactions fordynamic simulations of anaerobic digestion processes,
+Water Research. 95 (2016) 370-382. <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0043135416301397">https://www.sciencedirect.com/science/article/pii/S0043135416301397</a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ModifiedADM1ReactionBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ModifiedADM1ReactionBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Reaction Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>state_block</dt><dd><p>A reference to an instance of a StateBlock with which this
+reaction block should be associated.</p>
+</dd>
+<dt>has_equilibrium</dt><dd><p>Flag indicating whether equilibrium constraints should be
+constructed in this reaction block, <strong>default</strong> - True.
+<strong>Valid values:</strong> { <strong>True</strong> - ReactionBlock should
+enforce equilibrium constraints, <strong>False</strong> - ReactionBlock
+should not enforce equilibrium constraints.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ModifiedADM1ReactionBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ModifiedADM1ReactionBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_reactions.html#ModifiedADM1ReactionBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/reaction_property_class.html#idaes.core.base.reaction_base.ReactionBlockDataBase" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReactionBlockDataBase</span></code></a></p>
+<p>ReactionBlock for ADM1.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_reactions.html#ModifiedADM1ReactionBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionBlockData.get_reaction_rate_basis">
+<span class="sig-name descname"><span class="pre">get_reaction_rate_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_reactions.html#ModifiedADM1ReactionBlockData.get_reaction_rate_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionBlockData.get_reaction_rate_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the reaction rate
+term.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ModifiedADM1ReactionParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>property_package</dt><dd><p>Reference to associated PropertyPackageParameter object</p>
+</dd>
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ModifiedADM1ReactionParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.</span></span><span class="sig-name descname"><span class="pre">ModifiedADM1ReactionParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_reactions.html#ModifiedADM1ReactionParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/reaction_property_class.html#idaes.core.base.reaction_base.ReactionParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReactionParameterBlock</span></code></a></p>
+<p>Property Parameter Block Class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_reactions.html#ModifiedADM1ReactionParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/unit_specific/anaerobic_digestion/modified_adm1_reactions.html#ModifiedADM1ReactionParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions.ModifiedADM1ReactionParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Set all the metadata for properties and units.</p>
+<p>This method should be implemented by subclasses.
+In the implementation, they should set information into the
+object provided as an argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pcm</strong> (<em>PropertyClassMetadata</em>) – Add metadata to this object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models.unit_specific.anaerobic_digestion">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-watertap.property_models.unit_specific.anaerobic_digestion" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="watertap.property_models.unit_specific.activated_sludge.html" class="btn btn-neutral float-left" title="watertap.property_models.unit_specific.activated_sludge package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="watertap.tools.html" class="btn btn-neutral float-right" title="watertap.tools package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

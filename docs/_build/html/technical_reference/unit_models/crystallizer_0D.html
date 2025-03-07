@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crystallization (0D) &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Continuously Stirred Tank Reactor" href="cstr.html" />
+    <link rel="prev" title="Coagulation-Flocculation" href="coag_floc_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Unit Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="anaerobic_digester.html">Anaerobic Digester</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aeration_tank.html">Aeration Tank</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boron_removal.html">Boron Removal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clarifier.html">Clarifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coag_floc_model.html">Coagulation-Flocculation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Crystallization (0D)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ports">Ports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#degrees-of-freedom">Degrees of Freedom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-equations">Model Equations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#code-documentation">Code Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cstr.html">Continuously Stirred Tank Reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr_injection.html">Continuously Stirred Tank Reactor with Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewatering.html">Dewatering Unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_0D.html">Electrodialysis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1D.html">Electrodialysis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrolyzer.html">Electrolyzer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electroNP_ZO.html">ElectroNP (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_recovery_device.html">Energy Recovery Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gac.html">Granular Activated Carbon (GAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_desalter.html">Generic desalter unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_separator.html">Generic separator unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ion_exchange_0D.html">Ion Exchange (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="membrane_distillation_0D.html">Membrane Distillation (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mvc.html">Mechanical Vapor Compression (MVC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_ZO.html">Nanofiltration (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_dspmde_0D.html">Nanofiltration- Donnan Steric Pore Model with Dielectric Exclusion (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_0D.html">Osmotically Assisted Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_1D.html">Osmotically Assisted Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pressure_exchanger.html">Pressure Exchanger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pump.html">Pump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_0D.html">Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_1D.html">Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stoichiometric_reactor.html">Stoichiometric reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thickener.html">Thickener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="translators/index.html">Translators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uv_aop.html">Ultraviolet Advanced Oxidation Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="zero_order_unit_models/index.html">Zero-Order Unit Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Unit Models</a></li>
+      <li class="breadcrumb-item active">Crystallization (0D)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/unit_models/crystallizer_0D.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="crystallization-0d">
+<h1>Crystallization (0D)<a class="headerlink" href="#crystallization-0d" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>Crystallization from solution is a separation technique where a solid phase is separated from a mother
+liquor (Kramer et al. [1]).</p>
+<p>The model implemented here is for a continuous evaporative crystallization. The main features of the implemented model are as follows:</p>
+<ol class="arabic simple">
+<li><p>Evaporative crystallization is modeled as shown in Figure 1.</p></li>
+<li><p>Model dimensionality is limited to 0D.</p></li>
+<li><p>Model dynamics are restricted to steady-state only.</p></li>
+<li><p>The unit supports solid-liquid-vapour mixtures.</p></li>
+<li><p>The model has only been demonstrated for single solutes only.</p></li>
+<li><p>The temperature in the crystallizer is fixed.</p></li>
+<li><p>The exit liquid is assumed to lose its supersaturation.</p></li>
+</ol>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../../_images/crystallizer.jpg"><img alt="../../_images/crystallizer.jpg" src="../../_images/crystallizer.jpg" style="width: 400px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 1. Schematic representation of the evaporative crystallization configuration system modeled in IDAES, comprising of a crystallization unit, a heater, a pump, and a separator. The broken lines show the system boundary.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="ports">
+<h2>Ports<a class="headerlink" href="#ports" title="Permalink to this heading"></a></h2>
+<p>The model provides four ports (Pyomo notation in parenthesis):</p>
+<ul class="simple">
+<li><p>Inlet port (inlet)</p></li>
+<li><p>Liquid outlet port (outlet)</p></li>
+<li><p>Solid crystals port (solids)</p></li>
+<li><p>Vapor outlet port (vapor)</p></li>
+</ul>
+</section>
+<section id="degrees-of-freedom">
+<h2>Degrees of Freedom<a class="headerlink" href="#degrees-of-freedom" title="Permalink to this heading"></a></h2>
+<p>Aside from the inlet feed state variables (i.e. temperature, pressure, component flowrates), the crystallizer model has
+at least 5 degrees of freedom that should be fixed for the unit to be fully specified.</p>
+<p>Typically, the following four variables are fixed, in addition to state variables at the inlet (Pyomo notation in parenthesis):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Crystal growth rate, <span class="math notranslate nohighlight">\(G\)</span> (crystal_growth_rate)</p></li>
+<li><p>Desired median length of solid crystals, <span class="math notranslate nohighlight">\(L_D\)</span> (crystal_median_length)</p></li>
+<li><p>Parameter for Sounders-Brown relation, <span class="math notranslate nohighlight">\(C_v\)</span> (souders_brown_constant)</p></li>
+<li><p>Crystallization temperature (temperature_operating)</p></li>
+</ul>
+</div></blockquote>
+<p>In addition to those four variables, the user may specify any of the following variables to fully specify the unit (Pyomo notation in parenthesis):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Crystallization yield (crystallization_yield[‘NaCl’])</p></li>
+<li><p>Solids volumetric fraction of product slurry, <span class="math notranslate nohighlight">\(1-{\varepsilon}\)</span> (product_volumetric_solids_fraction)</p></li>
+<li><p>Magma density, <span class="math notranslate nohighlight">\({M}_{T}\)</span> (dens_mass_magma)</p></li>
+<li><p>Solid outlet mass flow</p></li>
+<li><p>Vapour outlet mass flow</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable Name</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Crystal growth rate</p></td>
+<td><p><span class="math notranslate nohighlight">\(G\)</span></p></td>
+<td><p>crystal_growth_rate</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m/s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Souders-Brown constant</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_v\)</span></p></td>
+<td><p>souders_brown_constant</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Crystal median length</p></td>
+<td><p><span class="math notranslate nohighlight">\(L_D\)</span></p></td>
+<td><p>crystal_median_length</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Crystallization yield</p></td>
+<td><p><span class="math notranslate nohighlight">\(Y\)</span></p></td>
+<td><p>crystallization_yield</p></td>
+<td><p>[j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Solids volumetric fraction of product slurry</p></td>
+<td><p><span class="math notranslate nohighlight">\(1-{\varepsilon}\)</span></p></td>
+<td><p>product_volumetric_solids_fraction</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Crystallization temperature</p></td>
+<td><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
+<td><p>temperature_operating</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Crystallizer pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(P\)</span></p></td>
+<td><p>pressure_operating</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Magma density</p></td>
+<td><p><span class="math notranslate nohighlight">\(M_{T}\)</span></p></td>
+<td><p>dens_mass_magma</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Suspension density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_{slurry}\)</span></p></td>
+<td><p>dens_mass_slurry</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Crystallizer heat requirement</p></td>
+<td><p><span class="math notranslate nohighlight">\(Q\)</span></p></td>
+<td><p>work_mechanical</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kW}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Crystallizer vessel diameter</p></td>
+<td><p><span class="math notranslate nohighlight">\(D\)</span></p></td>
+<td><p>diameter_crystallizer</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Crystallizer vessel height</p></td>
+<td><p><span class="math notranslate nohighlight">\(H\)</span></p></td>
+<td><p>height_crystallizer</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Solution relative supersaturation</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p>relative_supersaturation</p></td>
+<td><p>[j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Residence time</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau\)</span></p></td>
+<td><p>t_res</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{h}\)</span>”</p></td>
+</tr>
+<tr class="row-even"><td><p>Crystallizer minmum active volume</p></td>
+<td><p><span class="math notranslate nohighlight">\(V_{susp}\)</span></p></td>
+<td><p>volume_suspension</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="model-equations">
+<h2>Model Equations<a class="headerlink" href="#model-equations" title="Permalink to this heading"></a></h2>
+<p>The crystallization unit model is based on predominantly on the works by Kramer et al. [1], Lewis et al. [2], and Tavares [3]. The following equations govern the performance of the crystallizer unit:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+<th class="head"><p>Reference(s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Crystallizer heat requirement</p></td>
+<td><p><span class="math notranslate nohighlight">\(Q = H_{liq,in} - H_{liq,out} - H_{crystal,out} - H_{vapor,out} + m_{crystal} \cdot ΔH_{crystallization}\)</span></p></td>
+<td><p>Kramer et al. [1], Lewis et al. [2]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Magma density</p></td>
+<td><p><span class="math notranslate nohighlight">\(M_T = \rho_{crystal}(1-\varepsilon)\)</span></p></td>
+<td><p>Lewis et al. [2]</p></td>
+</tr>
+<tr class="row-even"><td><p>Suspension density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_{susp} = \rho_{crystal}(1-\varepsilon) + \varepsilon \rho_{liq,out}\)</span></p></td>
+<td><p>Lewis et al. [2]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Crystallization yield</p></td>
+<td><p><span class="math notranslate nohighlight">\(Y_{j} = \frac{M_{in,j} - M_{out,j}}{M_{in,j}}\)</span></p></td>
+<td><p>Dutta [4]</p></td>
+</tr>
+<tr class="row-even"><td><p>Residence time</p></td>
+<td><p><span class="math notranslate nohighlight">\(\tau = \frac{L_D}{3.67G}\)</span></p></td>
+<td><p>Dutta[4]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Suspension volume (i.e. minimum active volume)</p></td>
+<td><p><span class="math notranslate nohighlight">\(V_{susp} = (\phi_{liq,out} + \phi_{vapor, out}) \cdot \tau\)</span></p></td>
+<td><p>Lewis et al. [2], Kramer et al. [1]</p></td>
+</tr>
+<tr class="row-even"><td><p>Maximum linear velocity of vapor flow</p></td>
+<td><p><span class="math notranslate nohighlight">\(v_{max} = C_{v}\left(\frac{\rho_{liq,out}}{\rho_{vap,out}}\right)^{0.5}\)</span></p></td>
+<td><p>Dutta[4], Bennett [5]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Crystallizer diameter</p></td>
+<td><p><span class="math notranslate nohighlight">\(D = \sqrt{\frac{4\phi_{vapor, out}}{\pi v_{max}}}\)</span></p></td>
+<td><p>Tavare [3], Lewis et al [2]</p></td>
+</tr>
+<tr class="row-even"><td><p>Slurry height</p></td>
+<td><p><span class="math notranslate nohighlight">\(h_{slurry} = \frac{4V_{susp}}{\pi D^{2}}\)</span></p></td>
+<td><p>Lewis et al. [2]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Crystallizer height</p></td>
+<td><p><span class="math notranslate nohighlight">\(H = \max(1.5D, h_{slurry} + 0.75D)\)</span></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Magma circulation vol. flow rate</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{Q}{\Delta T_{approach}\left[(1-\varepsilon)\rho_{crystal}C_{p,crystal}+\rho_{liq,out}C_{p,liq}\right]}\)</span></p></td>
+<td><p>Lewis et al [2], Tavare [3]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="code-documentation">
+<h2>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../apidoc/watertap.unit_models.html#module-watertap.unit_models.crystallizer" title="watertap.unit_models.crystallizer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">watertap.unit_models.crystallizer</span></code></a></p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>[1] Kramer, H. &amp; van Rosmalen, G. Crystallization. Encyclopedia of Separation Science, Elsevier, 2000, 64-84.
+<a class="reference external" href="https://www.sciencedirect.com/science/article/pii/B0122267702000314">https://www.sciencedirect.com/science/article/pii/B0122267702000314</a></p>
+<p>[2] Lewis, A.; Seckler, M. &amp; Kramer, H. Industrial Crystallization: Fundamentals and Applications. Cambridge, 2015.</p>
+<p>[3] Tavare, N. S. Industrial Crystallization, Springer US, 2013.
+<a class="reference external" href="https://link.springer.com/book/10.1007/978-1-4899-0233-7">https://link.springer.com/book/10.1007/978-1-4899-0233-7</a></p>
+<p>[4] Dutta, B. Principles of mass transfer and separation processes. PHI Learning, 2007.</p>
+<p>[5] Bennett, R. C. Crystallizer selection and design. Handbook of Industrial Crystallization, Elsevier, 2002, 115-140</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="coag_floc_model.html" class="btn btn-neutral float-left" title="Coagulation-Flocculation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cstr.html" class="btn btn-neutral float-right" title="Continuously Stirred Tank Reactor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

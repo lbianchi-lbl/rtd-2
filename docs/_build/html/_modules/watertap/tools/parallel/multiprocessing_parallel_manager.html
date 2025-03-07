@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.tools.parallel.multiprocessing_parallel_manager &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.tools.parallel.multiprocessing_parallel_manager</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.tools.parallel.multiprocessing_parallel_manager</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Empty</span> <span class="k">as</span> <span class="n">EmptyQueue</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="kn">from</span> <span class="nn">watertap.tools.parallel.results</span> <span class="kn">import</span> <span class="n">LocalResults</span>
+<span class="kn">from</span> <span class="nn">watertap.tools.parallel.parallel_manager</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">parallelActor</span><span class="p">,</span>
+    <span class="n">ParallelManager</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MultiprocessingParallelManager"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager">[docs]</a><span class="k">class</span> <span class="nc">MultiprocessingParallelManager</span><span class="p">(</span><span class="n">ParallelManager</span><span class="p">):</span>
+<div class="viewcode-block" id="MultiprocessingParallelManager.__init__"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">number_of_subprocesses</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_number_of_subprocesses</span> <span class="o">=</span> <span class="n">number_of_subprocesses</span>
+
+        <span class="c1"># this will be updated when child processes are kicked off</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_number_of_subprocesses</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Future -&gt; (process number, parameters). Used to keep track of the process number and parameters for</span>
+        <span class="c1"># all in-progress futures</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running_futures</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.is_root_process"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.is_root_process">[docs]</a>    <span class="k">def</span> <span class="nf">is_root_process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.get_rank"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.get_rank">[docs]</a>    <span class="k">def</span> <span class="nf">get_rank</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROOT_PROCESS_RANK</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.number_of_worker_processes"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.number_of_worker_processes">[docs]</a>    <span class="k">def</span> <span class="nf">number_of_worker_processes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_number_of_subprocesses</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_number_of_subprocesses</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_number_of_subprocesses</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.sync_with_peers"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.sync_with_peers">[docs]</a>    <span class="k">def</span> <span class="nf">sync_with_peers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.sync_array_with_peers"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.sync_array_with_peers">[docs]</a>    <span class="k">def</span> <span class="nf">sync_array_with_peers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.sync_pyobject_with_peers"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.sync_pyobject_with_peers">[docs]</a>    <span class="k">def</span> <span class="nf">sync_pyobject_with_peers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.combine_data_with_peers"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.combine_data_with_peers">[docs]</a>    <span class="k">def</span> <span class="nf">combine_data_with_peers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">data</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.sum_values_and_sync"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.sum_values_and_sync">[docs]</a>    <span class="k">def</span> <span class="nf">sum_values_and_sync</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sendbuf</span><span class="p">,</span> <span class="n">recvbuf</span><span class="p">):</span>
+        <span class="n">recvbuf</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">sendbuf</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.gather_arrays_to_root"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.gather_arrays_to_root">[docs]</a>    <span class="k">def</span> <span class="nf">gather_arrays_to_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sendbuf</span><span class="p">,</span> <span class="n">recvbuf_spec</span><span class="p">):</span>
+        <span class="n">receive_arr</span> <span class="o">=</span> <span class="n">recvbuf_spec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">receive_sizes</span> <span class="o">=</span> <span class="n">recvbuf_spec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">receive_arr</span><span class="p">)</span> <span class="o">==</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">receive_sizes</span>
+        <span class="p">),</span> <span class="s2">&quot;Gathering arrays to root cannot be done with mismatched sizes&quot;</span>
+        <span class="n">receive_arr</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">sendbuf</span><span class="p">[:]</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.scatter"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.scatter">[docs]</a>    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">do_build</span><span class="p">,</span>
+        <span class="n">do_build_kwargs</span><span class="p">,</span>
+        <span class="n">do_execute</span><span class="p">,</span>
+        <span class="n">all_parameters</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># constrain the number of child processes to the number of unique values to be run</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_number_of_subprocesses</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_number_of_subprocesses</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_parameters</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># split the parameters prameters for async run</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_parameters</span><span class="p">)</span>
+        <span class="n">divided_parameters</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">all_parameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_samples</span><span class="p">)</span>
+        <span class="c1"># create queues, run queue will be used to store paramters we want to run</span>
+        <span class="c1"># and return_queue is used to store results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_queue</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">return_queue</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">divided_parameters</span><span class="p">):</span>
+            <span class="c1"># print(param)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_queue</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">param</span><span class="p">])</span>
+        <span class="c1"># setup multiprocessing actors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">cpu</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actual_number_of_subprocesses</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span>
+                    <span class="n">target</span><span class="o">=</span><span class="n">multiProcessingActor</span><span class="p">,</span>
+                    <span class="n">args</span><span class="o">=</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">run_queue</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">return_queue</span><span class="p">,</span>
+                        <span class="n">do_build</span><span class="p">,</span>
+                        <span class="n">do_build_kwargs</span><span class="p">,</span>
+                        <span class="n">do_execute</span><span class="p">,</span>
+                        <span class="n">divided_parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.gather"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.gather">[docs]</a>    <span class="k">def</span> <span class="nf">gather</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># collect result from the actors</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_samples</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">i</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LocalResults</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">result</span><span class="p">))</span>
+            <span class="k">except</span> <span class="n">EmptyQueue</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shut_down</span><span class="p">()</span>
+        <span class="c1"># sort the results by the process number to keep a deterministic ordering</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">result</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">process_number</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span></div>
+
+    <span class="k">def</span> <span class="nf">_shut_down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n_shut_down</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">actors</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Attempting to shut down </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">process</span><span class="p">)</span>
+            <span class="n">process</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+            <span class="n">n_shut_down</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actors</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Shut down </span><span class="si">%d</span><span class="s2"> processes&quot;</span><span class="p">,</span> <span class="n">n_shut_down</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MultiprocessingParallelManager.results_from_local_tree"><a class="viewcode-back" href="../../../../apidoc/watertap.tools.parallel.html#watertap.tools.parallel.multiprocessing_parallel_manager.MultiprocessingParallelManager.results_from_local_tree">[docs]</a>    <span class="k">def</span> <span class="nf">results_from_local_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">results</span></div></div>
+
+
+<span class="c1"># This function is used for running the actors in multprocessing</span>
+<span class="k">def</span> <span class="nf">multiProcessingActor</span><span class="p">(</span>
+    <span class="n">queue</span><span class="p">,</span>
+    <span class="n">return_queue</span><span class="p">,</span>
+    <span class="n">do_build</span><span class="p">,</span>
+    <span class="n">do_build_kwargs</span><span class="p">,</span>
+    <span class="n">do_execute</span><span class="p">,</span>
+    <span class="n">local_parameters</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">actor</span> <span class="o">=</span> <span class="n">parallelActor</span><span class="p">(</span><span class="n">do_build</span><span class="p">,</span> <span class="n">do_build_kwargs</span><span class="p">,</span> <span class="n">do_execute</span><span class="p">,</span> <span class="n">local_parameters</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">EmptyQueue</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">local_parameters</span> <span class="o">=</span> <span class="n">msg</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">local_parameters</span><span class="p">)</span>
+        <span class="n">return_queue</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">local_parameters</span><span class="p">,</span> <span class="n">result</span><span class="p">])</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

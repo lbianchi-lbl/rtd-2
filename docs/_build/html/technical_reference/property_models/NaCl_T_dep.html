@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NaCl Property Package with Temperature Dependence &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Seawater Property Package" href="seawater.html" />
+    <link rel="prev" title="NaCl Property Package" href="NaCl.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Property Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="water.html">Water Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NaCl.html">NaCl Property Package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">NaCl Property Package with Temperature Dependence</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#state-variables">State variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#properties">Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relationships">Relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scaling">Scaling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="seawater.html">Seawater Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coagulation.html">Coagulation Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ASM1.html">ASM1 Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ASM2D.html">ASM2D Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADM1.html">ADM1 Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modified_ADM1.html">Modified ADM1 Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modified_ASM2D.html">Modified ASM2D Property Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mc_aq_sol.html">Multi-Component Aqueous Solution (MCAS) Property Package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Property Models</a></li>
+      <li class="breadcrumb-item active">NaCl Property Package with Temperature Dependence</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/property_models/NaCl_T_dep.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="nacl-property-package-with-temperature-dependence">
+<h1>NaCl Property Package with Temperature Dependence<a class="headerlink" href="#nacl-property-package-with-temperature-dependence" title="Permalink to this heading"></a></h1>
+<p>This package implements property relationships for an NaCl solution.</p>
+<dl class="simple">
+<dt>This NaCl property package:</dt><dd><ul class="simple">
+<li><p>supports only H2O (solvent) and NaCl (solute) components</p></li>
+<li><p>supports only liquid phase</p></li>
+<li><p>is formulated on a mass basis</p></li>
+<li><p>is intended for non-isothermal applications</p></li>
+<li><p>does not support dynamics</p></li>
+</ul>
+</dd>
+</dl>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Indices</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Components</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘H2O’, ‘NaCl’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phases</p></td>
+<td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
+<td><p>[‘Liq’]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="state-variables">
+<h2>State variables<a class="headerlink" href="#state-variables" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Component mass flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(M_j\)</span></p></td>
+<td><p>flow_mass_phase_comp</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Temperature</p></td>
+<td><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
+<td><p>temperature</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(P\)</span></p></td>
+<td><p>pressure</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Component mass fraction</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_j\)</span></p></td>
+<td><p>mass_frac_phase_comp</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
+<td><p>dens_mass_phase</p></td>
+<td><p>[p]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Phase volumetric flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(Q_p\)</span></p></td>
+<td><p>flow_vol_phase</p></td>
+<td><p>[p]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\text{/s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Volumetric flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(Q\)</span></p></td>
+<td><p>flow_vol</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\text{/s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Mass concentration</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_j\)</span></p></td>
+<td><p>conc_mass_phase_comp</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Component mole flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(N_j\)</span></p></td>
+<td><p>flow_mol_phase_comp</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mole/s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Component mole fraction</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_j\)</span></p></td>
+<td><p>mole_frac_phase_comp</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Molality</p></td>
+<td><p><span class="math notranslate nohighlight">\(Cm_{NaCl}\)</span></p></td>
+<td><p>molality_comp</p></td>
+<td><p>[‘NaCl’]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mole/kg}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Solubility</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_{sat_{NaCl}}\)</span></p></td>
+<td><p>solubility_comp</p></td>
+<td><p>[‘NaCl’]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Vapor Pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(P_{sat}\)</span></p></td>
+<td><p>pressure_sat</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Dynamic viscosity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mu\)</span></p></td>
+<td><p>visc_d_phase</p></td>
+<td><p>[p]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa/s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Thermal Conductivity</p></td>
+<td><p><span class="math notranslate nohighlight">\(k\)</span></p></td>
+<td><p>therm_cond_phase</p></td>
+<td><p>[p]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{W/m/K}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Specific Heat Capacity</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_p\)</span></p></td>
+<td><p>cp_mass_phase</p></td>
+<td><p>[p]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{J/kg/K}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Solute diffusivity</p></td>
+<td><p><span class="math notranslate nohighlight">\(D\)</span></p></td>
+<td><p>diffus_phase_comp</p></td>
+<td><p>[p,’NaCl’]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^2\text{/s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Osmotic coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(\phi\)</span></p></td>
+<td><p>osm_coeff</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Osmotic pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(\pi\)</span></p></td>
+<td><p>pressure_osm</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Specific enthalpy</p></td>
+<td><p><span class="math notranslate nohighlight">\(\widehat{H}\)</span></p></td>
+<td><p>enth_mass_phase</p></td>
+<td><p>[p]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{J/kg}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Enthalpy flow</p></td>
+<td><p><span class="math notranslate nohighlight">\(H\)</span></p></td>
+<td><p>enth_flow</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{J/s}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="relationships">
+<h2>Relationships<a class="headerlink" href="#relationships" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Component mass fraction</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_j = \frac{M_j}{\sum_{j} M_j}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass density</p></td>
+<td><p>Equation 7 in Sparrow (2003)</p></td>
+</tr>
+<tr class="row-even"><td><p>Volumetric flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(Q = \frac{\sum_{j} M_j}{\rho}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass concentration</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_j = X_j \rho\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Component mole flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(N_j = \frac{M_j}{MW_j}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Component mole fraction</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_j = \frac{N_j}{\sum_{j} N_j}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Molality</p></td>
+<td><p><span class="math notranslate nohighlight">\(Cm_{NaCl} = \frac{x_{NaCl}}{(1-x_{NaCl}) MW_{NaCl}}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Solubility</p></td>
+<td><p>Equation 5 in Sparrow (2003)</p></td>
+</tr>
+<tr class="row-even"><td><p>Vapor Pressure</p></td>
+<td><p>Equation 6 in Sparrow (2003)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dynamic viscosity</p></td>
+<td><p>Regressed from Zaytsev &amp; Aseev (1992)</p></td>
+</tr>
+<tr class="row-even"><td><p>Thermal Conductivity</p></td>
+<td><p>Regressed from Zaytsev &amp; Aseev (1992)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Specific Heat Capacity</p></td>
+<td><p>Regressed from Zaytsev &amp; Aseev (1992)</p></td>
+</tr>
+<tr class="row-even"><td><p>Solute diffusivity</p></td>
+<td><p>Regressed from Zaytsev &amp; Aseev (1992)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Osmotic coefficient</p></td>
+<td><p>Regressed from Pitzer et. al. (1984)</p></td>
+</tr>
+<tr class="row-even"><td><p>Osmotic pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(\pi = i \phi Cm_{NaCl} \rho_w R T\)</span> [See note 1 below]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Specific enthalpy</p></td>
+<td><p>Equation 8 in Sparrow (2003)</p></td>
+</tr>
+<tr class="row-even"><td><p>Enthalpy flow</p></td>
+<td><p><span class="math notranslate nohighlight">\(H = \sum_{j} M_j \widehat{H}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>Note 1: Osmotic pressure calculation uses the van ‘t Hoff factor (<span class="math notranslate nohighlight">\(i\text{, assumed to be 2}\)</span>), density of water (as a function of temperature), gas constant (<span class="math notranslate nohighlight">\(R\text{, 8.314 J/mol}\text{K}\)</span>) in addition to previously defined variables.</p>
+</section>
+<section id="scaling">
+<h2>Scaling<a class="headerlink" href="#scaling" title="Permalink to this heading"></a></h2>
+<p>This NaCl property package includes support for scaling, such as providing default or calculating scaling factors for almost all variables. The only variables that do not have scaling factors are the component mass flowrate and the user must set them or the user will receive a warning.</p>
+<p>The user can specify the scaling factors for component mass flowrates with the following:</p>
+<p>The default scaling factors are as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>1e-2 for temperature</p></li>
+<li><p>1e-6 for pressure</p></li>
+<li><p>1e-3 for mass density</p></li>
+<li><p>1e3 for dynamic viscosity</p></li>
+<li><p>1e9 for solute diffusivity</p></li>
+<li><p>1 for the osmotic coefficient</p></li>
+<li><p>1e-5 for the specific enthalpy</p></li>
+<li><p>1e-4 for the specific heat capacity</p></li>
+<li><p>1e-5 for vapor pressure</p></li>
+<li><p>1 for thermal conductivity</p></li>
+<li><p>1 for solubility</p></li>
+</ul>
+</div></blockquote>
+<p>The scaling factors for other variables can be calculated based on their relationships with the other variables with the user supplied or default scaling factors.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<blockquote id="pitzer">
+<div><p>Pitzer, Kenneth S., J. Christopher Peiper, and R. H. Busey. (1984). Thermodynamic Properties of Aqueous Sodium Chloride Solutions, Journal of Physical and Chemical Reference Data 13, no. 1 , 1–102. <a class="reference external" href="https://doi.org/10.1063/1.555709">DOI: 10.1063/1.555709</a></p>
+</div></blockquote>
+<blockquote id="sparrow">
+<div><p>Sparrow, Benjamin S. (2003). Empirical Equations for the Thermodynamic Properties of Aqueous Sodium Chloride, Desalination 159, no. 2, 161–70. <a class="reference external" href="https://doi.org/10.1016/S0011-9164(03)90068-3">DOI: 10.1016/S0011-9164(03)90068-3</a></p>
+</div></blockquote>
+<blockquote id="zaytsev">
+<div><p>Zaytsev Ivan Dmitrievich &amp; Aseev G. G. (1992). Properties of aqueous solutions of electrolytes, CRC Press.</p>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="NaCl.html" class="btn btn-neutral float-left" title="NaCl Property Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="seawater.html" class="btn btn-neutral float-right" title="Seawater Property Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

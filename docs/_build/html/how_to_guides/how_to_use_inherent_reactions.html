@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to use inherent reactions &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="How to scale a model" href="how_to_scale_a_model.html" />
+    <link rel="prev" title="How to use apparent and true chemical species" href="how_to_use_apparent_and_true_chemical_species.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How To Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_models_in_a_py_script.html">How to run models in a Python script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_zero_order_model.html">How to run a zero-order model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_a_property_model.html">How to use a property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_RO.html">How to setup a simple RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_RO_config_options.html">How to use configuration options in the RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_MCAS_property_model.html">How to use the multicomponent aqueous solution (MCAS) property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_chemistry.html">How to setup simple chemistry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_apparent_and_true_chemical_species.html">How to use apparent and true chemical species</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to use inherent reactions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inherent-reaction-vs-other-reactions">Inherent Reaction vs Other Reactions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example-thermo-config">Example <strong>thermo_config</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-of-a-dummy-reaction-config">Example of a dummy <strong>reaction_config</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-using-our-configuration-dictionaries-in-an-equilibriumreactor">Example: Using our configuration dictionaries in an EquilibriumReactor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_a_model.html">How to scale a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_reactions.html">How to scale chemical reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_species.html">How to scale chemical species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_process_energy_balance.html">How to scale energy balance for chemical process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep.html">How to explore a model with parameter sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep_monte_carlo.html">Monte Carlo testing with the Parameter Sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_differential_parameter_sweep.html">How to Run Differential Parameter Sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_loopTool_to_explore_flowsheets.html">How to use loopTool to explore flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_debugging_solver_wrapper.html">How to use the debugging solver wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_property_test_harness.html">How to use the property test harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_ui_api.html">Add a flowsheet to the UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_ui_api.html#testing-flowsheet-interfaces">Testing flowsheet interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_unit_test_harness.html">How to use the unit test harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_contribute_development.html">How to contribute to WaterTAP’s development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks.html">How to run WaterTAP with Jupyter notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">How To Guides</a></li>
+      <li class="breadcrumb-item active">How to use inherent reactions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/how_to_guides/how_to_use_inherent_reactions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="how-to-use-inherent-reactions">
+<span id="id1"></span><h1>How to use inherent reactions<a class="headerlink" href="#how-to-use-inherent-reactions" title="Permalink to this heading"></a></h1>
+<p>In <a class="reference internal" href="how_to_setup_simple_chemistry.html#how-to-setup-simple-chemistry"><span class="std std-ref">How to setup simple chemistry</span></a>, we showed
+an example of setting up a <strong>thermo_config</strong> and <strong>reaction_config</strong> and put all
+reactions in that <strong>reaction_config</strong>. However, it is possible to place reactions
+into the <strong>thermo_config</strong> itself using <strong>Inherent Reactions</strong>. This guide will
+perform the same walk through and setup from <a class="reference internal" href="how_to_setup_simple_chemistry.html#how-to-setup-simple-chemistry"><span class="std std-ref">How to setup simple chemistry</span></a>,
+but will place reactions into the <strong>thermo_config</strong> itself.</p>
+<section id="inherent-reaction-vs-other-reactions">
+<h2>Inherent Reaction vs Other Reactions<a class="headerlink" href="#inherent-reaction-vs-other-reactions" title="Permalink to this heading"></a></h2>
+<p>The <strong>Inherent Reactions</strong> are reactions that will be common to all unit processes
+within a flowsheet. Thus, it is convenient to put those common reactions into
+the <strong>thermo_config</strong> as inherent. Then, the non-inherent reactions in the <strong>reaction_config</strong>
+will be unique to a specific unit process.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is possible to mix inherent reactions and non-inherent reactions within the
+same unit process. However, user’s need to take care and make sure that if a
+reaction is in the <strong>thermo_config</strong> as inherent, then it SHOULD NOT also
+show up in the <strong>reaction_config</strong>. This would create a degeneracy in the model.</p>
+</div>
+<section id="example-thermo-config">
+<h3>Example <strong>thermo_config</strong><a class="headerlink" href="#example-thermo-config" title="Permalink to this heading"></a></h3>
+<p>In this example, we will define a simple thermo-properties configuration dictionary
+for a chemical system that contains only water. The water dissociation reaction will
+be declared as <strong>inherent</strong> and, thus, be a part of this configuration dictionary.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importing the object for units from pyomo</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span>
+
+<span class="c1"># Imports from idaes core</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">AqueousPhase</span>
+<span class="kn">from</span> <span class="nn">idaes.core.base.components</span> <span class="kn">import</span> <span class="n">Solvent</span><span class="p">,</span> <span class="n">Cation</span><span class="p">,</span> <span class="n">Anion</span>
+
+<span class="c1"># Imports from idaes generic models</span>
+<span class="kn">import</span> <span class="nn">idaes.models.properties.modular_properties.pure.Perrys</span> <span class="k">as</span> <span class="nn">Perrys</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.pure.ConstantProperties</span> <span class="kn">import</span> <span class="n">Constant</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.state_definitions</span> <span class="kn">import</span> <span class="n">FTPx</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.eos.ideal</span> <span class="kn">import</span> <span class="n">Ideal</span>
+
+<span class="c1"># Importing the object for units from pyomo</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span>
+
+<span class="c1"># Import the object/function for heat of reaction</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.reactions.dh_rxn</span> <span class="kn">import</span> <span class="n">constant_dh_rxn</span>
+
+<span class="c1"># Import built-in Gibb&#39;s Energy function</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.reactions.equilibrium_constant</span> <span class="kn">import</span> <span class="n">van_t_hoff</span>
+
+<span class="c1"># Import safe log power law equation</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.reactions.equilibrium_forms</span> <span class="kn">import</span> <span class="n">log_power_law_equil</span>
+
+<span class="c1"># Importing the enum for concentration unit basis used in the &#39;get_concentration_term&#39; function</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.base.generic_reaction</span> <span class="kn">import</span> <span class="n">ConcentrationForm</span>
+
+<span class="c1"># Configuration dictionary</span>
+<span class="n">thermo_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;components&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;H2O&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">Solvent</span><span class="p">,</span>
+              <span class="c1"># Define the methods used to calculate the following properties</span>
+              <span class="s2">&quot;dens_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Perrys</span><span class="p">,</span>
+              <span class="s2">&quot;enth_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Perrys</span><span class="p">,</span>
+              <span class="s2">&quot;cp_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Perrys</span><span class="p">,</span>
+              <span class="s2">&quot;entr_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Perrys</span><span class="p">,</span>
+              <span class="c1"># Parameter data is always associated with the methods defined above</span>
+              <span class="s2">&quot;parameter_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;mw&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">18.0153</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">),</span>
+                    <span class="c1"># Parameters here come from Perry&#39;s Handbook:  p. 2-98</span>
+                    <span class="s2">&quot;dens_mol_liq_comp_coeff&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;eqn_type&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">5.459</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+                        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.30542</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">),</span>
+                        <span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">647.13</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="p">),</span>
+                        <span class="s1">&#39;4&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.081</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">)},</span>
+                    <span class="s2">&quot;enth_mol_form_liq_comp_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">285.830</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kJ</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">),</span>
+                    <span class="s2">&quot;enth_mol_form_vap_comp_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kJ</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">),</span>
+                    <span class="c1"># Parameters here come Perry&#39;s Handbook:  p. 2-174</span>
+                    <span class="s2">&quot;cp_mol_liq_comp_coeff&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.7637E5</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="p">),</span>
+                        <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.0901E3</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">8.125</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">**</span><span class="mi">3</span><span class="p">),</span>
+                        <span class="s1">&#39;4&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.4116E-2</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">**</span><span class="mi">4</span><span class="p">),</span>
+                        <span class="s1">&#39;5&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">9.3701E-6</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">**</span><span class="mi">5</span><span class="p">)},</span>
+                    <span class="s2">&quot;cp_mol_ig_comp_coeff&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">30.09200</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="p">),</span>
+                        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">6.832514</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="o">**-</span><span class="mi">1</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">**-</span><span class="mi">1</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kiloK</span><span class="o">**-</span><span class="mi">1</span><span class="p">),</span>
+                        <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">6.793435</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="o">**-</span><span class="mi">1</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">**-</span><span class="mi">1</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kiloK</span><span class="o">**-</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.534480</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="o">**-</span><span class="mi">1</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">**-</span><span class="mi">1</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kiloK</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+                        <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.082139</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="o">**-</span><span class="mi">1</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">**-</span><span class="mi">1</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kiloK</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">250.8810</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kJ</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">),</span>
+                        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">223.3967</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="p">),</span>
+                        <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kJ</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">)},</span>
+                    <span class="s2">&quot;entr_mol_form_liq_comp_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">69.95</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">)</span>
+                    <span class="c1"># End parameter_data</span>
+                    <span class="p">}},</span>
+        <span class="s1">&#39;H_+&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">Cation</span><span class="p">,</span> <span class="s2">&quot;charge&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="c1"># Define the methods used to calculate the following properties</span>
+              <span class="s2">&quot;dens_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
+              <span class="s2">&quot;enth_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
+              <span class="s2">&quot;cp_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
+              <span class="s2">&quot;entr_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
+              <span class="c1"># Parameter data is always associated with the methods defined above</span>
+              <span class="s2">&quot;parameter_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;mw&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.00784</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">),</span>
+                    <span class="s2">&quot;dens_mol_liq_comp_coeff&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+                    <span class="s2">&quot;enth_mol_form_liq_comp_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kJ</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">),</span>
+                    <span class="s2">&quot;cp_mol_liq_comp_coeff&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">75000</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="p">),</span>
+                    <span class="s2">&quot;entr_mol_form_liq_comp_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">)</span>
+                                <span class="p">},</span>
+                    <span class="c1"># End parameter_data</span>
+                    <span class="p">},</span>
+        <span class="s1">&#39;OH_-&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">Anion</span><span class="p">,</span> <span class="s2">&quot;charge&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+              <span class="c1"># Define the methods used to calculate the following properties</span>
+              <span class="s2">&quot;dens_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
+              <span class="s2">&quot;enth_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
+              <span class="s2">&quot;cp_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
+              <span class="s2">&quot;entr_mol_liq_comp&quot;</span><span class="p">:</span> <span class="n">Constant</span><span class="p">,</span>
+              <span class="c1"># Parameter data is always associated with the methods defined above</span>
+              <span class="s2">&quot;parameter_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;mw&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">17.008</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">g</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">),</span>
+                    <span class="s2">&quot;dens_mol_liq_comp_coeff&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">*</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+                    <span class="s2">&quot;enth_mol_form_liq_comp_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">230.000</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kJ</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">),</span>
+                    <span class="s2">&quot;cp_mol_liq_comp_coeff&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">75000</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="p">),</span>
+                    <span class="s2">&quot;entr_mol_form_liq_comp_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">10.75</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">)</span>
+                                <span class="p">},</span>
+                    <span class="c1"># End parameter_data</span>
+                    <span class="p">}</span>
+              <span class="p">},</span>
+              <span class="c1"># End Component list</span>
+
+        <span class="s2">&quot;phases&quot;</span><span class="p">:</span>  <span class="p">{</span><span class="s1">&#39;Liq&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">AqueousPhase</span><span class="p">,</span>
+                            <span class="s2">&quot;equation_of_state&quot;</span><span class="p">:</span> <span class="n">Ideal</span><span class="p">},</span>
+                    <span class="p">},</span>
+
+        <span class="s2">&quot;state_definition&quot;</span><span class="p">:</span> <span class="n">FTPx</span><span class="p">,</span>
+
+        <span class="c1"># This is an optional dictionary to setup bounds on</span>
+        <span class="c1">#   the state variables. Names below MUST correspond</span>
+        <span class="c1">#   to the &#39;FTPx&#39; type state definition</span>
+        <span class="s2">&quot;state_bounds&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;flow_mol&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                         <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">273.15</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">650</span><span class="p">),</span>
+                         <span class="s2">&quot;pressure&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">5e4</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">)</span>
+                     <span class="p">},</span>
+
+        <span class="c1"># These are generally optional parameters, however, because we</span>
+        <span class="c1">#   are using the Perry&#39;s model to calculate temperature dependent</span>
+        <span class="c1">#   properties, we MUST provide these here.</span>
+        <span class="s2">&quot;pressure_ref&quot;</span><span class="p">:</span> <span class="mf">1e5</span><span class="p">,</span>
+        <span class="s2">&quot;temperature_ref&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+
+        <span class="c1"># Our dictionary for base units MUST define the following</span>
+        <span class="s2">&quot;base_units&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+                       <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+                       <span class="s2">&quot;mass&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span>
+                       <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span>
+                       <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="p">},</span>
+
+         <span class="c1"># Inherent reactions</span>
+         <span class="c1">#    These are added just like any other equilibrium reaction</span>
+         <span class="c1">#    would be defined in a reaction config</span>
+         <span class="s2">&quot;inherent_reactions&quot;</span><span class="p">:</span> <span class="p">{</span>
+             <span class="s2">&quot;H2O_Kw&quot;</span><span class="p">:</span> <span class="p">{</span>
+                     <span class="s2">&quot;stoichiometry&quot;</span><span class="p">:</span> <span class="p">{(</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">):</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                                      <span class="p">(</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H_+&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
+                                      <span class="p">(</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;OH_-&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">},</span>
+                    <span class="s2">&quot;heat_of_reaction&quot;</span><span class="p">:</span> <span class="n">constant_dh_rxn</span><span class="p">,</span>
+                    <span class="s2">&quot;equilibrium_constant&quot;</span><span class="p">:</span> <span class="n">van_t_hoff</span><span class="p">,</span>
+                    <span class="s2">&quot;equilibrium_form&quot;</span><span class="p">:</span> <span class="n">log_power_law_equil</span><span class="p">,</span>
+                    <span class="s2">&quot;concentration_form&quot;</span><span class="p">:</span> <span class="n">ConcentrationForm</span><span class="o">.</span><span class="n">moleFraction</span><span class="p">,</span>
+                    <span class="s2">&quot;parameter_data&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;dh_rxn_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">55.830</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">J</span><span class="o">/</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">),</span>
+                        <span class="s2">&quot;k_eq_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">14</span><span class="o">/</span><span class="mf">55.2</span><span class="o">/</span><span class="mf">55.2</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">),</span>
+                        <span class="s2">&quot;T_eq_ref&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">298</span><span class="p">,</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="p">),</span>
+
+                        <span class="c1"># By default, reaction orders follow stoichiometry</span>
+                        <span class="c1">#    manually set reaction order here to override</span>
+                        <span class="s2">&quot;reaction_order&quot;</span><span class="p">:</span> <span class="p">{(</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                                         <span class="p">(</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H_+&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
+                                         <span class="p">(</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;OH_-&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">}</span>
+                         <span class="p">}</span>
+                         <span class="c1"># End parameter_data</span>
+                    <span class="p">}</span>
+              <span class="p">}</span>
+              <span class="c1"># End inherent reactions</span>
+    <span class="p">}</span>
+    <span class="c1"># End thermo_config definition</span>
+</pre></div>
+</div>
+<p>For a detailed analysis of everything from above, see
+<a class="reference internal" href="how_to_setup_simple_chemistry.html#how-to-setup-simple-chemistry"><span class="std std-ref">How to setup simple chemistry</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even if your system only involves inherent reactions, you may still be required to provide
+a reaction configuration dictionary to construct certain unit models (such as EquilibriumReactor).
+However, your reaction configuration may be a blank or a <strong>dummy</strong> config (see below)</p>
+</div>
+</section>
+<section id="example-of-a-dummy-reaction-config">
+<h3>Example of a dummy <strong>reaction_config</strong><a class="headerlink" href="#example-of-a-dummy-reaction-config" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importing the object for units from pyomo</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span>
+
+<span class="c1"># Import safe log power law equation</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.reactions.equilibrium_forms</span> <span class="kn">import</span> <span class="n">log_power_law_equil</span>
+
+<span class="c1"># This config is REQUIRED to use EquilibriumReactor even if we have no equilibrium reactions</span>
+<span class="n">reaction_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;base_units&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+                   <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+                   <span class="s2">&quot;mass&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span>
+                   <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span>
+                   <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">K</span><span class="p">},</span>
+    <span class="s2">&quot;equilibrium_reactions&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;dummy&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;stoichiometry&quot;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s2">&quot;equilibrium_form&quot;</span><span class="p">:</span> <span class="n">log_power_law_equil</span><span class="p">,</span>
+               <span class="p">}</span>
+               <span class="c1"># End reaction</span>
+         <span class="p">}</span>
+         <span class="c1"># End equilibrium_reactions</span>
+    <span class="p">}</span>
+    <span class="c1"># End reaction_config definition</span>
+</pre></div>
+</div>
+</section>
+<section id="example-using-our-configuration-dictionaries-in-an-equilibriumreactor">
+<h3>Example: Using our configuration dictionaries in an EquilibriumReactor<a class="headerlink" href="#example-using-our-configuration-dictionaries-in-an-equilibriumreactor" title="Permalink to this heading"></a></h3>
+<p>Recall, we had named our configuration dictionaries as <code class="docutils literal notranslate"><span class="pre">thermo_config</span></code> and
+<code class="docutils literal notranslate"><span class="pre">reaction_config</span></code>. We will reference those dictionary names in the example
+code below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import specific pyomo objects</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">ConcreteModel</span>
+
+<span class="c1"># Import the core idaes objects for Flowsheets and types of balances</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">FlowsheetBlock</span>
+
+<span class="c1"># Import the idaes objects for Generic Properties and Reactions</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.base.generic_property</span> <span class="kn">import</span> <span class="n">GenericParameterBlock</span>
+<span class="kn">from</span> <span class="nn">idaes.models.properties.modular_properties.base.generic_reaction</span> <span class="kn">import</span> <span class="n">GenericReactionParameterBlock</span>
+
+<span class="c1"># Import the idaes object for the EquilibriumReactor unit model</span>
+<span class="kn">from</span> <span class="nn">idaes.models.unit_models.equilibrium_reactor</span> <span class="kn">import</span> <span class="n">EquilibriumReactor</span>
+
+<span class="c1"># Create an instance of a pyomo model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ConcreteModel</span><span class="p">()</span>
+
+<span class="c1"># Add an IDAES flowsheet to that model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fs</span> <span class="o">=</span> <span class="n">FlowsheetBlock</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Add a thermo parameter block to that flowsheet</span>
+<span class="c1">#   Here, we are passing our &#39;thermo_config&#39; dictionary we created earlier</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">thermo_params</span> <span class="o">=</span> <span class="n">GenericParameterBlock</span><span class="p">(</span><span class="o">**</span><span class="n">thermo_config</span><span class="p">)</span>
+
+<span class="c1"># Add a reaction parameter block to that flowsheet</span>
+<span class="c1">#   Here, we are passing our thermo block created above as the property package</span>
+<span class="c1">#   and then giving our &#39;reaction_config&#39; as the instructions for how the</span>
+<span class="c1">#   reactions will be constructed from the thermo package.</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">rxn_params</span> <span class="o">=</span> <span class="n">GenericReactionParameterBlock</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">thermo_params</span><span class="p">,</span> <span class="o">**</span><span class="n">reaction_config</span><span class="p">)</span>
+
+<span class="c1"># Add an EquilibriumReactor object as the unit model</span>
+<span class="c1">#   Here, we pass both the thermo package and reaction package, as well</span>
+<span class="c1">#   as a number of other arguments to help define how this unit process</span>
+<span class="c1">#   will behave.</span>
+<span class="c1">#</span>
+<span class="c1"># NOTE: What is different here is now we state that there are no</span>
+<span class="c1">#       equilibrium reactions in this unit model because we defined</span>
+<span class="c1">#       those reactions as inherent.</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">EquilibriumReactor</span><span class="p">(</span><span class="n">property_package</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">thermo_params</span><span class="p">,</span>
+                                   <span class="n">reaction_package</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">rxn_params</span><span class="p">,</span>
+                                   <span class="n">has_rate_reactions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">has_equilibrium_reactions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">has_heat_transfer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">has_heat_of_reaction</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">has_pressure_change</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># At this point, you can &#39;fix&#39; your inlet/outlet state conditions,</span>
+<span class="c1">#     setup scaling factors, initialize the model, then solve the model</span>
+<span class="c1">#     just as you would with any other IDAES flowsheet</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="how_to_use_apparent_and_true_chemical_species.html" class="btn btn-neutral float-left" title="How to use apparent and true chemical species" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="how_to_scale_a_model.html" class="btn btn-neutral float-right" title="How to scale a model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

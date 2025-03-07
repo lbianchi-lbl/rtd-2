@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.costing.util &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.costing.util</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.costing.util</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+
+
+<div class="viewcode-block" id="register_costing_parameter_block"><a class="viewcode-back" href="../../../technical_reference/costing/util.html#watertap.costing.util.register_costing_parameter_block">[docs]</a><span class="k">def</span> <span class="nf">register_costing_parameter_block</span><span class="p">(</span><span class="n">build_rule</span><span class="p">,</span> <span class="n">parameter_block_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator to create a global-level parameter block on the costing package.</span>
+
+<span class="sd">    This decorator is meant to be utilized on a costing method or function in order</span>
+<span class="sd">    to register parameters (including flows specific to a unit model) which should</span>
+<span class="sd">    have global-scope within a costing package. In this way, all instances of a unit</span>
+<span class="sd">    model can share the same global parameters, such as baseline capital costs.</span>
+
+<span class="sd">    The decorator takes a `build_rule`, which is a rule for constructing a Pyomo</span>
+<span class="sd">    `Block`, and a `parameter_block_name`, which determines the name of the constructed</span>
+<span class="sd">    block. The decorator then puts the new Block onto the costing package. For a unit</span>
+<span class="sd">    model costing block named `blk`, this is symmatically equivalent to:</span>
+
+<span class="sd">    .. testcode::</span>
+<span class="sd">        :skipif: True</span>
+
+<span class="sd">        blk.costing_package.parameter_block_name = Block(rule=build_rule)</span>
+
+<span class="sd">    However, this decorator contains a few additional safeguards.</span>
+
+<span class="sd">        1. If the wrapped unit model costing function is called more than once,</span>
+<span class="sd">           the associated parameter block will only be added one time.</span>
+
+<span class="sd">        2. Similarly, if a component named `parameter_block_name` already exists</span>
+<span class="sd">           on the `costing_package`, this decorator will raise an error if the</span>
+<span class="sd">           parameter block was built with a different `build_rule`. This prevents</span>
+<span class="sd">           inadvertent name clashes between different parameter blocks.</span>
+
+<span class="sd">        3. The decorator fixes any Pyomo Vars it finds on the constructed parameter</span>
+<span class="sd">           block.</span>
+
+<span class="sd">    Use of this decorator allows for defining unit-level costing parameters in the same</span>
+<span class="sd">    module as the unit-level costing method. It also ensures that unit-level costing</span>
+<span class="sd">    parameters are only added to the costing package if and only if that particular</span>
+<span class="sd">    unit model is costed.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        build_rule (callable): A function defining a &quot;build rule&quot; for a Pyomo `Block`.</span>
+<span class="sd">        parameter_block_name (str): The name for the built Block on the costing package.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">register_costing_parameter_block_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">add_costing_parameter_block</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">parameter_block</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">parameter_block_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">parameter_block</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">parameter_block</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Block</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">build_rule</span><span class="p">)</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">parameter_block_name</span><span class="p">,</span> <span class="n">parameter_block</span><span class="p">)</span>
+                <span class="c1"># fix the parameters in case the build_rule did not</span>
+                <span class="n">parameter_block</span><span class="o">.</span><span class="n">fix_all_vars</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">parameter_block</span><span class="o">.</span><span class="n">_rule</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span>
+                <span class="n">parameter_block</span><span class="o">.</span><span class="n">_rule</span><span class="p">,</span> <span class="s2">&quot;_fcn&quot;</span>
+            <span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Use the register_costing_parameter_block decorator for specifying&quot;</span>
+                    <span class="s2">&quot;costing-package-level parameters&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">parameter_block</span><span class="o">.</span><span class="n">_rule</span><span class="o">.</span><span class="n">_fcn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">build_rule</span><span class="p">:</span>
+                <span class="n">other_rule</span> <span class="o">=</span> <span class="n">parameter_block</span><span class="o">.</span><span class="n">_rule</span><span class="o">.</span><span class="n">_fcn</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Attempting to add identically named costing parameter blocks with &quot;</span>
+                    <span class="s2">&quot;different build rules to the costing package &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="si">}</span><span class="s2">. Parameter block named &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parameter_block_name</span><span class="si">}</span><span class="s2"> was previously built by function &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">other_rule</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> from module </span><span class="si">{</span><span class="n">other_rule</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="c1"># else parameter_block was constructed by build_rule previously</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">add_costing_parameter_block</span>
+
+    <span class="k">return</span> <span class="n">register_costing_parameter_block_decorator</span></div>
+
+
+<div class="viewcode-block" id="make_capital_cost_var"><a class="viewcode-back" href="../../../technical_reference/costing/util.html#watertap.costing.util.make_capital_cost_var">[docs]</a><span class="k">def</span> <span class="nf">make_capital_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic function for adding a Var named `capital_cost`</span>
+<span class="sd">    to the unit model costing block.</span>
+
+<span class="sd">    Creates a pyomo Var named `capital_cost` with units</span>
+<span class="sd">    `blk.costing_package.base_currency`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Unit capital cost&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="make_fixed_operating_cost_var"><a class="viewcode-back" href="../../../technical_reference/costing/util.html#watertap.costing.util.make_fixed_operating_cost_var">[docs]</a><span class="k">def</span> <span class="nf">make_fixed_operating_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic function for adding a Var named `fixed_operating_cost`</span>
+<span class="sd">    to the unit model costing block.</span>
+
+<span class="sd">    Creates a pyomo Var named `fixed_operating_cost` with units</span>
+<span class="sd">    `blk.costing_package.base_currency / blk.costing_package.base_period`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">fixed_operating_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">1e5</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span> <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_period</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Unit fixed operating cost&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cost_membrane"><a class="viewcode-back" href="../../../technical_reference/costing/util.html#watertap.costing.util.cost_membrane">[docs]</a><span class="k">def</span> <span class="nf">cost_membrane</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">membrane_cost</span><span class="p">,</span> <span class="n">factor_membrane_replacement</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic function for costing a membrane. Assumes the unit_model</span>
+<span class="sd">    has an `area` variable or parameter.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        membrane_cost: The cost of the membrane in currency per area</span>
+<span class="sd">        factor_membrane_replacement: Membrane replacement factor</span>
+<span class="sd">            (fraction of membrane replaced/year)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">make_capital_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">make_fixed_operating_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">membrane_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">membrane_cost</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">factor_membrane_replacement</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">factor_membrane_replacement</span><span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_cost_factor</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="s2">&quot;TIC&quot;</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span>
+        <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span>
+        <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">membrane_cost</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">area</span><span class="p">,</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">fixed_operating_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">fixed_operating_cost</span>
+        <span class="o">==</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">factor_membrane_replacement</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">membrane_cost</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">area</span><span class="p">,</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span>
+            <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_period</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cost_rectifier"><a class="viewcode-back" href="../../../technical_reference/costing/util.html#watertap.costing.util.cost_rectifier">[docs]</a><span class="k">def</span> <span class="nf">cost_rectifier</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kW</span><span class="p">,</span> <span class="n">ac_dc_conversion_efficiency</span><span class="o">=</span><span class="mf">0.90</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Method to cost rectifiers for electrified process units that require direct current which must be converted</span>
+<span class="sd">    from an alternating current source. Note that this should be used solely for units that require the conversion,</span>
+<span class="sd">    and should not be used universally for electricity requirements.</span>
+<span class="sd">    Assumes the unit_model has a `power` variable or parameter.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ac_dc_conversion_efficiency: Efficiency of the conversion from AC to DC current</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># create variables on cost block</span>
+    <span class="n">make_capital_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">ac_dc_conversion_efficiency</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">ac_dc_conversion_efficiency</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;fixing unit model vairable for upscaling required power considering &quot;</span>
+        <span class="s2">&quot;the efficiency of converting alternating to direct current&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">ac_power</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kW</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Unit AC power&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># use unit.power variable in conversion with efficiency</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">power_conversion</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">ac_power</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">ac_dc_conversion_efficiency</span>
+        <span class="o">==</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kW</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># USD_2021 embedded in equation</span>
+    <span class="n">rectifier_cost_coeff</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">508.6</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">2810</span><span class="p">}</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">rectifier_cost_coeff</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">rectifier_cost_coeff</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="n">rectifier_cost_coeff</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Rectifier cost coefficients&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_rectifier</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span>
+    <span class="p">)</span>
+
+    <span class="c1"># refix variables to appropriate costing parameters</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">blk</span><span class="o">.</span><span class="n">rectifier_cost_coeff</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">rectifier_cost_coeff</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+
+    <span class="c1"># calculate capital cost</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_rectifier_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_rectifier</span>
+        <span class="o">==</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2021</span>
+            <span class="o">*</span> <span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">rectifier_cost_coeff</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="o">+</span> <span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">rectifier_cost_coeff</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">ac_power</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kW</span><span class="o">**-</span><span class="mi">1</span><span class="p">))</span>
+            <span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># cost electricity flow</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">cost_flow</span><span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">ac_power</span><span class="p">,</span> <span class="s2">&quot;electricity&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cost_by_flow_volume"><a class="viewcode-back" href="../../../technical_reference/costing/util.html#watertap.costing.util.cost_by_flow_volume">[docs]</a><span class="k">def</span> <span class="nf">cost_by_flow_volume</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">flow_cost</span><span class="p">,</span> <span class="n">flow_to_cost</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic function for costing by flow volume.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        flow_cost: The cost of the device in [currency]/([volume]/[time])</span>
+<span class="sd">        flow_to_cost: The flow costed in [volume]/[time]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">make_capital_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">flow_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">flow_cost</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_cost_factor</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="s2">&quot;TIC&quot;</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span>
+        <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span>
+        <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">flow_cost</span> <span class="o">*</span> <span class="n">flow_to_cost</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

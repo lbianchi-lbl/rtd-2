@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WaterTAP Costing Framework &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="WaterTAP Costing Package" href="watertap_costing.html" />
+    <link rel="prev" title="Costing Models" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Costing Models</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">WaterTAP Costing Framework</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#extensions-over-idaes-costing-framework">Extensions Over IDAES Costing Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#costing-index-and-technoeconomic-factors">Costing Index and Technoeconomic Factors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#common-global-costing-parameters">Common Global Costing Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#costing-process-wide-costs">Costing Process-Wide Costs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#costing-calculations">Costing Calculations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aggregates-metrics">Aggregates Metrics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-costing-methods">Default Costing Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="watertap_costing.html">WaterTAP Costing Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap_costing_detailed.html">Detailed WaterTAP Costing Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="detailed_unit_model_costing.html">Detailed Unit Model Costing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="zero_order_costing.html">Zero Order Costing Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multiple_choice_costing_block.html">Multiple Choice Unit Model Costing Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="util.html">Utility Functions for Costing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Costing Models</a></li>
+      <li class="breadcrumb-item active">WaterTAP Costing Framework</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/costing/costing_base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="watertap-costing-framework">
+<span id="watertapcostingblockdata"></span><h1>WaterTAP Costing Framework<a class="headerlink" href="#watertap-costing-framework" title="Permalink to this heading"></a></h1>
+<p id="index-0">The WaterTAP Costing Base class and utility functions contain extensions, methods, and variables and constraints common to all WaterTAP Costing Packages, and which would be useful for creating custom costing packages for WaterTAP.</p>
+<section id="extensions-over-idaes-costing-framework">
+<h2>Extensions Over IDAES Costing Framework<a class="headerlink" href="#extensions-over-idaes-costing-framework" title="Permalink to this heading"></a></h2>
+<p>The WaterTAP Costing Framework extends the functionality of the <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/costing/costing_framework.html">IDAES Process Costing Framework</a> in several ways:</p>
+<ol class="arabic simple">
+<li><p>Unit models can self-register a default costing method by specifying a <cite>default_costing_method</cite> attribute. This allows the costing method(s) to be specified with the unit model definition.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">import</span> <span class="nn">idaes.core</span> <span class="k">as</span> <span class="nn">idc</span>
+<span class="kn">from</span> <span class="nn">watertap.costing</span> <span class="kn">import</span> <span class="n">WaterTAPCosting</span>
+
+<span class="k">def</span> <span class="nf">cost_unit_model</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Capital cost of unit operation&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="nd">@idc</span><span class="o">.</span><span class="n">declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;MyUnitModel&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MyUnitModelData</span><span class="p">(</span><span class="n">idc</span><span class="o">.</span><span class="n">UnitModelBlockData</span><span class="p">):</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_costing_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># could point to a static method on</span>
+        <span class="c1"># this class, could be function in</span>
+        <span class="c1"># a different module even</span>
+        <span class="k">return</span> <span class="n">cost_unit_model</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span> <span class="o">=</span> <span class="n">idc</span><span class="o">.</span><span class="n">FlowsheetBlock</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">WaterTAPCosting</span><span class="p">()</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit</span> <span class="o">=</span> <span class="n">MyUnitModel</span><span class="p">()</span>
+
+<span class="c1"># the `default_costing_method_attribute` on the</span>
+<span class="c1"># unit model is checked, and the function</span>
+<span class="c1"># `cost_unit_model` returned then build the costing block</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">idc</span><span class="o">.</span><span class="n">UnitModelCostingBlock</span><span class="p">(</span>
+    <span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>The method <cite>register_flow_type</cite> will create a new Expression if a costing component is not already defined <em>and</em> the costing component is not constant. The default behavior in IDAES is to always create a new Var. This allows the user to specify intermediate values in <cite>register_flow_type</cite>.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">FlowsheetBlock</span>
+<span class="kn">from</span> <span class="nn">watertap.costing</span> <span class="kn">import</span> <span class="n">WaterTAPCosting</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span> <span class="o">=</span> <span class="n">FlowsheetBlock</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">WaterTAPCosting</span><span class="p">()</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">naocl_bulk_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span>
+    <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">initialize</span><span class="o">=</span><span class="mf">0.23</span><span class="p">,</span>
+    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;NaOCl cost&quot;</span><span class="p">,</span>
+    <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">naocl_purity</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span>
+   <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+   <span class="n">initialize</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+   <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;NaOCl purity&quot;</span><span class="p">,</span>
+   <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># This will create an Expression m.fs.costing.naocl_cost whose expr is the second argument</span>
+<span class="c1"># so changes to m.fs.naocl_bulk_cost and m.fs.naocl_purity will affect the underlying</span>
+<span class="c1"># new Expression m.fs.costing.naocl_cost.</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">register_flow_type</span><span class="p">(</span><span class="s2">&quot;naocl&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">naocl_bulk_cost</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">naocl_purity</span><span class="p">)</span>
+
+<span class="c1"># This, however, will create a Var called m.fs.costing.caoh2_cost whose *value* is the second argument</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">register_flow_type</span><span class="p">(</span><span class="s2">&quot;caoh2&quot;</span><span class="p">,</span> <span class="mf">0.12</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Unit models specify one of the global indirect capital cost multipliers, either <cite>TIC</cite> or <cite>TPEC</cite> (defined below) when defining their capital costs. The costing package will then aggregate both direct and total capital costs.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">import</span> <span class="nn">idaes.core</span> <span class="k">as</span> <span class="nn">idc</span>
+<span class="kn">from</span> <span class="nn">watertap.costing</span> <span class="kn">import</span> <span class="n">WaterTAPCosting</span>
+
+<span class="k">def</span> <span class="nf">cost_my_unit_model</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Capital cost of unit operation&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Adds blk.cost_factor, an expression pointing</span>
+    <span class="c1"># to the appropriate indirect capital cost adder</span>
+    <span class="c1"># and blk.direct_capital_cost, which is a expression</span>
+    <span class="c1"># defined to be blk.capital_cost / blk.cost_factor.</span>
+    <span class="c1"># Valid strings are &quot;TIC&quot; and &quot;TPEC&quot;, all others</span>
+    <span class="c1"># will result in an indirect capital cost factor</span>
+    <span class="c1"># of 1.</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_cost_factor</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="s2">&quot;TIC&quot;</span><span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span>
+        <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span> <span class="o">*</span> <span class="p">(</span> <span class="mi">42</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="nd">@idc</span><span class="o">.</span><span class="n">declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;MyUnitModel&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MyUnitModelData</span><span class="p">(</span><span class="n">idc</span><span class="o">.</span><span class="n">UnitModelBlockData</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span> <span class="o">=</span> <span class="n">idc</span><span class="o">.</span><span class="n">FlowsheetBlock</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">WaterTAPCosting</span><span class="p">()</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit</span> <span class="o">=</span> <span class="n">MyUnitModel</span><span class="p">()</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">idc</span><span class="o">.</span><span class="n">UnitModelCostingBlock</span><span class="p">(</span>
+    <span class="n">costing_method</span><span class="o">=</span><span class="n">cost_my_unit_model</span><span class="p">,</span>
+    <span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">cost_factor</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">capital_cost</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">direct_capital_cost</span><span class="o">.</span><span class="n">pprint</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cost_factor : Size=1, Index=None
+    Key  : Expression
+    None : fs.costing.TIC
+capital_cost : Capital cost of unit operation
+    Size=1, Index=None, Units=USD_2018
+    Key  : Lower : Value : Upper : Fixed : Stale : Domain
+    None :     0 :  84.0 :  None : False : False :  Reals
+direct_capital_cost : Size=1, Index=None
+    Key  : Expression
+    None : fs.my_unit.costing.capital_cost/fs.costing.TIC
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>A helper utility for defining global-level parameters specific to a unit model without changing the base costing package implementation.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">import</span> <span class="nn">idaes.core</span> <span class="k">as</span> <span class="nn">idc</span>
+<span class="kn">from</span> <span class="nn">watertap.costing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">WaterTAPCosting</span><span class="p">,</span>
+    <span class="n">register_costing_parameter_block</span><span class="p">,</span>
+    <span class="n">make_capital_cost_var</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">build_my_unit_model_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function builds the global parameters for MyUnitModel.</span>
+
+<span class="sd">    This function should also register needed flows using the</span>
+<span class="sd">    blk.parent_block().register_flow_type method on the costing package.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">fixed_capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Fixed capital cost for all of my units&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2020</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="c1"># This decorator ensures that the function</span>
+<span class="c1"># `build_my_unit_model_param_block` is only</span>
+<span class="c1"># added to the costing package once.</span>
+<span class="c1"># It registers it as a sub-block with the</span>
+<span class="c1"># name `my_unit`.</span>
+<span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_my_unit_model_param_block</span><span class="p">,</span>
+    <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;my_unit&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">cost_my_unit_model</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cost an instance of MyUnitModel</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># creates the `capital_cost` Var</span>
+    <span class="n">make_capital_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_cost_factor</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="s2">&quot;TIC&quot;</span><span class="p">)</span>
+
+    <span class="c1"># here we reference the `fixed_capital_cost` parameter</span>
+    <span class="c1"># automatically added by the `register_costing_parameter_block`</span>
+    <span class="c1"># decorator.</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span>
+        <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">my_unit</span><span class="o">.</span><span class="n">fixed_capital_cost</span>
+    <span class="p">)</span>
+
+<span class="nd">@idc</span><span class="o">.</span><span class="n">declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;MyUnitModel&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MyUnitModelData</span><span class="p">(</span><span class="n">idc</span><span class="o">.</span><span class="n">UnitModelBlockData</span><span class="p">):</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_costing_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># could point to a static method on</span>
+        <span class="c1"># this class, could be function in</span>
+        <span class="c1"># a different module even</span>
+        <span class="k">return</span> <span class="n">cost_my_unit_model</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span> <span class="o">=</span> <span class="n">idc</span><span class="o">.</span><span class="n">FlowsheetBlock</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">WaterTAPCosting</span><span class="p">()</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit_1</span> <span class="o">=</span> <span class="n">MyUnitModel</span><span class="p">()</span>
+
+<span class="c1"># The `default_costing_method_attribute` on the</span>
+<span class="c1"># unit model is checked, and the function</span>
+<span class="c1"># `cost_my_unit_model` returned then build the costing block.</span>
+<span class="c1"># This method also adds the `my_unit` global parameter block,</span>
+<span class="c1"># so the global costing parameter m.fs.costing.my_unit.fixed_capital_cost</span>
+<span class="c1"># is the same for all instances of MyUnitModel.</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit_1</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">idc</span><span class="o">.</span><span class="n">UnitModelCostingBlock</span><span class="p">(</span>
+    <span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit_2</span> <span class="o">=</span> <span class="n">MyUnitModel</span><span class="p">()</span>
+
+<span class="c1"># Here everythin as before, but the global parameter block</span>
+<span class="c1"># m.fs.costing.my_unit is not re-built.</span>
+<span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">my_unit_2</span><span class="o">.</span><span class="n">costing</span> <span class="o">=</span> <span class="n">idc</span><span class="o">.</span><span class="n">UnitModelCostingBlock</span><span class="p">(</span>
+    <span class="n">flowsheet_costing_block</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="costing-index-and-technoeconomic-factors">
+<h2>Costing Index and Technoeconomic Factors<a class="headerlink" href="#costing-index-and-technoeconomic-factors" title="Permalink to this heading"></a></h2>
+<p>Default costing indices are provide with the WaterTAP Costing Framework, but the user is free to modify these for their needs.</p>
+<p>WaterTAP uses the CE (Chemical Engineering) Cost Index to help account for the time-value of investments and are used in the capital
+and operating cost calculations. Unit process capital costs are adjusted to the year of the case study. The default year is 2018.</p>
+</section>
+<section id="common-global-costing-parameters">
+<h2>Common Global Costing Parameters<a class="headerlink" href="#common-global-costing-parameters" title="Permalink to this heading"></a></h2>
+<p>The <cite>build_global_params</cite> method builds common cost factor parameters necessary to calculate aggregates such as levelized cost of water (LCOW).
+Note that the default values can be overwritten in the derived class.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cost factor</p></th>
+<th class="head"><p>Variable</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Default Value</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Plant capacity utilization factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{util}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">utilization_factor</span></code></p></td>
+<td><p>90%</p></td>
+<td><p>Percentage of year plant is operating</p></td>
+</tr>
+<tr class="row-odd"><td><p>Electricity price</p></td>
+<td><p><span class="math notranslate nohighlight">\(P\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">electricity_cost</span></code></p></td>
+<td><p>$0.07/kWh</p></td>
+<td><p>Electricity price in 2018 USD</p></td>
+</tr>
+<tr class="row-even"><td><p>Electricity carbon intensity</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{eci}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">electrical_carbon_intensity</span></code></p></td>
+<td><p>0.475 kg/kWh</p></td>
+<td><p>Carbon intensity of electricity</p></td>
+</tr>
+<tr class="row-odd"><td><p>Capital recovery factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{crf}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">capital_recovery_factor</span></code></p></td>
+<td><p>10%</p></td>
+<td><p>Capital annualization (fraction of investment cost/year)</p></td>
+</tr>
+<tr class="row-even"><td><p>Plant lifetime</p></td>
+<td><p><span class="math notranslate nohighlight">\(L\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">plant_lifetime</span></code></p></td>
+<td><p>30 years</p></td>
+<td><p>Plant lifetime</p></td>
+</tr>
+<tr class="row-odd"><td><p>Weighted average cost of capital</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{wacc}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wacc</span></code></p></td>
+<td><p>9.30734%</p></td>
+<td><p>Average cost of capital over plant lifetime</p></td>
+</tr>
+<tr class="row-even"><td><p>Total purchased equipment cost (TPEC)</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{TPEC}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TPEC</span></code></p></td>
+<td><p>4.121212</p></td>
+<td><p>Common indirect capital cost multiplier for unit models</p></td>
+</tr>
+<tr class="row-odd"><td><p>Total installed cost (TIC)</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{TIC}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIC</span></code></p></td>
+<td><p>2.0</p></td>
+<td><p>Common indirect capital cost multiplier for unit models</p></td>
+</tr>
+</tbody>
+</table>
+<p>The relationship between the <span class="math notranslate nohighlight">\(f_{crf}\)</span>, <span class="math notranslate nohighlight">\(L\)</span>, and <span class="math notranslate nohighlight">\(f_{wacc}\)</span> is as follows:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[f_{crf} = \frac{ f_{wacc} (1 + f_{wacc}) ^ L}{ (1 + f_{wacc}) ^ L - 1}\]</div>
+</div></blockquote>
+<p>Therefore, at exactly two of the variables <code class="docutils literal notranslate"><span class="pre">capital_recovery_factor</span></code>, <code class="docutils literal notranslate"><span class="pre">plant_lifetime</span></code> and <code class="docutils literal notranslate"><span class="pre">wacc</span></code> must be fixed. By default the variables <code class="docutils literal notranslate"><span class="pre">plant_lifetime</span></code> and <code class="docutils literal notranslate"><span class="pre">wacc</span></code> are fixed
+and the variable <code class="docutils literal notranslate"><span class="pre">capital_recovery_factor</span></code> is calculated.</p>
+<p>The process-wide costs described below rely on two other factors which must be supplyed by the derived class, the total investment factor and the maintenance-labor-chemical factor.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cost factor</p></th>
+<th class="head"><p>Variable</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Default Value</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Total investment factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{toti}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_investment_factor</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Total investment factor (investment cost / equipment cost)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Maintenance-labor-chemical factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{mlc}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">maintenance_labor_chemical_factor</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Maintenance, labor, and chemical factor (fraction of equipment cost / year)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="costing-process-wide-costs">
+<h2>Costing Process-Wide Costs<a class="headerlink" href="#costing-process-wide-costs" title="Permalink to this heading"></a></h2>
+<p>The WaterTAPCostingBlockData class includes variables necessary to calculate process-wide costs:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cost</p></th>
+<th class="head"><p>Variable</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Total capital cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{ca,tot}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_capital_cost</span></code></p></td>
+<td><p>Total capital cost</p></td>
+</tr>
+<tr class="row-odd"><td><p>Unit capital cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{ca,u}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">aggregate_capital_cost</span></code></p></td>
+<td><p>Unit processes capital cost</p></td>
+</tr>
+<tr class="row-even"><td><p>Total operating cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{op,tot}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_operating_cost</span></code></p></td>
+<td><p>Total operating cost for unit process</p></td>
+</tr>
+<tr class="row-odd"><td><p>Total fixed operating cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{op,fix}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_fixed_operating_cost</span></code></p></td>
+<td><p>Total fixed operating cost for unit process</p></td>
+</tr>
+<tr class="row-even"><td><p>Total variable operating cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{op,var}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_variable_operating_cost</span></code></p></td>
+<td><p>Total variable operating cost for unit process</p></td>
+</tr>
+<tr class="row-odd"><td><p>Total annualized cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{annual}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_annualized_costs</span></code></p></td>
+<td><p>Total cost on a annualized basis</p></td>
+</tr>
+<tr class="row-even"><td><p>Aggregate electricity cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{el,tot}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">aggregate_electricity_cost</span></code></p></td>
+<td><p>Sum of all electricity costs</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="costing-calculations">
+<h2>Costing Calculations<a class="headerlink" href="#costing-calculations" title="Permalink to this heading"></a></h2>
+<p>Total annulized cost is a simple function of the annualized capital cost and the annualized operating cost:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{annual} = f_{crf} C_{ca,tot} + C_{op,tot}\]</div>
+</div></blockquote>
+<p>The total capital cost is a simple factor of the sum of the unit model capital costs:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{ca,tot} = f_{toti} C_{ca,u}\]</div>
+</div></blockquote>
+<p>The total operating cost is the sum of the fixed and variable operating costs:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{op,tot} = C_{op,fix} + c_{op,var}\]</div>
+</div></blockquote>
+<p>The total fixed operating cost <span class="math notranslate nohighlight">\(C_{op,fix}\)</span> is the sum of the maintence, labor, and chemical operating costs, <span class="math notranslate nohighlight">\(C_{mlc}\)</span> and the total fixed operating costs from the unit models, <span class="math notranslate nohighlight">\(C_{fop,u}\)</span>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{op,fix} = C_{mlc} + C_{fop,u}\]</div>
+</div></blockquote>
+<p>Where the maintenance-labor-chemical operating cost <span class="math notranslate nohighlight">\(C_{mlc}\)</span> is defined as:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{mlc} = f_{mlc} C_{ca,tot}\]</div>
+</div></blockquote>
+<p>The total variable operating cost is the sum of the total variable operating cost from the unit models, <span class="math notranslate nohighlight">\(C_{vop,u}\)</span> plus the sum of the flow costs, <span class="math notranslate nohighlight">\(C_{flow,tot}\)</span> times the plant utilization factor <span class="math notranslate nohighlight">\(f_{util}\)</span>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{op,var} = C_{vop,u} + f_{util} C_{flow,tot}\]</div>
+</div></blockquote>
+</section>
+<section id="aggregates-metrics">
+<h2>Aggregates Metrics<a class="headerlink" href="#aggregates-metrics" title="Permalink to this heading"></a></h2>
+<section id="levelized-cost-of-water-lcow">
+<h3>Levelized Cost of Water (LCOW)<a class="headerlink" href="#levelized-cost-of-water-lcow" title="Permalink to this heading"></a></h3>
+<p>For a given volumetric flow <span class="math notranslate nohighlight">\(Q\)</span>, the LCOW, <span class="math notranslate nohighlight">\(LCOW_{Q}\)</span> is calculated by the <cite>add_LCOW</cite> method as</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[LCOW_{Q} = \frac{f_{crf}   C_{ca,tot} + C_{op,tot}}{f_{util} Q}\]</div>
+</div></blockquote>
+</section>
+<section id="specific-energy-consumption">
+<h3>Specific Energy Consumption<a class="headerlink" href="#specific-energy-consumption" title="Permalink to this heading"></a></h3>
+<p>For a given volumetric flow <cite>Q</cite>, the specific energy consumption, <span class="math notranslate nohighlight">\(E_{spec,Q}\)</span> is calculated by the <cite>add_specific_energy_consumption</cite> method as</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[E_{spec,Q} = \frac{C_{el,tot}}{Q}\]</div>
+</div></blockquote>
+</section>
+<section id="specific-electrical-carbon-intensity">
+<h3>Specific Electrical Carbon Intensity<a class="headerlink" href="#specific-electrical-carbon-intensity" title="Permalink to this heading"></a></h3>
+<p>For a given volumetric flow <cite>Q</cite>, the specific electrical carbon intensity, <span class="math notranslate nohighlight">\(E^{C}_{spec,Q}\)</span> is calculated by the <cite>add_specific_electrical_carbon_intensity</cite> method as</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[E^{C}_{spec,Q} = \frac{f_{eci} C_{el,tot}}{Q}\]</div>
+</div></blockquote>
+</section>
+<section id="annual-water-production">
+<h3>Annual Water Production<a class="headerlink" href="#annual-water-production" title="Permalink to this heading"></a></h3>
+<p>For a given volumetric flow <cite>Q</cite>, the annual water production, <span class="math notranslate nohighlight">\(W^{A}_{Q}\)</span> is calculated by the <cite>add_annual_water_production</cite> method as</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[W^{A}_{Q} = f_{util} Q\]</div>
+</div></blockquote>
+</section>
+</section>
+<section id="default-costing-methods">
+<h2>Default Costing Methods<a class="headerlink" href="#default-costing-methods" title="Permalink to this heading"></a></h2>
+<p>While the expectation is that unit models use the self-registration process noted above, for interoperability with IDAES unit models the WaterTAPCostingBlockData class defines default costing methods for IDAES unit models:</p>
+<ul class="simple">
+<li><p>Mixer - <a class="reference internal" href="../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.cost_mixer" title="watertap.costing.unit_models.mixer.cost_mixer"><code class="xref py py-func docutils literal notranslate"><span class="pre">watertap.costing.unit_models.mixer.cost_mixer()</span></code></a></p></li>
+<li><p>HeatExchanger - <a class="reference internal" href="../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.heat_exchanger.cost_heat_exchanger" title="watertap.costing.unit_models.heat_exchanger.cost_heat_exchanger"><code class="xref py py-func docutils literal notranslate"><span class="pre">watertap.costing.unit_models.heat_exchanger.cost_heat_exchanger()</span></code></a></p></li>
+<li><p>CSTR - <a class="reference internal" href="../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.cstr.cost_cstr" title="watertap.costing.unit_models.cstr.cost_cstr"><code class="xref py py-func docutils literal notranslate"><span class="pre">watertap.costing.unit_models.cstr.cost_cstr()</span></code></a></p></li>
+<li><p>Heater - <a class="reference internal" href="../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.heater_chiller.cost_heater_chiller" title="watertap.costing.unit_models.heater_chiller.cost_heater_chiller"><code class="xref py py-func docutils literal notranslate"><span class="pre">watertap.costing.unit_models.heater_chiller.cost_heater_chiller()</span></code></a></p></li>
+</ul>
+</section>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">WaterTAPCostingBlockData</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Costing Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="watertap_costing.html" class="btn btn-neutral float-right" title="WaterTAP Costing Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

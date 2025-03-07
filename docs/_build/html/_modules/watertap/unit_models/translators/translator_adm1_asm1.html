@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.unit_models.translators.translator_adm1_asm1 &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.unit_models.translators.translator_adm1_asm1</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.unit_models.translators.translator_adm1_asm1</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Translator block representing the ADM1/ASM1 interface.</span>
+
+<span class="sd">Assumptions:</span>
+<span class="sd">     * Steady-state only</span>
+
+<span class="sd">Model formulated from:</span>
+
+<span class="sd">Copp J. and Jeppsson, U., Rosen, C., 2006.</span>
+<span class="sd">Towards an ASM1 - ADM1 State Variable Interface for Plant-Wide Wastewater Treatment Modeling.</span>
+<span class="sd"> Proceedings of the Water Environment Federation, 2003, pp 498-510.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Import Pyomo libraries</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">ConfigBlock</span><span class="p">,</span> <span class="n">ConfigValue</span>
+
+<span class="c1"># Import IDAES cores</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">declare_process_block_class</span>
+<span class="kn">from</span> <span class="nn">idaes.models.unit_models.translator</span> <span class="kn">import</span> <span class="n">TranslatorData</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_reaction_parameter_block</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.model_statistics</span> <span class="kn">import</span> <span class="n">degrees_of_freedom</span>
+<span class="kn">from</span> <span class="nn">watertap.core.solvers</span> <span class="kn">import</span> <span class="n">get_solver</span>
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+<span class="kn">import</span> <span class="nn">idaes.core.util.scaling</span> <span class="k">as</span> <span class="nn">iscale</span>
+
+<span class="kn">from</span> <span class="nn">idaes.core.util.exceptions</span> <span class="kn">import</span> <span class="n">InitializationError</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Param</span><span class="p">,</span>
+    <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span><span class="p">,</span>
+    <span class="n">check_optimal_termination</span><span class="p">,</span>
+    <span class="n">Set</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Alejandro Garciadiego, Andrew Lee, Xinhong Liu&quot;</span>
+
+
+<span class="c1"># Set up logger</span>
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TranslatorDataADM1ASM1"><a class="viewcode-back" href="../../../../technical_reference/unit_models/translators/translator_adm1_asm1.html#watertap.unit_models.translators.translator_adm1_asm1.TranslatorDataADM1ASM1">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;Translator_ADM1_ASM1&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">TranslatorDataADM1ASM1</span><span class="p">(</span><span class="n">TranslatorData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Translator block representing the ADM1/ASM1 interface</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">TranslatorData</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;reaction_package&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">is_reaction_parameter_block</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Reaction package to use for control volume&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Reaction parameter object used to define reaction calculations,</span>
+<span class="s2">**default** - None.</span>
+<span class="s2">**Valid values:** {</span>
+<span class="s2">**None** - no reaction package,</span>
+<span class="s2">**ReactionParameterBlock** - a ReactionParameterBlock object.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;reaction_package_args&quot;</span><span class="p">,</span>
+        <span class="n">ConfigBlock</span><span class="p">(</span>
+            <span class="n">implicit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Arguments to use for constructing reaction packages&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;A ConfigBlock with arguments to be passed to a reaction block(s)</span>
+<span class="s2">and used when constructing these,</span>
+<span class="s2">**default** - None.</span>
+<span class="s2">**Valid values:** {</span>
+<span class="s2">see reaction package for documentation.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="TranslatorDataADM1ASM1.build"><a class="viewcode-back" href="../../../../technical_reference/unit_models/translators/translator_adm1_asm1.html#watertap.unit_models.translators.translator_adm1_asm1.TranslatorDataADM1ASM1.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Begin building model.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Call UnitModel.build to setup dynamics</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TranslatorDataADM1ASM1</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">i_xe</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.06</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Nitrogen inert content&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">mw_n</span> <span class="o">=</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span>
+        <span class="n">mw_c</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kmol</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality volumetric flow equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_flow_vol_rule</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span> <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality temperature equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_temperature_rule</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span> <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality pressure equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_pressure_rule</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span> <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">unchanged_component</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;S_I&quot;</span><span class="p">,</span> <span class="s2">&quot;X_I&quot;</span><span class="p">])</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unchanged_component</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality equation for unchanged components&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_unchanged_conc</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">readily_biodegradable</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;S_su&quot;</span><span class="p">,</span> <span class="s2">&quot;S_aa&quot;</span><span class="p">,</span> <span class="s2">&quot;S_fa&quot;</span><span class="p">,</span> <span class="s2">&quot;S_va&quot;</span><span class="p">,</span> <span class="s2">&quot;S_bu&quot;</span><span class="p">,</span> <span class="s2">&quot;S_pro&quot;</span><span class="p">,</span> <span class="s2">&quot;S_ac&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">slowly_biodegradable</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">&quot;X_c&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_ch&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_pr&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_li&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_su&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_aa&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_fa&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_c4&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_pro&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_ac&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;X_h2&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality S_S equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_SS_conc</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;S_S&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">blk</span><span class="o">.</span><span class="n">readily_biodegradable</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality X_S equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_XS_conc</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_S&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">blk</span><span class="o">.</span><span class="n">slowly_biodegradable</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality S_NH equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_Snh_conc</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;S_NH&quot;</span><span class="p">]</span>
+                <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;S_IN&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality S_ND equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_Snd_conc</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;S_ND&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">mw_n</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;S_I&quot;</span><span class="p">]</span>
+                    <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reaction_package</span><span class="o">.</span><span class="n">N_I</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="p">(</span>
+                    <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;S_aa&quot;</span><span class="p">]</span>
+                    <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reaction_package</span><span class="o">.</span><span class="n">N_aa</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality Xnd equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_Xnd_conc</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_ND&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span>
+                <span class="n">mw_n</span>
+                <span class="o">*</span> <span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reaction_package</span><span class="o">.</span><span class="n">N_bac</span>
+                        <span class="o">*</span> <span class="p">(</span>
+                            <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_su&quot;</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_aa&quot;</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_fa&quot;</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_c4&quot;</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_pro&quot;</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_ac&quot;</span><span class="p">]</span>
+                            <span class="o">+</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_h2&quot;</span><span class="p">]</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="o">+</span> <span class="p">(</span>
+                        <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_I&quot;</span><span class="p">]</span>
+                        <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reaction_package</span><span class="o">.</span><span class="n">N_I</span>
+                    <span class="p">)</span>
+                    <span class="o">+</span> <span class="p">(</span>
+                        <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_c&quot;</span><span class="p">]</span>
+                        <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reaction_package</span><span class="o">.</span><span class="n">N_xc</span>
+                    <span class="p">)</span>
+                    <span class="o">+</span> <span class="p">(</span>
+                        <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_pr&quot;</span><span class="p">]</span>
+                        <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reaction_package</span><span class="o">.</span><span class="n">N_aa</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="o">-</span> <span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;X_I&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">blk</span><span class="o">.</span><span class="n">i_xe</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Equality alkalinity equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">return_Salk</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">alkalinity</span>
+                <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="s2">&quot;S_IC&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">mw_c</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">zero_flow_components</span> <span class="o">=</span> <span class="n">Set</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;X_BH&quot;</span><span class="p">,</span> <span class="s2">&quot;X_BA&quot;</span><span class="p">,</span> <span class="s2">&quot;X_P&quot;</span><span class="p">,</span> <span class="s2">&quot;S_O&quot;</span><span class="p">,</span> <span class="s2">&quot;S_NO&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zero_flow_components</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Components with no flow equation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">return_zero_flow_comp</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_comp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="o">==</span> <span class="mf">1e-10</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span>
+            <span class="p">)</span>
+
+        <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TranslatorDataADM1ASM1.initialize_build"><a class="viewcode-back" href="../../../../technical_reference/unit_models/translators/translator_adm1_asm1.html#watertap.unit_models.translators.translator_adm1_asm1.TranslatorDataADM1ASM1.initialize_build">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_build</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">state_args_in</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">state_args_out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">outlvl</span><span class="o">=</span><span class="n">idaeslog</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">,</span>
+        <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">optarg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method calls the initialization method of the state blocks.</span>
+
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">            state_args_in : a dict of arguments to be passed to the inlet</span>
+<span class="sd">                property package (to provide an initial state for</span>
+<span class="sd">                initialization (see documentation of the specific</span>
+<span class="sd">                property package) (default = None).</span>
+<span class="sd">            state_args_out : a dict of arguments to be passed to the outlet</span>
+<span class="sd">                property package (to provide an initial state for</span>
+<span class="sd">                initialization (see documentation of the specific</span>
+<span class="sd">                property package) (default = None).</span>
+<span class="sd">            outlvl : sets output level of initialization routine</span>
+<span class="sd">            optarg : solver options dictionary object (default=None, use</span>
+<span class="sd">                     default solver options)</span>
+<span class="sd">            solver : str indicating which solver to use during</span>
+<span class="sd">                     initialization (default = None, use default solver)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">init_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getInitLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">outlvl</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unit&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create solver</span>
+        <span class="n">opt</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">optarg</span><span class="p">)</span>
+
+        <span class="c1"># ---------------------------------------------------------------------</span>
+        <span class="c1"># Initialize state block</span>
+        <span class="n">flags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span>
+            <span class="n">outlvl</span><span class="o">=</span><span class="n">outlvl</span><span class="p">,</span>
+            <span class="n">optarg</span><span class="o">=</span><span class="n">optarg</span><span class="p">,</span>
+            <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span>
+            <span class="n">state_args</span><span class="o">=</span><span class="n">state_args_in</span><span class="p">,</span>
+            <span class="n">hold_state</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties_out</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span>
+            <span class="n">outlvl</span><span class="o">=</span><span class="n">outlvl</span><span class="p">,</span>
+            <span class="n">optarg</span><span class="o">=</span><span class="n">optarg</span><span class="p">,</span>
+            <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span>
+            <span class="n">state_args</span><span class="o">=</span><span class="n">state_args_out</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">degrees_of_freedom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> degrees of freedom were not 0 at the beginning &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;of initialization. DoF = </span><span class="si">{</span><span class="n">degrees_of_freedom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">solver_log</span><span class="p">(</span><span class="n">init_log</span><span class="p">,</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="k">as</span> <span class="n">slc</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">slc</span><span class="o">.</span><span class="n">tee</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span><span class="o">.</span><span class="n">release_state</span><span class="p">(</span><span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">,</span> <span class="n">outlvl</span><span class="o">=</span><span class="n">outlvl</span><span class="p">)</span>
+
+        <span class="n">init_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initialization Complete: </span><span class="si">{</span><span class="n">idaeslog</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_optimal_termination</span><span class="p">(</span><span class="n">res</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InitializationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> failed to initialize successfully. Please check &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;the output logs for more information.&quot;</span>
+            <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

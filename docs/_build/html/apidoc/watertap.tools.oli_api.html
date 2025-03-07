@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.tools.oli_api package &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="watertap.tools.oli_api.util package" href="watertap.tools.oli_api.util.html" />
+    <link rel="prev" title="watertap.tools package" href="watertap.tools.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">Module Reference</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="watertap.html">watertap package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="watertap.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap.conftest">watertap.conftest module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../technical_reference/index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">watertap</a></li>
+          <li class="breadcrumb-item"><a href="watertap.html">watertap package</a></li>
+          <li class="breadcrumb-item"><a href="watertap.tools.html">watertap.tools package</a></li>
+      <li class="breadcrumb-item active">watertap.tools.oli_api package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/watertap.tools.oli_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="watertap-tools-oli-api-package">
+<h1>watertap.tools.oli_api package<a class="headerlink" href="#watertap-tools-oli-api-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="watertap.tools.oli_api.util.html">watertap.tools.oli_api.util package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="watertap.tools.oli_api.util.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.tools.oli_api.util.html#module-watertap.tools.oli_api.util.fixed_keys_dict">watertap.tools.oli_api.util.fixed_keys_dict module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.tools.oli_api.util.html#module-watertap.tools.oli_api.util.state_block_helper_functions">watertap.tools.oli_api.util.state_block_helper_functions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.state_block_helper_functions.convert_to_state_block_units"><code class="docutils literal notranslate"><span class="pre">convert_to_state_block_units()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.state_block_helper_functions.create_property_model_input"><code class="docutils literal notranslate"><span class="pre">create_property_model_input()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.state_block_helper_functions.create_state_block"><code class="docutils literal notranslate"><span class="pre">create_state_block()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.state_block_helper_functions.extract_state_vars"><code class="docutils literal notranslate"><span class="pre">extract_state_vars()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.tools.oli_api.util.html#module-watertap.tools.oli_api.util.watertap_to_oli_helper_functions">watertap.tools.oli_api.util.watertap_to_oli_helper_functions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName"><code class="docutils literal notranslate"><span class="pre">OLIName</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.charge"><code class="docutils literal notranslate"><span class="pre">OLIName.charge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.charge_group"><code class="docutils literal notranslate"><span class="pre">OLIName.charge_group</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.molar_mass"><code class="docutils literal notranslate"><span class="pre">OLIName.molar_mass</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.oli_name"><code class="docutils literal notranslate"><span class="pre">OLIName.oli_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.watertap_name"><code class="docutils literal notranslate"><span class="pre">OLIName.watertap_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.get_oli_name"><code class="docutils literal notranslate"><span class="pre">get_oli_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.get_oli_names"><code class="docutils literal notranslate"><span class="pre">get_oli_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.oli_reverse_lookup"><code class="docutils literal notranslate"><span class="pre">oli_reverse_lookup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.watertap_to_oli"><code class="docutils literal notranslate"><span class="pre">watertap_to_oli()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.tools.oli_api.util.html#module-watertap.tools.oli_api.util">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-watertap.tools.oli_api.client">
+<span id="watertap-tools-oli-api-client-module"></span><h2>watertap.tools.oli_api.client module<a class="headerlink" href="#module-watertap.tools.oli_api.client" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.client.</span></span><span class="sig-name descname"><span class="pre">OLIApi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">credential_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'INFO'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to wrap OLI Cloud API calls and access functions for interfacing with WaterTAP.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">credential_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'INFO'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Construct all necessary attributes for OLIApi class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>credential_manager_class</strong> – class used to manage credentials</p></li>
+<li><p><strong>interactive_mode</strong> – enables direct interaction with user through prompts</p></li>
+<li><p><strong>debug_level</strong> – string defining level of logging activity</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flash_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbs_file_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi.call" title="Permalink to this definition"></a></dt>
+<dd><p>Make a call to the OLI Cloud API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flash_method</strong> – string indicating flash method</p></li>
+<li><p><strong>dbs_file_id</strong> – string indicating DBS file</p></li>
+<li><p><strong>input_params</strong> – dictionary for flash calculation inputs</p></li>
+<li><p><strong>poll_time</strong> – seconds between each poll</p></li>
+<li><p><strong>max_request</strong> – maximum number of times to try request before failure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return result<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary for JSON output result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi.dbs_file_cleanup">
+<span class="sig-name descname"><span class="pre">dbs_file_cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbs_file_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi.dbs_file_cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi.dbs_file_cleanup" title="Permalink to this definition"></a></dt>
+<dd><p>Delete all (or specified) DBS files on OLI Cloud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dbs_file_ids</strong> – list of DBS file IDs to delete</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi.generate_dbs_file">
+<span class="sig-name descname"><span class="pre">generate_dbs_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inflows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermo_framework</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">databanks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi.generate_dbs_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi.generate_dbs_file" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a DBS file on OLI Cloud given chemistry inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inflows</strong> – dictionary with inflows and optional custom parameters</p></li>
+<li><p><strong>thermo_framework</strong> – string name of thermodynamic databank to use</p></li>
+<li><p><strong>model_name</strong> – string name of model OLI will use</p></li>
+<li><p><strong>phases</strong> – container dict for chemistry model parameters</p></li>
+<li><p><strong>databanks</strong> – list of databanks to include in DBS file</p></li>
+<li><p><strong>keep_file</strong> – bool to remove (default) or ignore DBS file during session cleanup</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return dbs_file_id<span class="colon">:</span></dt>
+<dd class="field-even"><p>string name for DBS file ID</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi.get_corrosion_contact_surfaces">
+<span class="sig-name descname"><span class="pre">get_corrosion_contact_surfaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbs_file_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi.get_corrosion_contact_surfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi.get_corrosion_contact_surfaces" title="Permalink to this definition"></a></dt>
+<dd><p>Get list of valid contact surfaces for corrosion analysis, given a DBS file ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dbs_file_id</strong> – string name for DBS file ID</p>
+</dd>
+<dt class="field-even">Return contact_surfaces<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON results from OLI Cloud</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi.get_dbs_file_summary">
+<span class="sig-name descname"><span class="pre">get_dbs_file_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbs_file_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi.get_dbs_file_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi.get_dbs_file_summary" title="Permalink to this definition"></a></dt>
+<dd><p>Get chemistry info and flash history for a DBS file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dbs_file_id</strong> – string name for DBS file ID</p>
+</dd>
+<dt class="field-even">Return dbs_file_summary<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary containing JSON results from OLI Cloud</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi.get_user_dbs_file_ids">
+<span class="sig-name descname"><span class="pre">get_user_dbs_file_ids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi.get_user_dbs_file_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi.get_user_dbs_file_ids" title="Permalink to this definition"></a></dt>
+<dd><p>Get all DBS files on user’s cloud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return user_dbs_file_ids<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of user DBS files saved on OLI Cloud</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi.process_request_list">
+<span class="sig-name descname"><span class="pre">process_request_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">requests</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi.process_request_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi.process_request_list" title="Permalink to this definition"></a></dt>
+<dd><p>Process a list of flash calculation requests for OLI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>requests</strong> – list of request dictionaries containing flash_method, dbs_file_id, and json_input</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.client.OLIApi.upload_dbs_file">
+<span class="sig-name descname"><span class="pre">upload_dbs_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbs_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/client.html#OLIApi.upload_dbs_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.client.OLIApi.upload_dbs_file" title="Permalink to this definition"></a></dt>
+<dd><p>Upload a DBS file to OLI Cloud given a full file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbs_file_path</strong> – string path to DBS file</p></li>
+<li><p><strong>keep_file</strong> – bool to remove (default) or ignore DBS file during session cleanup</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return dbs_file_id<span class="colon">:</span></dt>
+<dd class="field-even"><p>string name for DBS file ID</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.tools.oli_api.conftest">
+<span id="watertap-tools-oli-api-conftest-module"></span><h2>watertap.tools.oli_api.conftest module<a class="headerlink" href="#module-watertap.tools.oli_api.conftest" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.conftest.auth_credentials">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.conftest.</span></span><span class="sig-name descname"><span class="pre">auth_credentials</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/watertap/tools/oli_api/conftest.html#auth_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.conftest.auth_credentials" title="Permalink to this definition"></a></dt>
+<dd><p>Credentials that allow running tests with an authenticated client</p>
+</dd></dl>
+
+</section>
+<section id="module-watertap.tools.oli_api.credentials">
+<span id="watertap-tools-oli-api-credentials-module"></span><h2>watertap.tools.oli_api.credentials module<a class="headerlink" href="#module-watertap.tools.oli_api.credentials" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.credentials.CredentialManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.credentials.</span></span><span class="sig-name descname"><span class="pre">CredentialManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./credentials.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encryption_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/credentials.html#CredentialManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.credentials.CredentialManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to handle credentials for OLI Cloud.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.credentials.CredentialManager.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./credentials.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encryption_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/credentials.html#CredentialManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.credentials.CredentialManager.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Manages credentials for OLIApi authentication requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> – user’s username</p></li>
+<li><p><strong>password</strong> – user’s password</p></li>
+<li><p><strong>root_url</strong> – root url</p></li>
+<li><p><strong>auth_url</strong> – authorization url</p></li>
+<li><p><strong>config_file</strong> – existing/desired path (absolute, or relative to the working directory) to encrypted oli_config_file</p></li>
+<li><p><strong>encryption_key</strong> – fernet key generated by credential manager object</p></li>
+<li><p><strong>access_keys</strong> – list of access keys generated by user</p></li>
+<li><p><strong>test</strong> – bool switch for automation during tests</p></li>
+<li><p><strong>interactive_mode</strong> – bool to switch level of logging display from info to debug only</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.credentials.CredentialManager.auth_status">
+<span class="sig-name descname"><span class="pre">auth_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">req_result</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/credentials.html#CredentialManager.auth_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.credentials.CredentialManager.auth_status" title="Permalink to this definition"></a></dt>
+<dd><p>Posts authorization request to OLI Cloud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>body</strong> – dictionary containing authorization data</p>
+</dd>
+<dt class="field-even">Return bool<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool indicating success or failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.credentials.CredentialManager.delete_oliapi_access_key">
+<span class="sig-name descname"><span class="pre">delete_oliapi_access_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/credentials.html#CredentialManager.delete_oliapi_access_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.credentials.CredentialManager.delete_oliapi_access_key" title="Permalink to this definition"></a></dt>
+<dd><p>Delete an access key for OLI Cloud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>api_key</strong> – The access key to delete</p>
+</dd>
+<dt class="field-even">Return string<span class="colon">:</span></dt>
+<dd class="field-even"><p>Response text containing the success message or an error message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.credentials.CredentialManager.generate_oliapi_access_key">
+<span class="sig-name descname"><span class="pre">generate_oliapi_access_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_lifetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">365</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/credentials.html#CredentialManager.generate_oliapi_access_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.credentials.CredentialManager.generate_oliapi_access_key" title="Permalink to this definition"></a></dt>
+<dd><p>Generate an access key for OLI Cloud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key_lifetime</strong> – integer number of days key will be valid</p>
+</dd>
+<dt class="field-even">Return string<span class="colon">:</span></dt>
+<dd class="field-even"><p>Response text containing the access key information or an error message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.credentials.CredentialManager.login">
+<span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/credentials.html#CredentialManager.login"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.credentials.CredentialManager.login" title="Permalink to this definition"></a></dt>
+<dd><p>Log in to OLI Cloud using access key or credentials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>refresh</strong> – bool to get refresh token</p>
+</dd>
+<dt class="field-even">Return status<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool indicating success or failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.credentials.CredentialManager.set_access_key">
+<span class="sig-name descname"><span class="pre">set_access_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/credentials.html#CredentialManager.set_access_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.credentials.CredentialManager.set_access_key" title="Permalink to this definition"></a></dt>
+<dd><p>Allows access key to be selected from list if more than one is provided.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.credentials.CredentialManager.set_headers">
+<span class="sig-name descname"><span class="pre">set_headers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/credentials.html#CredentialManager.set_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.credentials.CredentialManager.set_headers" title="Permalink to this definition"></a></dt>
+<dd><p>Creates OLI Cloud API headers and performs initial login.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.credentials.CredentialManager.update_headers">
+<span class="sig-name descname"><span class="pre">update_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_header</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/credentials.html#CredentialManager.update_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.credentials.CredentialManager.update_headers" title="Permalink to this definition"></a></dt>
+<dd><p>Updates existing headers with new header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_header</strong> – dict containing new header key and value</p>
+</dd>
+<dt class="field-even">Return updated_headers<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict containing updated headers</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.tools.oli_api.flash">
+<span id="watertap-tools-oli-api-flash-module"></span><h2>watertap.tools.oli_api.flash module<a class="headerlink" href="#module-watertap.tools.oli_api.flash" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.Flash">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.flash.</span></span><span class="sig-name descname"><span class="pre">Flash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optional_properties={'electricalConductivity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'viscosity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'selfDiffusivityAndMobility':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'heatCapacity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'thermalConductivity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'surfaceTension':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'interfacialTension':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'volumeStdConditions':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'prescalingTendenciesEstimated':</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'prescalingIndexEstimated':</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'prescalingTendenciesRigorous':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'prescalingIndexRigorous':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'scalingTendencies':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'scalingIndex':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'hardness':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'ionicStrengthXBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'ionicStrengthMBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'totalDissolvedSolids':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporToInflowMoleFraction':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'partialPressure':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporDiffusivityMatrix':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'entropyStream':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'entropySpecies':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'entropyStreamStandardState':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'entropySpeciesStandardState':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gibbsEnergyStream':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gibbsEnergySpecies':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gibbsEnergyStreamStandardState':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gibbsEnergySpeciesStandardState':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'activityCoefficientsXBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'activityCoefficientsMBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'fugacityCoefficients':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporFugacity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'kValuesXBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'kValuesMBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'MBGComposition':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'materialBalanceGroup':</span> <span class="pre">True}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_unit_set={'inflows':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'molecularConcentration':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'mass':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'temperature':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'K'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pressure':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'Pa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'enthalpy':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'J'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporAmountMoles':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporMolFrac':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mol/mol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'totalVolume':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pipeDiameter':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pipeFlowVelocity':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'diskDiameter':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'diskRotatingSpeed':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'cycle/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'rotorDiameter':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'rotorRotation':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'cycle/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'shearStress':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'Pa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pipeRoughness':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'liquidFlowInPipe':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'L/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gasFlowInPipe':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'L/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'viscAbs2ndLiq':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'Pa-s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_ProductExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'alkalinity':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg</span> <span class="pre">HCO3/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'TIC':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mol</span> <span class="pre">C/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'CO2GasFraction':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mol/mol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_unit_set={'enthalpy':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'J'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'mass':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pt':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'Pa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'total':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'liq1_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'solid_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vapor_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'liq2_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'combined_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'molecularConcentration':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_inflows=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_level='INFO'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#Flash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.Flash" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to execute OLI Cloud flash calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>optional_properties</strong> – dictionary for optional properties to attach to OLI calls, all True by default</p></li>
+<li><p><strong>input_unit_set</strong> – dictionary for conversions between OLI and Pyomo unit names</p></li>
+<li><p><strong>output_unit_set</strong> – dictionary for preferred output units</p></li>
+<li><p><strong>relative_inflows</strong> – bool switch for surveys - true to add specified value to initial value, false to replace initial value with specified value</p></li>
+<li><p><strong>debug_level</strong> – string defining level of logging activity</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.Flash.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optional_properties={'electricalConductivity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'viscosity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'selfDiffusivityAndMobility':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'heatCapacity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'thermalConductivity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'surfaceTension':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'interfacialTension':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'volumeStdConditions':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'prescalingTendenciesEstimated':</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'prescalingIndexEstimated':</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'prescalingTendenciesRigorous':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'prescalingIndexRigorous':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'scalingTendencies':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'scalingIndex':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'hardness':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'ionicStrengthXBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'ionicStrengthMBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'totalDissolvedSolids':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporToInflowMoleFraction':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'partialPressure':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporDiffusivityMatrix':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'entropyStream':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'entropySpecies':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'entropyStreamStandardState':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'entropySpeciesStandardState':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gibbsEnergyStream':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gibbsEnergySpecies':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gibbsEnergyStreamStandardState':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gibbsEnergySpeciesStandardState':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'activityCoefficientsXBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'activityCoefficientsMBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'fugacityCoefficients':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporFugacity':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'kValuesXBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'kValuesMBased':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'MBGComposition':</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'materialBalanceGroup':</span> <span class="pre">True}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_unit_set={'inflows':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'molecularConcentration':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'mass':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'temperature':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'K'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pressure':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'Pa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'enthalpy':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'J'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporAmountMoles':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vaporMolFrac':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mol/mol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'totalVolume':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pipeDiameter':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pipeFlowVelocity':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'diskDiameter':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'diskRotatingSpeed':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'cycle/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'rotorDiameter':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'rotorRotation':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'cycle/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'shearStress':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'Pa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pipeRoughness':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'liquidFlowInPipe':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'L/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'gasFlowInPipe':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'L/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'viscAbs2ndLiq':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'Pa-s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_ProductExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'alkalinity':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg</span> <span class="pre">HCO3/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'TIC':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mol</span> <span class="pre">C/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'CO2GasFraction':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mol/mol'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_unit_set={'enthalpy':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'J'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'mass':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pt':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'Pa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'total':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'liq1_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'solid_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'vapor_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'liq2_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'combined_phs_comp':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.base.units_container._PyomoUnit</span> <span class="pre">object&gt;}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'molecularConcentration':</span> <span class="pre">{'oli_unit':</span> <span class="pre">'mg/L'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'pyomo_unit':</span> <span class="pre">&lt;pyomo.core.expr.numeric_expr.NPV_DivisionExpression</span> <span class="pre">object&gt;}}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_inflows=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_level='INFO'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#Flash.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.Flash.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.Flash.configure_flash_analysis">
+<span class="sig-name descname"><span class="pre">configure_flash_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inflows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flash_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculated_variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enthalpy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vapor_amount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vapor_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acid_titrant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_titrant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formed_solid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precipitant_inflow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_solids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_solids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contact_surface</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liq_velocity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gas_velocity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot_velocity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shear_stress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roughness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonaqueous_visc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">water_cut_inversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_visc_inversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_scaling_rigorous</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#Flash.configure_flash_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.Flash.configure_flash_analysis" title="Permalink to this definition"></a></dt>
+<dd><p>Configure Flash Analysis JSON input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inflows</strong> – dictionary of solutes, of the form {“unit”: unit, “values”: {solute_name: concentration_value}}; otherwise, {solute_name: concentration_value}</p></li>
+<li><p><strong>flash_method</strong> – string for flash calculation name</p></li>
+<li><p><strong>temperature</strong> – float for temperature in Kelvins</p></li>
+<li><p><strong>pressure</strong> – float for pressure in Pascals</p></li>
+<li><p><strong>calculated_variable</strong> – string for variable to calculate, such as temperature or pressure, used in ‘bubblepoint’, ‘dewpoint’, ‘vapor-amount’, ‘vapor-fraction’, and ‘isochoric’ flashes</p></li>
+<li><p><strong>enthalpy</strong> – float for total enthalpy in Joules, used in ‘isenthalpic’ flash</p></li>
+<li><p><strong>vapor_amount</strong> – float for vapor phase Moles, used in ‘vapor-amount’ flash</p></li>
+<li><p><strong>vapor_fraction</strong> – float for vapor phase in Mole %, used in ‘vapor-fraction’ flash</p></li>
+<li><p><strong>volume</strong> – float for total volume in Cubic Meters, used in ‘isochoric’ flash</p></li>
+<li><p><strong>ph</strong> – float for target pH, used in ‘setph’ flash</p></li>
+<li><p><strong>acid_titrant</strong> – string for acidification titrant, used in ‘setph’ flash</p></li>
+<li><p><strong>base_titrant</strong> – string for basification titrant, used in ‘setph’ flash</p></li>
+<li><p><strong>formed_solid</strong> – string for solid species to precipitate based on inflow sweep, used in ‘precipitation-point’</p></li>
+<li><p><strong>precipitant_inflow</strong> – string for inflow species to sweep, used in ‘precipitation-point’</p></li>
+<li><p><strong>included_solids</strong> – list of solids to include in analysis</p></li>
+<li><p><strong>excluded_solids</strong> – list of solids to exclude from analysis</p></li>
+<li><p><strong>contact_surface</strong> – string for contact surface metal name</p></li>
+<li><p><strong>flow_type</strong> – string for flow configuration</p></li>
+<li><p><strong>diameter</strong> – float for diameter of surface (i.e., pipe or rotor)</p></li>
+<li><p><strong>liq_velocity</strong> – float for velocity of liquid flow</p></li>
+<li><p><strong>gas_velocity</strong> – float for velocity of vapor flow, used in ‘approximateMultiPhaseFlow’</p></li>
+<li><p><strong>rot_velocity</strong> – float for rotational velocity</p></li>
+<li><p><strong>shear_stress</strong> – float for defined shear stress, used in ‘definedShearStress’</p></li>
+<li><p><strong>roughness</strong> – float for pipe roughness, used in ‘approximateMultiPhaseFlow’</p></li>
+<li><p><strong>nonaqueous_visc</strong> – float for absolute viscosity of nonaqueous phase, used in ‘approximateMultiPhaseFlow’</p></li>
+<li><p><strong>water_cut_inversion</strong> – float for water cut at point of dispersion inversion, used in ‘approximateMultiPhaseFlow’</p></li>
+<li><p><strong>relative_visc_inversion</strong> – float for maximum relative viscosity of dispersion at inversion, used in ‘approximateMultiPhaseFlow’</p></li>
+<li><p><strong>use_scaling_rigorous</strong> – bool to switch between Rigorous (default) and Estimated scaling computations</p></li>
+<li><p><strong>file_name</strong> – string for file to write, if any</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return json_input<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON for Water Analysis</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.Flash.configure_water_analysis">
+<span class="sig-name descname"><span class="pre">configure_water_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inflows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconciliation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">electroneutrality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeup_ion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acid_titrant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_titrant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alkalinity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alkalinity_ph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alkalinity_titrant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_solids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">included_solids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_solids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_alkalinity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_scaling_rigorous</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#Flash.configure_water_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.Flash.configure_water_analysis" title="Permalink to this definition"></a></dt>
+<dd><p>Configure Water Analysis JSON input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inflows</strong> – dictionary of solutes</p></li>
+<li><p><strong>temperature</strong> – float for temperature in Kelvins</p></li>
+<li><p><strong>pressure</strong> – float for pressure in Pascals</p></li>
+<li><p><strong>reconciliation</strong> – string for method of reconciliation: “EquilCalcOnly” (default), “ReconcilePh”, “ReconcilePhAndAlkalinity”, or “ReconcilePhAndAlkalinityAndTic”; “ReconcileCo2Gas” not supported currently.</p></li>
+<li><p><strong>electroneutrality</strong> – string for method of electroneutrality calculation: “DominantIon”, “ProrateCations”, “ProrateAnions”, “Prorate”, “AutoNACL”, or “MakeupIon” are supported</p></li>
+<li><p><strong>makeup_ion</strong> – string for ion to use for electroneutrality balance, if “MakeupIon,</p></li>
+<li><p><strong>ph</strong> – float for pH to reconcile solution to, required for pH based reconciliation</p></li>
+<li><p><strong>acid_titrant</strong> – string for acidification titrant, used in pH based reconciliation</p></li>
+<li><p><strong>base_titrant</strong> – string for basification titrant, used in pH based reconciliation</p></li>
+<li><p><strong>alkalinity</strong> – float for alkalinity to reconcile solution to, required for Alk based reconciliation</p></li>
+<li><p><strong>alkalinity_ph</strong> – float for alkalinity endpoint ph, used in Alk based reconciliation</p></li>
+<li><p><strong>alkalinity_titrant</strong> – string for alkalinity titration species, used in Alk based reconciliation</p></li>
+<li><p><strong>tic</strong> – float for total inorganic carbon concentration to reconcile solution to, required for TIC based reconcilation</p></li>
+<li><p><strong>allow_solids</strong> – bool to enable solid phase formation</p></li>
+<li><p><strong>included_solids</strong> – list of solids to include in analysis</p></li>
+<li><p><strong>excluded_solids</strong> – list of solids to exclude from analysis</p></li>
+<li><p><strong>calc_alkalinity</strong> – bool to calculate alkalinity of solution</p></li>
+<li><p><strong>use_scaling_rigorous</strong> – bool to switch between Rigorous (default) and Estimated scaling computations</p></li>
+<li><p><strong>file_name</strong> – string for file to write, if any</p></li>
+<li><p><strong>mesh_grid</strong> – if True (default) the input array will be combined to generate combination of all possible samples
+if False, the direct values in survey_arrays will be used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return json_input<span class="colon">:</span></dt>
+<dd class="field-even"><p>JSON for Water Analysis</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.Flash.get_apparent_species_from_true">
+<span class="sig-name descname"><span class="pre">get_apparent_species_from_true</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">true_species_json</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oliapi_instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbs_file_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#Flash.get_apparent_species_from_true"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.Flash.get_apparent_species_from_true" title="Permalink to this definition"></a></dt>
+<dd><p>Run Water Analysis to get apparent species.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>true_species_json</strong> – JSON generated from true species</p></li>
+<li><p><strong>oliapi_instance</strong> – instance of OLI Cloud API to call</p></li>
+<li><p><strong>dbs_file_id</strong> – string ID of DBS file</p></li>
+<li><p><strong>phase</strong> – string for inflows phase</p></li>
+<li><p><strong>file_name</strong> – string for file to write, if any</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return apparent_species<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary for molecular concentrations</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.Flash.get_clone">
+<span class="sig-name descname"><span class="pre">get_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flash_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">survey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#Flash.get_clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.Flash.get_clone" title="Permalink to this definition"></a></dt>
+<dd><p>Iterate over a survey to create a modified clone from JSON input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flash_method</strong> – string for flash calculation name</p></li>
+<li><p><strong>json_input</strong> – JSON input for flash calculation</p></li>
+<li><p><strong>index</strong> – integer for index of incoming data</p></li>
+<li><p><strong>survey</strong> – dictionary containing names and input values to modify in JSON</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return clone<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary containing modified state variables and survey index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.Flash.run_flash">
+<span class="sig-name descname"><span class="pre">run_flash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flash_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oliapi_instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbs_file_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">survey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#Flash.run_flash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.Flash.run_flash" title="Permalink to this definition"></a></dt>
+<dd><p>Conduct single point analysis with initial JSON input, or conduct a survey on that input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flash_method</strong> – string for flash calculation name</p></li>
+<li><p><strong>oliapi_instance</strong> – instance of OLI Cloud API</p></li>
+<li><p><strong>dbs_file_id</strong> – string ID of DBS file</p></li>
+<li><p><strong>json_input</strong> – JSON input for flash calculation</p></li>
+<li><p><strong>survey</strong> – dictionary containing names and input values to modify in JSON</p></li>
+<li><p><strong>file_name</strong> – string for file to write, if any</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return processed_requests<span class="colon">:</span></dt>
+<dd class="field-even"><p>results from processed OLI flash requests</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.build_survey">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.flash.</span></span><span class="sig-name descname"><span class="pre">build_survey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">survey_arrays</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_oli_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#build_survey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.build_survey" title="Permalink to this definition"></a></dt>
+<dd><p>Build a dictionary for modifying flash calculation parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>survey_arrays</strong> – dictionary for variables and values to survey</p></li>
+<li><p><strong>get_oli_names</strong> – bool switch to convert name into OLI name</p></li>
+<li><p><strong>file_name</strong> – string for file to write, if any</p></li>
+<li><p><strong>mesh_grid</strong> – if True (default) the input array will be combined to generate combination of all possible samples
+if False, the direct values in survey_arrays will be used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return survey<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary for product of survey variables and values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.get_survey_sample_conditions">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.flash.</span></span><span class="sig-name descname"><span class="pre">get_survey_sample_conditions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">survey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#get_survey_sample_conditions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.get_survey_sample_conditions" title="Permalink to this definition"></a></dt>
+<dd><p>Return survey parameter values for one or more sample points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>survey</strong> – dictionary for product of survey conditions and values</p></li>
+<li><p><strong>sample_points</strong> – list of indices to get parameter values from</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return sample_conditions<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary for parameter values for given samples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.flash.write_output">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.flash.</span></span><span class="sig-name descname"><span class="pre">write_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/flash.html#write_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.flash.write_output" title="Permalink to this definition"></a></dt>
+<dd><p>Write dictionary-based content to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> – dictionary of content to write</p></li>
+<li><p><strong>file_name</strong> – string for name of file to write</p></li>
+<li><p><strong>file_path</strong> – string for full path of written file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-watertap.tools.oli_api">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-watertap.tools.oli_api" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="watertap.tools.html" class="btn btn-neutral float-left" title="watertap.tools package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="watertap.tools.oli_api.util.html" class="btn btn-neutral float-right" title="watertap.tools.oli_api.util package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

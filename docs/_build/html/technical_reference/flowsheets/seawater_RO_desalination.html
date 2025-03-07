@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seawater RO Desalination &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="WaterTAP User Interface API" href="../ui/index.html" />
+    <link rel="prev" title="Reverse Osmosis with Energy Recovery" href="RO_with_energy_recovery.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Flowsheets</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="BSM2.html">Benchmark Simulation Model No.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extended_BSM2.html">Extended Benchmark Simulation Model No.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="oaro.html">Osmotically Assisted Reverse Osmosis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ASM1.html">Activated Sludge Model No. 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ASM2d.html">Activated Sludge Model No. 2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ADM1.html">Anaerobic Digestion Model No. 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1stack_conc_recirc.html">One-Stack Electrodialysis with a Concentrate Fluid Recirculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1stack.html">One-Stack Electrodialysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crystallization.html">NaCl Crystallization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ion_exchange.html">Ion Exchange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gac.html">Granular Activated Carbon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_desalination_train.html">Generic desalination treatment train</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lsrro.html">Low-Salt-Rejection Reverse Osmosis (LSRRO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lsrro.html#implementation">Implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="membrane_distillation.html">Membrane Distillation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mvc.html">Mechanical Vapor Compression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RO_with_energy_recovery.html">Reverse Osmosis with Energy Recovery</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Seawater RO Desalination</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implementation">Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#degrees-of-freedom">Degrees of Freedom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flowsheet-specifications">Flowsheet Specifications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#code-documentation">Code Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Flowsheets</a></li>
+      <li class="breadcrumb-item active">Seawater RO Desalination</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/flowsheets/seawater_RO_desalination.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="seawater-ro-desalination">
+<h1>Seawater RO Desalination<a class="headerlink" href="#seawater-ro-desalination" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>This flowsheet represents a full-scale seawater reverse osmosis treatment facility.
+The flowsheet includes pretreatment, desalination, post-treatment, and waste handling unit processes available in WaterTAP.
+Unit models used on this flowsheet span the spectrum from simple to detailed.</p>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading"></a></h2>
+<p>This flowsheet uses several different modeling features available in WaterTAP, including:</p>
+<dl class="simple">
+<dt>Costing packages:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="../costing/watertap_costing.html"><span class="doc">WaterTAP Costing Package</span></a></p></li>
+<li><p><a class="reference internal" href="../costing/detailed_unit_model_costing.html"><span class="doc">Detailed Unit Model Costing</span></a></p></li>
+<li><p><a class="reference internal" href="../costing/zero_order_costing.html"><span class="doc">Zero Order Costing Package</span></a></p></li>
+</ul>
+</dd>
+<dt>Property models:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="../core/water_props.html"><span class="doc">Ideal Water Properties</span></a></p></li>
+<li><p><a class="reference internal" href="../property_models/seawater.html"><span class="doc">Seawater Property Package</span></a></p></li>
+</ul>
+</dd>
+<dt>Unit models:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="../unit_models/zero_order_unit_models/index.html"><span class="doc">Zero-Order Unit Models</span></a></p></li>
+<li><p><a class="reference internal" href="../unit_models/reverse_osmosis_0D.html"><span class="doc">Reverse Osmosis (0D)</span></a></p></li>
+<li><p><a class="reference internal" href="../unit_models/pressure_exchanger.html"><span class="doc">Pressure Exchanger</span></a></p></li>
+<li><p><a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/model_libraries/generic/unit_models/product.html" title="(in IDAES v2.6.0)"><span>Product Block</span></a></p></li>
+<li><p><a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/model_libraries/generic/unit_models/separator.html" title="(in IDAES v2.6.0)"><span>Separator</span></a></p></li>
+<li><p><a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/model_libraries/generic/unit_models/mixer.html" title="(in IDAES v2.6.0)"><span>Mixer</span></a></p></li>
+</ul>
+</dd>
+</dl>
+<p>The demonstration file itself contains several core functions that are used to build, specify, initialize, and solve the model, as well as
+some helper functions that group these core functions together for convenience. Building and solving the flowsheet proceeds in six steps:</p>
+<ol class="arabic">
+<li><p>Creating and instantiating the model using <code class="docutils literal notranslate"><span class="pre">build()</span></code>:</p>
+<blockquote>
+<div><p>This function will create the core components and structure of the flowsheet. The keyword argument <code class="docutils literal notranslate"><span class="pre">erd_type</span></code> dictates the type
+of energy recovery device to be used, with options <code class="docutils literal notranslate"><span class="pre">pressure_exchanger</span></code> or <code class="docutils literal notranslate"><span class="pre">pump_as_turbine</span></code>.
+First, the <code class="docutils literal notranslate"><span class="pre">FlowsheetBlock</span></code>, <code class="docutils literal notranslate"><span class="pre">Database</span></code>, and property models are created. The zero order property models require the user
+to provide a <code class="docutils literal notranslate"><span class="pre">solute_list</span></code> (e.g., TDS and TSS), while the seawater property model is pre-populated with TDS as the only solute.
+Separate <code class="docutils literal notranslate"><span class="pre">Block</span></code> are created to contain all the unit models required to model the pretreatment, desalination, and post-treatment
+parts of the treatment train:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pre-treatment (<code class="docutils literal notranslate"><span class="pre">m.fs.pretreatment</span></code>): comprised entirely of zero order models, this block contains the intake, chemical addition, media, and cartridge filtration unit models.</p></li>
+<li><p>Desalination (<code class="docutils literal notranslate"><span class="pre">m.fs.desalination</span></code>): contains all the unit models needed to represent the pumping, reverse osmosis (RO), and energy recovery device (ERD) processes.</p></li>
+<li><p>Post-treatment (<code class="docutils literal notranslate"><span class="pre">m.fs.posttreatment</span></code>): includes post desalination disinfection, remineralization, and storage unit models.</p></li>
+</ul>
+</div></blockquote>
+<p>Outside of these, there is a feed, distribution, landfill, and disposal block that are placed directly on the flowsheet.
+<code class="docutils literal notranslate"><span class="pre">Translator</span></code> blocks are added with appropriate constraints and <code class="docutils literal notranslate"><span class="pre">Arc</span></code> are used to connect the unit processes in the proper order.
+Finally, default scaling factors are set and scaling factors are calculated for all variables.</p>
+</div></blockquote>
+</li>
+<li><p>Specify the operating conditions with <code class="docutils literal notranslate"><span class="pre">set_operating_conditions()</span></code>:</p>
+<blockquote>
+<div><p>This function begins by specifying the inlet conditions. Then, starting with the <code class="docutils literal notranslate"><span class="pre">pretreatment</span></code> block, the operating
+conditions for each unit model are set. The inlet conditions and specific unit model operating conditions are in the Flowsheet Specifications section of this page.</p>
+</div></blockquote>
+</li>
+<li><p>Initialize the unit and costing models with <code class="docutils literal notranslate"><span class="pre">initialize_system()</span></code>:</p>
+<blockquote>
+<div><p>Starting with the <code class="docutils literal notranslate"><span class="pre">Feed</span></code> block and continuing sequentially through each part of the treatment train, this function sets the initial condition
+for all the unit models on the flowsheet and propagates <code class="docutils literal notranslate"><span class="pre">Arcs</span></code> that connect each block either to <code class="docutils literal notranslate"><span class="pre">Translator</span></code> blocks or treatment blocks.
+Each block is initialized and solved by using the local <code class="docutils literal notranslate"><span class="pre">solve()</span></code> function to ensure each block solves optimally before trying to solve the next.
+Note that the order in which blocks/unit models are solved/initialized in WaterTAP is important because the initial conditions are <em>only</em> set
+for the <code class="docutils literal notranslate"><span class="pre">Feed</span></code> block. For these conditions to cascade to downstream unit models, and for the downstream unit models to include the impacts of upstream
+process (e.g., component removal), sequential initialization is necessary. Thus, initialization of this flowsheet proceeds as follows:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Feed</span></code> block where initial flow rates and solute concentrations are set.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pretreatment</span></code> block</p></li>
+<li><p>translator block from <code class="docutils literal notranslate"><span class="pre">pretreatment</span></code> to <code class="docutils literal notranslate"><span class="pre">desalination</span></code> (i.e., <code class="docutils literal notranslate"><span class="pre">m.fs.tb_prtrt_desal</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">desalination</span></code> block</p></li>
+<li><p>translator block from <code class="docutils literal notranslate"><span class="pre">desalination</span></code> to <code class="docutils literal notranslate"><span class="pre">posttreatment</span></code> (i.e., <code class="docutils literal notranslate"><span class="pre">m.fs.tb_desal_psttrt</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">posttreatment</span></code> block</p></li>
+</ol>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p>Add the system- and unit-level costing packages with <code class="docutils literal notranslate"><span class="pre">add_costing()</span></code> and initialize with <code class="docutils literal notranslate"><span class="pre">initialize_costing()</span></code>:</p>
+<blockquote>
+<div><p>Because of the nature of the unit models used in this flowsheet (i.e., both zero order and detailed models), two separate system-level costing packages are required.
+<code class="docutils literal notranslate"><span class="pre">m.fs.zo_costing</span> <span class="pre">=</span> <span class="pre">ZeroOrderCosting()</span></code> is used to aggregate costs for zero-order models, and <code class="docutils literal notranslate"><span class="pre">m.fs.ro_costing</span> <span class="pre">=</span> <span class="pre">WaterTAPCosting</span></code> is for the more detailed desalination models.
+The costing block for each unit model is <code class="docutils literal notranslate"><span class="pre">UnitModelCostingBlock</span></code> that points to a system-level aggregation costing package via the configuration keyword <code class="docutils literal notranslate"><span class="pre">flowsheet_costing_block</span></code>.
+Each system-level costing package has a <code class="docutils literal notranslate"><span class="pre">.cost_process()</span></code> method that is called to aggregate unit level costs and calculate overall process costs.
+To aggregate results from both costing packages, a separate <code class="docutils literal notranslate"><span class="pre">Expression</span></code> is created for <code class="docutils literal notranslate"><span class="pre">total_capital_cost</span></code> and <code class="docutils literal notranslate"><span class="pre">total_operating_cost</span></code>, and each of these are used
+to calculate the <code class="docutils literal notranslate"><span class="pre">LCOW</span></code>. Finally, like the unit models, the costing packages are initialized.</p>
+</div></blockquote>
+</li>
+<li><p>Solve the entire flowsheet and display final results with <code class="docutils literal notranslate"><span class="pre">display_results()</span></code>:</p>
+<blockquote>
+<div><p>After building, specifying, initializing, and costing the models, the flowsheet is solved a final time with the local <code class="docutils literal notranslate"><span class="pre">solve()</span></code> function
+and the <code class="docutils literal notranslate"><span class="pre">.report()</span></code> method is called for each unit model using <code class="docutils literal notranslate"><span class="pre">display_results()</span></code>.</p>
+</div></blockquote>
+</li>
+</ol>
+<p>The local function <code class="docutils literal notranslate"><span class="pre">build_flowsheet()</span></code> combines steps 1 and 2. The local function <code class="docutils literal notranslate"><span class="pre">solve_flowsheet()</span></code> combines 3, 4, and 5.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">Translator</span></code> blocks are used in flowsheets when more than one property package is used in different parts of the flowsheet.
+In this example, the zero order property package contains state variables that are only indexed by component (e.g., <code class="docutils literal notranslate"><span class="pre">conc_mass_comp['TDS']</span></code>)
+while the seawater property package contains state variables indexed by both phase and component (e.g., <code class="docutils literal notranslate"><span class="pre">conc_mass_phase_comp['Liq',</span> <span class="pre">'TDS']</span></code>).
+The translator blocks in this flowsheet are used to communicate properties between unit models that use these two property packages and simply
+say, e.g., <code class="docutils literal notranslate"><span class="pre">conc_mass_comp['TDS']</span> <span class="pre">=</span> <span class="pre">conc_mass_phase_comp['Liq',</span> <span class="pre">'TDS']</span></code>.</p>
+</div>
+<section id="pre-treatment">
+<h3>Pre-Treatment<a class="headerlink" href="#pre-treatment" title="Permalink to this heading"></a></h3>
+<p>Figure 1 presents the process flow diagram for <code class="docutils literal notranslate"><span class="pre">m.fs.pretreatment</span></code>. The first unit model on this block, <code class="docutils literal notranslate"><span class="pre">intake</span></code>, is connected to the
+flowsheet level <code class="docutils literal notranslate"><span class="pre">Feed</span></code> block.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../../_images/SW_RO_fs_pretreat.png"><img alt="../../_images/SW_RO_fs_pretreat.png" src="../../_images/SW_RO_fs_pretreat.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 1: Process flow diagram for pre-treatment block.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="desalination">
+<h3>Desalination<a class="headerlink" href="#desalination" title="Permalink to this heading"></a></h3>
+<p>Figure 2 presents the process flow diagram for <code class="docutils literal notranslate"><span class="pre">m.fs.desalination</span></code> if <code class="docutils literal notranslate"><span class="pre">erd_type</span> <span class="pre">==</span> <span class="pre">&quot;pressure_exchanger&quot;</span></code>.
+Figure 3 presents the process flow diagram for <code class="docutils literal notranslate"><span class="pre">m.fs.desalination</span></code> if <code class="docutils literal notranslate"><span class="pre">erd_type</span> <span class="pre">==</span> <span class="pre">&quot;pump_as_turbine&quot;</span></code>.
+In either case, the first unit model on this block is connected to the flowsheet level translator block <code class="docutils literal notranslate"><span class="pre">tb_prtrt_desal</span></code>.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../../_images/SW_RO_fs_desal_PXR.png"><img alt="../../_images/SW_RO_fs_desal_PXR.png" src="../../_images/SW_RO_fs_desal_PXR.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 2: Process flow diagram for desalination block for pressure exchanger ERD.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../../_images/SW_RO_fs_desal_turbine.png"><img alt="../../_images/SW_RO_fs_desal_turbine.png" src="../../_images/SW_RO_fs_desal_turbine.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 3: Process flow diagram for desalination block for pump-as-turbine ERD.</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="post-treatment">
+<h3>Post-Treatment<a class="headerlink" href="#post-treatment" title="Permalink to this heading"></a></h3>
+<p>Figure 4 presents the process flow diagram for <code class="docutils literal notranslate"><span class="pre">m.fs.posttreatment</span></code>. The first unit model on this block is connected to the
+flowsheet level translator block <code class="docutils literal notranslate"><span class="pre">tb_desal_psttrt</span></code>.</p>
+<figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="../../_images/SW_RO_fs_posttreat.png"><img alt="../../_images/SW_RO_fs_posttreat.png" src="../../_images/SW_RO_fs_posttreat.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 4: Process flow diagram for post-treatment block.</span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="full-flowsheet">
+<h3>Full Flowsheet<a class="headerlink" href="#full-flowsheet" title="Permalink to this heading"></a></h3>
+<p>Figure 5 presents the process flow diagram for the entire flowsheet for both ERD options.</p>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../../_images/SW_RO_fs_full.png"><img alt="../../_images/SW_RO_fs_full.png" src="../../_images/SW_RO_fs_full.png" style="width: 1500px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 5: Process flow diagram for entire flowsheet.</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="degrees-of-freedom">
+<h2>Degrees of Freedom<a class="headerlink" href="#degrees-of-freedom" title="Permalink to this heading"></a></h2>
+<p>The degrees of freedom (DOF) for the flowsheet can change depending on model configuration options.
+For either <code class="docutils literal notranslate"><span class="pre">erd_type</span></code>, after building the flowsheet with the provided <code class="docutils literal notranslate"><span class="pre">build()</span></code> function, there are 58 DOF.
+Many of these DOF are related to the not-yet-propagated Arcs between each of the unit process blocks.
+Others are related to influent conditions and specific operating conditions for each unit model that must be specified by the user.
+The operating conditions for this demonstration are provided in the following section, and include:</p>
+<ul class="simple">
+<li><p>Influent conditions (component flows, temperature, pressure)</p></li>
+<li><p>Chemical doses</p></li>
+<li><p>RO membrane properties</p></li>
+<li><p>RO operating pressure</p></li>
+<li><p>Pump and ERD efficiencies</p></li>
+<li><p>Storage duration</p></li>
+</ul>
+<p>Passing the default build to the provided function <code class="docutils literal notranslate"><span class="pre">set_operating_conditions()</span></code> will result in a model with zero DOF.</p>
+</section>
+<section id="flowsheet-specifications">
+<h2>Flowsheet Specifications<a class="headerlink" href="#flowsheet-specifications" title="Permalink to this heading"></a></h2>
+<p>The influent conditions are defined from the case study used to develop this flowsheet.
+Additionally, some unit models have case-specific operating conditions.
+The influent conditions and case-specific operating conditions for certain unit models are presented in the following table,
+including the different build options for <code class="docutils literal notranslate"><span class="pre">erd_type</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Flowsheet Model Name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Influent Conditions</strong></p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Volumetric flow rate</p></td>
+<td><p>7.05</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{MGD}\)</span></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>TDS <sup>1</sup> concentration</p></td>
+<td><p>35</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/L}\)</span></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>TSS <sup>2</sup> concentration</p></td>
+<td><p>0.03</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{g/L}\)</span></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Temperature</p></td>
+<td><p>298</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}\)</span></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Pressure</p></td>
+<td><p>100000</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Pre-Treatment</strong></p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Ferric chloride dose</p></td>
+<td><p>20</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mg/L}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.pretreatment.ferric_chloride_addition</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Storage tank 1 storage time</p></td>
+<td><p>2</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{hr}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.pretreatment.storage_tank_1</span></code></p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Desalination</strong></p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>RO water permeability coefficient</p></td>
+<td><p>4.2e-12</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m/Pa/s}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.RO</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>RO salt permeability coefficient</p></td>
+<td><p>3.5e-8</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m/s}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.RO</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>RO spacer porosity</p></td>
+<td><p>0.97</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.RO</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>RO channel height</p></td>
+<td><p>1e-3</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.RO</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>RO membrane width per stage</p></td>
+<td><p>1000</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.RO</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>RO total membrane area per stage</p></td>
+<td><p>13914</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^2\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.RO</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>RO permeate side pressure</p></td>
+<td><p>101325</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.RO</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Pump 1 efficiency</p></td>
+<td><p>0.8</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.P1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Pump 1 operating pressure</p></td>
+<td><p>70e5</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.P1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><em>if</em> <code class="docutils literal notranslate"><span class="pre">erd_type</span> <span class="pre">==</span> <span class="pre">&quot;pressure_exchanger&quot;</span></code></p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Pressure exchanger efficiency</p></td>
+<td><p>0.95</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.PXR</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Pump 2 efficiency</p></td>
+<td><p>0.8</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.P2</span></code></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><em>if</em> <code class="docutils literal notranslate"><span class="pre">erd_type</span> <span class="pre">==</span> <span class="pre">&quot;pump_as_turbine&quot;</span></code></p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Energy recovery device pump efficiency</p></td>
+<td><p>0.95</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.ERD</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Energy recovery device permeate side pressure</p></td>
+<td><p>101325</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.desalination.ERD</span></code></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>Post-Treatment</strong></p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Anti-scalant dose</p></td>
+<td><p>5</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mg/L}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.posttreatment.anti_scalant_addition</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Lime dose</p></td>
+<td><p>2.3</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mg/L}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.posttreatment.lime_addition</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Storage tank 2 storage time</p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{hr}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.posttreatment.storage_tank_2</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Storage tank 3 storage time</p></td>
+<td><p>1</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{hr}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.posttreatment.storage_tank_3</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>UV/AOP <sup>3</sup> reduction equivalent dose</p></td>
+<td><p>350</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{mJ/}\text{cm}^2\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.posttreatment.uv_aop</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>UV/AOP <sup>3</sup> UV transmittance</p></td>
+<td><p>0.95</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m.fs.posttreatment.uv_aop</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><sup>1</sup>  TDS = total dissolved solids
+|
+<sup>2</sup>  TSS = total suspended solids
+|
+<sup>3</sup>  UV = Ultraviolet; AOP = Advanced oxidation process</p>
+</div>
+</section>
+<section id="code-documentation">
+<h2>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../apidoc/watertap.examples.flowsheets.case_studies.seawater_RO_desalination.html#module-watertap.examples.flowsheets.case_studies.seawater_RO_desalination" title="watertap.examples.flowsheets.case_studies.seawater_RO_desalination"><code class="xref py py-mod docutils literal notranslate"><span class="pre">watertap.examples.flowsheets.case_studies.seawater_RO_desalination</span></code></a></p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>References for each unit model can be found using the links provided in the Implementation section of this documentation.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="RO_with_energy_recovery.html" class="btn btn-neutral float-left" title="Reverse Osmosis with Energy Recovery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ui/index.html" class="btn btn-neutral float-right" title="WaterTAP User Interface API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.unit_models.steam_heater_0D &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.unit_models.steam_heater_0D</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.unit_models.steam_heater_0D</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">declare_process_block_class</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">idaes.models.unit_models.heat_exchanger</span> <span class="kn">import</span> <span class="n">HeatExchangerData</span>
+<span class="kn">from</span> <span class="nn">watertap.core.solvers</span> <span class="kn">import</span> <span class="n">get_solver</span>
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.unit_models.heat_exchanger</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">cost_heat_exchanger</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">ConfigValue</span>
+
+
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Elmira Shamlou&quot;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This unit model uses is based on the IDAES `feedwater_heater_0D` model.</span>
+<span class="sd">However, the constraints and properties defined in the IDAES unit model do not align with those in the available WaterTAP property packages.</span>
+<span class="sd">To address this, alternative constraints have been replaced to ensure full condensation based on the WaterTAP properties. </span>
+<span class="sd">In addition, a condenser option and its corresponding initialization routine have been added, allowing the user to switch between the condenser and steam heater models.</span>
+<span class="sd">Note that additional components like desuperheaters, drain mixers, and coolers are not included. If necessary, these can be modeled separately by adding heat exchangers and mixers to the flowsheet.</span>
+<span class="sd">To do: Consider incorporating as a modification to IDAES&#39; FeedWaterHeater model directly in the IDAES repo&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Mode"><a class="viewcode-back" href="../../../apidoc/watertap.unit_models.html#watertap.unit_models.steam_heater_0D.Mode">[docs]</a><span class="k">class</span> <span class="nc">Mode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">HEATER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">CONDENSER</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SteamHeater0DData"><a class="viewcode-back" href="../../../apidoc/watertap.unit_models.html#watertap.unit_models.steam_heater_0D.SteamHeater0DData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span>
+    <span class="s2">&quot;SteamHeater0D&quot;</span><span class="p">,</span>
+    <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Feedwater Heater Condensing Section</span>
+<span class="s2">The feedwater heater condensing section model is a normal 0D heat exchanger</span>
+<span class="s2">model with an added constraint to calculate the steam flow such that the outlet</span>
+<span class="s2">of shell is a saturated liquid.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">SteamHeater0DData</span><span class="p">(</span><span class="n">HeatExchangerData</span><span class="p">):</span>
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">HeatExchangerData</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;mode&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">Mode</span><span class="o">.</span><span class="n">HEATER</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">Mode</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Mode of operation: heater or condenser&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;estimate_cooling_water&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Estimate cooling water flow rate for condenser mode&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="SteamHeater0DData.build"><a class="viewcode-back" href="../../../apidoc/watertap.unit_models.html#watertap.unit_models.steam_heater_0D.SteamHeater0DData.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Mass balance&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">outlet_liquid_mass_balance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Vap&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Vap&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Vap&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Saturation pressure constraint&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">outlet_pressure_sat</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span>
+                <span class="o">&gt;=</span> <span class="n">b</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">pressure_sat</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SteamHeater0DData.initialize_build"><a class="viewcode-back" href="../../../apidoc/watertap.unit_models.html#watertap.unit_models.steam_heater_0D.SteamHeater0DData.initialize_build">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialization routine for both heater and condenser modes. For condenser mode with cooling water estimation, the initialization is performed based on a specified design temperature rise on the cold side.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;solver&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">optarg</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;optarg&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">outlvl</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;outlvl&quot;</span><span class="p">,</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">)</span>
+        <span class="n">init_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getInitLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">outlvl</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unit&quot;</span><span class="p">)</span>
+        <span class="n">solve_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getSolveLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">outlvl</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unit&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">HEATER</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hot_side_inlet</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cold_side_inlet</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hot_side_outlet</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cold_side_outlet</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">outlet_liquid_mass_balance</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outlet_pressure_sat</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+
+            <span class="c1"># regular heat exchanger initialization</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initialize_build</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Vap&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">outlet_liquid_mass_balance</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outlet_pressure_sat</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hot_side</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hot_side_inlet</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Vap&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+
+            <span class="n">opt</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">optarg</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">solver_log</span><span class="p">(</span><span class="n">solve_log</span><span class="p">,</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="k">as</span> <span class="n">slc</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">slc</span><span class="o">.</span><span class="n">tee</span><span class="p">)</span>
+            <span class="n">init_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Initialization Complete (w/ extraction calc): </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">idaeslog</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">CONDENSER</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">estimate_cooling_water</span>
+        <span class="p">):</span>
+            <span class="c1"># condenser mode without cooling water estimation</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initialize_build</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">optarg</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">solver_log</span><span class="p">(</span><span class="n">solve_log</span><span class="p">,</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="k">as</span> <span class="n">slc</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">slc</span><span class="o">.</span><span class="n">tee</span><span class="p">)</span>
+            <span class="n">init_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Initialization Complete </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idaeslog</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">Mode</span><span class="o">.</span><span class="n">CONDENSER</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">estimate_cooling_water</span><span class="p">:</span>
+
+            <span class="c1"># condenser mode with cooling water estimation</span>
+            <span class="n">cold_side_outlet_temperature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cold_side_outlet</span><span class="o">.</span><span class="n">temperature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hot_side_inlet</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cold_side_inlet</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cold_side_outlet</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initialize_build</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cold_side_outlet</span><span class="o">.</span><span class="n">temperature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">cold_side_outlet_temperature</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cold_side</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mass_frac_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;TDS&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cold_side</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mass_frac_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;TDS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cold_side</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cold_side</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">outlet_liquid_mass_balance</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outlet_pressure_sat</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+
+            <span class="n">opt</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">optarg</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">solver_log</span><span class="p">(</span><span class="n">solve_log</span><span class="p">,</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="k">as</span> <span class="n">slc</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">slc</span><span class="o">.</span><span class="n">tee</span><span class="p">)</span>
+            <span class="n">init_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Initialization Complete (w/ cooling water estimation): </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">idaeslog</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">cold_side</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mass_frac_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;TDS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cold_side</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;TDS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+
+            <span class="n">opt</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">optarg</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">solver_log</span><span class="p">(</span><span class="n">solve_log</span><span class="p">,</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="k">as</span> <span class="n">slc</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">slc</span><span class="o">.</span><span class="n">tee</span><span class="p">)</span>
+            <span class="n">init_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Initialization Complete (w/ cooling water estimation): </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">idaeslog</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_costing_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cost_heat_exchanger</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

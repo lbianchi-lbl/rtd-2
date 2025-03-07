@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_reactions &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_reactions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_reactions</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Modified ASM2d reaction package for compatibility with modified ADM1.</span>
+
+
+<span class="sd">Reference:</span>
+
+<span class="sd">[1] Henze, M., Gujer, W., Mino, T., Matsuo, T., Wentzel, M.C., Marais, G.v.R.,</span>
+<span class="sd">Van Loosdrecht, M.C.M., &quot;Activated Sludge Model No.2D, ASM2D&quot;, 1999,</span>
+<span class="sd">Wat. Sci. Tech. Vol. 39, No. 1, pp. 165-182</span>
+<span class="sd">[2] Flores-Alsina, X., Solon, K., Mbamba, C.K., Tait, S., Gernaey, K.V., Jeppsson, U. and Batstone, D.J.,</span>
+<span class="sd">&quot;Modelling phosphorus (P), sulfur (S) and iron (Fe) interactions for dynamic simulations of</span>
+<span class="sd">anaerobic digestion processes&quot;, 2016, Water Research, 95, pp.370-382.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Import IDAES cores</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">declare_process_block_class</span>
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+<span class="kn">from</span> <span class="nn">watertap.property_models.unit_specific.activated_sludge.asm2d_reactions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ASM2dReactionParameterData</span><span class="p">,</span>
+    <span class="n">_ASM2dReactionBlock</span><span class="p">,</span>
+    <span class="n">ASM2dReactionBlockData</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Some more information about this module</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Chenyu Wang&quot;</span>
+
+<span class="c1"># Set up logger</span>
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SimpleModifiedASM2dReactionParameterData"><a class="viewcode-back" href="../../../../../apidoc/watertap.property_models.unit_specific.activated_sludge.html#watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_reactions.SimpleModifiedASM2dReactionParameterData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;SimpleModifiedASM2dReactionParameterBlock&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SimpleModifiedASM2dReactionParameterData</span><span class="p">(</span><span class="n">ASM2dReactionParameterData</span><span class="p">):</span>
+<div class="viewcode-block" id="SimpleModifiedASM2dReactionParameterData.build"><a class="viewcode-back" href="../../../../../apidoc/watertap.property_models.unit_specific.activated_sludge.html#watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_reactions.SimpleModifiedASM2dReactionParameterData.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reaction_block_class</span> <span class="o">=</span> <span class="n">SimpleModifiedASM2dReactionBlock</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">additional_solute_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">additional_solute_list</span><span class="p">:</span>
+
+                <span class="n">rate_reaction_stoichiometry_additional</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="p">(</span><span class="s2">&quot;R1&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R2&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R3&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R4&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R5&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R6&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R7&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R8&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R9&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R10&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R11&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R12&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R13&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R14&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R15&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R16&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R17&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R18&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R19&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R20&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="p">(</span><span class="s2">&quot;R21&quot;</span><span class="p">,</span> <span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="n">new_rate_reaction_stoichiometry</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">rate_reaction_stoichiometry</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">rate_reaction_stoichiometry_additional</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rate_reaction_stoichiometry</span> <span class="o">=</span> <span class="n">new_rate_reaction_stoichiometry</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">_SimpleModifiedASM2dReactionBlock</span><span class="p">(</span><span class="n">_ASM2dReactionBlock</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="SimpleModifiedASM2dReactionBlockData"><a class="viewcode-back" href="../../../../../apidoc/watertap.property_models.unit_specific.activated_sludge.html#watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_reactions.SimpleModifiedASM2dReactionBlockData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span>
+    <span class="s2">&quot;SimpleModifiedASM2dReactionBlock&quot;</span><span class="p">,</span> <span class="n">block_class</span><span class="o">=</span><span class="n">_SimpleModifiedASM2dReactionBlock</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">SimpleModifiedASM2dReactionBlockData</span><span class="p">(</span><span class="n">ASM2dReactionBlockData</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

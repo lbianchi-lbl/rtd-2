@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.tools.oli_api.util package &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="watertap.unit_models package" href="watertap.unit_models.html" />
+    <link rel="prev" title="watertap.tools.oli_api package" href="watertap.tools.oli_api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">Module Reference</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="watertap.html">watertap package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="watertap.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap.conftest">watertap.conftest module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../technical_reference/index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">watertap</a></li>
+          <li class="breadcrumb-item"><a href="watertap.html">watertap package</a></li>
+          <li class="breadcrumb-item"><a href="watertap.tools.html">watertap.tools package</a></li>
+          <li class="breadcrumb-item"><a href="watertap.tools.oli_api.html">watertap.tools.oli_api package</a></li>
+      <li class="breadcrumb-item active">watertap.tools.oli_api.util package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/watertap.tools.oli_api.util.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="watertap-tools-oli-api-util-package">
+<h1>watertap.tools.oli_api.util package<a class="headerlink" href="#watertap-tools-oli-api-util-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-watertap.tools.oli_api.util.fixed_keys_dict">
+<span id="watertap-tools-oli-api-util-fixed-keys-dict-module"></span><h2>watertap.tools.oli_api.util.fixed_keys_dict module<a class="headerlink" href="#module-watertap.tools.oli_api.util.fixed_keys_dict" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-watertap.tools.oli_api.util.state_block_helper_functions">
+<span id="watertap-tools-oli-api-util-state-block-helper-functions-module"></span><h2>watertap.tools.oli_api.util.state_block_helper_functions module<a class="headerlink" href="#module-watertap.tools.oli_api.util.state_block_helper_functions" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.state_block_helper_functions.convert_to_state_block_units">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.util.state_block_helper_functions.</span></span><span class="sig-name descname"><span class="pre">convert_to_state_block_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/util/state_block_helper_functions.html#convert_to_state_block_units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.util.state_block_helper_functions.convert_to_state_block_units" title="Permalink to this definition"></a></dt>
+<dd><p>Converts state variable values from input source to state block units.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_variable</strong> – state block attribute (i.e. temperature, pressure, concentration) to convert</p></li>
+<li><p><strong>source</strong> – input source with initial value</p></li>
+<li><p><strong>key</strong> – lookup key in input source for specified state variable</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.state_block_helper_functions.create_property_model_input">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.util.state_block_helper_functions.</span></span><span class="sig-name descname"><span class="pre">create_property_model_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_model_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/util/state_block_helper_functions.html#create_property_model_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.util.state_block_helper_functions.create_property_model_input" title="Permalink to this definition"></a></dt>
+<dd><p>Builds property package inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>components</strong> – dictionary containing solute concentrations in mg/L</p></li>
+<li><p><strong>property_model_type</strong> – string specifying property model to use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return property_model_inputs<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict containing inputs needed to build property model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.state_block_helper_functions.create_state_block">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.util.state_block_helper_functions.</span></span><span class="sig-name descname"><span class="pre">create_state_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_water</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/util/state_block_helper_functions.html#create_state_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.util.state_block_helper_functions.create_state_block" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a state block using the Multi Component Aqueous Solution (MCAS) property model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source_water</strong> – dictionary containing state variables and units</p>
+</dd>
+<dt class="field-even">Return m<span class="colon">:</span></dt>
+<dd class="field-even"><p>ConcreteModel containing MCAS state block</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.state_block_helper_functions.extract_state_vars">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.util.state_block_helper_functions.</span></span><span class="sig-name descname"><span class="pre">extract_state_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conc_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/util/state_block_helper_functions.html#extract_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.util.state_block_helper_functions.extract_state_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts state variables from state block into a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_block</strong> – input source to extract values from</p></li>
+<li><p><strong>conc_var</strong> – state block attribute containing concentrations</p></li>
+<li><p><strong>units</strong> – dict containing PYOMO unit objects</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return state_vars<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary containing state variables</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-watertap.tools.oli_api.util.watertap_to_oli_helper_functions">
+<span id="watertap-tools-oli-api-util-watertap-to-oli-helper-functions-module"></span><h2>watertap.tools.oli_api.util.watertap_to_oli_helper_functions module<a class="headerlink" href="#module-watertap.tools.oli_api.util.watertap_to_oli_helper_functions" title="Permalink to this heading"></a></h2>
+<p>This file contains methods to convert WaterTAP naming conventions to OLI
+and generate molecular weight and charge dictionaries from molecular formulae.</p>
+<p>It calculates molecular weights using the periodic_table.csv from:
+<a class="reference external" href="https://gist.github.com/GoodmanSciences/c2dd862cd38f21b0ad36b8f96b4bf1ee">https://gist.github.com/GoodmanSciences/c2dd862cd38f21b0ad36b8f96b4bf1ee</a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.util.watertap_to_oli_helper_functions.</span></span><span class="sig-name descname"><span class="pre">OLIName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oli_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">watertap_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">molar_mass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.charge">
+<span class="sig-name descname"><span class="pre">charge</span></span><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.charge" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.charge_group">
+<span class="sig-name descname"><span class="pre">charge_group</span></span><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.charge_group" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.molar_mass">
+<span class="sig-name descname"><span class="pre">molar_mass</span></span><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.molar_mass" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.oli_name">
+<span class="sig-name descname"><span class="pre">oli_name</span></span><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.oli_name" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.watertap_name">
+<span class="sig-name descname"><span class="pre">watertap_name</span></span><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName.watertap_name" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.get_oli_name">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.util.watertap_to_oli_helper_functions.</span></span><span class="sig-name descname"><span class="pre">get_oli_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">watertap_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/watertap/tools/oli_api/util/watertap_to_oli_helper_functions.html#get_oli_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.get_oli_name" title="Permalink to this definition"></a></dt>
+<dd><p>Converts an WaterTAP formatted name, i.e., “Na_+”
+into an OLI formatted name, i.e., “NAION”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>watertap_name</strong> – string name of a solute in WaterTAP format</p>
+</dd>
+<dt class="field-even">Return oli_name<span class="colon">:</span></dt>
+<dd class="field-even"><p>string name of a solute in OLI format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.get_oli_names">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.util.watertap_to_oli_helper_functions.</span></span><span class="sig-name descname"><span class="pre">get_oli_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/tools/oli_api/util/watertap_to_oli_helper_functions.html#get_oli_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.get_oli_names" title="Permalink to this definition"></a></dt>
+<dd><p>Updates source dictionary with data to populate MCAS property model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source</strong> – dictionary containing WaterTAP names as keys</p>
+</dd>
+<dt class="field-even">Return source<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary with OLIName named tuples as keys</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.oli_reverse_lookup">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.util.watertap_to_oli_helper_functions.</span></span><span class="sig-name descname"><span class="pre">oli_reverse_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oli_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names_db</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName" title="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName"><span class="pre">OLIName</span></a></span></span><a class="reference internal" href="../_modules/watertap/tools/oli_api/util/watertap_to_oli_helper_functions.html#oli_reverse_lookup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.oli_reverse_lookup" title="Permalink to this definition"></a></dt>
+<dd><p>Looks up WaterTAP formatted name for solute in OLI format, if listed in names_db dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>oli_name</strong> – string name of a solute in OLI format</p>
+</dd>
+<dt class="field-even">Return watertap_name<span class="colon">:</span></dt>
+<dd class="field-even"><p>string name of a solute in WaterTAP format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.watertap_to_oli">
+<span class="sig-prename descclassname"><span class="pre">watertap.tools.oli_api.util.watertap_to_oli_helper_functions.</span></span><span class="sig-name descname"><span class="pre">watertap_to_oli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">watertap_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName" title="watertap.tools.oli_api.util.watertap_to_oli_helper_functions.OLIName"><span class="pre">OLIName</span></a></span></span><a class="reference internal" href="../_modules/watertap/tools/oli_api/util/watertap_to_oli_helper_functions.html#watertap_to_oli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.watertap_to_oli" title="Permalink to this definition"></a></dt>
+<dd><p>This method creates a named tuple
+which can be passed directly into OLI
+or into MCAS property models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>watertap_name</strong> – string name of substance in WaterTAP format, i.e., B[OH]4_-</p>
+</dd>
+<dt class="field-even">Return OLIName<span class="colon">:</span></dt>
+<dd class="field-even"><p>named tuple containing attributes derived from molecular formula</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-watertap.tools.oli_api.util">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-watertap.tools.oli_api.util" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="watertap.tools.oli_api.html" class="btn btn-neutral float-left" title="watertap.tools.oli_api package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="watertap.unit_models.html" class="btn btn-neutral float-right" title="watertap.unit_models package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

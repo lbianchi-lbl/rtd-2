@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASM1 to ADM1 Translator &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" />
+    <link rel="next" title="ASM2d to ADM1 Translator" href="translator_asm2d_adm1.html" />
+    <link rel="prev" title="ADM1 to ASM2d Translator" href="translator_adm1_asm2d.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Unit Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../anaerobic_digester.html">Anaerobic Digester</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aeration_tank.html">Aeration Tank</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../boron_removal.html">Boron Removal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clarifier.html">Clarifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../coag_floc_model.html">Coagulation-Flocculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../crystallizer_0D.html">Crystallization (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cstr.html">Continuously Stirred Tank Reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cstr_injection.html">Continuously Stirred Tank Reactor with Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dewatering.html">Dewatering Unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../electrodialysis_0D.html">Electrodialysis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../electrodialysis_1D.html">Electrodialysis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../electrolyzer.html">Electrolyzer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../electroNP_ZO.html">ElectroNP (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../energy_recovery_device.html">Energy Recovery Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gac.html">Granular Activated Carbon (GAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../generic_desalter.html">Generic desalter unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../generic_separator.html">Generic separator unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ion_exchange_0D.html">Ion Exchange (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../membrane_distillation_0D.html">Membrane Distillation (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mvc.html">Mechanical Vapor Compression (MVC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nanofiltration_ZO.html">Nanofiltration (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nanofiltration_dspmde_0D.html">Nanofiltration- Donnan Steric Pore Model with Dielectric Exclusion (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../osmotically_assisted_reverse_osmosis_0D.html">Osmotically Assisted Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../osmotically_assisted_reverse_osmosis_1D.html">Osmotically Assisted Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pressure_exchanger.html">Pressure Exchanger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pump.html">Pump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reverse_osmosis_0D.html">Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reverse_osmosis_1D.html">Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stoichiometric_reactor.html">Stoichiometric reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../thickener.html">Thickener</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Translators</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="translator_adm1_asm1.html">ADM1 to ASM1 Translator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="translator_adm1_asm2d.html">ADM1 to ASM2d Translator</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ASM1 to ADM1 Translator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="translator_asm2d_adm1.html">ASM2d to ADM1 Translator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../uv_aop.html">Ultraviolet Advanced Oxidation Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../zero_order_unit_models/index.html">Zero-Order Unit Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Unit Models</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Translators</a></li>
+      <li class="breadcrumb-item active">ASM1 to ADM1 Translator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/technical_reference/unit_models/translators/translator_asm1_adm1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="asm1-to-adm1-translator">
+<h1>ASM1 to ADM1 Translator<a class="headerlink" href="#asm1-to-adm1-translator" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>A link is required to translate between biological and physically- or chemically-mediated processes
+to develop whole-plant modeling of wastewater treatment. This model mediates the interaction between
+the Activated Sludge Model 1 (ASM1)  and the Anaerobic Digester Model 1 (ADM1).</p>
+<p>The model relies on the following key assumptions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>supports only liquid phase</p></li>
+<li><p>supports only ASM1 to ADM1 translations</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="degrees-of-freedom">
+<span id="index-0"></span><h2>Degrees of Freedom<a class="headerlink" href="#degrees-of-freedom" title="Permalink to this heading"></a></h2>
+<p>The translator degrees of freedom are the inlet feed state variables:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>temperature</p></li>
+<li><p>pressure</p></li>
+<li><p>volumetric flowrate</p></li>
+<li><p>solute compositions</p></li>
+<li><p>cations</p></li>
+<li><p>anions</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="ports">
+<h2>Ports<a class="headerlink" href="#ports" title="Permalink to this heading"></a></h2>
+<p>This model provides two ports:</p>
+<ul class="simple">
+<li><p>inlet</p></li>
+<li><p>outlet</p></li>
+</ul>
+</section>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Indices</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Time</p></td>
+<td><p><span class="math notranslate nohighlight">\(t\)</span></p></td>
+<td><p>[0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Inlet/outlet</p></td>
+<td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
+<td><p>[‘in’, ‘out’]</p></td>
+</tr>
+<tr class="row-even"><td><p>Phases</p></td>
+<td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
+<td><p>[‘Liq’]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Inlet Components</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘H2O’, ‘S_I’, ‘S_S’, ‘X_I’, ‘X_S’, ‘X_BH’, ‘X_BA’, ‘X_P’, ‘S_O’, ‘S_NO’, ‘S_NH’, ‘S_ND’, ‘X_ND’, ‘S_ALK’]</p></td>
+</tr>
+<tr class="row-even"><td><p>Ion</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘S_cat’, ‘S_an’]  <sup>*</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>Outlet Components</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘H2O’, ‘S_su’, ‘S_aa’, ‘S_fa’, ‘S_va’, ‘S_bu’, ‘S_pro’, ‘S_ac’, ‘S_h2’, ‘S_ch4’, ‘S_IC’, ‘S_IN’, ‘S_I’, ‘X_c’, ‘X_ch’, ‘X_pr’, ‘X_li’, ‘X_su’, ‘X_aa’, ‘X_fa’, ‘X_c4’, ‘X_pro’, ‘X_ac’, ‘X_h2’, ‘X_I’, ‘S_cat’, ‘S_an’, ‘S_co2’]</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="simple">
+<dt><strong>Notes</strong></dt><dd><p><sup>*</sup> Ion” is a subset of “Component” and uses the same symbol j.</p>
+</dd>
+</dl>
+</section>
+<section id="asm1-components">
+<h2>ASM1 Components<a class="headerlink" href="#asm1-components" title="Permalink to this heading"></a></h2>
+<p>Additional documentation on the ASM1 property model can be found here: <a class="reference external" href="https://watertap.readthedocs.io/en/latest/technical_reference/property_models/ASM1.html">Activated Sludge Model 1 Documentation</a></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Soluble inert organic matter, S_I</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_I\)</span></p></td>
+<td><p>S_I</p></td>
+</tr>
+<tr class="row-odd"><td><p>Readily biodegradable substrate, S_S</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_S\)</span></p></td>
+<td><p>S_S</p></td>
+</tr>
+<tr class="row-even"><td><p>Particulate inert organic matter, X_I</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_I\)</span></p></td>
+<td><p>X_I</p></td>
+</tr>
+<tr class="row-odd"><td><p>Slowly biodegradable substrate, X_S</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_S\)</span></p></td>
+<td><p>X_S</p></td>
+</tr>
+<tr class="row-even"><td><p>Active heterotrophic biomass, X_BH</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{BH}\)</span></p></td>
+<td><p>X_BH</p></td>
+</tr>
+<tr class="row-odd"><td><p>Active autotrophic biomass, X_BA</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{BA}\)</span></p></td>
+<td><p>X_BA</p></td>
+</tr>
+<tr class="row-even"><td><p>Particulate products arising from biomass decay, X_P</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_P\)</span></p></td>
+<td><p>X_P</p></td>
+</tr>
+<tr class="row-odd"><td><p>Oxygen, S_O</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_O\)</span></p></td>
+<td><p>S_O</p></td>
+</tr>
+<tr class="row-even"><td><p>Nitrate and nitrite nitrogen, S_NO</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{NO}\)</span></p></td>
+<td><p>S_NO</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\({NH_{4}}^{+}\)</span> + <span class="math notranslate nohighlight">\(NH_{3}\)</span> Nitrogen, S_NH</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{NH}\)</span></p></td>
+<td><p>S_NH</p></td>
+</tr>
+<tr class="row-even"><td><p>Soluble biodegradable organic nitrogen, S_ND</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{ND}\)</span></p></td>
+<td><p>S_ND</p></td>
+</tr>
+<tr class="row-odd"><td><p>Particulate biodegradable organic nitrogen, X_ND</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{ND}\)</span></p></td>
+<td><p>X_ND</p></td>
+</tr>
+<tr class="row-even"><td><p>Alkalinity, S_ALK</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{ALK}\)</span></p></td>
+<td><p>S_ALK</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="adm1-components">
+<h2>ADM1 Components<a class="headerlink" href="#adm1-components" title="Permalink to this heading"></a></h2>
+<p>Additional documentation on the ADM1 property model can be found here: <a class="reference external" href="https://watertap.readthedocs.io/en/latest/technical_reference/property_models/ADM1.html">Anaerobic Digestion Model 1 Documentation</a></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Monosaccharides, S_su</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{su}\)</span></p></td>
+<td><p>S_su</p></td>
+</tr>
+<tr class="row-odd"><td><p>Amino acids, S_aa</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{aa}\)</span></p></td>
+<td><p>S_aa</p></td>
+</tr>
+<tr class="row-even"><td><p>Long chain fatty acids, S_fa</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{fa}\)</span></p></td>
+<td><p>S_fa</p></td>
+</tr>
+<tr class="row-odd"><td><p>Total valerate, S_va</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{va}\)</span></p></td>
+<td><p>S_va</p></td>
+</tr>
+<tr class="row-even"><td><p>Total butyrate, S_bu</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{bu}\)</span></p></td>
+<td><p>S_bu</p></td>
+</tr>
+<tr class="row-odd"><td><p>Total propionate, S_pro</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{pro}\)</span></p></td>
+<td><p>S_pro</p></td>
+</tr>
+<tr class="row-even"><td><p>Total acetate, S_ac</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{ac}\)</span></p></td>
+<td><p>S_ac</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hydrogen gas, S_h2</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{h2}\)</span></p></td>
+<td><p>S_h2</p></td>
+</tr>
+<tr class="row-even"><td><p>Methane gas, S_ch4</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{ch4}\)</span></p></td>
+<td><p>S_ch4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Inorganic carbon, S_IC</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{IC}\)</span></p></td>
+<td><p>S_IC</p></td>
+</tr>
+<tr class="row-even"><td><p>Inorganic nitrogen, S_IN</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{IN}\)</span></p></td>
+<td><p>S_IN</p></td>
+</tr>
+<tr class="row-odd"><td><p>Soluble inerts, S_I</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_I\)</span></p></td>
+<td><p>S_I</p></td>
+</tr>
+<tr class="row-even"><td><p>Composites, X_c</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_c\)</span></p></td>
+<td><p>X_c</p></td>
+</tr>
+<tr class="row-odd"><td><p>Carbohydrates, X_ch</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{ch}\)</span></p></td>
+<td><p>X_ch</p></td>
+</tr>
+<tr class="row-even"><td><p>Proteins, X_pr</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{pr}\)</span></p></td>
+<td><p>X_pr</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lipids, X_li</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{li}\)</span></p></td>
+<td><p>X_li</p></td>
+</tr>
+<tr class="row-even"><td><p>Sugar degraders, X_su</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{su}\)</span></p></td>
+<td><p>X_su</p></td>
+</tr>
+<tr class="row-odd"><td><p>Amino acid degraders, X_aa</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{aa}\)</span></p></td>
+<td><p>X_aa</p></td>
+</tr>
+<tr class="row-even"><td><p>Long chain fatty acid (LCFA) degraders, X_fa</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{fa}\)</span></p></td>
+<td><p>X_fa</p></td>
+</tr>
+<tr class="row-odd"><td><p>Valerate and butyrate degraders, X_c4</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{c4}\)</span></p></td>
+<td><p>X_c4</p></td>
+</tr>
+<tr class="row-even"><td><p>Propionate degraders, X_pro</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{pro}\)</span></p></td>
+<td><p>X_pro</p></td>
+</tr>
+<tr class="row-odd"><td><p>Acetate degraders, X_ac</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{ac}\)</span></p></td>
+<td><p>X_ac</p></td>
+</tr>
+<tr class="row-even"><td><p>Hydrogen degraders, X_h2</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{h2}\)</span></p></td>
+<td><p>X_h2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Particulate inerts, X_I</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_I\)</span></p></td>
+<td><p>X_I</p></td>
+</tr>
+<tr class="row-even"><td><p>Total cation equivalents concentration, S_cat</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{cat}\)</span></p></td>
+<td><p>S_cat</p></td>
+</tr>
+<tr class="row-odd"><td><p>Total anion equivalents concentration, S_an</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{an}\)</span></p></td>
+<td><p>S_an</p></td>
+</tr>
+<tr class="row-even"><td><p>Carbon dioxide, S_co2</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{co2}\)</span></p></td>
+<td><p>S_co2</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE:</strong> <span class="math notranslate nohighlight">\(S_{h2}\)</span> <strong>and</strong> <span class="math notranslate nohighlight">\(S_{ch4}\)</span> <strong>have vapor phase and liquid phase,</strong> <span class="math notranslate nohighlight">\(S_{co2}\)</span> <strong>only has vapor phase, and the other components only have liquid phase. The amount of</strong> <span class="math notranslate nohighlight">\(CO_2\)</span> <strong>dissolved in the liquid phase is equivalent to</strong> <span class="math notranslate nohighlight">\(S_{IC} - S_{HCO3^{-}}\)</span> <strong>.</strong></p>
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Parameter Name</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Nitrogen fraction in particulate products</p></td>
+<td><p><span class="math notranslate nohighlight">\(i_{xe}\)</span></p></td>
+<td><p>i_xe</p></td>
+<td><p>0.06</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Nitrogen fraction in biomass</p></td>
+<td><p><span class="math notranslate nohighlight">\(i_{xb}\)</span></p></td>
+<td><p>i_xb</p></td>
+<td><p>0.08</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Anaerobic degradable fraction of <span class="math notranslate nohighlight">\(X_I\)</span> and:math:<cite>X_P</cite></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{xI}\)</span></p></td>
+<td><p>f_xI</p></td>
+<td><p>0.05</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{dimensionless}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="equations-and-relationships">
+<h2>Equations and Relationships<a class="headerlink" href="#equations-and-relationships" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Pressure balance</p></td>
+<td><p><span class="math notranslate nohighlight">\(P_{out} = P_{in}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Temperature balance</p></td>
+<td><p><span class="math notranslate nohighlight">\(T_{out} = T_{in}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Volumetric flow equality</p></td>
+<td><p><span class="math notranslate nohighlight">\(F_{out} = F_{in}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cod-equations">
+<h2>COD Equations<a class="headerlink" href="#cod-equations" title="Permalink to this heading"></a></h2>
+<p>The total incoming COD is reduced in a step-wise manner until the COD demand has been satisfied. The reduction is based on a
+hierarchy of ASM1 state variables such that <span class="math notranslate nohighlight">\(S_s\)</span> is reduced by the COD demand first. If there is insufficient
+<span class="math notranslate nohighlight">\(S_s\)</span> present, then <span class="math notranslate nohighlight">\(S_s\)</span> is reduced to zero and the remaining demand is subtracted from <span class="math notranslate nohighlight">\(X_s\)</span>. If necessary, <span class="math notranslate nohighlight">\(X_{BH}\)</span> and <span class="math notranslate nohighlight">\(X_{BA}\)</span> may also need to be reduced.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>COD demand</p></td>
+<td><p><span class="math notranslate nohighlight">\(COD_{demand} = S_{o} + 2.86S_{NO}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Readily biodegradable substrate remaining (step 1)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{S, inter} = S_{S} - COD_{demand}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Slowly biodegradable substrate remaining (step 2)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{S, inter} = X_{S} - COD_{demand, 2}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Active heterotrophic biomass remaining (step 3)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{BH, inter} = X_{BH} - COD_{demand, 3}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Active autotrophic biomass remaining (step 4)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{BA, inter} = X_{BA} - COD_{demand, 4}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Soluble COD</p></td>
+<td><p><span class="math notranslate nohighlight">\(COD_{s} = S_{I} + S_{S, inter}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Particulate COD</p></td>
+<td><p><span class="math notranslate nohighlight">\(COD_{p} = X_{I} + X_{S, inter} + X_{BH, inter} + X_{BA, inter} + X_{P}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Total COD</p></td>
+<td><p><span class="math notranslate nohighlight">\(COD_{t} = COD_{s} + COD_{p}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tkn-equation">
+<h2>TKN Equation<a class="headerlink" href="#tkn-equation" title="Permalink to this heading"></a></h2>
+<p>The Total incoming Kjeldahl nitrogen is calculated with components updated in the anaerobic environment.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Total Kjeldahl nitrogen</p></td>
+<td><p><span class="math notranslate nohighlight">\(TKN = S_{NH} + S_{ND} + X_{ND} + i_{xb}(X_{BH, inter} + X_{BA, inter}) + i_{xe}(X_{I} + X_{P})\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="s-nd-and-s-s-mapping-equations">
+<h2><span class="math notranslate nohighlight">\(S_{nd}\)</span> and <span class="math notranslate nohighlight">\(S_s\)</span> Mapping Equations<a class="headerlink" href="#s-nd-and-s-s-mapping-equations" title="Permalink to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../../../_images/mapping_step_a.jpg"><img alt="../../../_images/mapping_step_a.jpg" src="../../../_images/mapping_step_a.jpg" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 1. Schematic illustration of <span class="math notranslate nohighlight">\(S_{nd}\)</span> and <span class="math notranslate nohighlight">\(S_s\)</span> mapping (Copp et al. 2006)</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Required soluble COD</p></td>
+<td><p><span class="math notranslate nohighlight">\(ReqCOD_{s} = \frac{S_{ND}}{N_{aa} * 14}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Amino acids mapping (if <span class="math notranslate nohighlight">\(S_{S,inter} &gt; ReqCOD_{s}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{aa} = ReqCOD_{s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Amino acids mapping (if <span class="math notranslate nohighlight">\(S_{S,inter} ≤ ReqCOD_{s}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{aa} = S_{S, inter}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Monosaccharides mapping step A (if <span class="math notranslate nohighlight">\(S_{S,inter} &gt; ReqCOD_{s}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{su, A} = S_{S, inter} - ReqCOD_{s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Monosaccharides mapping step A (if <span class="math notranslate nohighlight">\(S_{S,inter} ≤ ReqCOD_{s}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{su, A} = 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>COD remaining from step A</p></td>
+<td><p><span class="math notranslate nohighlight">\(COD_{remain, A} = COD_{t} - S_{S,inter}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Organic nitrogen pool remaining from step A</p></td>
+<td><p><span class="math notranslate nohighlight">\(OrgN_{remain, A} = TKN - (S_{aa} * N_{aa} * 14) - S_{NH}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="soluble-inert-cod-mapping-equations">
+<h2>Soluble Inert COD Mapping Equations<a class="headerlink" href="#soluble-inert-cod-mapping-equations" title="Permalink to this heading"></a></h2>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../../../_images/mapping_step_b.jpg"><img alt="../../../_images/mapping_step_b.jpg" src="../../../_images/mapping_step_b.jpg" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 2. Schematic illustration of soluble inert COD mapping (Copp et al. 2006)</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Required soluble inert organic nitrogen</p></td>
+<td><p><span class="math notranslate nohighlight">\(OrgN_{s, req} = S_{I} * N_{I} * 14\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Soluble inert mapping step B (if <span class="math notranslate nohighlight">\(OrgN_{remain, A} &gt; OrgN_{s, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{I, ADM1} = S_{I}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Soluble inert mapping step B (if <span class="math notranslate nohighlight">\(OrgN_{remain, A} ≤ OrgN_{s, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{I, ADM1} = \frac{OrgN_{remain, A}}{N_{I} * 14}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Monosaccharides mapping step B (if <span class="math notranslate nohighlight">\(OrgN_{remain, A} &gt; OrgN_{s, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{su} = S_{su, A}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Monosaccharides mapping step B (if <span class="math notranslate nohighlight">\(OrgN_{remain, A} ≤ OrgN_{s, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{su} = S_{su, A} + S_{I} - S_{I, ADM1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>COD remaining from step B</p></td>
+<td><p><span class="math notranslate nohighlight">\(COD_{remain, B} = COD_{remain, A} - S_{I}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Organic nitrogen pool remaining from step B</p></td>
+<td><p><span class="math notranslate nohighlight">\(OrgN_{remain, B} = OrgN_{remain, A} - (S_{I, ADM1} * N_{I} * 14)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="particulate-inert-cod-mapping-equations">
+<h2>Particulate Inert COD Mapping Equations<a class="headerlink" href="#particulate-inert-cod-mapping-equations" title="Permalink to this heading"></a></h2>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../../../_images/mapping_step_c.jpg"><img alt="../../../_images/mapping_step_c.jpg" src="../../../_images/mapping_step_c.jpg" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 3. Schematic illustration of particulate inert COD mapping (Copp et al. 2006)</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Required particulate inert material</p></td>
+<td><p><span class="math notranslate nohighlight">\(OrgN_{x, req} = f_{xi} * (X_{P} + X_{I}) * N_{I} * 14\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Particulate inert mapping step C (if <span class="math notranslate nohighlight">\(OrgN_{remain, B} &gt; OrgN_{x, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{I, ADM1} = f_{xi} * (X_{P} + X_{I})\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Particulate inert mapping step C (if <span class="math notranslate nohighlight">\(OrgN_{remain, B} ≤ OrgN_{x, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{I, ADM1} = \frac{OrgN_{remain, B}}{N_{I} * 14}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>COD remaining from step C</p></td>
+<td><p><span class="math notranslate nohighlight">\(COD_{remain, C} = COD_{remain, B} - X_{I, ADM1}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Organic nitrogen pool remaining from step C</p></td>
+<td><p><span class="math notranslate nohighlight">\(OrgN_{remain, C} = OrgN_{remain, B} - (X_{I_ADM1} * N_{I} * 14)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="final-cod-and-tkn-mapping-equations">
+<h2>Final COD and TKN Mapping Equations<a class="headerlink" href="#final-cod-and-tkn-mapping-equations" title="Permalink to this heading"></a></h2>
+<figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="../../../_images/mapping_step_final.jpg"><img alt="../../../_images/mapping_step_final.jpg" src="../../../_images/mapping_step_final.jpg" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 4. Schematic illustration of final COD and TKN mapping (Copp et al. 2006)</span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Required soluble COD</p></td>
+<td><p><span class="math notranslate nohighlight">\(COD_{Xc, req} = \frac{OrgN_{remain, C}}{N_{xc} * 14}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Composites mapping (if <span class="math notranslate nohighlight">\(COD_{remain, C} &gt; COD_{Xc, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{C} = COD_{Xc, req}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Composites mapping (if <span class="math notranslate nohighlight">\(COD_{remain, C} ≤ COD_{Xc, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{C} = COD_{remain, C}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Carbohydrates mapping (if <span class="math notranslate nohighlight">\(COD_{remain, C} &gt; COD_{Xc, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{ch} = \frac{f_{ch, xc} (COD_{remain, C} - X_{C})}{f_{ch, xc} - f_{li, xc}}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Carbohydrates mapping (if <span class="math notranslate nohighlight">\(COD_{remain, C} ≤ COD_{Xc, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{ch} = 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Lipids mapping (if <span class="math notranslate nohighlight">\(COD_{remain, C} &gt; COD_{Xc, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{li} = \frac{f_{li, xc} (COD_{remain, C} - X_{C})}{f_{ch, xc} - f_{li, xc}}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Lipdis mapping (if <span class="math notranslate nohighlight">\(COD_{remain, C} ≤ COD_{Xc, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(X_{li} = 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Inorganic nitrogen mapping (if <span class="math notranslate nohighlight">\(COD_{remain, C} &gt; COD_{Xc, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{IN} = S_{NH, in}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Inorganic nitrogen mapping (if <span class="math notranslate nohighlight">\(COD_{remain, C} ≤ COD_{Xc, req}\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{IN} = S_{NH, in} + (OrgN_{remain, C} - X_{C} * N_{xc} * 14)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Anions balance</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{an} = \frac{S_{IN}}{14}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Cations balance</p></td>
+<td><p><span class="math notranslate nohighlight">\(S_{cat} = \frac{S_{IC}}{12}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.unit_models.translators.translator_asm1_adm1.</span></span><span class="sig-name descname"><span class="pre">TranslatorDataASM1ADM1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/watertap/unit_models/translators/translator_asm1_adm1.html#TranslatorDataASM1ADM1"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Translator block representing the ASM1/ADM1 interface</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/watertap/unit_models/translators/translator_asm1_adm1.html#TranslatorDataASM1ADM1.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Begin building model.
+:param None:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">initialize_build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_args_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_args_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outlvl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optarg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/watertap/unit_models/translators/translator_asm1_adm1.html#TranslatorDataASM1ADM1.initialize_build"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This method calls the initialization method of the state blocks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_args_in</strong> – a dict of arguments to be passed to the inlet
+property package (to provide an initial state for
+initialization (see documentation of the specific
+property package) (default = None).</p></li>
+<li><p><strong>state_args_out</strong> – a dict of arguments to be passed to the outlet
+property package (to provide an initial state for
+initialization (see documentation of the specific
+property package) (default = None).</p></li>
+<li><p><strong>outlvl</strong> – sets output level of initialization routine</p></li>
+<li><p><strong>optarg</strong> – solver options dictionary object (default=None, use
+default solver options)</p></li>
+<li><p><strong>solver</strong> – str indicating which solver to use during
+initialization (default = None, use default solver)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>[1] Copp J. and Jeppsson, U., Rosen, C., 2006.
+Towards an ASM1 - ADM1 State Variable Interface for Plant-Wide Wastewater Treatment Modeling.
+Proceedings of the Water Environment Federation, 2003, pp 498-510.
+<a class="reference external" href="https://www.accesswater.org/publications/proceedings/-290550/towards-an-asm1---adm1-state-variable-interface-for-plant-wide-wastewater-treatment-modeling">https://www.accesswater.org/publications/proceedings/-290550/towards-an-asm1—adm1-state-variable-interface-for-plant-wide-wastewater-treatment-modeling</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="translator_adm1_asm2d.html" class="btn btn-neutral float-left" title="ADM1 to ASM2d Translator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="translator_asm2d_adm1.html" class="btn btn-neutral float-right" title="ASM2d to ADM1 Translator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

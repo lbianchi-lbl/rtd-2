@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.costing.unit_models.heater_chiller &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.costing.unit_models.heater_chiller</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.costing.unit_models.heater_chiller</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.exceptions</span> <span class="kn">import</span> <span class="n">ConfigurationError</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.misc</span> <span class="kn">import</span> <span class="n">StrEnum</span>
+<span class="kn">from</span> <span class="nn">..util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">register_costing_parameter_block</span><span class="p">,</span>
+    <span class="n">make_capital_cost_var</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="HCType"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.heater_chiller.HCType">[docs]</a><span class="k">class</span> <span class="nc">HCType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+    <span class="n">chiller</span> <span class="o">=</span> <span class="s2">&quot;chiller&quot;</span>
+    <span class="n">electric_heater</span> <span class="o">=</span> <span class="s2">&quot;electric_heater&quot;</span></div>
+
+
+<span class="k">def</span> <span class="nf">build_electric_heater_cost_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">66</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Heater unit cost&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">watt</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">HE</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;electric heater heat generation efficiency&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="cost_heater_chiller"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.heater_chiller.cost_heater_chiller">[docs]</a><span class="k">def</span> <span class="nf">cost_heater_chiller</span><span class="p">(</span>
+    <span class="n">blk</span><span class="p">,</span> <span class="n">HC_type</span><span class="o">=</span><span class="n">HCType</span><span class="o">.</span><span class="n">electric_heater</span><span class="p">,</span> <span class="n">cost_electricity_flow</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    electric heater costing method</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        HC_type: HCType Enum indicating heating or cooling type,</span>
+<span class="sd">            default = HCType.electric_heater</span>
+
+<span class="sd">        cost_electricity_flow: bool, if True, the heater&#39;s heat duty will be</span>
+<span class="sd">            converted to kW and costed as an electricity, default = True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">HC_type</span> <span class="o">==</span> <span class="n">HCType</span><span class="o">.</span><span class="n">electric_heater</span><span class="p">:</span>
+        <span class="n">cost_electric_heater</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">cost_electricity_flow</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">HC_type</span> <span class="o">==</span> <span class="n">HCType</span><span class="o">.</span><span class="n">chiller</span><span class="p">:</span>
+        <span class="n">cost_chiller</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">cost_electricity_flow</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> received invalid argument for heater_type:&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">HC_type</span><span class="si">}</span><span class="s2">. Argument must be a member of the HeaterType Enum.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cost_electric_heater"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.heater_chiller.cost_electric_heater">[docs]</a><span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_electric_heater_cost_param_block</span><span class="p">,</span>
+    <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;electric_heater&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">cost_electric_heater</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">cost_electricity_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    electric heater costing method</span>
+
+<span class="sd">    `TODO: describe equations`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cost_electricity_flow (bool): if True, the heater&#39;s heat duty will</span>
+<span class="sd">            be converted to kW and costed as an electricity. Defaults to True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">make_capital_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_cost_factor</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="s2">&quot;TIC&quot;</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span>
+        <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span>
+        <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electric_heater</span><span class="o">.</span><span class="n">cost</span>
+            <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">heat_duty</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electric_heater</span><span class="o">.</span><span class="n">HE</span><span class="p">,</span>
+                <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">W</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">cost_electricity_flow</span><span class="p">:</span>
+        <span class="c1"># grab lower bound of heat duty</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">heat_duty</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span><span class="o">.</span><span class="n">lb</span>
+        <span class="c1"># set lower bound to 0 to avoid negative defined flow warning when lb is not &gt;= 0</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">heat_duty</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">cost_flow</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">heat_duty</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">electric_heater</span><span class="o">.</span><span class="n">HE</span><span class="p">,</span>
+                <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kW</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;electricity&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># set lower bound back to its original value that was assigned to lb</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">heat_duty</span><span class="o">.</span><span class="n">setlb</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">build_chiller_cost_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">200</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;chiller unit cost&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">watt</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">COP</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Chiller coefficient of performance&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="cost_chiller"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.heater_chiller.cost_chiller">[docs]</a><span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_chiller_cost_param_block</span><span class="p">,</span>
+    <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;chiller&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">cost_chiller</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">cost_electricity_flow</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    chiller costing method</span>
+
+<span class="sd">    TODO: describe equations</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cost_electricity_flow (bool): if True, the chiller&#39;s heat_duty will</span>
+<span class="sd">            be converted to kW and costed as an electricity. Defaults to True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">effective_heat_duty</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">watt</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Effective chiller heat duty (positive value) &quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">effective_heat_duty_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">effective_heat_duty</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">heat_duty</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">make_capital_cost_var</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_cost_factor</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="s2">&quot;TIC&quot;</span><span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span>
+        <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span>
+        <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">chiller</span><span class="o">.</span><span class="n">cost</span>
+            <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">effective_heat_duty</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">chiller</span><span class="o">.</span><span class="n">COP</span><span class="p">,</span>
+                <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">W</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">cost_electricity_flow</span><span class="p">:</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">cost_flow</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                <span class="n">blk</span><span class="o">.</span><span class="n">effective_heat_duty</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">chiller</span><span class="o">.</span><span class="n">COP</span><span class="p">,</span>
+                <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kW</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;electricity&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

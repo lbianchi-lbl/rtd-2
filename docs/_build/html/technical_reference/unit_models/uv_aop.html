@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ultraviolet Advanced Oxidation Process &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Zero-Order Unit Models" href="zero_order_unit_models/index.html" />
+    <link rel="prev" title="ASM2d to ADM1 Translator" href="translators/translator_asm2d_adm1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Unit Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="anaerobic_digester.html">Anaerobic Digester</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aeration_tank.html">Aeration Tank</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boron_removal.html">Boron Removal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clarifier.html">Clarifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coag_floc_model.html">Coagulation-Flocculation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="crystallizer_0D.html">Crystallization (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr.html">Continuously Stirred Tank Reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cstr_injection.html">Continuously Stirred Tank Reactor with Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dewatering.html">Dewatering Unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_0D.html">Electrodialysis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrodialysis_1D.html">Electrodialysis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electrolyzer.html">Electrolyzer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="electroNP_ZO.html">ElectroNP (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="energy_recovery_device.html">Energy Recovery Device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gac.html">Granular Activated Carbon (GAC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_desalter.html">Generic desalter unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic_separator.html">Generic separator unit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ion_exchange_0D.html">Ion Exchange (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="membrane_distillation_0D.html">Membrane Distillation (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mvc.html">Mechanical Vapor Compression (MVC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_ZO.html">Nanofiltration (ZO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nanofiltration_dspmde_0D.html">Nanofiltration- Donnan Steric Pore Model with Dielectric Exclusion (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_0D.html">Osmotically Assisted Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="osmotically_assisted_reverse_osmosis_1D.html">Osmotically Assisted Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pressure_exchanger.html">Pressure Exchanger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pump.html">Pump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_0D.html">Reverse Osmosis (0D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reverse_osmosis_1D.html">Reverse Osmosis (1D)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stoichiometric_reactor.html">Stoichiometric reactor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thickener.html">Thickener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="translators/index.html">Translators</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Ultraviolet Advanced Oxidation Process</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ports">Ports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#degrees-of-freedom-and-variables">Degrees of Freedom and Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#equations-and-relationships">Equations and Relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#costing-method">Costing Method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class-documentation">Class Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="zero_order_unit_models/index.html">Zero-Order Unit Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Unit Models</a></li>
+      <li class="breadcrumb-item active">Ultraviolet Advanced Oxidation Process</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/unit_models/uv_aop.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="ultraviolet-advanced-oxidation-process">
+<h1>Ultraviolet Advanced Oxidation Process<a class="headerlink" href="#ultraviolet-advanced-oxidation-process" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<span id="index-0"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>Ultraviolet (UV) light is widely used in the water industry to inactivate microorganisms by damaging their nucleic acid, which prevents the pathogen from replicating and causing infection (Wright et al, 2006). Some contaminants resistant to biodegradation, such as N-Nitrosodimethylamine (NDMA), are susceptible to UV disinfection. The high oxidizing capability of UV is often used prior to chemical disinfection to ensure high microbial quality water as well as significantly reducing the chemical dosage required.</p>
+<p>Advanced oxidation processes (AOPs) are technologies involving the generation of highly reactive oxidative species, predominantly hydroxyl radicals (<span class="math notranslate nohighlight">\(\text{HO} \cdot\)</span>). Unlike conventional chemical oxidation processes, such as using chlorine, which are selective as to which compounds they can degrade, AOPs are able to completely convert organic compounds into carbon dioxide, water and mineral acids. In addition, AOPs are feasible for full-scale use to destroy organic compounds because they generate hydroxyl radicals at ambient temperature and atmospheric pressure. Typically, the commercially available UV AOPs for industrial water treatment are:</p>
+<ol class="arabic simple">
+<li><p>UV light and hydrogen peroxide (<span class="math notranslate nohighlight">\(\text{H}_2\text{O}_2\)</span>)</p></li>
+<li><p>UV light and ozone (<span class="math notranslate nohighlight">\(\text{O}_3\)</span>)</p></li>
+<li><p>UV light, hydrogen peroxide (<span class="math notranslate nohighlight">\(\text{H}_2\text{O}_2\)</span>) and ozone (<span class="math notranslate nohighlight">\(\text{O}_3\)</span>)</p></li>
+</ol>
+<p>UV AOPs can be  modeled at several different levels, depending on the known kinetic pathways and the modeling objectives. In this work, a basic level kinetic model is presented with an assumption on pseudo-steady state approximation for the kinetic description of free radical species. A pseudo-first order rate constant is utilized to represent the overall degradation rate of contaminants. The users need to provide either UV dose and disinfection rate, or rate constant and exposure time that are can be acquired during UV validation tests. These measurements are then used to simulate the removal of contaminants during the UV AOP process.</p>
+<p>This model also accounts for the energy demand for the disinfection process. The users need to provide Electrical Efficiency per Log Order Reduction (EE/O) to evaluate energy costs.</p>
+</section>
+<section id="ports">
+<h2>Ports<a class="headerlink" href="#ports" title="Permalink to this heading"></a></h2>
+<p>The model provides two ports (Pyomo notation in parentheses):</p>
+<ul class="simple">
+<li><p>Inlet port (inlet)</p></li>
+<li><p>Outlet port (outlet)</p></li>
+</ul>
+</section>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Indices</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Time</p></td>
+<td><p><span class="math notranslate nohighlight">\(t\)</span></p></td>
+<td><p>[0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phases</p></td>
+<td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
+<td><p>[‘Liq’]</p></td>
+</tr>
+<tr class="row-even"><td><p>Components</p></td>
+<td><p><span class="math notranslate nohighlight">\(j\)</span></p></td>
+<td><p>[‘H2O’, ‘NDMA’, …]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="degrees-of-freedom-and-variables">
+<h2>Degrees of Freedom and Variables<a class="headerlink" href="#degrees-of-freedom-and-variables" title="Permalink to this heading"></a></h2>
+<p>The UV system includes the state variables from the associated property package, and an outline of these variables are listed below:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable Name</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Inlet temperature</p></td>
+<td><p><span class="math notranslate nohighlight">\(T\)</span></p></td>
+<td><p>temperature</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{K}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Inlet pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(P_{in}\)</span></p></td>
+<td><p>pressure</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Outlet pressure</p></td>
+<td><p><span class="math notranslate nohighlight">\(P_{out}\)</span></p></td>
+<td><p>pressure</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{Pa}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mass flowrate of components</p></td>
+<td><p><span class="math notranslate nohighlight">\(M_{p, j}\)</span></p></td>
+<td><p>flow_mass_phase_comp</p></td>
+<td><p>[t, p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{kg/s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Inlet volumetric flowrate</p></td>
+<td><p><span class="math notranslate nohighlight">\(F_{in}\)</span></p></td>
+<td><p>flow_vol</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^3\text{/s}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE: Variables for ‘temperature’, ‘pressure’, ‘flow_mass_phase_comp’, and ‘flow_vol’ come from the associated property package as state variables and are accessed via {port_name}.{state_var_name}</strong></p>
+<p>Aside from the inlet feed state variables (i.e., temperature, pressure, component mass flowrates),
+the UV model has at least an additional 5 degrees of freedom that
+the user must specify when the <code class="docutils literal notranslate"><span class="pre">uv_dose_type</span></code> configuration option is set to default <code class="docutils literal notranslate"><span class="pre">UVDoseType.fixed</span></code>
+and the <code class="docutils literal notranslate"><span class="pre">has_aop</span></code> configuration is set to default <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+The table below gives an outline of these.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable Name</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Inactivation rate coefficient</p></td>
+<td><p><span class="math notranslate nohighlight">\(k\)</span></p></td>
+<td><p>inactivation_rate</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{m}^2\text{/J}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Overall pseudo-first order rate constant</p></td>
+<td><p><span class="math notranslate nohighlight">\(k_0\)</span></p></td>
+<td><p>rate_constant</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{s}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Pseudo-first order rate constant for direct photolysis of component</p></td>
+<td><p><span class="math notranslate nohighlight">\(k_d\)</span></p></td>
+<td><p>photolysis_rate_constant</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{s}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Pseudo-first order rate constant for indirect photolysis of component</p></td>
+<td><p><span class="math notranslate nohighlight">\(k_i\)</span></p></td>
+<td><p>reaction_rate_constant</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{s}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>UV dose</p></td>
+<td><p><span class="math notranslate nohighlight">\(D\)</span></p></td>
+<td><p>uv_dose</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{J/}\text{m}^2\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Average intensity of UV light</p></td>
+<td><p><span class="math notranslate nohighlight">\(I\)</span></p></td>
+<td><p>uv_intensity</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{J/}\text{m}^2\text{/s}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Exposure time of UV light</p></td>
+<td><p><span class="math notranslate nohighlight">\(t\)</span></p></td>
+<td><p>exposure_time</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{s}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Electricity demand of components with phase</p></td>
+<td><p><span class="math notranslate nohighlight">\(E_{p, j}\)</span></p></td>
+<td><p>electricity_demand_phase_comp</p></td>
+<td><p>[t, p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{W}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Electricity demand of components</p></td>
+<td><p><span class="math notranslate nohighlight">\(E_j\)</span></p></td>
+<td><p>electricity_demand_comp</p></td>
+<td><p>[t, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{W}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Electricity demand</p></td>
+<td><p><span class="math notranslate nohighlight">\(E\)</span></p></td>
+<td><p>electricity_demand</p></td>
+<td><p>[t]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{W}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Electricity efficiency per log order reduction (EE/O)</p></td>
+<td><p><span class="math notranslate nohighlight">\(EE/O_{p, j}\)</span></p></td>
+<td><p>electrical_efficiency_phase_comp</p></td>
+<td><p>[t, p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{J/}\text{m}^3\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Lamp efficiency</p></td>
+<td><p><span class="math notranslate nohighlight">\(\eta\)</span></p></td>
+<td><p>lamp_efficiency</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="simple">
+<dt><strong>Users must provide values for and ‘fix’ certain variables to solve the model with DOF=0. Thus, users should fix</strong></dt><dd><ul class="simple">
+<li><p>either ‘inactivation_rate’ or ‘rate_constant’,</p></li>
+<li><p>two variables out of ‘uv_dose’, ‘uv_intensity’ and ‘exposure_time’,</p></li>
+<li><p>either ‘electricity_demand_phase_comp’ or ‘electrical_efficiency’,</p></li>
+<li><p>and ‘lamp_efficiency’.</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>However, users may later unfix certain variables for optimization purposes.</strong></p>
+<p><strong>NOTE: ‘reaction_rate_constant’ is fixed to 0 when ‘has_aop’ configuration is set to default ‘False’</strong></p>
+<p>When setting the <code class="docutils literal notranslate"><span class="pre">uv_dose_type</span></code> configuration option to <code class="docutils literal notranslate"><span class="pre">UVDoseType.calculated</span></code>, there are 7 additional variables that must be fixed.
+This leads to a total of 12 degrees of freedom. Additional variables that must be fixed include:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable Name</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>UV transmittance</p></td>
+<td><p><span class="math notranslate nohighlight">\(UVT\)</span></p></td>
+<td><p>UVT</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p>Coefficient A</p></td>
+<td><p><span class="math notranslate nohighlight">\(A\)</span></p></td>
+<td><p>A_coeff</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p>Coefficient B</p></td>
+<td><p><span class="math notranslate nohighlight">\(B\)</span></p></td>
+<td><p>B_coeff</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p>Coefficient C</p></td>
+<td><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td><p>C_coeff</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p>Coefficient D</p></td>
+<td><p><span class="math notranslate nohighlight">\(D\)</span></p></td>
+<td><p>D_coeff</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p>Relative lamp output</p></td>
+<td><p><span class="math notranslate nohighlight">\(\frac{S}{S_0}\)</span></p></td>
+<td><p>relative_lamp_output</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p>Number of banks</p></td>
+<td><p><span class="math notranslate nohighlight">\(N_{bank}\)</span></p></td>
+<td><p>num_of_banks</p></td>
+<td><p>None</p></td>
+<td><p>None</p></td>
+</tr>
+</tbody>
+</table>
+<p>When setting the <code class="docutils literal notranslate"><span class="pre">has_aop</span></code> configuration option to <code class="docutils literal notranslate"><span class="pre">True</span></code>, there are 2 additional variable that must be fixed.
+This leads to a total of 6 degrees of freedom. Additional variables that must be fixed include:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable Name</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Second-order reaction rate constant</p></td>
+<td><p><span class="math notranslate nohighlight">\(k_{OH}\)</span></p></td>
+<td><p>second_order_reaction_rate_constant</p></td>
+<td><p>[p, j]</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{M}^{-1} \text{s}^{-1}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Steady-state concentration of hydrogen peroxide</p></td>
+<td><p><span class="math notranslate nohighlight">\(c_{\text{H}_2\text{O}_2}\)</span></p></td>
+<td><p>hydrogen_peroxide_conc</p></td>
+<td><p>None</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{M}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="simple">
+<dt><strong>Users must provide values for and ‘fix’ certain variables to solve the model with DOF=0. Thus, users should fix</strong></dt><dd><ul class="simple">
+<li><p>either ‘photolysis_rate_constant’ or ‘reaction_rate_constant’,</p></li>
+<li><p>either ‘second_order_reaction_rate_constant’ or ‘hydrogen_peroxide_conc’.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="equations-and-relationships">
+<h2>Equations and Relationships<a class="headerlink" href="#equations-and-relationships" title="Permalink to this heading"></a></h2>
+<p>if <code class="docutils literal notranslate"><span class="pre">uv_dose_type</span></code> and <code class="docutils literal notranslate"><span class="pre">has_aop</span></code> are set to default:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>UV dose</p></td>
+<td><p><span class="math notranslate nohighlight">\(D = I \cdot t\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Pseudo-first order rate constant</p></td>
+<td><p><span class="math notranslate nohighlight">\(k_0 = I \cdot k\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Pseudo-first order rate constant</p></td>
+<td><p><span class="math notranslate nohighlight">\(k_0 = k_d + k_i\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Solvent mass balance</p></td>
+<td><p><span class="math notranslate nohighlight">\(M_{\text{H2O},out} = M_{\text{H2O},in}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Solute mass balance</p></td>
+<td><p><span class="math notranslate nohighlight">\(M_{p, j, out} = M_{p, j, in} \cdot \exp(D \cdot k)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Electricity demand of each component with phase</p></td>
+<td><p><span class="math notranslate nohighlight">\(E_{p, j} = EE/O_{p, j} \cdot F_{in} \cdot \log_{10}(M_{p, j, in} / M_{p, j, out}) / \eta\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Electricity demand of each component</p></td>
+<td><p><span class="math notranslate nohighlight">\(E_j = \max_p E_{p, j}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Electricity demand</p></td>
+<td><p><span class="math notranslate nohighlight">\(E = \max_j E_j\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE: ‘reaction_rate_constant’ is fixed to 0</strong></p>
+<p>if <code class="docutils literal notranslate"><span class="pre">uv_dose_type</span></code> is set to <code class="docutils literal notranslate"><span class="pre">UVDoseType.calculated</span></code>, there is one additional equation:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>UV dose</p></td>
+<td><p><span class="math notranslate nohighlight">\(D = 10^A \cdot (-\log_{10}(UVT))^{(-B \cdot \log_{10}(UVT))} \cdot (\frac{S}{S_0} / F_{in})^C \cdot N_{bank}^D\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>if <code class="docutils literal notranslate"><span class="pre">has_aop</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, there are one additional equation:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Reaction rate constant</p></td>
+<td><p><span class="math notranslate nohighlight">\(k_i = k_{OH} \cdot c_{\text{H}_2\text{O}_2}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="costing-method">
+<h2>Costing Method<a class="headerlink" href="#costing-method" title="Permalink to this heading"></a></h2>
+<section id="costing-method-variables">
+<h3>Costing Method Variables<a class="headerlink" href="#costing-method-variables" title="Permalink to this heading"></a></h3>
+<p>The following variables are constructed when applying the UV-AOP costing method in the <code class="docutils literal notranslate"><span class="pre">watertap_costing_package</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Variable Name</p></th>
+<th class="head"><p>Units</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>UV reactor cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{cap,r}\)</span></p></td>
+<td><p>reactor_cost</p></td>
+<td><p><span class="math notranslate nohighlight">\($/(\text{m}^3\text{/h})\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>UV lamps, sleeves, ballasts and sensors cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{cap,l}\)</span></p></td>
+<td><p>lamp_cost</p></td>
+<td><p><span class="math notranslate nohighlight">\($/\text{kW}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Fraction of UV replaced per year</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_l\)</span></p></td>
+<td><p>factor_lamp_replacement</p></td>
+<td><p><span class="math notranslate nohighlight">\(\text{y}^{-1}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="capital-cost-calculations">
+<h3>Capital Cost Calculations<a class="headerlink" href="#capital-cost-calculations" title="Permalink to this heading"></a></h3>
+<p>Capital costs are determined by the summation of reactor and lamp costing terms.
+The reactor costing term is determined based on inlet flow rate.
+The lamp costing term is determined based on electricity demand.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Total capital cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{cap,tot} = C_{cap,r} \cdot F_{in} + C_{cap,l} \cdot E\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE: the default costing calculation is evaluated based on a UV system with low-pressure lamps.
+Users can provide corresponding costing variables for a specific UV system with other lamp types</strong></p>
+</section>
+<section id="operating-cost-calculations">
+<h3>Operating Cost Calculations<a class="headerlink" href="#operating-cost-calculations" title="Permalink to this heading"></a></h3>
+<p>Operating costs are calculated as the cost to replace lamps, sleeves, ballasts and sensors in a UV system.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Fixed operating cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{op} = f_l \cdot C_{cap,l} \cdot E\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../apidoc/watertap.unit_models.html#module-watertap.unit_models.uv_aop" title="watertap.unit_models.uv_aop"><code class="xref py py-mod docutils literal notranslate"><span class="pre">watertap.unit_models.uv_aop</span></code></a></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">watertap.costing.watertap_costing_package.WaterTAPCostingData.cost_uv_aop()</span></code></p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<p>Wright, H., Gaithuma, D., Greene, D., Aieta, M. (2006) Integration of validation, design, and operation provides optimal implementation of UV disinfection.
+American Water Works Association, 98, 81-92</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="translators/translator_asm2d_adm1.html" class="btn btn-neutral float-left" title="ASM2d to ADM1 Translator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="zero_order_unit_models/index.html" class="btn btn-neutral float-right" title="Zero-Order Unit Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

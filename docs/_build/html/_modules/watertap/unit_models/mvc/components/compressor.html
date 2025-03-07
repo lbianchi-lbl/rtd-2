@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.unit_models.mvc.components.compressor &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.unit_models.mvc.components.compressor</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.unit_models.mvc.components.compressor</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="c1"># Import Pyomo libraries</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Var</span><span class="p">,</span>
+    <span class="n">Suffix</span><span class="p">,</span>
+    <span class="n">check_optimal_termination</span><span class="p">,</span>
+    <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">ConfigBlock</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">,</span> <span class="n">In</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+
+<span class="c1"># Import IDAES cores</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ControlVolume0DBlock</span><span class="p">,</span>
+    <span class="n">declare_process_block_class</span><span class="p">,</span>
+    <span class="n">MaterialBalanceType</span><span class="p">,</span>
+    <span class="n">EnergyBalanceType</span><span class="p">,</span>
+    <span class="n">MomentumBalanceType</span><span class="p">,</span>
+    <span class="n">UnitModelBlockData</span><span class="p">,</span>
+    <span class="n">useDefault</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">watertap.core.solvers</span> <span class="kn">import</span> <span class="n">get_solver</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.config</span> <span class="kn">import</span> <span class="n">is_physical_parameter_block</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.exceptions</span> <span class="kn">import</span> <span class="n">InitializationError</span>
+<span class="kn">import</span> <span class="nn">idaes.core.util.scaling</span> <span class="k">as</span> <span class="nn">iscale</span>
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+
+<span class="kn">from</span> <span class="nn">watertap.core</span> <span class="kn">import</span> <span class="n">InitializationMixin</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.unit_models.compressor</span> <span class="kn">import</span> <span class="n">cost_compressor</span>
+
+
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CompressorData"><a class="viewcode-back" href="../../../../../apidoc/watertap.unit_models.mvc.components.html#watertap.unit_models.mvc.components.compressor.CompressorData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;Compressor&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">CompressorData</span><span class="p">(</span><span class="n">InitializationMixin</span><span class="p">,</span> <span class="n">UnitModelBlockData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compressor model for MVC</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># CONFIG are options for the unit model, this simple model only has the mandatory config options</span>
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigBlock</span><span class="p">()</span>
+
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;dynamic&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">([</span><span class="kc">False</span><span class="p">]),</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dynamic model flag - must be False&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates whether this model will be dynamic or not,</span>
+<span class="s2">    **default** = False. The filtration unit does not support dynamic</span>
+<span class="s2">    behavior, thus this must be False.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;has_holdup&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">([</span><span class="kc">False</span><span class="p">]),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Holdup construction flag - must be False&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates whether holdup terms should be constructed or not.</span>
+<span class="s2">    **default** - False. The filtration unit does not have defined volume, thus</span>
+<span class="s2">    this must be False.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;property_package&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">useDefault</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">is_physical_parameter_block</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Property package to use for control volume&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Property parameter object used to define property calculations,</span>
+<span class="s2">    **default** - useDefault.</span>
+<span class="s2">    **Valid values:** {</span>
+<span class="s2">    **useDefault** - use default package from parent model or flowsheet,</span>
+<span class="s2">    **PhysicalParameterObject** - a PhysicalParameterBlock object.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;property_package_args&quot;</span><span class="p">,</span>
+        <span class="n">ConfigBlock</span><span class="p">(</span>
+            <span class="n">implicit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Arguments to use for constructing property packages&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;A ConfigBlock with arguments to be passed to a property block(s)</span>
+<span class="s2">    and used when constructing these,</span>
+<span class="s2">    **default** - None.</span>
+<span class="s2">    **Valid values:** {</span>
+<span class="s2">    see property package for documentation.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;material_balance_type&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>  <span class="c1"># TODO: update default material balance type</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">MaterialBalanceType</span><span class="o">.</span><span class="n">useDefault</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">MaterialBalanceType</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Material balance construction flag&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates what type of mass balance should be constructed,</span>
+<span class="s2">        **default** - MaterialBalanceType.useDefault.</span>
+<span class="s2">        **Valid values:** {</span>
+<span class="s2">        **MaterialBalanceType.useDefault - refer to property package for default</span>
+<span class="s2">        balance type</span>
+<span class="s2">        **MaterialBalanceType.none** - exclude material balances,</span>
+<span class="s2">        **MaterialBalanceType.componentPhase** - use phase component balances,</span>
+<span class="s2">        **MaterialBalanceType.componentTotal** - use total component balances,</span>
+<span class="s2">        **MaterialBalanceType.elementTotal** - use total element balances,</span>
+<span class="s2">        **MaterialBalanceType.total** - use total material balance.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;energy_balance_type&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">EnergyBalanceType</span><span class="o">.</span><span class="n">useDefault</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">EnergyBalanceType</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Energy balance construction flag&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates what type of energy balance should be constructed,</span>
+<span class="s2">        **default** - EnergyBalanceType.useDefault.</span>
+<span class="s2">        **Valid values:** {</span>
+<span class="s2">        **EnergyBalanceType.useDefault - refer to property package for default</span>
+<span class="s2">        balance type</span>
+<span class="s2">        **EnergyBalanceType.none** - exclude energy balances,</span>
+<span class="s2">        **EnergyBalanceType.enthalpyTotal** - single enthalpy balance for material,</span>
+<span class="s2">        **EnergyBalanceType.enthalpyPhase** - enthalpy balances for each phase,</span>
+<span class="s2">        **EnergyBalanceType.energyTotal** - single energy balance for material,</span>
+<span class="s2">        **EnergyBalanceType.energyPhase** - energy balances for each phase.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;momentum_balance_type&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">MomentumBalanceType</span><span class="o">.</span><span class="n">pressureTotal</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">MomentumBalanceType</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Momentum balance construction flag&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates what type of momentum balance should be constructed,</span>
+<span class="s2">        **default** - MomentumBalanceType.pressureTotal.</span>
+<span class="s2">        **Valid values:** {</span>
+<span class="s2">        **MomentumBalanceType.none** - exclude momentum balances,</span>
+<span class="s2">        **MomentumBalanceType.pressureTotal** - single pressure balance for material,</span>
+<span class="s2">        **MomentumBalanceType.pressurePhase** - pressure balances for each phase,</span>
+<span class="s2">        **MomentumBalanceType.momentumTotal** - single momentum balance for material,</span>
+<span class="s2">        **MomentumBalanceType.momentumPhase** - momentum balances for each phase.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="CompressorData.build"><a class="viewcode-back" href="../../../../../apidoc/watertap.unit_models.mvc.components.html#watertap.unit_models.mvc.components.compressor.CompressorData.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+        <span class="c1"># this creates blank scaling factors, which are populated later</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_factor</span> <span class="o">=</span> <span class="n">Suffix</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Suffix</span><span class="o">.</span><span class="n">EXPORT</span><span class="p">)</span>
+
+        <span class="c1"># Next, get the base units of measurement from the property definition</span>
+        <span class="n">units_meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span><span class="o">.</span><span class="n">get_derived_units</span>
+
+        <span class="c1"># Add unit variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pressure_ratio</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Build control volume</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span> <span class="o">=</span> <span class="n">ControlVolume0DBlock</span><span class="p">(</span>
+            <span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">has_holdup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">property_package</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="p">,</span>
+            <span class="n">property_package_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package_args</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">add_state_blocks</span><span class="p">(</span><span class="n">has_phase_equilibrium</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">add_material_balances</span><span class="p">(</span>
+            <span class="n">balance_type</span><span class="o">=</span><span class="n">MaterialBalanceType</span><span class="o">.</span><span class="n">componentPhase</span><span class="p">,</span> <span class="n">has_mass_transfer</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">add_energy_balances</span><span class="p">(</span>
+            <span class="n">balance_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">energy_balance_type</span><span class="p">,</span> <span class="n">has_work_transfer</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">add_momentum_balances</span><span class="p">(</span>
+            <span class="n">balance_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">momentum_balance_type</span><span class="p">,</span> <span class="n">has_pressure_change</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add isentropic outlet block</span>
+        <span class="n">tmp_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package_args</span><span class="p">)</span>
+        <span class="n">tmp_dict</span><span class="p">[</span><span class="s2">&quot;has_phase_equilibrium&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">tmp_dict</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span>
+        <span class="n">tmp_dict</span><span class="p">[</span><span class="s2">&quot;defined_state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># isentropic outlet is not an inlet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties_isentropic_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">state_block_class</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Material properties of isentropic outlet&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">tmp_dict</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add ports - oftentimes users interact with these rather than the state blocks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;inlet&quot;</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_port</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;outlet&quot;</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">phase_list</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Mass balance for inlet/isentropic outlet&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_mass_balance_isentropic</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">]</span>
+                <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_isentropic_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Pressure ratio&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_pressure_ratio</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">pressure_ratio</span>
+                <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Isentropic pressure&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_isentropic_pressure</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">properties_isentropic_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span>
+                <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Isentropic temperature&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_isentropic_temperature</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="mf">1.3</span>  <span class="c1"># change to specific heat ratio</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_isentropic_out</span><span class="p">[</span>
+                <span class="mi">0</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">temperature</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span>
+                <span class="mi">0</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">temperature</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">pressure_ratio</span> <span class="o">**</span> <span class="p">(</span>
+                <span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">gamma</span>
+            <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Energy balance/efficiency definition&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_efficiency</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">efficiency</span>
+                <span class="o">*</span> <span class="p">(</span>
+                    <span class="n">b</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">enth_mass_phase</span><span class="p">[</span><span class="s2">&quot;Vap&quot;</span><span class="p">]</span>
+                    <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">enth_mass_phase</span><span class="p">[</span><span class="s2">&quot;Vap&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_isentropic_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">enth_mass_phase</span><span class="p">[</span><span class="s2">&quot;Vap&quot;</span><span class="p">]</span>
+                <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">enth_mass_phase</span><span class="p">[</span><span class="s2">&quot;Vap&quot;</span><span class="p">]</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CompressorData.initialize_build"><a class="viewcode-back" href="../../../../../apidoc/watertap.unit_models.mvc.components.html#watertap.unit_models.mvc.components.compressor.CompressorData.initialize_build">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_build</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">state_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outlvl</span><span class="o">=</span><span class="n">idaeslog</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optarg</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        General wrapper for pressure changer initialization routines</span>
+
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">            state_args : a dict of arguments to be passed to the property</span>
+<span class="sd">                         package(s) to provide an initial state for</span>
+<span class="sd">                         initialization (see documentation of the specific</span>
+<span class="sd">                         property package) (default = {}).</span>
+<span class="sd">            outlvl : sets output level of initialization routine</span>
+<span class="sd">            optarg : solver options dictionary object (default=None)</span>
+<span class="sd">            solver : str indicating which solver to use during</span>
+<span class="sd">                     initialization (default = None)</span>
+
+<span class="sd">        Returns: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">init_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getInitLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">outlvl</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unit&quot;</span><span class="p">)</span>
+        <span class="n">solve_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getSolveLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">outlvl</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unit&quot;</span><span class="p">)</span>
+        <span class="c1"># Set solver options</span>
+        <span class="n">opt</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">optarg</span><span class="p">)</span>
+
+        <span class="c1"># ---------------------------------------------------------------------</span>
+        <span class="c1"># Initialize state blocks</span>
+        <span class="n">flags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span>
+            <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span> <span class="n">optarg</span><span class="o">=</span><span class="n">optarg</span><span class="p">,</span> <span class="n">hold_state</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="n">init_log</span><span class="o">.</span><span class="n">info_high</span><span class="p">(</span><span class="s2">&quot;Initialization Step 1 Complete.&quot;</span><span class="p">)</span>
+        <span class="c1"># ---------------------------------------------------------------------</span>
+        <span class="c1"># Set state_args from inlet state</span>
+        <span class="k">if</span> <span class="n">state_args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">state_args</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">state_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">define_port_members</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">state_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">is_indexed</span><span class="p">():</span>
+                    <span class="n">state_args</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">state_args</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">m</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">state_args</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="n">state_args_out_isentropic</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">state_args</span><span class="p">)</span>
+        <span class="n">state_args_out_isentropic</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">state_args</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pressure_ratio</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">Pa</span>
+        <span class="p">)</span>
+        <span class="n">state_args_out_isentropic</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">state_args</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pressure_ratio</span><span class="o">.</span><span class="n">value</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">1.3</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">K</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties_isentropic_out</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span>
+            <span class="n">outlvl</span><span class="o">=</span><span class="n">outlvl</span><span class="p">,</span>
+            <span class="n">optarg</span><span class="o">=</span><span class="n">optarg</span><span class="p">,</span>
+            <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span>
+            <span class="n">state_args</span><span class="o">=</span><span class="n">state_args_out_isentropic</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">init_log</span><span class="o">.</span><span class="n">info_high</span><span class="p">(</span><span class="s2">&quot;Initialization Step 2 Complete.&quot;</span><span class="p">)</span>
+
+        <span class="n">state_args_out_actual</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">state_args_out_isentropic</span><span class="p">)</span>
+        <span class="c1"># assume a constant vapor specific heat for initialization:</span>
+        <span class="n">state_args_out_actual</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">state_args_out_isentropic</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span>
+            <span class="o">-</span> <span class="n">state_args</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">K</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">state_args</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">K</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_out</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span>
+            <span class="n">outlvl</span><span class="o">=</span><span class="n">outlvl</span><span class="p">,</span>
+            <span class="n">optarg</span><span class="o">=</span><span class="n">optarg</span><span class="p">,</span>
+            <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span>
+            <span class="n">state_args</span><span class="o">=</span><span class="n">state_args_out_actual</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">init_log</span><span class="o">.</span><span class="n">info_high</span><span class="p">(</span><span class="s2">&quot;Initialization Step 3 Complete.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># ---------------------------------------------------------------------</span>
+        <span class="c1"># Solve unit</span>
+        <span class="k">with</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">solver_log</span><span class="p">(</span><span class="n">solve_log</span><span class="p">,</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="k">as</span> <span class="n">slc</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tee</span><span class="o">=</span><span class="n">slc</span><span class="o">.</span><span class="n">tee</span><span class="p">)</span>
+        <span class="n">init_log</span><span class="o">.</span><span class="n">info_high</span><span class="p">(</span><span class="s2">&quot;Initialization Step 4 </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idaeslog</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+
+        <span class="c1"># ---------------------------------------------------------------------</span>
+        <span class="c1"># Release Inlet state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">release_state</span><span class="p">(</span><span class="n">flags</span><span class="p">,</span> <span class="n">outlvl</span><span class="o">=</span><span class="n">outlvl</span><span class="p">)</span>
+        <span class="n">init_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Initialization Complete: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idaeslog</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_optimal_termination</span><span class="p">(</span><span class="n">res</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InitializationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unit model </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> failed to initialize&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_performance_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_point</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">var_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">var_dict</span><span class="p">[</span><span class="s2">&quot;Pressure ratio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pressure_ratio</span>
+        <span class="n">var_dict</span><span class="p">[</span><span class="s2">&quot;Efficiency&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span>
+        <span class="n">var_dict</span><span class="p">[</span><span class="s2">&quot;Work&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">work</span><span class="p">[</span><span class="n">time_point</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;vars&quot;</span><span class="p">:</span> <span class="n">var_dict</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">calculate_scaling_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">calculate_scaling_factors</span><span class="p">()</span>
+
+        <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pressure_ratio</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">set_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eq_mass_balance_isentropic</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">sf</span> <span class="o">=</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+
+        <span class="c1"># Pressure constraints</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="p">)</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq_pressure_ratio</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq_isentropic_pressure</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+
+        <span class="c1"># Temperature constraint</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq_isentropic_temperature</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+
+        <span class="c1"># Efficiency, work constraints</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_volume</span><span class="o">.</span><span class="n">work</span><span class="p">)</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq_efficiency</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_costing_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cost_compressor</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zero Order Costing Package &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"chtml": {"displayAlign": "left", "displayIndent": "2em"}, "tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../copyright.html" />
+    <link rel="next" title="Multiple Choice Unit Model Costing Block" href="multiple_choice_costing_block.html" />
+    <link rel="prev" title="UV with Advanced Oxidation Processes Costing Method" href="uv_aop.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../apidoc/modules.html">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../property_models/index.html">Property Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Costing Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="costing_base.html">WaterTAP Costing Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap_costing.html">WaterTAP Costing Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap_costing_detailed.html">Detailed WaterTAP Costing Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="detailed_unit_model_costing.html">Detailed Unit Model Costing</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Zero Order Costing Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#costing-zero-order-models">Costing Zero Order Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#costing-index-and-technoeconomic-factors">Costing Index and Technoeconomic Factors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class-documentation">Class Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="multiple_choice_costing_block.html">Multiple Choice Unit Model Costing Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="util.html">Utility Functions for Costing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Costing Models</a></li>
+      <li class="breadcrumb-item active">Zero Order Costing Package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/technical_reference/costing/zero_order_costing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="zero-order-costing-package">
+<span id="zero-order-costing"></span><h1>Zero Order Costing Package<a class="headerlink" href="#zero-order-costing-package" title="Permalink to this heading"></a></h1>
+<p>The zero order costing module contains the costing package typically used for zero order models, though it can also be used for high-fidelity models. Technoeconomic data used for zero order models is contained in the
+<code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file for that model located in the data/techno_economic folder. The zero order costing module extends functionality of the <a class="reference internal" href="watertap_costing_detailed.html#detailed-watertap-costing-package"><span class="std std-ref">Detailed WaterTAP Costing Package</span></a>
+to support loading parameters from pre-defined <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> files. It has the same technoecnomic factors as the <a class="reference internal" href="watertap_costing_detailed.html#detailed-watertap-costing-package"><span class="std std-ref">Detailed WaterTAP Costing Package</span></a> but with different
+parameter values.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<p>The ZeroOrderCosting class contains all the variables and constraints needed to cost a unit model derived from the <a class="reference internal" href="../core/zero_order_unit.html#zeroorderbasedata"><span class="std std-ref">Zero Order Unit Model Base Class</span></a>. It also inherits the functionality of the <a class="reference internal" href="costing_base.html#watertapcostingblockdata"><span class="std std-ref">WaterTAP Costing Framework</span></a>.</p>
+<p>The code below shows an outline of how the ZeroOrderCostingData class is intended to be used to cost zero-order type models.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">from pyomo.environ import ConcreteModel</span>
+
+<span class="go">from idaes.core import FlowsheetBlock</span>
+
+<span class="go">from watertap.costing.zero_order_costing import ZeroOrderCosting</span>
+<span class="go">from watertap.core.wt_database import Database</span>
+<span class="go">from watertap.core.zero_order_properties import WaterParameterBlock</span>
+<span class="go">from watertap.unit_models.zero_order import MyZOUnit</span>
+
+
+<span class="go">m = ConcreteModel()</span>
+<span class="go">m.db = Database()</span>
+<span class="go">m.fs = FlowsheetBlock(dynamic=False)</span>
+<span class="go">m.fs.params = WaterParameterBlock(solute_list=[&quot;comp_a&quot;, &quot;comp_b&quot;, &quot;comp_c&quot;])</span>
+<span class="go">m.fs.costing = ZeroOrderCosting()</span>
+<span class="go">m.fs.unit = MyZOUnit(property_package=m.fs.params, database=m.db)</span>
+
+<span class="go"># Add necessary statements to fix component flows prior to solve</span>
+</pre></div>
+</div>
+</section>
+<section id="costing-zero-order-models">
+<h2>Costing Zero Order Models<a class="headerlink" href="#costing-zero-order-models" title="Permalink to this heading"></a></h2>
+<p>The ZeroOrderCostingData class includes variables and constraints necessary to calculate process-wide costs:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cost</p></th>
+<th class="head"><p>Variable</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Total capital cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{ZO,tot}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_capital_cost</span></code></p></td>
+<td><p>Total capital cost</p></td>
+</tr>
+<tr class="row-odd"><td><p>Unit capital cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{ZO,u}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">aggregate</span> <span class="pre">capital_cost</span></code></p></td>
+<td><p>Unit processes capital cost</p></td>
+</tr>
+<tr class="row-even"><td><p>Total operating cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{op,tot}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_operating_cost</span></code></p></td>
+<td><p>Total operating cost for unit process</p></td>
+</tr>
+<tr class="row-odd"><td><p>Total fixed operating cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{op,fix}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_fixed_operating_cost</span></code></p></td>
+<td><p>Total fixed operating cost for unit process</p></td>
+</tr>
+<tr class="row-even"><td><p>Total variable operating cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{op,var}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_variable_operating_cost</span></code></p></td>
+<td><p>Total variable operating cost for unit process</p></td>
+</tr>
+<tr class="row-odd"><td><p>Land cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{land}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">land_cost</span></code></p></td>
+<td><p>Cost of land for unit process</p></td>
+</tr>
+<tr class="row-even"><td><p>Working capital cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{work}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">working_capital</span></code></p></td>
+<td><p>Working capital for unit process</p></td>
+</tr>
+<tr class="row-odd"><td><p>Salary cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{sal}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">salary_cost</span></code></p></td>
+<td><p>Salary cost for unit process</p></td>
+</tr>
+<tr class="row-even"><td><p>Benefits cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{ben}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">benefits_cost</span></code></p></td>
+<td><p>Benefits cost for unit process</p></td>
+</tr>
+<tr class="row-odd"><td><p>Maintenance cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{maint}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">maintenance_cost</span></code></p></td>
+<td><p>Maintenance cost for unit process</p></td>
+</tr>
+<tr class="row-even"><td><p>Laboratory cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{lab}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">laboratory_cost</span></code></p></td>
+<td><p>Laboratory cost for unit process</p></td>
+</tr>
+<tr class="row-odd"><td><p>Insurance &amp; taxes cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{ins}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">insurance_and_taxes_cost</span></code></p></td>
+<td><p>Insurance &amp; taxes for unit process</p></td>
+</tr>
+<tr class="row-even"><td><p>Total annualized cost</p></td>
+<td><p><span class="math notranslate nohighlight">\(C_{annual}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">total_annualized_costs</span></code></p></td>
+<td><p>Total cost on a annualized basis</p></td>
+</tr>
+</tbody>
+</table>
+<p>Calculations for each of these costs are presented below.</p>
+</section>
+<section id="costing-index-and-technoeconomic-factors">
+<h2>Costing Index and Technoeconomic Factors<a class="headerlink" href="#costing-index-and-technoeconomic-factors" title="Permalink to this heading"></a></h2>
+<p>Costing indices are available in <code class="docutils literal notranslate"><span class="pre">default_case_study.yaml</span></code> located in the data/techno_economic folder.</p>
+<p>WaterTAP uses the CE (Chemical Engineering) Cost Index to help account for the time-value of investments and are used in the capital
+and operating cost calculations. Unit process capital costs are adjusted to the year of the case study. The default year is 2018.</p>
+<p>Other technoeconomic factors used to calculate various system metrics, capital, and operating costs are presented in the table below:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cost factor</p></th>
+<th class="head"><p>Variable</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Default Value</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Plant capacity utilization factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{util}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">utilization_factor</span></code></p></td>
+<td><p>100%</p></td>
+<td><p>Percentage of year plant is operating</p></td>
+</tr>
+<tr class="row-odd"><td><p>Plant lifetime</p></td>
+<td><p><span class="math notranslate nohighlight">\(L\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">plant_lifetime</span></code></p></td>
+<td><p>30 yr</p></td>
+<td><p>Expected lifetime of unit process</p></td>
+</tr>
+<tr class="row-even"><td><p>Electricity price</p></td>
+<td><p><span class="math notranslate nohighlight">\(P\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">electricity_cost</span></code></p></td>
+<td><p>$0.0595/kWh</p></td>
+<td><p>Electricity price in 2019 USD.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Land cost factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{land}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">land_cost_percent_FCI</span></code></p></td>
+<td><p>0.15%</p></td>
+<td><p>Unit process land cost as percentage of capital cost</p></td>
+</tr>
+<tr class="row-even"><td><p>Working capital cost factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{work}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">working_capital_percent_FCI</span></code></p></td>
+<td><p>5%</p></td>
+<td><p>Unit process working capital cost as percentage of capital cost</p></td>
+</tr>
+<tr class="row-odd"><td><p>Salaries cost factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{sal}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">salaries_percent_FCI</span></code></p></td>
+<td><p>0.1%</p></td>
+<td><p>Unit process salaries cost as percentage of capital cost</p></td>
+</tr>
+<tr class="row-even"><td><p>Maintenance cost factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{maint}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">maintenance_costs_percent_FCI</span></code></p></td>
+<td><p>0.8%</p></td>
+<td><p>Unit process maintenance costs as percentage of capital cost</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lab cost factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{lab}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">laboratory_fees_percent_FCI</span></code></p></td>
+<td><p>0.3%</p></td>
+<td><p>Unit process laboratory costs as percentage of capital cost</p></td>
+</tr>
+<tr class="row-even"><td><p>Insurance/taxes cost factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{ins}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">insurance_and_taxes_percent_FCI</span></code></p></td>
+<td><p>0.2%</p></td>
+<td><p>Unit process insurance &amp; taxes cost as percentage of capital cost</p></td>
+</tr>
+<tr class="row-odd"><td><p>Benefits cost factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{ben}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">benefit_percent_of_salary</span></code></p></td>
+<td><p>90%</p></td>
+<td><p>Unit process benefits cost as percentage of salary costs</p></td>
+</tr>
+<tr class="row-even"><td><p>Weighted average cost of capital factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{wacc}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wacc</span></code></p></td>
+<td><p>5%</p></td>
+<td><p>Weighted average cost of capital over plant lifetime</p></td>
+</tr>
+<tr class="row-odd"><td><p>Capital recovery factor</p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{crf}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">capital_recovery_factor</span></code></p></td>
+<td><p>6.51%</p></td>
+<td><p>Calculated from default <span class="math notranslate nohighlight">\(f_{WACC}\)</span> and <span class="math notranslate nohighlight">\(L\)</span> values</p></td>
+</tr>
+</tbody>
+</table>
+<p>The capital recovery factor is calculated with:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[f_{crf} = \frac{ f_{wacc} (1 + f_{wacc}) ^ L}{ (1 + f_{wacc}) ^ L - 1}\]</div>
+</div></blockquote>
+<section id="capital-cost-calculations">
+<h3>Capital Cost Calculations<a class="headerlink" href="#capital-cost-calculations" title="Permalink to this heading"></a></h3>
+<p>In general, unit process capital costs <span class="math notranslate nohighlight">\(C_{ZO,u}\)</span> for zero order unit models are a function of flow:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{ZO,u} = A \bigg( \frac{Q_{in}}{Q_{basis}} \bigg) ^ {B}\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(Q_{basis}\)</span>, <span class="math notranslate nohighlight">\(A\)</span>, and <span class="math notranslate nohighlight">\(B\)</span> are specific to the unit model and can be found in the unit model <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file.
+The <span class="math notranslate nohighlight">\(A\)</span> value has units of USD for the costing reference year of the unit. For example, if the unit costing model
+is from a reference that used 2015 USD, the units for <span class="math notranslate nohighlight">\(A\)</span> are <code class="docutils literal notranslate"><span class="pre">USD_2015</span></code>. After calculating the costs in 2015 USD, WaterTAP
+adjusts the cost to the user-specified year via the Consumer Price Index.</p>
+<p>The total capital cost of a zero order model <span class="math notranslate nohighlight">\(C_{ZO,tot}\)</span> includes the land cost <span class="math notranslate nohighlight">\(C_{land}\)</span> and working
+capital costs <span class="math notranslate nohighlight">\(C_{work}\)</span>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{ZO,tot} = C_{ZO,u} + C_{land} + C_{work}\]</div>
+</div></blockquote>
+<p>Where:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}&amp; C_{land} = f_{land} C_{ZO,u} \\\\
+&amp; C_{work} = f_{work} C_{ZO,u}\end{split}\]</div>
+</div></blockquote>
+<section id="custom-capital-cost-methods">
+<h4>Custom Capital Cost Methods<a class="headerlink" href="#custom-capital-cost-methods" title="Permalink to this heading"></a></h4>
+<p>There are several zero order models that have costing relationships that do not follow this general form. If that is the case, a custom costing method can
+be added to the unit model class to perform that calculation.</p>
+<p>Zero order models that have custom capital costing methods include:</p>
+<ul class="simple">
+<li><p>Brine concentrator - <code class="docutils literal notranslate"><span class="pre">cost_brine_concentrator()</span></code></p></li>
+<li><p>CANDOP - <code class="docutils literal notranslate"><span class="pre">cost_CANDOP()</span></code></p></li>
+<li><p>Chemical addition - <code class="docutils literal notranslate"><span class="pre">cost_chemical_addition()</span></code></p></li>
+<li><p>Chlorination - <code class="docutils literal notranslate"><span class="pre">cost_chlorination()</span></code></p></li>
+<li><p>Coagulation/Flocculation - <code class="docutils literal notranslate"><span class="pre">cost_coag_and_floc()</span></code></p></li>
+<li><p>Deep well injection - <code class="docutils literal notranslate"><span class="pre">cost_deep_well_injection()</span></code></p></li>
+<li><p>DMBR - <code class="docutils literal notranslate"><span class="pre">cost_dmbr()</span></code></p></li>
+<li><p>Electrochemical nutrient removal - <code class="docutils literal notranslate"><span class="pre">cost_electrochemical_nutrient_removal()</span></code></p></li>
+<li><p>Evaporation pond - <code class="docutils literal notranslate"><span class="pre">cost_evaporation_pond()</span></code></p></li>
+<li><p>Filter press - <code class="docutils literal notranslate"><span class="pre">cost_filter_press()</span></code></p></li>
+<li><p>Fixed bed - <code class="docutils literal notranslate"><span class="pre">cost_fixed_bed()</span></code></p></li>
+<li><p>GAC - <code class="docutils literal notranslate"><span class="pre">cost_gac()</span></code></p></li>
+<li><p>Landfill - <code class="docutils literal notranslate"><span class="pre">cost_landfill()</span></code></p></li>
+<li><p>MABR - <code class="docutils literal notranslate"><span class="pre">cost_mabr()</span></code></p></li>
+<li><p>Ion exchange - <code class="docutils literal notranslate"><span class="pre">cost_ion_exchange()</span></code></p></li>
+<li><p>Iron/Manganese removal - <code class="docutils literal notranslate"><span class="pre">cost_iron_and_manganese_removal()</span></code></p></li>
+<li><p>Metab - <code class="docutils literal notranslate"><span class="pre">cost_metab()</span></code></p></li>
+<li><p>Nanofiltration - <code class="docutils literal notranslate"><span class="pre">cost_nanofiltration()</span></code></p></li>
+<li><p>Ozone - <code class="docutils literal notranslate"><span class="pre">cost_ozonation()</span></code></p></li>
+<li><p>Ozone + AOP - <code class="docutils literal notranslate"><span class="pre">cost_ozonation_aop()</span></code></p></li>
+<li><p>Photothermal membrane - <code class="docutils literal notranslate"><span class="pre">cost_photothermal_membrane()</span></code></p></li>
+<li><p>Sedimentation - <code class="docutils literal notranslate"><span class="pre">cost_sedimentation()</span></code></p></li>
+<li><p>Storage tank - <code class="docutils literal notranslate"><span class="pre">cost_storage_tank()</span></code></p></li>
+<li><p>Surface discharge - <code class="docutils literal notranslate"><span class="pre">cost_surface_discharge()</span></code></p></li>
+<li><p>UV irradiation - <code class="docutils literal notranslate"><span class="pre">cost_uv()</span></code></p></li>
+<li><p>UV + AOP - <code class="docutils literal notranslate"><span class="pre">cost_uv_aop()</span></code></p></li>
+<li><p>Well field - <code class="docutils literal notranslate"><span class="pre">cost_well_field()</span></code></p></li>
+</ul>
+<p>To add a custom capital calculation method, the unit model class must register its custom costing method by setting its <cite>default_costing_method</cite> attribute.</p>
+</section>
+</section>
+<section id="operating-cost-calculations">
+<h3>Operating Cost Calculations<a class="headerlink" href="#operating-cost-calculations" title="Permalink to this heading"></a></h3>
+<p>Total operating costs for zero order models <span class="math notranslate nohighlight">\(C_{op,tot}\)</span> include fixed <span class="math notranslate nohighlight">\(C_{op,fix}\)</span> and variable operating costs <span class="math notranslate nohighlight">\(C_{op,var}\)</span>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{op,tot} = C_{op,fix} + C_{op,var}\]</div>
+</div></blockquote>
+<p>The total fixed operating costs are calculated as:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{op,fix} = C_{sal} + C_{ben} + C_{maint} + C_{lab} + C_{ins}\]</div>
+</div></blockquote>
+<p>Where:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}&amp; C_{sal} = f_{sal} C_{ZO,u} \\\\
+&amp; C_{ben} = f_{ben} C_{sal} \\\\
+&amp; C_{maint} = f_{maint} C_{ZO,u} \\\\
+&amp; C_{lab} = f_{lab} C_{ZO,u} \\\\
+&amp; C_{ins} = f_{ins} C_{ZO,u}\end{split}\]</div>
+</div></blockquote>
+<p>Variable operating costs include any chemical additions, electricity costs, and other variable costs such as equipment
+replacements.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{op,var} = C_{chem} + C_{elec} + C_{other} + C_{op,tot}\]</div>
+</div></blockquote>
+<p>Chemical costs are based on the chemical dosage for a given chemical addition. Default chemical costs are found in <code class="docutils literal notranslate"><span class="pre">default_case_study.yaml</span></code>. The
+annual chemical costs are calculated as:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{chem} = \sum_{k}^{n} D_k C_k Q_{in} f_{util}`\]</div>
+</div></blockquote>
+<p>Where <span class="math notranslate nohighlight">\(D\)</span> is the dose of chemical <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(C\)</span> is the unit cost of chemical <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<p>Electricity costs <span class="math notranslate nohighlight">\(C_{elec}\)</span> are based on the energy intensity <span class="math notranslate nohighlight">\(E\)</span> of the unit process
+(see individual unit model documentation for details).
+The annual electricity costs are calculated as:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{elec} = E Q_{in} f_{util} P\]</div>
+</div></blockquote>
+</section>
+<section id="lcow-calculation">
+<h3>LCOW Calculation<a class="headerlink" href="#lcow-calculation" title="Permalink to this heading"></a></h3>
+<p>The Levelized Cost Of Water (LCOW) [$/m3] is a metric used to assess the technoeconomics of a unit process:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[LCOW = \frac{ f_{crf} C_{ZO,tot} + C_{op,tot} }{Q f_{util} }\]</div>
+</div></blockquote>
+<p>Other aggregates, like specific energy consumption, are provided through the <a class="reference internal" href="costing_base.html#watertapcostingblockdata"><span class="std std-ref">WaterTAP Costing Framework</span></a>: <a class="reference internal" href="costing_base.html#aggregates-metrics"><span class="std std-ref">Aggregates Metrics</span></a>.</p>
+</section>
+</section>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../apidoc/watertap.costing.html#watertap.costing.zero_order_costing.ZeroOrderCostingData" title="watertap.costing.zero_order_costing.ZeroOrderCostingData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZeroOrderCostingData</span></code></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="uv_aop.html" class="btn btn-neutral float-left" title="UV with Advanced Oxidation Processes Costing Method" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="multiple_choice_costing_block.html" class="btn btn-neutral float-right" title="Multiple Choice Unit Model Costing Block" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

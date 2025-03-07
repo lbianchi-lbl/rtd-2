@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.core.zero_order_electricity &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.core.zero_order_electricity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.core.zero_order_electricity</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains common methods for determining the electricity intensity</span>
+<span class="sd">and demand for zero-order unit models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Var</span><span class="p">,</span> <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span>
+
+<span class="c1"># Some more information about this module</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Andrew Lee&quot;</span>
+
+<span class="c1"># Set up logger</span>
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_common</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c1"># Add electricity consumption to model</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">electricity</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kW</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Electricity consumption of unit&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Electricity Demand&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">electricity</span>
+
+
+<div class="viewcode-block" id="constant_intensity"><a class="viewcode-back" href="../../../apidoc/watertap.core.html#watertap.core.zero_order_electricity.constant_intensity">[docs]</a><span class="k">def</span> <span class="nf">constant_intensity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper method for implementing electricity demand assuming constant</span>
+<span class="sd">    intensity based on the inlet volumetric flow rate.</span>
+
+<span class="sd">    E[t] = Q[t] * intensity</span>
+
+<span class="sd">    Two variables are added to the model:</span>
+<span class="sd">        * electricity (indexed by time)</span>
+<span class="sd">        * energy_electric_flow_vol_inlet (unindexed)</span>
+
+<span class="sd">    One constraint is added to the model:</span>
+<span class="sd">        * electricity_consumption (indexed by time)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_common</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">energy_electric_flow_vol_inlet</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kWh</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Electricity intensity with respect to inlet flowrate of unit&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Constraint for electricity consumption based on &quot;</span> <span class="s2">&quot;feed flowrate.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">electricity_consumption</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">electricity</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">energy_electric_flow_vol_inlet</span>
+            <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">get_inlet_flow</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">hour</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_perf_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energy_electric_flow_vol_inlet</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Electricity Intensity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_electric_flow_vol_inlet</span></div>
+
+
+<div class="viewcode-block" id="pump_electricity"><a class="viewcode-back" href="../../../apidoc/watertap.core.html#watertap.core.zero_order_electricity.pump_electricity">[docs]</a><span class="k">def</span> <span class="nf">pump_electricity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper method for calculating electricity demand based on a</span>
+<span class="sd">    pump flow equation.</span>
+
+<span class="sd">    E[t] = (0.746 * Q[t] * H / (3960 * eta_pump * eta_motor))</span>
+
+<span class="sd">    Here Q is the volumetric flowrate to be used to calculate electricity demand,</span>
+<span class="sd">    H is the lift height for the pump and eta_pump and eta_motor are the</span>
+<span class="sd">    efficiencies of the pump and motor respectively.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        flow_rate - term to use for Q in the equation above.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_common</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">lift_height</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">feet</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Lift height for pump&quot;</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">eta_pump</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Efficiency of pump&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">eta_motor</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Efficiency of motor&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Constraint for electricity consumption based on &quot;</span> <span class="s2">&quot;pump flowrate.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">electricity_consumption</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="mi">3960</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">gallon</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">foot</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">minute</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">horsepower</span>
+        <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">electricity</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">flow_rate</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lift_height</span> <span class="o">/</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta_pump</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta_motor</span><span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kW</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

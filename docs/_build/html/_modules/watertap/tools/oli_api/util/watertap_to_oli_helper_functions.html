@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.tools.oli_api.util.watertap_to_oli_helper_functions &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.tools.oli_api.util.watertap_to_oli_helper_functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.tools.oli_api.util.watertap_to_oli_helper_functions</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains methods to convert WaterTAP naming conventions to OLI</span>
+<span class="sd">and generate molecular weight and charge dictionaries from molecular formulae.</span>
+
+<span class="sd">It calculates molecular weights using the periodic_table.csv from:</span>
+<span class="sd">https://gist.github.com/GoodmanSciences/c2dd862cd38f21b0ad36b8f96b4bf1ee.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Paul Vecchiarelli, Ben Knueven, Adam Atia&quot;</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">findall</span>
+
+<span class="kn">from</span> <span class="nn">watertap.core.util.chemistry</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_charge</span><span class="p">,</span>
+    <span class="n">get_charge_group</span><span class="p">,</span>
+    <span class="n">get_molar_mass</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># TODO: consider replacing some functionality with molmass: https://pypi.org/project/molmass</span>
+
+<span class="n">OLIName</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span>
+    <span class="s2">&quot;OLIName&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;oli_name&quot;</span><span class="p">,</span> <span class="s2">&quot;watertap_name&quot;</span><span class="p">,</span> <span class="s2">&quot;charge&quot;</span><span class="p">,</span> <span class="s2">&quot;charge_group&quot;</span><span class="p">,</span> <span class="s2">&quot;molar_mass&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="watertap_to_oli"><a class="viewcode-back" href="../../../../../apidoc/watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.watertap_to_oli">[docs]</a><span class="k">def</span> <span class="nf">watertap_to_oli</span><span class="p">(</span><span class="n">watertap_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OLIName</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This method creates a named tuple</span>
+<span class="sd">    which can be passed directly into OLI</span>
+<span class="sd">    or into MCAS property models.</span>
+
+<span class="sd">    :param watertap_name: string name of substance in WaterTAP format, i.e., B[OH]4_-</span>
+
+<span class="sd">    :return OLIName: named tuple containing attributes derived from molecular formula</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[A-Z]&quot;</span><span class="p">,</span> <span class="n">watertap_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot; At least 1 uppercase letter is required to specify a molecule, not &#39;</span><span class="si">{</span><span class="n">watertap_name</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">oli_name</span> <span class="o">=</span> <span class="n">get_oli_name</span><span class="p">(</span><span class="n">watertap_name</span><span class="p">)</span>
+    <span class="n">charge</span> <span class="o">=</span> <span class="n">get_charge</span><span class="p">(</span><span class="n">watertap_name</span><span class="p">)</span>
+    <span class="n">charge_group</span> <span class="o">=</span> <span class="n">get_charge_group</span><span class="p">(</span><span class="n">charge</span><span class="p">)</span>
+    <span class="n">molar_mass</span> <span class="o">=</span> <span class="n">get_molar_mass</span><span class="p">(</span><span class="n">watertap_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">OLIName</span><span class="p">(</span><span class="n">oli_name</span><span class="p">,</span> <span class="n">watertap_name</span><span class="p">,</span> <span class="n">charge</span><span class="p">,</span> <span class="n">charge_group</span><span class="p">,</span> <span class="n">molar_mass</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_oli_name"><a class="viewcode-back" href="../../../../../apidoc/watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.get_oli_name">[docs]</a><span class="k">def</span> <span class="nf">get_oli_name</span><span class="p">(</span><span class="n">watertap_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts an WaterTAP formatted name, i.e., &quot;Na_+&quot;</span>
+<span class="sd">    into an OLI formatted name, i.e., &quot;NAION&quot;.</span>
+
+<span class="sd">    :param watertap_name: string name of a solute in WaterTAP format</span>
+
+<span class="sd">    :return oli_name: string name of a solute in OLI format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">exclude_items</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;pressure&quot;</span><span class="p">,</span> <span class="s2">&quot;volume&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">watertap_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">exclude_items</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">watertap_name</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">watertap_name</span><span class="p">,</span> <span class="s2">&quot;oli_name&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">watertap_name</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="n">watertap_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Unable to parse solute &#39;</span><span class="si">{</span><span class="n">watertap_name</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">molecule</span> <span class="o">=</span> <span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">molecule</span> <span class="o">=</span> <span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;ION&quot;</span>
+    <span class="n">oli_name</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">oli_name</span></div>
+
+
+<div class="viewcode-block" id="get_oli_names"><a class="viewcode-back" href="../../../../../apidoc/watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.get_oli_names">[docs]</a><span class="k">def</span> <span class="nf">get_oli_names</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Updates source dictionary with data to populate MCAS property model.</span>
+
+<span class="sd">    :param source: dictionary containing WaterTAP names as keys</span>
+
+<span class="sd">    :return source: dictionary with OLIName named tuples as keys</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">source</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="n">watertap_to_oli</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">v</span><span class="p">),</span> <span class="n">source</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">source</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">source</span></div>
+
+
+<div class="viewcode-block" id="oli_reverse_lookup"><a class="viewcode-back" href="../../../../../apidoc/watertap.tools.oli_api.util.html#watertap.tools.oli_api.util.watertap_to_oli_helper_functions.oli_reverse_lookup">[docs]</a><span class="k">def</span> <span class="nf">oli_reverse_lookup</span><span class="p">(</span><span class="n">oli_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">names_db</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OLIName</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Looks up WaterTAP formatted name for solute in OLI format, if listed in names_db dictionary.</span>
+
+<span class="sd">    :param oli_name: string name of a solute in OLI format</span>
+
+<span class="sd">    :return watertap_name: string name of a solute in WaterTAP format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">oli_name</span> <span class="ow">in</span> <span class="n">names_db</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">names_db</span><span class="p">[</span><span class="n">oli_name</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot; Component </span><span class="si">{</span><span class="n">oli_name</span><span class="si">}</span><span class="s2"> not found in names_db.&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot; Update this dictionary to hard code additional OLI names.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Here follows a dictionary of OLI names and their WaterTAP counterparts.</span>
+
+<span class="sd">It functions to aid reverse lookup, i.e., if a name is already in OLI format,</span>
+<span class="sd">the necessary data can still be extracted.</span>
+
+<span class="sd">TODO: method to add novel (valid) names to names_db</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">names_db</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;NAION&quot;</span><span class="p">:</span> <span class="s2">&quot;Na_+&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CLION&quot;</span><span class="p">:</span> <span class="s2">&quot;Cl_-&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SO4ION&quot;</span><span class="p">:</span> <span class="s2">&quot;SO4_2-&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MGION&quot;</span><span class="p">:</span> <span class="s2">&quot;Mg_2+&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CAION&quot;</span><span class="p">:</span> <span class="s2">&quot;Ca_2+&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;KION&quot;</span><span class="p">:</span> <span class="s2">&quot;K_+&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HCO3ION&quot;</span><span class="p">:</span> <span class="s2">&quot;HCO3_-&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NA2CO3&quot;</span><span class="p">:</span> <span class="s2">&quot;Na2CO3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CO2&quot;</span><span class="p">:</span> <span class="s2">&quot;CO2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;H2O&quot;</span><span class="p">:</span> <span class="s2">&quot;H2O&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

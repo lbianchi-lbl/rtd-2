@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.costing package &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="watertap.costing.unit_models package" href="watertap.costing.unit_models.html" />
+    <link rel="prev" title="watertap.core.util.model_diagnostics package" href="watertap.core.util.model_diagnostics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">Module Reference</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="watertap.html">watertap package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="watertap.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap.conftest">watertap.conftest module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../technical_reference/index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">watertap</a></li>
+          <li class="breadcrumb-item"><a href="watertap.html">watertap package</a></li>
+      <li class="breadcrumb-item active">watertap.costing package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/watertap.costing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="watertap-costing-package">
+<h1>watertap.costing package<a class="headerlink" href="#watertap-costing-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="watertap.costing.unit_models.html">watertap.costing.unit_models package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.anaerobic_digester">watertap.costing.unit_models.anaerobic_digester module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.anaerobic_digester.cost_anaerobic_digester"><code class="docutils literal notranslate"><span class="pre">cost_anaerobic_digester()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.anaerobic_digester.cost_anaerobic_digester_capital"><code class="docutils literal notranslate"><span class="pre">cost_anaerobic_digester_capital()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.clarifier">watertap.costing.unit_models.clarifier module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.clarifier.ClarifierType"><code class="docutils literal notranslate"><span class="pre">ClarifierType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.clarifier.cost_circular_clarifier"><code class="docutils literal notranslate"><span class="pre">cost_circular_clarifier()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.clarifier.cost_clarifier"><code class="docutils literal notranslate"><span class="pre">cost_clarifier()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.clarifier.cost_primary_clarifier"><code class="docutils literal notranslate"><span class="pre">cost_primary_clarifier()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.clarifier.cost_rectangular_clarifier"><code class="docutils literal notranslate"><span class="pre">cost_rectangular_clarifier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.compressor">watertap.costing.unit_models.compressor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.crystallizer">watertap.costing.unit_models.crystallizer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.crystallizer.CrystallizerCostType"><code class="docutils literal notranslate"><span class="pre">CrystallizerCostType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.crystallizer.cost_crystallizer"><code class="docutils literal notranslate"><span class="pre">cost_crystallizer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.crystallizer.cost_crystallizer_by_crystal_mass"><code class="docutils literal notranslate"><span class="pre">cost_crystallizer_by_crystal_mass()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.crystallizer.cost_crystallizer_by_volume"><code class="docutils literal notranslate"><span class="pre">cost_crystallizer_by_volume()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.cstr">watertap.costing.unit_models.cstr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.cstr.cost_cstr"><code class="docutils literal notranslate"><span class="pre">cost_cstr()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.cstr_injection">watertap.costing.unit_models.cstr_injection module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.cstr_injection.cost_cstr_injection"><code class="docutils literal notranslate"><span class="pre">cost_cstr_injection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.cstr_injection.cost_cstr_injection_capital"><code class="docutils literal notranslate"><span class="pre">cost_cstr_injection_capital()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.dewatering">watertap.costing.unit_models.dewatering module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.dewatering.DewateringType"><code class="docutils literal notranslate"><span class="pre">DewateringType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.dewatering.cost_centrifuge"><code class="docutils literal notranslate"><span class="pre">cost_centrifuge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.dewatering.cost_filter_belt_press"><code class="docutils literal notranslate"><span class="pre">cost_filter_belt_press()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.dewatering.cost_filter_plate_press"><code class="docutils literal notranslate"><span class="pre">cost_filter_plate_press()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.electroNP">watertap.costing.unit_models.electroNP module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.electroNP.cost_electroNP"><code class="docutils literal notranslate"><span class="pre">cost_electroNP()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.electroNP.cost_electroNP_capital"><code class="docutils literal notranslate"><span class="pre">cost_electroNP_capital()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.electrodialysis">watertap.costing.unit_models.electrodialysis module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.electrodialysis.cost_electrodialysis"><code class="docutils literal notranslate"><span class="pre">cost_electrodialysis()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.electrodialysis.cost_electrodialysis_stack"><code class="docutils literal notranslate"><span class="pre">cost_electrodialysis_stack()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.electrolyzer">watertap.costing.unit_models.electrolyzer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.electrolyzer.cost_electrolyzer"><code class="docutils literal notranslate"><span class="pre">cost_electrolyzer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.energy_recovery_device">watertap.costing.unit_models.energy_recovery_device module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.energy_recovery_device.EnergyRecoveryDeviceType"><code class="docutils literal notranslate"><span class="pre">EnergyRecoveryDeviceType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.energy_recovery_device.cost_energy_recovery_device"><code class="docutils literal notranslate"><span class="pre">cost_energy_recovery_device()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.energy_recovery_device.cost_pressure_exchanger_erd"><code class="docutils literal notranslate"><span class="pre">cost_pressure_exchanger_erd()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.evaporator">watertap.costing.unit_models.evaporator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.gac">watertap.costing.unit_models.gac module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.gac.ContactorType"><code class="docutils literal notranslate"><span class="pre">ContactorType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.gac.cost_gac"><code class="docutils literal notranslate"><span class="pre">cost_gac()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.gac.cost_gac_gravity"><code class="docutils literal notranslate"><span class="pre">cost_gac_gravity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.gac.cost_gac_pressure"><code class="docutils literal notranslate"><span class="pre">cost_gac_pressure()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.heat_exchanger">watertap.costing.unit_models.heat_exchanger module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.heat_exchanger.cost_heat_exchanger"><code class="docutils literal notranslate"><span class="pre">cost_heat_exchanger()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.heater_chiller">watertap.costing.unit_models.heater_chiller module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.heater_chiller.HCType"><code class="docutils literal notranslate"><span class="pre">HCType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.heater_chiller.cost_chiller"><code class="docutils literal notranslate"><span class="pre">cost_chiller()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.heater_chiller.cost_electric_heater"><code class="docutils literal notranslate"><span class="pre">cost_electric_heater()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.heater_chiller.cost_heater_chiller"><code class="docutils literal notranslate"><span class="pre">cost_heater_chiller()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.ion_exchange">watertap.costing.unit_models.ion_exchange module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.ion_exchange.cost_ion_exchange"><code class="docutils literal notranslate"><span class="pre">cost_ion_exchange()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.membrane_distillation">watertap.costing.unit_models.membrane_distillation module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.membrane_distillation.cost_membrane_distillation"><code class="docutils literal notranslate"><span class="pre">cost_membrane_distillation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.mixer">watertap.costing.unit_models.mixer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.MixerType"><code class="docutils literal notranslate"><span class="pre">MixerType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.cost_caoh2_mixer"><code class="docutils literal notranslate"><span class="pre">cost_caoh2_mixer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.cost_default_mixer"><code class="docutils literal notranslate"><span class="pre">cost_default_mixer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.cost_mixer"><code class="docutils literal notranslate"><span class="pre">cost_mixer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.cost_naocl_mixer"><code class="docutils literal notranslate"><span class="pre">cost_naocl_mixer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.nanofiltration">watertap.costing.unit_models.nanofiltration module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.nanofiltration.cost_nanofiltration"><code class="docutils literal notranslate"><span class="pre">cost_nanofiltration()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.osmotically_assisted_reverse_osmosis">watertap.costing.unit_models.osmotically_assisted_reverse_osmosis module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.OAROType"><code class="docutils literal notranslate"><span class="pre">OAROType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.build_osmotically_assisted_reverse_osmosis_cost_param_block"><code class="docutils literal notranslate"><span class="pre">build_osmotically_assisted_reverse_osmosis_cost_param_block()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.osmotically_assisted_reverse_osmosis.cost_osmotically_assisted_reverse_osmosis"><code class="docutils literal notranslate"><span class="pre">cost_osmotically_assisted_reverse_osmosis()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.pressure_exchanger">watertap.costing.unit_models.pressure_exchanger module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.pressure_exchanger.cost_pressure_exchanger"><code class="docutils literal notranslate"><span class="pre">cost_pressure_exchanger()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.pump">watertap.costing.unit_models.pump module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.pump.PumpType"><code class="docutils literal notranslate"><span class="pre">PumpType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.pump.cost_high_pressure_pump"><code class="docutils literal notranslate"><span class="pre">cost_high_pressure_pump()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.pump.cost_low_pressure_pump"><code class="docutils literal notranslate"><span class="pre">cost_low_pressure_pump()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.pump.cost_pump"><code class="docutils literal notranslate"><span class="pre">cost_pump()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.reverse_osmosis">watertap.costing.unit_models.reverse_osmosis module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.reverse_osmosis.ROType"><code class="docutils literal notranslate"><span class="pre">ROType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.reverse_osmosis.cost_reverse_osmosis"><code class="docutils literal notranslate"><span class="pre">cost_reverse_osmosis()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.stoichiometric_reactor">watertap.costing.unit_models.stoichiometric_reactor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.surrogate_crystallizer">watertap.costing.unit_models.surrogate_crystallizer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.surrogate_crystallizer.cost_crystallizer_by_crystal_mass"><code class="docutils literal notranslate"><span class="pre">cost_crystallizer_by_crystal_mass()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.surrogate_crystallizer.cost_surrogate_crystallizer"><code class="docutils literal notranslate"><span class="pre">cost_surrogate_crystallizer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.thickener">watertap.costing.unit_models.thickener module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.thickener.cost_thickener"><code class="docutils literal notranslate"><span class="pre">cost_thickener()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models.uv_aop">watertap.costing.unit_models.uv_aop module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.uv_aop.cost_uv_aop"><code class="docutils literal notranslate"><span class="pre">cost_uv_aop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.costing.unit_models.html#watertap.costing.unit_models.uv_aop.cost_uv_aop_bundle"><code class="docutils literal notranslate"><span class="pre">cost_uv_aop_bundle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.costing.unit_models.html#module-watertap.costing.unit_models">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-watertap.costing.multiple_choice_costing_block">
+<span id="watertap-costing-multiple-choice-costing-block-module"></span><h2>watertap.costing.multiple_choice_costing_block module<a class="headerlink" href="#module-watertap.costing.multiple_choice_costing_block" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.multiple_choice_costing_block.</span></span><span class="sig-name descname"><span class="pre">MultiUnitModelCostingBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>flowsheet_costing_block</dt><dd><p>Reference to associated FlowsheetCostingBlock to use.</p>
+</dd>
+<dt>costing_blocks</dt><dd><p>Costing blocks to use for unit. Should be a dictionary
+whose keys are the names of the block and whose values are
+either the costing method used to construct the block, or
+another dictionary whose keys are <cite>costing_method</cite>, which
+has the value of the costing method, and optionally
+<cite>costing_method_arguments</cite>, which has the keyword
+arguments for the costing method specified.</p>
+</dd>
+<dt>initial_costing_block</dt><dd><p>Costing block to be initially active</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(MultiUnitModelCostingBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.multiple_choice_costing_block.</span></span><span class="sig-name descname"><span class="pre">MultiUnitModelCostingBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/multiple_choice_costing_block.html#MultiUnitModelCostingBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitModelCostingBlockData</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitModelCostingBlock</span></code></p>
+<p>Class for constructing several costing blocks on the same
+unit model and then allowing for choice between them</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/multiple_choice_costing_block.html#MultiUnitModelCostingBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>The build method is called by the default ProcessBlock rule.  If a rule
+is specified other than the default it is important to call
+ProcessBlockData’s build method to put information from the “default”
+and “initialize” arguments to a ProcessBlock derived class into the
+BlockData object’s ConfigBlock.</p>
+<p>The build method should usually be overloaded in a subclass derived
+from ProcessBlockData. This method would generally add Pyomo components
+such as variables, expressions, and constraints to the object. It is
+important for build() methods implemented in derived classes to call
+build() from the super class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlockData.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/multiple_choice_costing_block.html#MultiUnitModelCostingBlockData.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlockData.initialize" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize all costing blocks for easy switching between</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlockData.select_costing_block">
+<span class="sig-name descname"><span class="pre">select_costing_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">costing_block_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/multiple_choice_costing_block.html#MultiUnitModelCostingBlockData.select_costing_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.multiple_choice_costing_block.MultiUnitModelCostingBlockData.select_costing_block" title="Permalink to this definition"></a></dt>
+<dd><p>Set the active costing block</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.costing.util">
+<span id="watertap-costing-util-module"></span><h2>watertap.costing.util module<a class="headerlink" href="#module-watertap.costing.util" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.costing.util.cost_by_flow_volume">
+<span class="sig-prename descclassname"><span class="pre">watertap.costing.util.</span></span><span class="sig-name descname"><span class="pre">cost_by_flow_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow_cost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow_to_cost</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/util.html#cost_by_flow_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.util.cost_by_flow_volume" title="Permalink to this definition"></a></dt>
+<dd><p>Generic function for costing by flow volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flow_cost</strong> – The cost of the device in [currency]/([volume]/[time])</p></li>
+<li><p><strong>flow_to_cost</strong> – The flow costed in [volume]/[time]</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.costing.util.cost_membrane">
+<span class="sig-prename descclassname"><span class="pre">watertap.costing.util.</span></span><span class="sig-name descname"><span class="pre">cost_membrane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">membrane_cost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_membrane_replacement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/util.html#cost_membrane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.util.cost_membrane" title="Permalink to this definition"></a></dt>
+<dd><p>Generic function for costing a membrane. Assumes the unit_model
+has an <cite>area</cite> variable or parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>membrane_cost</strong> – The cost of the membrane in currency per area</p></li>
+<li><p><strong>factor_membrane_replacement</strong> – Membrane replacement factor
+(fraction of membrane replaced/year)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.costing.util.cost_rectifier">
+<span class="sig-prename descclassname"><span class="pre">watertap.costing.util.</span></span><span class="sig-name descname"><span class="pre">cost_rectifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power=&lt;pyomo.core.expr.numeric_expr.NPV_ProductExpression</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ac_dc_conversion_efficiency=0.9</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/util.html#cost_rectifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.util.cost_rectifier" title="Permalink to this definition"></a></dt>
+<dd><p>Method to cost rectifiers for electrified process units that require direct current which must be converted
+from an alternating current source. Note that this should be used solely for units that require the conversion,
+and should not be used universally for electricity requirements.
+Assumes the unit_model has a <cite>power</cite> variable or parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ac_dc_conversion_efficiency</strong> – Efficiency of the conversion from AC to DC current</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.costing.util.make_capital_cost_var">
+<span class="sig-prename descclassname"><span class="pre">watertap.costing.util.</span></span><span class="sig-name descname"><span class="pre">make_capital_cost_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/util.html#make_capital_cost_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.util.make_capital_cost_var" title="Permalink to this definition"></a></dt>
+<dd><p>Generic function for adding a Var named <cite>capital_cost</cite>
+to the unit model costing block.</p>
+<p>Creates a pyomo Var named <cite>capital_cost</cite> with units
+<cite>blk.costing_package.base_currency</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.costing.util.make_fixed_operating_cost_var">
+<span class="sig-prename descclassname"><span class="pre">watertap.costing.util.</span></span><span class="sig-name descname"><span class="pre">make_fixed_operating_cost_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/util.html#make_fixed_operating_cost_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.util.make_fixed_operating_cost_var" title="Permalink to this definition"></a></dt>
+<dd><p>Generic function for adding a Var named <cite>fixed_operating_cost</cite>
+to the unit model costing block.</p>
+<p>Creates a pyomo Var named <cite>fixed_operating_cost</cite> with units
+<cite>blk.costing_package.base_currency / blk.costing_package.base_period</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="watertap.costing.util.register_costing_parameter_block">
+<span class="sig-prename descclassname"><span class="pre">watertap.costing.util.</span></span><span class="sig-name descname"><span class="pre">register_costing_parameter_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">build_rule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_block_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/util.html#register_costing_parameter_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.util.register_costing_parameter_block" title="Permalink to this definition"></a></dt>
+<dd><p>Decorator to create a global-level parameter block on the costing package.</p>
+<p>This decorator is meant to be utilized on a costing method or function in order
+to register parameters (including flows specific to a unit model) which should
+have global-scope within a costing package. In this way, all instances of a unit
+model can share the same global parameters, such as baseline capital costs.</p>
+<p>The decorator takes a <cite>build_rule</cite>, which is a rule for constructing a Pyomo
+<cite>Block</cite>, and a <cite>parameter_block_name</cite>, which determines the name of the constructed
+block. The decorator then puts the new Block onto the costing package. For a unit
+model costing block named <cite>blk</cite>, this is symmatically equivalent to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">parameter_block_name</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">build_rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, this decorator contains a few additional safeguards.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>If the wrapped unit model costing function is called more than once,
+the associated parameter block will only be added one time.</p></li>
+<li><p>Similarly, if a component named <cite>parameter_block_name</cite> already exists
+on the <cite>costing_package</cite>, this decorator will raise an error if the
+parameter block was built with a different <cite>build_rule</cite>. This prevents
+inadvertent name clashes between different parameter blocks.</p></li>
+<li><p>The decorator fixes any Pyomo Vars it finds on the constructed parameter
+block.</p></li>
+</ol>
+</div></blockquote>
+<p>Use of this decorator allows for defining unit-level costing parameters in the same
+module as the unit-level costing method. It also ensures that unit-level costing
+parameters are only added to the costing package if and only if that particular
+unit model is costed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>build_rule</strong> (<em>callable</em>) – A function defining a “build rule” for a Pyomo <cite>Block</cite>.</p></li>
+<li><p><strong>parameter_block_name</strong> (<em>str</em>) – The name for the built Block on the costing package.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-watertap.costing.watertap_costing_package">
+<span id="watertap-costing-watertap-costing-package-module"></span><h2>watertap.costing.watertap_costing_package module<a class="headerlink" href="#module-watertap.costing.watertap_costing_package" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCosting">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.watertap_costing_package.</span></span><span class="sig-name descname"><span class="pre">WaterTAPCosting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCosting" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(WaterTAPCosting) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.watertap_costing_package.</span></span><span class="sig-name descname"><span class="pre">WaterTAPCostingBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FlowsheetCostingBlockData</span></code></p>
+<p>Base class for creating WaterTAP costing packages. Allows
+unit models to “self-register” their default costing methods,
+and for anonymous expressions in flow costs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_LCOW">
+<span class="sig-name descname"><span class="pre">add_LCOW</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'LCOW'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.add_LCOW"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_LCOW" title="Permalink to this definition"></a></dt>
+<dd><p>Add Levelized Cost of Water (LCOW) to costing block.
+:param flow_rate - flow rate of water: calculating LCOW
+:type flow_rate - flow rate of water: volumetric
+:param name: LCOW)
+:type name: optional</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_annual_water_production">
+<span class="sig-name descname"><span class="pre">add_annual_water_production</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'annual_water_production'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.add_annual_water_production"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_annual_water_production" title="Permalink to this definition"></a></dt>
+<dd><p>Add annual water production to costing block.
+:param flow_rate - flow rate of water: calculating annual water production
+:type flow_rate - flow rate of water: volumetric
+:param name: Expression (default: annual_water_production)
+:type name: optional</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_cost_factor">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_cost_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.add_cost_factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_cost_factor" title="Permalink to this definition"></a></dt>
+<dd><p>For a unit model costing block <cite>blk</cite>, adds <cite>blk.cost_factor</cite>,
+an expression pointing to the appropriate indirect capital
+cost multiplier, and <cite>blk.direct_capital_cost</cite>, which is a expression
+defined to be <cite>blk.capital_cost / blk.cost_factor</cite>. Valid strings for
+<cite>factor</cite> are “TIC” and “TPEC”; all others will result in an indirect
+capital cost factor of 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blk</strong> – an ideas.core.UnitModelCosting block</p></li>
+<li><p><strong>factor</strong> – a string representing the cost factor to use</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_electricity_intensity">
+<span class="sig-name descname"><span class="pre">add_electricity_intensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'electricity_intensity'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.add_electricity_intensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_electricity_intensity" title="Permalink to this definition"></a></dt>
+<dd><p>Add calculation of overall electricity intensity to costing block.
+:param flow_rate - flow rate of water: calculating electricity intensity
+:type flow_rate - flow rate of water: volumetric
+:param name: electrical intensity (default: specific_electrical_carbon_intensity)
+:type name: optional</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_specific_electrical_carbon_intensity">
+<span class="sig-name descname"><span class="pre">add_specific_electrical_carbon_intensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'specific_electrical_carbon_intensity'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.add_specific_electrical_carbon_intensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_specific_electrical_carbon_intensity" title="Permalink to this definition"></a></dt>
+<dd><p>Add specific electrical carbon intensity (kg_CO2eq/m**3) to costing block.
+:param flow_rate - flow rate of water: calculating specific electrical carbon intensity
+:type flow_rate - flow rate of water: volumetric
+:param name: carbon intensity (default: specific_electrical_carbon_intensity)
+:type name: optional</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_specific_energy_consumption">
+<span class="sig-name descname"><span class="pre">add_specific_energy_consumption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'specific_energy_consumption'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.add_specific_energy_consumption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_specific_energy_consumption" title="Permalink to this definition"></a></dt>
+<dd><p>Add specific energy consumption (kWh/m**3) to costing block.
+:param flow_rate - flow rate of water: calculating specific energy consumption
+:type flow_rate - flow rate of water: volumetric
+:param name: energy consumption (default: specific_energy_consumption)
+:type name: optional</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.aggregate_costs">
+<span class="sig-name descname"><span class="pre">aggregate_costs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.aggregate_costs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.aggregate_costs" title="Permalink to this definition"></a></dt>
+<dd><p>This method aggregates costs from all the unit models and flows
+registered with this FlowsheetCostingBlock and creates aggregate
+variables for these on the FlowsheetCostingBlock that can be used for
+further process-wide costing calculations.</p>
+<p>The following costing variables are aggregated from all the registered
+UnitModelCostingBlocks (if they exist):</p>
+<ul class="simple">
+<li><p>capital_cost,</p></li>
+<li><p>direct_capital_cost,</p></li>
+<li><p>fixed_operating_cost, and</p></li>
+<li><p>variable_operating_cost</p></li>
+</ul>
+<p>Additionally, aggregate flow variables are created for all registered
+flow types along with aggregate costs associated with each of these.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.build_global_params">
+<span class="sig-name descname"><span class="pre">build_global_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.build_global_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.build_global_params" title="Permalink to this definition"></a></dt>
+<dd><p>Build the global parameters common to WaterTAP Costing Packages.
+The currency units should already be registered.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.build_process_costs">
+<span class="sig-name descname"><span class="pre">build_process_costs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.build_process_costs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.build_process_costs" title="Permalink to this definition"></a></dt>
+<dd><p>Build the common process costs to WaterTAP Costing Packages.
+The currency units should already be registered.</p>
+<p>The derived class should add constraints for total_capital_cost
+and total_operating_cost</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.initialize_build">
+<span class="sig-name descname"><span class="pre">initialize_build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.initialize_build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.initialize_build" title="Permalink to this definition"></a></dt>
+<dd><p>Basic initialization for flowsheet level quantities</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.register_flow_type">
+<span class="sig-name descname"><span class="pre">register_flow_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingBlockData.register_flow_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.register_flow_type" title="Permalink to this definition"></a></dt>
+<dd><p>This method allows users to register new material and utility flows
+with the FlowsheetCostingBlock for use when costing flows.
+If <cite>cost</cite> is a constant (up to units), then this method creates a new
+<cite>Var</cite> on the FlowsheetCostingBlock named f`{flow_type}_cost`.
+Otherwise <cite>cost</cite> is a non-constant expression and this method will
+create a new <cite>Expression</cite> on the FlowsheetCostingBlock named
+f`{flow_type}_cost` whose value is fixed to <cite>cost</cite>.</p>
+<p>If a component named f`{flow_type}_cost` already exists on the
+FlowsheetCostingBlock, then an error is raised unless f`{flow_type}_cost`
+is <cite>cost</cite>. If f`{flow_type}_cost` is <cite>cost</cite>, no error is raised and
+the existing component f`{flow_type}_cost` is used to cost the flow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flow_type</strong> – string name to represent flow type</p></li>
+<li><p><strong>cost</strong> – a Pyomo expression with units representing the flow cost</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.watertap_costing_package.</span></span><span class="sig-name descname"><span class="pre">WaterTAPCostingData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData" title="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaterTAPCostingBlockData</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingData.build_global_params">
+<span class="sig-name descname"><span class="pre">build_global_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingData.build_global_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingData.build_global_params" title="Permalink to this definition"></a></dt>
+<dd><p>Build the global parameters common to WaterTAP Costing Packages.
+The currency units should already be registered.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingDetailed">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.watertap_costing_package.</span></span><span class="sig-name descname"><span class="pre">WaterTAPCostingDetailed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingDetailed" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(WaterTAPCostingDetailed) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.watertap_costing_package.</span></span><span class="sig-name descname"><span class="pre">WaterTAPCostingDetailedData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingDetailedData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData" title="watertap.costing.watertap_costing_package.WaterTAPCostingBlockData"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaterTAPCostingBlockData</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData.build_global_params">
+<span class="sig-name descname"><span class="pre">build_global_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingDetailedData.build_global_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData.build_global_params" title="Permalink to this definition"></a></dt>
+<dd><p>To minimize overhead, only create global parameters for now.
+Unit-specific parameters will be added as sub-Blocks on a case-by-case
+basis as a unit of that type is costed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData.build_process_costs">
+<span class="sig-name descname"><span class="pre">build_process_costs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/watertap_costing_package.html#WaterTAPCostingDetailedData.build_process_costs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData.build_process_costs" title="Permalink to this definition"></a></dt>
+<dd><p>Calculating process wide costs.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.costing.zero_order_costing">
+<span id="watertap-costing-zero-order-costing-module"></span><h2>watertap.costing.zero_order_costing module<a class="headerlink" href="#module-watertap.costing.zero_order_costing" title="Permalink to this heading"></a></h2>
+<p>General costing package for zero-order processes.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.costing.zero_order_costing.ZeroOrderCosting">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.zero_order_costing.</span></span><span class="sig-name descname"><span class="pre">ZeroOrderCosting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.costing.zero_order_costing.ZeroOrderCosting" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>case_study_definition</dt><dd><p>Path to YAML file defining global parameters for case
+study. If not provided, default values from the WaterTap
+database are used.</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ZeroOrderCosting) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.costing.zero_order_costing.ZeroOrderCostingData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.costing.zero_order_costing.</span></span><span class="sig-name descname"><span class="pre">ZeroOrderCostingData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/zero_order_costing.html#ZeroOrderCostingData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.zero_order_costing.ZeroOrderCostingData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData" title="watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaterTAPCostingDetailedData</span></code></a></p>
+<p>General costing package for zero-order processes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.costing.zero_order_costing.ZeroOrderCostingData.build_global_params">
+<span class="sig-name descname"><span class="pre">build_global_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/costing/zero_order_costing.html#ZeroOrderCostingData.build_global_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.costing.zero_order_costing.ZeroOrderCostingData.build_global_params" title="Permalink to this definition"></a></dt>
+<dd><p>To minimize overhead, only create global parameters for now.
+Unit-specific parameters will be added as sub-Blocks on a case-by-case
+basis as a unit of that type is costed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.costing">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-watertap.costing" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="watertap.core.util.model_diagnostics.html" class="btn btn-neutral float-left" title="watertap.core.util.model_diagnostics package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="watertap.costing.unit_models.html" class="btn btn-neutral float-right" title="watertap.costing.unit_models package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to scale a model &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="How to scale chemical reactions" href="how_to_scale_chemical_reactions.html" />
+    <link rel="prev" title="How to use inherent reactions" href="how_to_use_inherent_reactions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">How To Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_models_in_a_py_script.html">How to run models in a Python script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_zero_order_model.html">How to run a zero-order model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_a_property_model.html">How to use a property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_RO.html">How to setup a simple RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_RO_config_options.html">How to use configuration options in the RO model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_MCAS_property_model.html">How to use the multicomponent aqueous solution (MCAS) property model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_setup_simple_chemistry.html">How to setup simple chemistry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_apparent_and_true_chemical_species.html">How to use apparent and true chemical species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_inherent_reactions.html">How to use inherent reactions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to scale a model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scaling-a-model-in-four-steps">Scaling a model in four steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-scaling-factors-for-variables">Setting scaling factors for variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transforming-constraints">Transforming constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-the-calculate-scaling-factors-function">Using the calculate_scaling_factors function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#passing-scaling-factors-to-the-solver">Passing scaling factors to the solver</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_reactions.html">How to scale chemical reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_species.html">How to scale chemical species</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_scale_chemical_process_energy_balance.html">How to scale energy balance for chemical process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep.html">How to explore a model with parameter sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_parameter_sweep_monte_carlo.html">Monte Carlo testing with the Parameter Sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_run_differential_parameter_sweep.html">How to Run Differential Parameter Sweep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_loopTool_to_explore_flowsheets.html">How to use loopTool to explore flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_debugging_solver_wrapper.html">How to use the debugging solver wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_property_test_harness.html">How to use the property test harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_ui_api.html">Add a flowsheet to the UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_ui_api.html#testing-flowsheet-interfaces">Testing flowsheet interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_use_unit_test_harness.html">How to use the unit test harness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how_to_contribute_development.html">How to contribute to WaterTAP’s development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks.html">How to run WaterTAP with Jupyter notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">How To Guides</a></li>
+      <li class="breadcrumb-item active">How to scale a model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/how_to_guides/how_to_scale_a_model.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="how-to-scale-a-model">
+<h1>How to scale a model<a class="headerlink" href="#how-to-scale-a-model" title="Permalink to this heading"></a></h1>
+<p>In WaterTAP, models are scaled in two ways: 1) passing scaling factors for each variable to the solver, and 2) transforming each constraint on the model.
+The method to pass scaling factors for each variable to the solver depends on the solver, but the methods are generally similar.
+Here we describe how to scale models for the solver IPOPT, which is the supported and default solver for WaterTAP.</p>
+<section id="scaling-a-model-in-four-steps">
+<h2>Scaling a model in four steps<a class="headerlink" href="#scaling-a-model-in-four-steps" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Set scaling factors for case specific extensive variables</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">calculate_scaling_factors</span></code> function to automatically set scaling factors for the other model variables and transform the model constraints</p></li>
+<li><p>If the user created custom variables and constraints, set the scaling factors for the custom variables and transform the custom constraints</p></li>
+<li><p>Set the solver options to include user scaling</p></li>
+</ol>
+</section>
+<section id="setting-scaling-factors-for-variables">
+<h2>Setting scaling factors for variables<a class="headerlink" href="#setting-scaling-factors-for-variables" title="Permalink to this heading"></a></h2>
+<p>Scaling factors should be the inverse the expected order of magnitude of the variable, such that if a variable was multiplied by the scaling factor the value
+would be between 0.01 and 100. For example, if a variable is expected to have a value between 1e5-1e6, a scaling factor of 1e-5 or 1e-6 would be appropriate.</p>
+<p>Scaling factors are located in the <code class="docutils literal notranslate"><span class="pre">scaling_factor</span></code> object on each block of a model.
+This object is a Pyomo Suffix and can be displayed to show what variables have scaling factors and their values as shown below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># where blk is the block of interest (e.g. m.fs.unit)</span>
+<span class="n">blk</span><span class="o">.</span><span class="n">scaling_factor</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<p>For most variables, the scaling factors are set by default or calculated with the <code class="docutils literal notranslate"><span class="pre">calculate_scaling_factors</span></code> function (described later).
+However, several extensive variables (e.g. flowrates, work, area) are case specific and should be set by the user.
+A warning will be provided if users do not set the scaling factors for extensive variables. Users can set a scaling factor for a variable with the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">idaes.core.util.scaling</span> <span class="kn">import</span> <span class="n">set_scaling_factor</span>
+<span class="c1"># var is the variable, and sf is the scaling factor</span>
+<span class="c1"># when setting the scaling factor for a non-indexed variable or for all indices of an indexed variable</span>
+<span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+
+<span class="c1"># when setting the scaling factor for a specific index of a variable</span>
+<span class="n">set_scaling_factor</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">ind</span><span class="p">],</span> <span class="n">sf</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Typically, a user would like to set the scaling factor for extensive variables on all property StateBlocks on a flowsheet, rather than for each individual StateBlock.
+A user can achieve this by setting the default scaling at the property ParameterBlock as shown below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># where prop is the property parameter block, var_name is the variable string name, ind is the variable index as a tuple, and sf is the scaling factor</span>
+<span class="n">prop</span><span class="o">.</span><span class="n">set_default_scaling</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">sf</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">ind</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="transforming-constraints">
+<h2>Transforming constraints<a class="headerlink" href="#transforming-constraints" title="Permalink to this heading"></a></h2>
+<p>Constraints should be scaled such that 1e-8 is a reasonable criterion for convergence.
+Generally, this can be achieved by ensuring that the terms within a constraint are scaled similarly to variables, where the scaled value ranges between 0.01 and 100.
+For example, a mass balance constraint should be scaled with the scaling factor for the mass flowrate.</p>
+<p>Unlike the variables, constraints are directly transformed before passing the model to the IPOPT solver. Users can transform the constraints with the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">idaes.core.util.scaling</span> <span class="kn">import</span> <span class="n">constraint_scaling_transform</span>
+<span class="c1"># where con is the constraint, ind is the constraint index, and sf is the scaling factor</span>
+<span class="n">constraint_scaling_transform</span><span class="p">(</span><span class="n">con</span><span class="p">[</span><span class="n">ind</span><span class="p">],</span> <span class="n">sf</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The scaling factor used to transform each constraint is recorded in the <code class="docutils literal notranslate"><span class="pre">constraint_transformed_scaling_factor</span></code> Pyomo Suffix.
+Users can observe these values by displaying the suffix as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># where blk is the block of interest (e.g. m.fs.unit)</span>
+<span class="n">blk</span><span class="o">.</span><span class="n">constraint_transformed_scaling_factor</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>...
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Whenever a user scales a constraint that was already transformed, the constraint is transformed to its original state before applying the new scaling factor.</p>
+</div>
+</section>
+<section id="using-the-calculate-scaling-factors-function">
+<h2>Using the calculate_scaling_factors function<a class="headerlink" href="#using-the-calculate-scaling-factors-function" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">calculate_scaling_factors</span></code> function determines and sets scaling factors for all standard variables and transforms all standard constraints by using
+developer provided default values and user provided case specific scaling factors. If the expected case specific scaling factors are not set by the user,
+the function will use a non-case specific default value and provide a warning that states what scaling factor is missing. The function can be used as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">idaes.core.util.scaling</span> <span class="kn">import</span> <span class="n">calculate_scaling_factors</span>
+<span class="n">calculate_scaling_factors</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each unit, property, reaction, and costing model has a method called calculate_scaling_factors. When the <code class="docutils literal notranslate"><span class="pre">calculate_scaling_factors</span></code> function is called
+on the flowsheet, these methods are recursively called for all blocks.</p>
+</div>
+</section>
+<section id="passing-scaling-factors-to-the-solver">
+<h2>Passing scaling factors to the solver<a class="headerlink" href="#passing-scaling-factors-to-the-solver" title="Permalink to this heading"></a></h2>
+<p>The scaling factors are automatically passed-in when using the default WaterTAP solver, <cite>ipopt-watertap</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">watertap.core.solvers</span> <span class="kn">import</span> <span class="n">get_solver</span>
+<span class="c1"># Create default WaterTAP solver object</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">()</span>
+<span class="c1"># Solve model m</span>
+<span class="c1"># TODO: COSTING_UPDATE: remove capture output below</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.tee</span> <span class="kn">import</span> <span class="n">capture_output</span>
+<span class="k">with</span> <span class="n">capture_output</span><span class="p">():</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="how_to_use_inherent_reactions.html" class="btn btn-neutral float-left" title="How to use inherent reactions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="how_to_scale_chemical_reactions.html" class="btn btn-neutral float-right" title="How to scale chemical reactions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.property_models package &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="next" title="watertap.property_models.unit_specific package" href="watertap.property_models.unit_specific.html" />
+    <link rel="prev" title="watertap.flowsheets.seawater_RO_desalination package" href="watertap.flowsheets.seawater_RO_desalination.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../technical_reference/index.html">Technical Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">Module Reference</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="watertap.html">watertap package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="watertap.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap.conftest">watertap.conftest module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.html#module-watertap">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/unit_models/index.html">Unit Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/property_models/index.html">Property Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/costing/index.html">Costing Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/tools/index.html">Tools for Flowsheet Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/core/index.html">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/flowsheets/index.html">Flowsheets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../technical_reference/ui/index.html">WaterTAP User Interface API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../technical_reference/index.html">Technical Reference</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">watertap</a></li>
+          <li class="breadcrumb-item"><a href="watertap.html">watertap package</a></li>
+      <li class="breadcrumb-item active">watertap.property_models package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/watertap.property_models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="watertap-property-models-package">
+<h1>watertap.property_models package<a class="headerlink" href="#watertap-property-models-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="watertap.property_models.unit_specific.html">watertap.property_models.unit_specific package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="watertap.property_models.unit_specific.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html">watertap.property_models.unit_specific.activated_sludge package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#module-watertap.property_models.unit_specific.activated_sludge.asm1_properties">watertap.property_models.unit_specific.activated_sludge.asm1_properties module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#module-watertap.property_models.unit_specific.activated_sludge.asm1_reactions">watertap.property_models.unit_specific.activated_sludge.asm1_reactions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#module-watertap.property_models.unit_specific.activated_sludge.asm2d_properties">watertap.property_models.unit_specific.activated_sludge.asm2d_properties module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#module-watertap.property_models.unit_specific.activated_sludge.asm2d_reactions">watertap.property_models.unit_specific.activated_sludge.asm2d_reactions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#module-watertap.property_models.unit_specific.activated_sludge.modified_asm2d_properties">watertap.property_models.unit_specific.activated_sludge.modified_asm2d_properties module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#module-watertap.property_models.unit_specific.activated_sludge.modified_asm2d_reactions">watertap.property_models.unit_specific.activated_sludge.modified_asm2d_reactions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#module-watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_properties">watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_properties module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#module-watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_reactions">watertap.property_models.unit_specific.activated_sludge.simple_modified_asm2d_reactions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.activated_sludge.html#module-watertap.property_models.unit_specific.activated_sludge">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.anaerobic_digestion.html">watertap.property_models.unit_specific.anaerobic_digestion package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.anaerobic_digestion.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.anaerobic_digestion.html#module-watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.anaerobic_digestion.html#module-watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor">watertap.property_models.unit_specific.anaerobic_digestion.adm1_properties_vapor module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.anaerobic_digestion.html#module-watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions">watertap.property_models.unit_specific.anaerobic_digestion.adm1_reactions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.anaerobic_digestion.html#module-watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_properties module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.anaerobic_digestion.html#module-watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions">watertap.property_models.unit_specific.anaerobic_digestion.modified_adm1_reactions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.anaerobic_digestion.html#module-watertap.property_models.unit_specific.anaerobic_digestion">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.property_models.unit_specific.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.property_models.unit_specific.html#module-watertap.property_models.unit_specific.NDMA_prop_pack">watertap.property_models.unit_specific.NDMA_prop_pack module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAParameterBlock"><code class="docutils literal notranslate"><span class="pre">NDMAParameterBlock</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAParameterData"><code class="docutils literal notranslate"><span class="pre">NDMAParameterData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAParameterData.build"><code class="docutils literal notranslate"><span class="pre">NDMAParameterData.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAParameterData.define_metadata"><code class="docutils literal notranslate"><span class="pre">NDMAParameterData.define_metadata()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAStateBlock"><code class="docutils literal notranslate"><span class="pre">NDMAStateBlock</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAStateBlockData"><code class="docutils literal notranslate"><span class="pre">NDMAStateBlockData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAStateBlockData.build"><code class="docutils literal notranslate"><span class="pre">NDMAStateBlockData.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAStateBlockData.define_state_vars"><code class="docutils literal notranslate"><span class="pre">NDMAStateBlockData.define_state_vars()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAStateBlockData.get_enthalpy_flow_terms"><code class="docutils literal notranslate"><span class="pre">NDMAStateBlockData.get_enthalpy_flow_terms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAStateBlockData.get_material_flow_basis"><code class="docutils literal notranslate"><span class="pre">NDMAStateBlockData.get_material_flow_basis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.NDMA_prop_pack.NDMAStateBlockData.get_material_flow_terms"><code class="docutils literal notranslate"><span class="pre">NDMAStateBlockData.get_material_flow_terms()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.property_models.unit_specific.html#module-watertap.property_models.unit_specific.coagulation_prop_pack">watertap.property_models.unit_specific.coagulation_prop_pack module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationParameterBlock"><code class="docutils literal notranslate"><span class="pre">CoagulationParameterBlock</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationParameterData"><code class="docutils literal notranslate"><span class="pre">CoagulationParameterData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationParameterData.build"><code class="docutils literal notranslate"><span class="pre">CoagulationParameterData.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationParameterData.define_metadata"><code class="docutils literal notranslate"><span class="pre">CoagulationParameterData.define_metadata()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationStateBlock"><code class="docutils literal notranslate"><span class="pre">CoagulationStateBlock</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationStateBlockData"><code class="docutils literal notranslate"><span class="pre">CoagulationStateBlockData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationStateBlockData.build"><code class="docutils literal notranslate"><span class="pre">CoagulationStateBlockData.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationStateBlockData.define_state_vars"><code class="docutils literal notranslate"><span class="pre">CoagulationStateBlockData.define_state_vars()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationStateBlockData.get_enthalpy_flow_terms"><code class="docutils literal notranslate"><span class="pre">CoagulationStateBlockData.get_enthalpy_flow_terms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationStateBlockData.get_material_flow_basis"><code class="docutils literal notranslate"><span class="pre">CoagulationStateBlockData.get_material_flow_basis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.coagulation_prop_pack.CoagulationStateBlockData.get_material_flow_terms"><code class="docutils literal notranslate"><span class="pre">CoagulationStateBlockData.get_material_flow_terms()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.property_models.unit_specific.html#module-watertap.property_models.unit_specific.cryst_prop_pack">watertap.property_models.unit_specific.cryst_prop_pack module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.HeatOfCrystallizationModel"><code class="docutils literal notranslate"><span class="pre">HeatOfCrystallizationModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClParameterBlock"><code class="docutils literal notranslate"><span class="pre">NaClParameterBlock</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClParameterData"><code class="docutils literal notranslate"><span class="pre">NaClParameterData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClParameterData.build"><code class="docutils literal notranslate"><span class="pre">NaClParameterData.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClParameterData.define_metadata"><code class="docutils literal notranslate"><span class="pre">NaClParameterData.define_metadata()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClStateBlock"><code class="docutils literal notranslate"><span class="pre">NaClStateBlock</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClStateBlockData"><code class="docutils literal notranslate"><span class="pre">NaClStateBlockData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClStateBlockData.build"><code class="docutils literal notranslate"><span class="pre">NaClStateBlockData.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClStateBlockData.define_state_vars"><code class="docutils literal notranslate"><span class="pre">NaClStateBlockData.define_state_vars()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClStateBlockData.get_enthalpy_flow_terms"><code class="docutils literal notranslate"><span class="pre">NaClStateBlockData.get_enthalpy_flow_terms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClStateBlockData.get_material_flow_basis"><code class="docutils literal notranslate"><span class="pre">NaClStateBlockData.get_material_flow_basis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="watertap.property_models.unit_specific.html#watertap.property_models.unit_specific.cryst_prop_pack.NaClStateBlockData.get_material_flow_terms"><code class="docutils literal notranslate"><span class="pre">NaClStateBlockData.get_material_flow_terms()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="watertap.property_models.unit_specific.html#module-watertap.property_models.unit_specific">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-watertap.property_models.NaCl_T_dep_prop_pack">
+<span id="watertap-property-models-nacl-t-dep-prop-pack-module"></span><h2>watertap.property_models.NaCl_T_dep_prop_pack module<a class="headerlink" href="#module-watertap.property_models.NaCl_T_dep_prop_pack" title="Permalink to this heading"></a></h2>
+<p>Initial property package for H2O-NaCl system with temperature dependence</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.NaCl_T_dep_prop_pack.</span></span><span class="sig-name descname"><span class="pre">NaClParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(NaClParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.NaCl_T_dep_prop_pack.</span></span><span class="sig-name descname"><span class="pre">NaClParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_T_dep_prop_pack.html#NaClParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_T_dep_prop_pack.html#NaClParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_T_dep_prop_pack.html#NaClParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Define properties supported and units.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.NaCl_T_dep_prop_pack.</span></span><span class="sig-name descname"><span class="pre">NaClStateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_NaClStateBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Property Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>defined_state</dt><dd><p>Flag indicating whether the state should be considered
+fully defined, and thus whether constraints such as sum of
+mass/mole fractions should be included, <strong>default</strong> -
+False. <strong>Valid values:</strong> { <strong>True</strong> - state variables will
+be fully defined, <strong>False</strong> - state variables will not be
+fully defined.}</p>
+</dd>
+<dt>has_phase_equilibrium</dt><dd><p>Flag indicating whether phase equilibrium constraints
+should be constructed in this state block, <strong>default</strong> -
+True. <strong>Valid values:</strong> { <strong>True</strong> - StateBlock should
+calculate phase equilibrium, <strong>False</strong> - StateBlock should
+not calculate phase equilibrium.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(NaClStateBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.NaCl_T_dep_prop_pack.</span></span><span class="sig-name descname"><span class="pre">NaClStateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_T_dep_prop_pack.html#NaClStateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_T_dep_prop_pack.html#NaClStateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.define_state_vars">
+<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_T_dep_prop_pack.html#NaClStateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.define_state_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Define state vars.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.get_enthalpy_flow_terms">
+<span class="sig-name descname"><span class="pre">get_enthalpy_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_T_dep_prop_pack.html#NaClStateBlockData.get_enthalpy_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.get_enthalpy_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create enthalpy flow terms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.get_material_flow_basis">
+<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_T_dep_prop_pack.html#NaClStateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.get_material_flow_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the material flow
+term.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.get_material_flow_terms">
+<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_T_dep_prop_pack.html#NaClStateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_T_dep_prop_pack.NaClStateBlockData.get_material_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create material flow terms for control volume.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models.NaCl_prop_pack">
+<span id="watertap-property-models-nacl-prop-pack-module"></span><h2>watertap.property_models.NaCl_prop_pack module<a class="headerlink" href="#module-watertap.property_models.NaCl_prop_pack" title="Permalink to this heading"></a></h2>
+<p>Initial property package for H2O-NaCl system</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.NaCl_prop_pack.</span></span><span class="sig-name descname"><span class="pre">NaClParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(NaClParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.NaCl_prop_pack.</span></span><span class="sig-name descname"><span class="pre">NaClParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Define properties supported and units.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClStateBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.NaCl_prop_pack.</span></span><span class="sig-name descname"><span class="pre">NaClStateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClStateBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_NaClStateBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Property Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>defined_state</dt><dd><p>Flag indicating whether the state should be considered
+fully defined, and thus whether constraints such as sum of
+mass/mole fractions should be included, <strong>default</strong> -
+False. <strong>Valid values:</strong> { <strong>True</strong> - state variables will
+be fully defined, <strong>False</strong> - state variables will not be
+fully defined.}</p>
+</dd>
+<dt>has_phase_equilibrium</dt><dd><p>Flag indicating whether phase equilibrium constraints
+should be constructed in this state block, <strong>default</strong> -
+True. <strong>Valid values:</strong> { <strong>True</strong> - StateBlock should
+calculate phase equilibrium, <strong>False</strong> - StateBlock should
+not calculate phase equilibrium.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(NaClStateBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClStateBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.NaCl_prop_pack.</span></span><span class="sig-name descname"><span class="pre">NaClStateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClStateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClStateBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClStateBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClStateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClStateBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClStateBlockData.define_state_vars">
+<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClStateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClStateBlockData.define_state_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Define state vars.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_energy_density_terms">
+<span class="sig-name descname"><span class="pre">get_energy_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClStateBlockData.get_energy_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_energy_density_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create enthalpy density terms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_enthalpy_flow_terms">
+<span class="sig-name descname"><span class="pre">get_enthalpy_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClStateBlockData.get_enthalpy_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_enthalpy_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create enthalpy flow terms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_material_density_terms">
+<span class="sig-name descname"><span class="pre">get_material_density_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClStateBlockData.get_material_density_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_material_density_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create material density terms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_material_flow_basis">
+<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClStateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_material_flow_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the material flow
+term.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_material_flow_terms">
+<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/NaCl_prop_pack.html#NaClStateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.NaCl_prop_pack.NaClStateBlockData.get_material_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create material flow terms for control volume.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models.multicomp_aq_sol_prop_pack">
+<span id="watertap-property-models-multicomp-aq-sol-prop-pack-module"></span><h2>watertap.property_models.multicomp_aq_sol_prop_pack module<a class="headerlink" href="#module-watertap.property_models.multicomp_aq_sol_prop_pack" title="Permalink to this heading"></a></h2>
+<p>This property package computes a multi-component aqueous solution that can
+contain ionic and/or neutral solute species. It supports basic calculation
+of component quantities and some physical, chemical and electrical properties.</p>
+<p>This property package was formerly named the “ion_DSPMDE_prop_pack” and was originally
+designed for use with the Donnan Steric Pore Model with Dielectric Exclusion (DSPMDE) for
+nanofiltration.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.ActivityCoefficientModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">ActivityCoefficientModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#ActivityCoefficientModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.ActivityCoefficientModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.DensityCalculation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">DensityCalculation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#DensityCalculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.DensityCalculation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.DiffusivityCalculation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">DiffusivityCalculation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#DiffusivityCalculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.DiffusivityCalculation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.ElectricalMobilityCalculation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">ElectricalMobilityCalculation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#ElectricalMobilityCalculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.ElectricalMobilityCalculation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.EquivalentConductivityCalculation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">EquivalentConductivityCalculation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#EquivalentConductivityCalculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.EquivalentConductivityCalculation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">MCASParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl>
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+<dt>solute_list</dt><dd><p>Required argument.List of strings that specify names of
+solute species.</p>
+</dd>
+<dt>stokes_radius_data</dt><dd><p>Dict of solute species names (keys) and Stokes radius data
+(values)</p>
+</dd>
+<dt>diffusivity_data</dt><dd><p>Dict of solute species names (keys) and bulk ion
+diffusivity data (values)</p>
+</dd>
+<dt>molar_volume_data</dt><dd><p>Dict of solute species names and molar volume of aqueous
+species</p>
+</dd>
+<dt>mw_data</dt><dd><p>Required argument. Dict of component names (keys)and
+molecular weight data (values)</p>
+</dd>
+<dt>elec_mobility_data</dt><dd><p>Ion electrical mobility</p>
+</dd>
+<dt>trans_num_data</dt><dd><p>transport number of ions in the liquid phase</p>
+</dd>
+<dt>equiv_conductivity_phase_data</dt><dd><p>Equivalent conductivity of ions in the liquid phase</p>
+</dd>
+<dt>charge</dt><dd><p>Ion charge</p>
+</dd>
+<dt>ignore_neutral_charge</dt><dd><p>Level of reporting results. <strong>default</strong> - False. <strong>Valid
+values:</strong> { <strong>False</strong> - raise ConfigurationError when
+charge value not provided for ALL solutes, including
+neutral solutes (charge=0), <strong>True</strong> - will not raise
+ConfigurationError when charge not provided for particular
+solutes, assuming said solutes are meant to be designated
+as neutral.</p>
+</dd>
+<dt>activity_coefficient_model</dt><dd><blockquote>
+<div><p>Options to account for activity coefficient model.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">ActivityCoefficientModel.ideal</span></code></p>
+</div></blockquote>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ActivityCoefficientModel.ideal</span></code></p></td>
+<td><p>Activity coefficients equal to 1 assuming ideal solution</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ActivityCoefficientModel.davies</span></code></p></td>
+<td><p>Activity coefficients estimated via Davies model</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>density_calculation</dt><dd><blockquote>
+<div><p>Options to account for solution density.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">DensityCalculation.constant</span></code></p>
+</div></blockquote>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DensityCalculation.constant</span></code></p></td>
+<td><p>Solution density assumed constant at 1000 kg/m3 by default in dens_mass_const parameter</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DensityCalculation.seawater</span></code></p></td>
+<td><p>Solution density based on correlation for seawater (TDS)</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>diffus_calculation</dt><dd><blockquote>
+<div><p>Options to account for ionic or molecular diffusivity.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">DiffusivityCalculation.none</span></code></p>
+</div></blockquote>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DiffusivityCalculation.none</span></code></p></td>
+<td><p>Users provide data via the diffusivity_data configuration</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DiffusivityCalculation.HaydukLaudie</span></code></p></td>
+<td><p>Allow the nonelectrolyte (neutral) species to get diffusivity from the Hayduk Laudie equation</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>elec_mobility_calculation</dt><dd><blockquote>
+<div><p>Options to account for ion electrical mobility.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">ElectricalMobilityCalculation.none</span></code></p>
+</div></blockquote>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ElectricalMobilityCalculation.none</span></code></p></td>
+<td><p>Users provide data via the elec_mobility_data configuration</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ElectricalMobilityCalculation.EinsteinRelation</span></code></p></td>
+<td><p>Calculate from the diffusivity_data by the Einstein Relation</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>trans_num_calculation</dt><dd><blockquote>
+<div><p>Options to account for ion transport number in the solution.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">TransportNumberCalculation.ElectricalMobility</span></code></p>
+</div></blockquote>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TransportNumberCalculation.none</span></code></p></td>
+<td><p>Users provide data via the trans_num_data configuration</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TransportNumberCalculation.ElectricalMobility</span></code></p></td>
+<td><p>Calculated from the elec_mobility_data</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>equiv_conductivity_calculation</dt><dd><blockquote>
+<div><p>Options to account for the total equivalent conductivity of the liquid phase (solution).</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">EquivalentConductivityCalculation.none</span></code></p>
+</div></blockquote>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EquivalentConductivityCalculation.none</span></code></p></td>
+<td><p>Users provide data via the equiv_conductivity_data configuration</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EquivalentConductivityCalculation.ElectricalMobility</span></code></p></td>
+<td><p>Calculated from the electrical_mobility_data</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>material_flow_basis</dt><dd><blockquote>
+<div><p>Material flow basis options.</p>
+<p><strong>default</strong> - <code class="docutils literal notranslate"><span class="pre">MaterialFlowBasis.molar</span></code></p>
+</div></blockquote>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Configuration Options</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MaterialFlowBasis.molar</span></code></p></td>
+<td><p>molar flowrate as the state variable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MaterialFlowBasis.mass</span></code></p></td>
+<td><p>mass flowrate as the state variable</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MaterialFlowBasis.other</span></code></p></td>
+<td><p>other material flowrate as the state variable</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(MCASParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">MCASParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Define properties supported and units.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">MCASStateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_MCASStateBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Property Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>defined_state</dt><dd><p>Flag indicating whether the state should be considered
+fully defined, and thus whether constraints such as sum of
+mass/mole fractions should be included, <strong>default</strong> -
+False. <strong>Valid values:</strong> { <strong>True</strong> - state variables will
+be fully defined, <strong>False</strong> - state variables will not be
+fully defined.}</p>
+</dd>
+<dt>has_phase_equilibrium</dt><dd><p>Flag indicating whether phase equilibrium constraints
+should be constructed in this state block, <strong>default</strong> -
+True. <strong>Valid values:</strong> { <strong>True</strong> - StateBlock should
+calculate phase equilibrium, <strong>False</strong> - StateBlock should
+not calculate phase equilibrium.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(MCASStateBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">MCASStateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.assert_electroneutrality">
+<span class="sig-name descname"><span class="pre">assert_electroneutrality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tee</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defined_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust_by_ion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_property</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.assert_electroneutrality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.assert_electroneutrality" title="Permalink to this definition"></a></dt>
+<dd><p>TODO: add descriptions of args and what is returned</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.define_state_vars">
+<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.define_state_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Define state vars.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.get_material_flow_basis">
+<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.get_material_flow_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the material flow
+term.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.get_material_flow_terms">
+<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#MCASStateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.MCASStateBlockData.get_material_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create material flow terms for control volume.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.multicomp_aq_sol_prop_pack.TransportNumberCalculation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.multicomp_aq_sol_prop_pack.</span></span><span class="sig-name descname"><span class="pre">TransportNumberCalculation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/multicomp_aq_sol_prop_pack.html#TransportNumberCalculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.multicomp_aq_sol_prop_pack.TransportNumberCalculation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models.seawater_prop_pack">
+<span id="watertap-property-models-seawater-prop-pack-module"></span><h2>watertap.property_models.seawater_prop_pack module<a class="headerlink" href="#module-watertap.property_models.seawater_prop_pack" title="Permalink to this heading"></a></h2>
+<p>Initial property package for seawater system</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.seawater_prop_pack.</span></span><span class="sig-name descname"><span class="pre">SeawaterParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(SeawaterParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.seawater_prop_pack.</span></span><span class="sig-name descname"><span class="pre">SeawaterParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/seawater_prop_pack.html#SeawaterParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
+<p>Parameter block for a seawater property package.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/seawater_prop_pack.html#SeawaterParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/seawater_prop_pack.html#SeawaterParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Define properties supported and units.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterStateBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.seawater_prop_pack.</span></span><span class="sig-name descname"><span class="pre">SeawaterStateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterStateBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_SeawaterStateBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Property Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>defined_state</dt><dd><p>Flag indicating whether the state should be considered
+fully defined, and thus whether constraints such as sum of
+mass/mole fractions should be included, <strong>default</strong> -
+False. <strong>Valid values:</strong> { <strong>True</strong> - state variables will
+be fully defined, <strong>False</strong> - state variables will not be
+fully defined.}</p>
+</dd>
+<dt>has_phase_equilibrium</dt><dd><p>Flag indicating whether phase equilibrium constraints
+should be constructed in this state block, <strong>default</strong> -
+True. <strong>Valid values:</strong> { <strong>True</strong> - StateBlock should
+calculate phase equilibrium, <strong>False</strong> - StateBlock should
+not calculate phase equilibrium.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(SeawaterStateBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterStateBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.seawater_prop_pack.</span></span><span class="sig-name descname"><span class="pre">SeawaterStateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/seawater_prop_pack.html#SeawaterStateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterStateBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
+<p>A seawater property package.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/seawater_prop_pack.html#SeawaterStateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.define_state_vars">
+<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/seawater_prop_pack.html#SeawaterStateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.define_state_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Define state vars.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.get_enthalpy_flow_terms">
+<span class="sig-name descname"><span class="pre">get_enthalpy_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/seawater_prop_pack.html#SeawaterStateBlockData.get_enthalpy_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.get_enthalpy_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create enthalpy flow terms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.get_material_flow_basis">
+<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/seawater_prop_pack.html#SeawaterStateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.get_material_flow_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the material flow
+term.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.get_material_flow_terms">
+<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/seawater_prop_pack.html#SeawaterStateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.seawater_prop_pack.SeawaterStateBlockData.get_material_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create material flow terms for control volume.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models.water_prop_pack">
+<span id="watertap-property-models-water-prop-pack-module"></span><h2>watertap.property_models.water_prop_pack module<a class="headerlink" href="#module-watertap.property_models.water_prop_pack" title="Permalink to this heading"></a></h2>
+<p>Initial property package for pure water system (vapor or liquid)</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterParameterBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.water_prop_pack.</span></span><span class="sig-name descname"><span class="pre">WaterParameterBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterParameterBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/process_block.html#idaes.core.base.process_block.ProcessBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProcessBlock</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>default_arguments</dt><dd><p>Default arguments to use with Property Package</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(WaterParameterBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterParameterData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.water_prop_pack.</span></span><span class="sig-name descname"><span class="pre">WaterParameterData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/water_prop_pack.html#WaterParameterData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterParameterData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.PhysicalParameterBlock" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalParameterBlock</span></code></a></p>
+<p>Parameter block for a water property package.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterParameterData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/water_prop_pack.html#WaterParameterData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterParameterData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterParameterData.define_metadata">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">define_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/water_prop_pack.html#WaterParameterData.define_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterParameterData.define_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Define properties supported and units.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterStateBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.water_prop_pack.</span></span><span class="sig-name descname"><span class="pre">WaterStateBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterStateBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_WaterStateBlock</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule</strong> (<em>function</em>) – A rule function or None. Default rule calls build().</p></li>
+<li><p><strong>concrete</strong> (<em>bool</em>) – If True, make this a toplevel model. <strong>Default</strong> - False.</p></li>
+<li><p><strong>ctype</strong> (<em>class</em>) – <p>Pyomo ctype of the block.  <strong>Default</strong> - pyomo.environ.Block</p>
+<p>Config args</p>
+<blockquote>
+<div><dl class="simple">
+<dt>parameters</dt><dd><p>A reference to an instance of the Property Parameter Block
+associated with this property package.</p>
+</dd>
+<dt>defined_state</dt><dd><p>Flag indicating whether the state should be considered
+fully defined, and thus whether constraints such as sum of
+mass/mole fractions should be included, <strong>default</strong> -
+False. <strong>Valid values:</strong> { <strong>True</strong> - state variables will
+be fully defined, <strong>False</strong> - state variables will not be
+fully defined.}</p>
+</dd>
+<dt>has_phase_equilibrium</dt><dd><p>Flag indicating whether phase equilibrium constraints
+should be constructed in this state block, <strong>default</strong> -
+True. <strong>Valid values:</strong> { <strong>True</strong> - StateBlock should
+calculate phase equilibrium, <strong>False</strong> - StateBlock should
+not calculate phase equilibrium.}</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>initialize</strong> (<em>dict</em>) – ProcessBlockData config for individual elements. Keys
+are BlockData indexes and values are dictionaries with config arguments
+as keys.</p></li>
+<li><p><strong>idx_map</strong> (<em>function</em>) – Function to take the index of a BlockData element and
+return the index in the initialize dict from which to read arguments.
+This can be provided to override the default behavior of matching the
+BlockData index exactly to the index in initialize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(WaterStateBlock) New instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterStateBlockData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">watertap.property_models.water_prop_pack.</span></span><span class="sig-name descname"><span class="pre">WaterStateBlockData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/water_prop_pack.html#WaterStateBlockData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterStateBlockData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://idaes-pse.readthedocs.io/en/stable/reference_guides/core/physical_property_class.html#idaes.core.base.property_base.StateBlockData" title="(in IDAES v2.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateBlockData</span></code></a></p>
+<p>A water property package.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterStateBlockData.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/water_prop_pack.html#WaterStateBlockData.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterStateBlockData.build" title="Permalink to this definition"></a></dt>
+<dd><p>Callable method for Block construction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterStateBlockData.define_state_vars">
+<span class="sig-name descname"><span class="pre">define_state_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/water_prop_pack.html#WaterStateBlockData.define_state_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterStateBlockData.define_state_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Define state vars.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterStateBlockData.get_enthalpy_flow_terms">
+<span class="sig-name descname"><span class="pre">get_enthalpy_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/water_prop_pack.html#WaterStateBlockData.get_enthalpy_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterStateBlockData.get_enthalpy_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create enthalpy flow terms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterStateBlockData.get_material_flow_basis">
+<span class="sig-name descname"><span class="pre">get_material_flow_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/water_prop_pack.html#WaterStateBlockData.get_material_flow_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterStateBlockData.get_material_flow_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Method which returns an Enum indicating the basis of the material flow
+term.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="watertap.property_models.water_prop_pack.WaterStateBlockData.get_material_flow_terms">
+<span class="sig-name descname"><span class="pre">get_material_flow_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watertap/property_models/water_prop_pack.html#WaterStateBlockData.get_material_flow_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#watertap.property_models.water_prop_pack.WaterStateBlockData.get_material_flow_terms" title="Permalink to this definition"></a></dt>
+<dd><p>Create material flow terms for control volume.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-watertap.property_models">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-watertap.property_models" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="watertap.flowsheets.seawater_RO_desalination.html" class="btn btn-neutral float-left" title="watertap.flowsheets.seawater_RO_desalination package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="watertap.property_models.unit_specific.html" class="btn btn-neutral float-right" title="watertap.property_models.unit_specific package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

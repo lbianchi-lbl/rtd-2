@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.unit_models.MD.membrane_distillation_1D &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.unit_models.MD.membrane_distillation_1D</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.unit_models.MD.membrane_distillation_1D</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="c1"># Import Pyomo libraries</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">Constraint</span>
+<span class="kn">from</span> <span class="nn">pyomo.common.config</span> <span class="kn">import</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">ConfigValue</span><span class="p">,</span> <span class="n">ConfigBlock</span><span class="p">,</span> <span class="n">In</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">FlowDirection</span>
+
+<span class="kn">from</span> <span class="nn">.MD_channel_base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ConcentrationPolarizationType</span><span class="p">,</span>
+    <span class="n">TemperaturePolarizationType</span><span class="p">,</span>
+    <span class="n">MassTransferCoefficient</span><span class="p">,</span>
+    <span class="n">PressureChangeType</span><span class="p">,</span>
+    <span class="n">FrictionFactor</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FlowDirection</span><span class="p">,</span>
+    <span class="n">EnergyBalanceType</span><span class="p">,</span>
+    <span class="n">MaterialBalanceType</span><span class="p">,</span>
+    <span class="n">MomentumBalanceType</span><span class="p">,</span>
+    <span class="n">useDefault</span><span class="p">,</span>
+    <span class="n">DistributedVars</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">declare_process_block_class</span>
+<span class="kn">from</span> <span class="nn">.MD_channel_base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TemperaturePolarizationType</span><span class="p">,</span>
+    <span class="n">MassTransferCoefficient</span><span class="p">,</span>
+    <span class="n">PressureChangeType</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.MD_channel_1D</span> <span class="kn">import</span> <span class="n">MDChannel1DBlock</span>
+<span class="kn">from</span> <span class="nn">.membrane_distillation_base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MembraneDistillationBaseData</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.config</span> <span class="kn">import</span> <span class="n">is_physical_parameter_block</span>
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Elmira Shamlou&quot;</span>
+
+<span class="c1"># Set up logger</span>
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MembraneDistillationData"><a class="viewcode-back" href="../../../../apidoc/watertap.unit_models.MD.html#watertap.unit_models.MD.membrane_distillation_1D.MembraneDistillationData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;MembraneDistillation1D&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MembraneDistillationData</span><span class="p">(</span><span class="n">MembraneDistillationBaseData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Standard DCMD Unit Model Class:</span>
+<span class="sd">    - one dimensional model</span>
+<span class="sd">    - steady state only</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ConfigBlock</span><span class="p">()</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;dynamic&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">([</span><span class="kc">False</span><span class="p">]),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dynamic model flag - must be False&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates whether this model will be dynamic or not.</span>
+<span class="s2">    **default** - False. Membrane units do not yet support dynamic</span>
+<span class="s2">    behavior.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;has_holdup&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">([</span><span class="kc">False</span><span class="p">]),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Holdup construction flag - must be False&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates whether holdup terms should be constructed or not.</span>
+<span class="s2">    **default** - False. Membrane units do not have defined volume, thus</span>
+<span class="s2">    this must be False.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">_CONFIG_Template</span> <span class="o">=</span> <span class="n">ConfigBlock</span><span class="p">()</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;dynamic&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">([</span><span class="kc">False</span><span class="p">]),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Dynamic model flag - must be False&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates whether this model will be dynamic or not.</span>
+<span class="s2">    **default** - False. Membrane units do not yet support dynamic</span>
+<span class="s2">    behavior.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;has_holdup&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">([</span><span class="kc">False</span><span class="p">]),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Holdup construction flag - must be False&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates whether holdup terms should be constructed or not.</span>
+<span class="s2">    **default** - False. Membrane units do not have defined volume, thus</span>
+<span class="s2">    this must be False.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;property_package&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">useDefault</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">is_physical_parameter_block</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Property package to use for control volume&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Property parameter object used to define property calculations,</span>
+<span class="s2">**default** - useDefault.</span>
+<span class="s2">**Valid values:** {</span>
+<span class="s2">**useDefault** - use default package from parent model or flowsheet,</span>
+<span class="s2">**PhysicalParameterObject** - a PhysicalParameterBlock object.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;property_package_args&quot;</span><span class="p">,</span>
+        <span class="n">ConfigDict</span><span class="p">(</span>
+            <span class="n">implicit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Arguments to use for constructing property packages&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;A ConfigDict with arguments to be passed to a property block(s)</span>
+<span class="s2">and used when constructing these.</span>
+<span class="s2">**default** - None.</span>
+<span class="s2">**Valid values:** {</span>
+<span class="s2">see property package for documentation.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;material_balance_type&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">MaterialBalanceType</span><span class="o">.</span><span class="n">useDefault</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">MaterialBalanceType</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Material balance construction flag&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates what type of mass balance should be constructed,</span>
+<span class="s2">    **default** - useDefault.</span>
+<span class="s2">    **Valid values:** {</span>
+<span class="s2">    **MaterialBalanceType.useDefault** - refer to property package for default</span>
+<span class="s2">    balance type</span>
+<span class="s2">    **MaterialBalanceType.none** - exclude material balances,</span>
+<span class="s2">    **MaterialBalanceType.componentPhase** - use phase component balances,</span>
+<span class="s2">    **MaterialBalanceType.componentTotal** - use total component balances,</span>
+<span class="s2">    **MaterialBalanceType.elementTotal** - use total element balances,</span>
+<span class="s2">    **MaterialBalanceType.total** - use total material balance.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;energy_balance_type&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">EnergyBalanceType</span><span class="o">.</span><span class="n">useDefault</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">EnergyBalanceType</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Energy balance construction flag&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates what type of energy balance should be constructed.</span>
+<span class="s2">    **default** - useDefault.</span>
+<span class="s2">    **Valid values:** {</span>
+<span class="s2">    **EnergyBalanceType.useDefault** - refer to property package for default</span>
+<span class="s2">    balance type</span>
+<span class="s2">    **EnergyBalanceType.none** - exclude energy balances,</span>
+<span class="s2">    **EnergyBalanceType.enthalpyTotal** - single enthalpy balance for material,</span>
+<span class="s2">    **EnergyBalanceType.enthalpyPhase** - enthalpy balances for each phase,</span>
+<span class="s2">    **EnergyBalanceType.energyTotal** - single energy balance for material,</span>
+<span class="s2">    **EnergyBalanceType.energyPhase** - energy balances for each phase.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;momentum_balance_type&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">MomentumBalanceType</span><span class="o">.</span><span class="n">pressureTotal</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">MomentumBalanceType</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Momentum balance construction flag&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates what type of momentum balance should be constructed,</span>
+<span class="s2">    **default** - MomentumBalanceType.pressureTotal.</span>
+<span class="s2">    **Valid values:** {</span>
+<span class="s2">    **MomentumBalanceType.none** - exclude momentum balances,</span>
+<span class="s2">    **MomentumBalanceType.pressureTotal** - single pressure balance for material,</span>
+<span class="s2">    **MomentumBalanceType.pressurePhase** - pressure balances for each phase,</span>
+<span class="s2">    **MomentumBalanceType.momentumTotal** - single momentum balance for material,</span>
+<span class="s2">    **MomentumBalanceType.momentumPhase** - momentum balances for each phase.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;flow_direction&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">FlowDirection</span><span class="o">.</span><span class="n">forward</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">FlowDirection</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Direction of flow&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Options for the direction of flow:</span>
+
+<span class="s2">            **default** - ``FlowDirection.forward``</span>
+
+<span class="s2">        .. csv-table::</span>
+<span class="s2">            :header: &quot;Configuration Options&quot;, &quot;Description&quot;</span>
+
+<span class="s2">            &quot;``FlowDirection.forward``&quot;, &quot;Flow is in the forward direction&quot;</span>
+<span class="s2">            &quot;``FlowDirection.backward``&quot;, &quot;Flow is in the backward direction&quot;</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;temperature_polarization_type&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">TemperaturePolarizationType</span><span class="o">.</span><span class="n">calculated</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">TemperaturePolarizationType</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;External temperature polarization effect&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Options to account for temperature polarization.</span>
+
+<span class="s2">            **default** - ``TemperaturePolarizationType.calculated``</span>
+
+<span class="s2">        .. csv-table::</span>
+<span class="s2">            :header: &quot;Configuration Options&quot;, &quot;Description&quot;</span>
+
+<span class="s2">            &quot;``TemperaturePolarizationType.none``&quot;, &quot;Simplifying assumption to ignore temperature polarization&quot;</span>
+<span class="s2">            &quot;``TemperaturePolarizationType.fixed``&quot;, &quot;Specify an estimated value for the temperature polarization modulus&quot;</span>
+<span class="s2">            &quot;``TemperaturePolarizationType.calculated``&quot;, &quot;Allow model to perform calculation of membrane-interface temperature&quot;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;concentration_polarization_type&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">ConcentrationPolarizationType</span><span class="o">.</span><span class="n">calculated</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">ConcentrationPolarizationType</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;External concentration polarization effect in RO&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Options to account for concentration polarization.</span>
+
+<span class="s2">            **default** - ``ConcentrationPolarizationType.calculated``</span>
+
+<span class="s2">        .. csv-table::</span>
+<span class="s2">            :header: &quot;Configuration Options&quot;, &quot;Description&quot;</span>
+
+<span class="s2">            &quot;``ConcentrationPolarizationType.none``&quot;, &quot;Simplifying assumption to ignore concentration polarization&quot;</span>
+<span class="s2">            &quot;``ConcentrationPolarizationType.fixed``&quot;, &quot;Specify an estimated value for the concentration polarization modulus&quot;</span>
+<span class="s2">            &quot;``ConcentrationPolarizationType.calculated``&quot;, &quot;Allow model to perform calculation of membrane-interface concentration&quot;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;mass_transfer_coefficient&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">MassTransferCoefficient</span><span class="o">.</span><span class="n">calculated</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">MassTransferCoefficient</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Mass transfer coefficient in RO feed channel&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Options to account for mass transfer coefficient.</span>
+
+<span class="s2">            **default** - ``MassTransferCoefficient.calculated``</span>
+
+<span class="s2">        .. csv-table::</span>
+<span class="s2">            :header: &quot;Configuration Options&quot;, &quot;Description&quot;</span>
+
+<span class="s2">            &quot;``MassTransferCoefficient.none``&quot;, &quot;Mass transfer coefficient not used in calculations&quot;</span>
+<span class="s2">            &quot;``MassTransferCoefficient.fixed``&quot;, &quot;Specify an estimated value for the mass transfer coefficient in the feed channel&quot;</span>
+<span class="s2">            &quot;``MassTransferCoefficient.calculated``&quot;, &quot;Allow model to perform calculation of mass transfer coefficient&quot;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;has_pressure_change&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">Bool</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pressure change term construction flag&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Indicates whether terms for pressure change should be</span>
+<span class="s2">    constructed,</span>
+<span class="s2">    **default** - False.</span>
+<span class="s2">    **Valid values:** {</span>
+<span class="s2">    **True** - include pressure change terms,</span>
+<span class="s2">    **False** - exclude pressure change terms.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;pressure_change_type&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">PressureChangeType</span><span class="o">.</span><span class="n">fixed_per_stage</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">PressureChangeType</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pressure change term construction flag&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Indicates what type of pressure change calculation will be made. To use any of the</span>
+<span class="s2">        ``pressure_change_type`` options to account for pressure drop, the configuration keyword</span>
+<span class="s2">        ``has_pressure_change`` must also be set to ``True``. Also, if a value is specified for pressure</span>
+<span class="s2">        change, it should be negative to represent pressure drop.</span>
+
+<span class="s2">        **default** - ``PressureChangeType.fixed_per_stage`` </span>
+
+<span class="s2">        .. csv-table::</span>
+<span class="s2">            :header: &quot;Configuration Options&quot;, &quot;Description&quot;</span>
+<span class="s2">        </span>
+<span class="s2">            &quot;``PressureChangeType.fixed_per_stage``&quot;, &quot;Specify an estimated value for pressure drop across the membrane feed channel&quot;</span>
+<span class="s2">            &quot;``PressureChangeType.fixed_per_unit_length``&quot;, &quot;Specify an estimated value for pressure drop per unit length across the membrane feed channel&quot;</span>
+<span class="s2">            &quot;``PressureChangeType.calculated``&quot;, &quot;Allow model to perform calculation of pressure drop across the membrane feed channel&quot;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;friction_factor&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">FrictionFactor</span><span class="o">.</span><span class="n">flat_sheet</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">FrictionFactor</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Darcy friction factor correlation&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Options to account for friction factor correlations.</span>
+
+<span class="s2">            **default** - ``FrictionFactor.flat_sheet`` </span>
+
+<span class="s2">        .. csv-table::</span>
+<span class="s2">            :header: &quot;Configuration Options&quot;, &quot;Description&quot;</span>
+
+<span class="s2">            &quot;``FrictionFactor.flat_sheet``&quot;, &quot;Friction factor correlation for flat-sheet membrane modules&quot;</span>
+<span class="s2">            &quot;``FrictionFactor.spiral_wound``&quot;, &quot;Friction factor correlation for spiral-wound membranes&quot;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;property_package_vapor&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">useDefault</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">is_physical_parameter_block</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Property package to use for control volume&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Property parameter object used to define property calculations,</span>
+<span class="s2">        **default** - useDefault.</span>
+<span class="s2">        **Valid values:** {</span>
+<span class="s2">        **useDefault** - use default package from parent model or flowsheet,</span>
+<span class="s2">        **PhysicalParameterObject** - a PhysicalParameterBlock object.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">_CONFIG_Template</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;property_package_args_vapor&quot;</span><span class="p">,</span>
+        <span class="n">ConfigBlock</span><span class="p">(</span>
+            <span class="n">implicit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Arguments to use for constructing property packages&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;A ConfigBlock with arguments to be passed to a property block(s)</span>
+<span class="s2">        and used when constructing these,</span>
+<span class="s2">        **default** - None.</span>
+<span class="s2">        **Valid values:** {</span>
+<span class="s2">        see property package for documentation.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;hot_ch&quot;</span><span class="p">,</span> <span class="n">_CONFIG_Template</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;hot channel config arguments&quot;</span><span class="p">))</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s2">&quot;cold_ch&quot;</span><span class="p">,</span> <span class="n">_CONFIG_Template</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;cold channel config arguments&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Common config args for both sides</span>
+
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;area_definition&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">DistributedVars</span><span class="o">.</span><span class="n">uniform</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">In</span><span class="p">(</span><span class="n">DistributedVars</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Argument for defining form of area variable&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Argument defining whether area variable should be spatially</span>
+<span class="s2">        variant or not. **default** - DistributedVars.uniform.</span>
+<span class="s2">        **Valid values:** {</span>
+<span class="s2">        DistributedVars.uniform - area does not vary across spatial domain,</span>
+<span class="s2">        DistributedVars.variant - area can vary over the domain and is indexed</span>
+<span class="s2">        by time and space.}&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;transformation_method&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">useDefault</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Discretization method to use for DAE transformation&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Discretization method to use for DAE transformation. See</span>
+<span class="s2">        Pyomo documentation for supported transformations.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;transformation_scheme&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">useDefault</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Discretization scheme to use for DAE transformation&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Discretization scheme to use when transformating domain. See</span>
+<span class="s2">        Pyomo documentation for supported schemes.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;finite_elements&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of finite elements length domain&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Number of finite elements to use when discretizing length</span>
+<span class="s2">        domain (default=20)&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CONFIG</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span>
+        <span class="s2">&quot;collocation_points&quot;</span><span class="p">,</span>
+        <span class="n">ConfigValue</span><span class="p">(</span>
+            <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of collocation points per finite element&quot;</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Number of collocation points to use per finite element when</span>
+<span class="s2">        discretizing length domain (default=3)&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_make_MD_channel_control_volume</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">name_ch</span><span class="p">,</span> <span class="n">common_config</span><span class="p">,</span> <span class="n">individual_config</span>
+    <span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">transformation_method</span> <span class="ow">is</span> <span class="n">useDefault</span><span class="p">:</span>
+            <span class="n">_log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Discretization method was &quot;</span>
+                <span class="s2">&quot;not specified for the &quot;</span>
+                <span class="s2">&quot;membrane distillation module. &quot;</span>
+                <span class="s2">&quot;Defaulting to finite &quot;</span>
+                <span class="s2">&quot;difference method.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">transformation_method</span> <span class="o">=</span> <span class="s2">&quot;dae.finite_difference&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">transformation_scheme</span> <span class="ow">is</span> <span class="n">useDefault</span><span class="p">:</span>
+            <span class="n">_log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Discretization scheme was &quot;</span>
+                <span class="s2">&quot;not specified for the &quot;</span>
+                <span class="s2">&quot;membrane distillation module.&quot;</span>
+                <span class="s2">&quot;Defaulting to backward finite &quot;</span>
+                <span class="s2">&quot;difference.&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">transformation_scheme</span> <span class="o">=</span> <span class="s2">&quot;BACKWARD&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_ch</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name_ch</span><span class="si">}</span><span class="s2"> is not a string. Please provide a string for the name_ch argument.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Build membrane channel control volume</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span>
+            <span class="n">name_ch</span><span class="p">,</span>
+            <span class="n">MDChannel1DBlock</span><span class="p">(</span>
+                <span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">has_holdup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">area_definition</span><span class="o">=</span><span class="n">common_config</span><span class="o">.</span><span class="n">area_definition</span><span class="p">,</span>
+                <span class="n">property_package</span><span class="o">=</span><span class="n">individual_config</span><span class="o">.</span><span class="n">property_package</span><span class="p">,</span>
+                <span class="n">property_package_args</span><span class="o">=</span><span class="n">individual_config</span><span class="o">.</span><span class="n">property_package_args</span><span class="p">,</span>
+                <span class="n">transformation_method</span><span class="o">=</span><span class="n">common_config</span><span class="o">.</span><span class="n">transformation_method</span><span class="p">,</span>
+                <span class="n">transformation_scheme</span><span class="o">=</span><span class="n">common_config</span><span class="o">.</span><span class="n">transformation_scheme</span><span class="p">,</span>
+                <span class="n">finite_elements</span><span class="o">=</span><span class="n">common_config</span><span class="o">.</span><span class="n">finite_elements</span><span class="p">,</span>
+                <span class="n">collocation_points</span><span class="o">=</span><span class="n">common_config</span><span class="o">.</span><span class="n">collocation_points</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="n">channel</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name_ch</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_length_and_width</span><span class="p">()</span>
+        <span class="n">channel</span><span class="o">.</span><span class="n">add_geometry</span><span class="p">(</span>
+            <span class="n">flow_direction</span><span class="o">=</span><span class="n">individual_config</span><span class="o">.</span><span class="n">flow_direction</span><span class="p">,</span>
+            <span class="n">length_var</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
+            <span class="n">width_var</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;eq_area&quot;</span><span class="p">):</span>
+            <span class="n">add_eq_area</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_eq_area</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_area</span><span class="p">(</span><span class="n">include_constraint</span><span class="o">=</span><span class="n">add_eq_area</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_mass_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">difference_elements</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">cold_ch</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">phase_list</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">cold_ch</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Mass transfer from feed to permeate&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_connect_mass_transfer</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;Liq&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="n">b</span><span class="o">.</span><span class="n">cold_ch</span><span class="o">.</span><span class="n">mass_transfer_term</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                    <span class="o">==</span> <span class="o">-</span><span class="n">b</span><span class="o">.</span><span class="n">hot_ch</span><span class="o">.</span><span class="n">mass_transfer_term</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">cold_ch</span><span class="o">.</span><span class="n">mass_transfer_term</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">difference_elements</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">hot_ch</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">phase_list</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">hot_ch</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Permeate production&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_permeate_production</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="s2">&quot;H2O&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="n">b</span><span class="o">.</span><span class="n">hot_ch</span><span class="o">.</span><span class="n">mass_transfer_term</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                    <span class="o">==</span> <span class="o">-</span><span class="n">b</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">flux_mass</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">hot_ch</span><span class="o">.</span><span class="n">mass_transfer_term</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span>
+
+    <span class="k">def</span> <span class="nf">_add_heat_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">units_meta</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">hot_ch</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">()</span><span class="o">.</span><span class="n">get_derived_units</span>
+        <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">difference_elements</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Conductive heat transfer to cold channel&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_conductive_heat_transfer_hot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">hot_ch</span><span class="o">.</span><span class="n">heat</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">b</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">flux_conduction_heat</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">difference_elements</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Conductive heat transfer to cold channel&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_conductive_heat_transfer_cold</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">cold_ch</span><span class="o">.</span><span class="n">heat</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">b</span><span class="o">.</span><span class="n">hot_ch</span><span class="o">.</span><span class="n">heat</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">difference_elements</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Enthalpy heat transfer from the hot channel&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_enthalpy_transfer_hot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">hot_ch</span><span class="o">.</span><span class="n">enthalpy_transfer</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">b</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">flux_enth_hot</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">difference_elements</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Enthalpy heat transfer to the cold channel&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_enthalpy_transfer_cold</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">cold_ch</span><span class="o">.</span><span class="n">enthalpy_transfer</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">flux_enth_cold</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

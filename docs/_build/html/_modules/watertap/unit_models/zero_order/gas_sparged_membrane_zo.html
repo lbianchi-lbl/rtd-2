@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.unit_models.zero_order.gas_sparged_membrane_zo &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.unit_models.zero_order.gas_sparged_membrane_zo</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.unit_models.zero_order.gas_sparged_membrane_zo</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains a zero-order representation of a gas-sparged membrane unit.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">MethodType</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">declare_process_block_class</span>
+
+<span class="kn">from</span> <span class="nn">watertap.core</span> <span class="kn">import</span> <span class="n">pump_electricity</span><span class="p">,</span> <span class="n">ZeroOrderBaseData</span>
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+<span class="kn">import</span> <span class="nn">idaes.core.util.scaling</span> <span class="k">as</span> <span class="nn">iscale</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">NonNegativeReals</span><span class="p">,</span> <span class="n">Var</span><span class="p">,</span> <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span><span class="p">,</span> <span class="n">Reference</span>
+<span class="kn">from</span> <span class="nn">watertap.core.zero_order_sido</span> <span class="kn">import</span> <span class="n">initialize_sido</span>
+
+<span class="c1"># Some more information about this module</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Adam Atia&quot;</span>
+
+<span class="c1"># Set up logger</span>
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="GasSpargedMembraneZOData"><a class="viewcode-back" href="../../../../technical_reference/unit_models/zero_order_unit_models/gas_sparged_membrane_zo.html#watertap.unit_models.zero_order.gas_sparged_membrane_zo.GasSpargedMembraneZOData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;GasSpargedMembraneZO&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">GasSpargedMembraneZOData</span><span class="p">(</span><span class="n">ZeroOrderBaseData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zero-Order model for a gas-sparged membrane.</span>
+<span class="sd">    This unit is similar to a SIDO, but there is technically a third outlet for gas extraction.</span>
+<span class="sd">    Three StateBlocks are added with corresponding Ports:</span>
+
+<span class="sd">        * properties_inlet</span>
+<span class="sd">        * properties_treated</span>
+<span class="sd">        * properties_byproduct</span>
+
+<span class="sd">    Two additional variables are added:</span>
+
+<span class="sd">        * recovery_vol (indexed by time)</span>
+<span class="sd">        * removal_frac_mass_comp (indexed by time and component)</span>
+
+<span class="sd">    Four additional constraints are added to represent the material balances, with modifications</span>
+<span class="sd">    to account for gas extraction.</span>
+
+<span class="sd">        * water_recovery_equation (indexed by time)</span>
+<span class="sd">        * flow_balance (indexed by time)</span>
+<span class="sd">        * solute_removal_equation (indexed by time and solute)</span>
+<span class="sd">        * solute_treated_equation (indexed by time and solute)</span>
+
+<span class="sd">    The build method also sets private attributes on the unit model with references</span>
+<span class="sd">    to the appropriate initialization and scaling methods to use and to return</span>
+<span class="sd">    the inlet volumetric flow rate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ZeroOrderBaseData</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+
+<div class="viewcode-block" id="GasSpargedMembraneZOData.build"><a class="viewcode-back" href="../../../../technical_reference/unit_models/zero_order_unit_models/gas_sparged_membrane_zo.html#watertap.unit_models.zero_order.gas_sparged_membrane_zo.GasSpargedMembraneZOData.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tech_type</span> <span class="o">=</span> <span class="s2">&quot;gas_sparged_membrane&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_recovery_removal</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span> <span class="o">=</span> <span class="n">MethodType</span><span class="p">(</span><span class="n">initialize_sido</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scaling</span> <span class="o">=</span> <span class="n">MethodType</span><span class="p">(</span><span class="n">calculate_scaling_factors_gas_extraction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Create state blocks for inlet and outlets</span>
+        <span class="n">tmp_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package_args</span><span class="p">)</span>
+        <span class="n">tmp_dict</span><span class="p">[</span><span class="s2">&quot;has_phase_equilibrium&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">tmp_dict</span><span class="p">[</span><span class="s2">&quot;defined_state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">build_state_block</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Material properties at inlet&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">tmp_dict</span>
+        <span class="p">)</span>
+
+        <span class="n">tmp_dict_2</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="o">**</span><span class="n">tmp_dict</span><span class="p">)</span>
+        <span class="n">tmp_dict_2</span><span class="p">[</span><span class="s2">&quot;defined_state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties_treated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">build_state_block</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Material properties of treated water&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">tmp_dict_2</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties_byproduct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">build_state_block</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Material properties of byproduct stream&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">tmp_dict_2</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create Ports</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_port</span><span class="p">(</span><span class="s2">&quot;inlet&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Inlet port&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_port</span><span class="p">(</span>
+            <span class="s2">&quot;treated&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties_treated</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Treated water outlet port&quot;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_port</span><span class="p">(</span>
+            <span class="s2">&quot;byproduct&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties_byproduct</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Byproduct outlet port&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add performance variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recovery_frac_mass_H2O</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0000001</span><span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Mass recovery fraction of water in the treated stream&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">removal_frac_mass_comp</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">solute_set</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Solute removal fraction on a mass basis&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gas_mass_influent_ratio</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Mass flow of gas extracted per mass flow of influent&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flow_mass_gas_extraction</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">NonNegativeReals</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Mass flow of hydrogen extracted&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_perf_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gas_mass_influent_ratio</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span>
+            <span class="s2">&quot;Mass of gas extracted per mass flow of influent(kg/d/(kg/d)&quot;</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gas_mass_influent_ratio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Mass flow of gas extracted (kg/s))&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flow_mass_gas_extraction</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add performance constraints</span>
+        <span class="c1"># Water recovery</span>
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Water recovery equation&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">water_recovery_equation</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">recovery_frac_mass_H2O</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="s2">&quot;H2O&quot;</span><span class="p">]</span>
+                <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_treated</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="s2">&quot;H2O&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Flow balance</span>
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Overall flow balance&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">mass_balance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">b</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span>
+                <span class="p">)</span>
+                <span class="o">==</span> <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">b</span><span class="o">.</span><span class="n">properties_treated</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">b</span><span class="o">.</span><span class="n">properties_byproduct</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">flow_mass_gas_extraction</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Gas extraction</span>
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Gas extraction equation&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">mass_gas_extraction_equation</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">flow_mass_gas_extraction</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">gas_mass_influent_ratio</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">component_list</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Solute removal</span>
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">solute_set</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Solute removal equations&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">solute_removal_equation</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">removal_frac_mass_comp</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_byproduct</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Solute concentration of treated stream</span>
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">property_package</span><span class="o">.</span><span class="n">solute_set</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Constraint for solute concentration in treated &quot;</span> <span class="s2">&quot;stream.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">solute_treated_equation</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">removal_frac_mass_comp</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span>
+                <span class="n">t</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_treated</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stream_table_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Inlet&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">inlet</span><span class="p">,</span>
+            <span class="s2">&quot;Treated&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">treated</span><span class="p">,</span>
+            <span class="s2">&quot;Byproduct&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">byproduct</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Water Recovery&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recovery_frac_mass_H2O</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Solute Removal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">removal_frac_mass_comp</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_Q</span> <span class="o">=</span> <span class="n">MethodType</span><span class="p">(</span><span class="n">_get_Q_gas_extraction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_Q</span> <span class="o">=</span> <span class="n">Reference</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[:]</span><span class="o">.</span><span class="n">flow_vol</span><span class="p">)</span>
+        <span class="n">pump_electricity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Q</span><span class="p">)</span></div>
+
+    <span class="c1"># no costing method</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_costing_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="kc">None</span></div>
+
+
+<span class="k">def</span> <span class="nf">calculate_scaling_factors_gas_extraction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c1"># Get default scale factors and do calculations from base classes</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">water_recovery_equation</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span>
+            <span class="n">v</span><span class="p">,</span>
+            <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="s2">&quot;H2O&quot;</span><span class="p">],</span>
+                <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">warning</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">hint</span><span class="o">=</span><span class="s2">&quot; for water recovery&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_balance</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span>
+            <span class="n">v</span><span class="p">,</span>
+            <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="s2">&quot;H2O&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">warning</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">),</span>
+        <span class="p">)</span>  <span class="c1"># would just be a duplicate of above</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solute_removal_equation</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span>
+            <span class="n">v</span><span class="p">,</span>
+            <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span>
+                <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">warning</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">hint</span><span class="o">=</span><span class="s2">&quot; for solute removal&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">solute_treated_equation</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span>
+            <span class="n">v</span><span class="p">,</span>
+            <span class="n">iscale</span><span class="o">.</span><span class="n">get_scaling_factor</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">warning</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">),</span>
+        <span class="p">)</span>  <span class="c1"># would just be a duplicate of above</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass_gas_extraction_equation</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">iscale</span><span class="o">.</span><span class="n">constraint_scaling_transform</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_Q_gas_extraction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

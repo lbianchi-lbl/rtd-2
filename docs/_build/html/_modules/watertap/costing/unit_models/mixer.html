@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.costing.unit_models.mixer &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.costing.unit_models.mixer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.costing.unit_models.mixer</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.exceptions</span> <span class="kn">import</span> <span class="n">ConfigurationError</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.misc</span> <span class="kn">import</span> <span class="n">StrEnum</span>
+<span class="kn">from</span> <span class="nn">..util</span> <span class="kn">import</span> <span class="n">cost_by_flow_volume</span><span class="p">,</span> <span class="n">register_costing_parameter_block</span>
+
+
+<div class="viewcode-block" id="MixerType"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.MixerType">[docs]</a><span class="k">class</span> <span class="nc">MixerType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+    <span class="n">NaOCl</span> <span class="o">=</span> <span class="s2">&quot;NaOCl&quot;</span>
+    <span class="n">CaOH2</span> <span class="o">=</span> <span class="s2">&quot;CaOH2&quot;</span></div>
+
+
+<span class="k">def</span> <span class="nf">build_mixer_cost_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">unit_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">361</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Mixer cost&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">liters</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">second</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="cost_mixer"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.cost_mixer">[docs]</a><span class="k">def</span> <span class="nf">cost_mixer</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">mixer_type</span><span class="o">=</span><span class="n">MixerType</span><span class="o">.</span><span class="n">default</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixer costing method</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mixer_type: MixerType Enum indicating mixer type,</span>
+<span class="sd">            default = MixerType.default</span>
+
+<span class="sd">        `**kwargs`: Additional keywords for the MixerType, e.g., NaOCl</span>
+<span class="sd">            and CaOH2 mixers expect the `dosing_rate` keyword</span>
+<span class="sd">            argument.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">mixer_type</span> <span class="o">==</span> <span class="n">MixerType</span><span class="o">.</span><span class="n">default</span><span class="p">:</span>
+        <span class="n">cost_default_mixer</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">mixer_type</span> <span class="o">==</span> <span class="n">MixerType</span><span class="o">.</span><span class="n">NaOCl</span><span class="p">:</span>
+        <span class="n">cost_naocl_mixer</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">mixer_type</span> <span class="o">==</span> <span class="n">MixerType</span><span class="o">.</span><span class="n">CaOH2</span><span class="p">:</span>
+        <span class="n">cost_caoh2_mixer</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> received invalid argument for mixer_type:&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">mixer_type</span><span class="si">}</span><span class="s2">. Argument must be a member of the MixerType Enum.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cost_default_mixer"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.cost_default_mixer">[docs]</a><span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_mixer_cost_param_block</span><span class="p">,</span>
+    <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;mixer&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">cost_default_mixer</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Default mixer costing method</span>
+
+<span class="sd">    TODO: describe equations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cost_by_flow_volume</span><span class="p">(</span>
+        <span class="n">blk</span><span class="p">,</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">unit_cost</span><span class="p">,</span>
+        <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">mixed_state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span><span class="p">,</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">liter</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">build_naocl_mixer_cost_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">unit_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">5.08</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;NaOCl mixer cost&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">day</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">build_naocl_cost_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.23</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;NaOCl cost&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">purity</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span>
+        <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;NaOCl purity&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">costing</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+    <span class="n">costing</span><span class="o">.</span><span class="n">register_flow_type</span><span class="p">(</span><span class="s2">&quot;NaOCl&quot;</span><span class="p">,</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost</span> <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">purity</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="cost_naocl_mixer"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.cost_naocl_mixer">[docs]</a><span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_naocl_cost_param_block</span><span class="p">,</span> <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;naocl&quot;</span>
+<span class="p">)</span>
+<span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_naocl_mixer_cost_param_block</span><span class="p">,</span>
+    <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;naocl_mixer&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">cost_naocl_mixer</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">dosing_rate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    NaOCl mixer costing method</span>
+
+<span class="sd">    TODO: describe equations</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dosing_rate: An expression in [mass/time] for NaOCl dosage</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cost_by_flow_volume</span><span class="p">(</span>
+        <span class="n">blk</span><span class="p">,</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">naocl_mixer</span><span class="o">.</span><span class="n">unit_cost</span><span class="p">,</span>
+        <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">inlet_stream_state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol</span><span class="p">,</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">day</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">cost_flow</span><span class="p">(</span>
+        <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">dosing_rate</span><span class="p">,</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">s</span><span class="p">),</span> <span class="s2">&quot;NaOCl&quot;</span>
+    <span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">build_caoh2_cost_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span>
+        <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">0.12</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;CaOH2 cost&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">purity</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span>
+        <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;CaOH2 purity&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">costing</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+    <span class="n">costing</span><span class="o">.</span><span class="n">register_flow_type</span><span class="p">(</span><span class="s2">&quot;CaOH2&quot;</span><span class="p">,</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost</span> <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">purity</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">build_caoh2_mixer_cost_param_block</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+
+    <span class="n">blk</span><span class="o">.</span><span class="n">unit_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+        <span class="n">initialize</span><span class="o">=</span><span class="mf">792.8</span> <span class="o">*</span> <span class="mf">2.20462</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Ca(OH)2 mixer cost&quot;</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">day</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="cost_caoh2_mixer"><a class="viewcode-back" href="../../../../apidoc/watertap.costing.unit_models.html#watertap.costing.unit_models.mixer.cost_caoh2_mixer">[docs]</a><span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_caoh2_cost_param_block</span><span class="p">,</span> <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;caoh2&quot;</span>
+<span class="p">)</span>
+<span class="nd">@register_costing_parameter_block</span><span class="p">(</span>
+    <span class="n">build_rule</span><span class="o">=</span><span class="n">build_caoh2_mixer_cost_param_block</span><span class="p">,</span>
+    <span class="n">parameter_block_name</span><span class="o">=</span><span class="s2">&quot;caoh2_mixer&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">cost_caoh2_mixer</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">dosing_rate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CaOH2 mixer costing method</span>
+
+<span class="sd">    TODO: describe equations</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dosing_rate: An expression in [mass/time] for CaOH2 dosage</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">lime_stream</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">lime_kg_per_day</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+        <span class="n">expr</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">dosing_rate</span><span class="p">,</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">day</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">cost_by_flow_volume</span><span class="p">(</span>
+        <span class="n">blk</span><span class="p">,</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">caoh2_mixer</span><span class="o">.</span><span class="n">unit_cost</span><span class="p">,</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">lime_kg_per_day</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">cost_flow</span><span class="p">(</span>
+        <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">dosing_rate</span><span class="p">,</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">s</span><span class="p">),</span> <span class="s2">&quot;CaOH2&quot;</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

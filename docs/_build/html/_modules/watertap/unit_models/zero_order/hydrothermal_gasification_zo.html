@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.unit_models.zero_order.hydrothermal_gasification_zo &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.unit_models.zero_order.hydrothermal_gasification_zo</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.unit_models.zero_order.hydrothermal_gasification_zo</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains a zero-order representation of a hydrothermal gasification unit.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span><span class="p">,</span> <span class="n">Var</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">declare_process_block_class</span>
+<span class="kn">from</span> <span class="nn">watertap.core</span> <span class="kn">import</span> <span class="n">build_sido_reactive</span><span class="p">,</span> <span class="n">ZeroOrderBaseData</span>
+
+<span class="c1"># Some more information about this module</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Chenyu Wang&quot;</span>
+
+
+<div class="viewcode-block" id="HTGZOData"><a class="viewcode-back" href="../../../../technical_reference/unit_models/zero_order_unit_models/hydrothermal_gasification_zo.html#watertap.unit_models.zero_order.hydrothermal_gasification_zo.HTGZOData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;HTGZO&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">HTGZOData</span><span class="p">(</span><span class="n">ZeroOrderBaseData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zero-Order model for a hydrothermal gasification (HTG) unit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">ZeroOrderBaseData</span><span class="o">.</span><span class="n">CONFIG</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HTGZOData.build"><a class="viewcode-back" href="../../../../technical_reference/unit_models/zero_order_unit_models/hydrothermal_gasification_zo.html#watertap.unit_models.zero_order.hydrothermal_gasification_zo.HTGZOData.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tech_type</span> <span class="o">=</span> <span class="s2">&quot;hydrothermal_gasification&quot;</span>
+
+        <span class="n">build_sido_reactive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">flow_mass_in</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">t</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Inlet mass flowrate&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Constraint for inlet mass flowrate.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">cons_flow_mass</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">flow_mass_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">b</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_comp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">properties_in</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">component_list</span>
+                <span class="p">),</span>
+                <span class="n">to_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">t</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Inlet Mass Flowrate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow_mass_in</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">electricity</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kW</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Electricity consumption of unit&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Electricity Demand&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">electricity</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">energy_electric_flow_mass</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kWh</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Electricity intensity with respect to inlet flowrate&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Constraint for electricity consumption based on inlet flowrate.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">electricity_consumption</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">electricity</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">energy_electric_flow_mass</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">flow_mass_in</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kW</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_perf_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energy_electric_flow_mass</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Electricity Intensity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_electric_flow_mass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">catalyst_dosage</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">pound</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Dosage of catalyst per inlet flow&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fixed_perf_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catalyst_dosage</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Dosage of catalyst per inlet flow&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalyst_dosage</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">catalyst_flow</span> <span class="o">=</span> <span class="n">Var</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">pound</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">hr</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Catalyst flow&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_perf_var_dict</span><span class="p">[</span><span class="s2">&quot;Catalyst flow&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalyst_flow</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Constraint for catalyst flow based on inlet flow rate.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">def</span> <span class="nf">eq_catalyst_flow</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">catalyst_flow</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                <span class="n">b</span><span class="o">.</span><span class="n">catalyst_dosage</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">flow_mass_in</span><span class="p">[</span><span class="n">t</span><span class="p">],</span>
+                <span class="n">to_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">pound</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">hr</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_costing_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost_hydrothermal_gasification</span>
+
+<div class="viewcode-block" id="HTGZOData.cost_hydrothermal_gasification"><a class="viewcode-back" href="../../../../technical_reference/unit_models/zero_order_unit_models/hydrothermal_gasification_zo.html#watertap.unit_models.zero_order.hydrothermal_gasification_zo.HTGZOData.cost_hydrothermal_gasification">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">cost_hydrothermal_gasification</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        General method for costing hydrothermal gasification unit. Capital cost</span>
+<span class="sd">        is based on the CHG reactor and other wastewater treatment equipment including</span>
+<span class="sd">        a feed pump, a booster pump, a feed/product exchanger, a fired heater,</span>
+<span class="sd">        a hydrocyclone, and a product air fin cooler.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">flowsheet</span><span class="p">()</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+        <span class="c1"># Get parameter dict from database</span>
+        <span class="n">parameter_dict</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">get_unit_operation_parameters</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">_tech_type</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">process_subtype</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Get costing parameter sub-block for this technology</span>
+        <span class="p">(</span>
+            <span class="n">IF_reactor</span><span class="p">,</span>
+            <span class="n">EP_reactor</span><span class="p">,</span>
+            <span class="n">F0_reactor</span><span class="p">,</span>
+            <span class="n">SE_reactor</span><span class="p">,</span>
+            <span class="n">IF_pump</span><span class="p">,</span>
+            <span class="n">EP_pump</span><span class="p">,</span>
+            <span class="n">F0_pump</span><span class="p">,</span>
+            <span class="n">SE_pump</span><span class="p">,</span>
+            <span class="n">IF_booster</span><span class="p">,</span>
+            <span class="n">EP_booster</span><span class="p">,</span>
+            <span class="n">F0_booster</span><span class="p">,</span>
+            <span class="n">SE_booster</span><span class="p">,</span>
+            <span class="n">IF_hydrocyclone</span><span class="p">,</span>
+            <span class="n">EP_hydrocyclone</span><span class="p">,</span>
+            <span class="n">F0_hydrocyclone</span><span class="p">,</span>
+            <span class="n">SE_hydrocyclone</span><span class="p">,</span>
+            <span class="n">IF_cooler</span><span class="p">,</span>
+            <span class="n">EP_cooler</span><span class="p">,</span>
+            <span class="n">F0_cooler</span><span class="p">,</span>
+            <span class="n">SE_cooler</span><span class="p">,</span>
+            <span class="n">IF_exchanger</span><span class="p">,</span>
+            <span class="n">EP_exchanger</span><span class="p">,</span>
+            <span class="n">F0_exchanger</span><span class="p">,</span>
+            <span class="n">Fnew_exchanger</span><span class="p">,</span>
+            <span class="n">SE_exchanger</span><span class="p">,</span>
+            <span class="n">IF_heater</span><span class="p">,</span>
+            <span class="n">EP_heater</span><span class="p">,</span>
+            <span class="n">F0_heater</span><span class="p">,</span>
+            <span class="n">Fnew_heater</span><span class="p">,</span>
+            <span class="n">SE_heater</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">_get_tech_parameters</span><span class="p">(</span>
+            <span class="n">blk</span><span class="p">,</span>
+            <span class="n">parameter_dict</span><span class="p">,</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">process_subtype</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;installation_factor_reactor&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;equipment_cost_reactor&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;base_flowrate_reactor&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scaling_exponent_reactor&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;installation_factor_pump&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;equipment_cost_pump&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;base_flowrate_pump&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scaling_exponent_pump&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;installation_factor_booster&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;equipment_cost_booster&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;base_flowrate_booster&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scaling_exponent_booster&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;installation_factor_hydrocyclone&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;equipment_cost_hydrocyclone&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;base_flowrate_hydrocyclone&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scaling_exponent_hydrocyclone&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;installation_factor_cooler&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;equipment_cost_cooler&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;base_flowrate_cooler&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scaling_exponent_cooler&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;installation_factor_exchanger&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;equipment_cost_exchanger&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;base_area_exchanger&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;new_area_exchanger&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scaling_exponent_exchanger&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;installation_factor_heater&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;equipment_cost_heater&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;base_heat_duty_heater&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;new_heat_duty_heater&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scaling_exponent_heater&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="n">sizing_term_reactor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">flow_mass_in</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">/</span> <span class="n">F0_reactor</span><span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">sizing_term_pump</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">flow_mass_in</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">/</span> <span class="n">F0_pump</span><span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">sizing_term_booster</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">flow_mass_in</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">/</span> <span class="n">F0_booster</span><span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">sizing_term_hydrocyclone</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">flow_mass_in</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">/</span> <span class="n">F0_hydrocyclone</span><span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">sizing_term_cooler</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">flow_mass_in</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span> <span class="o">/</span> <span class="n">F0_cooler</span><span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">sizing_term_exchanger</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">Fnew_exchanger</span> <span class="o">/</span> <span class="n">F0_exchanger</span><span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">sizing_term_heater</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">Fnew_heater</span> <span class="o">/</span> <span class="n">F0_heater</span><span class="p">),</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add cost variable and constraint</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Capital cost of unit operation&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">reactor_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">IF_reactor</span> <span class="o">*</span> <span class="n">EP_reactor</span> <span class="o">*</span> <span class="n">sizing_term_reactor</span><span class="o">**</span><span class="n">SE_reactor</span><span class="p">,</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">pump_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">IF_pump</span> <span class="o">*</span> <span class="n">EP_pump</span> <span class="o">*</span> <span class="n">sizing_term_pump</span><span class="o">**</span><span class="n">SE_pump</span><span class="p">,</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">booster_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">IF_booster</span> <span class="o">*</span> <span class="n">EP_booster</span> <span class="o">*</span> <span class="n">sizing_term_booster</span><span class="o">**</span><span class="n">SE_booster</span><span class="p">,</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">hydrocyclone_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">IF_hydrocyclone</span>
+            <span class="o">*</span> <span class="n">EP_hydrocyclone</span>
+            <span class="o">*</span> <span class="n">sizing_term_hydrocyclone</span><span class="o">**</span><span class="n">SE_hydrocyclone</span><span class="p">,</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">cooler_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">IF_cooler</span> <span class="o">*</span> <span class="n">EP_cooler</span> <span class="o">*</span> <span class="n">sizing_term_cooler</span><span class="o">**</span><span class="n">SE_cooler</span><span class="p">,</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">exchanger_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">IF_exchanger</span> <span class="o">*</span> <span class="n">EP_exchanger</span> <span class="o">*</span> <span class="n">sizing_term_exchanger</span><span class="o">**</span><span class="n">SE_exchanger</span><span class="p">,</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">heater_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+            <span class="n">IF_heater</span> <span class="o">*</span> <span class="n">EP_heater</span> <span class="o">*</span> <span class="n">sizing_term_heater</span><span class="o">**</span><span class="n">SE_heater</span><span class="p">,</span>
+            <span class="n">to_units</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">expr</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">reactor_cost</span>
+            <span class="o">+</span> <span class="n">pump_cost</span>
+            <span class="o">+</span> <span class="n">booster_cost</span>
+            <span class="o">+</span> <span class="n">hydrocyclone_cost</span>
+            <span class="o">+</span> <span class="n">cooler_cost</span>
+            <span class="o">+</span> <span class="n">exchanger_cost</span>
+            <span class="o">+</span> <span class="n">heater_cost</span>
+        <span class="p">)</span>
+
+        <span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">add_cost_factor</span><span class="p">(</span>
+            <span class="n">blk</span><span class="p">,</span> <span class="n">parameter_dict</span><span class="p">[</span><span class="s2">&quot;capital_cost&quot;</span><span class="p">][</span><span class="s2">&quot;cost_factor&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span> <span class="o">==</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span> <span class="o">*</span> <span class="n">expr</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Register flows</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">cost_flow</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">electricity</span><span class="p">[</span><span class="n">t0</span><span class="p">],</span> <span class="s2">&quot;electricity&quot;</span>
+        <span class="p">)</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">flowsheet_costing_block</span><span class="o">.</span><span class="n">cost_flow</span><span class="p">(</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">catalyst_flow</span><span class="p">[</span><span class="n">t0</span><span class="p">],</span> <span class="s2">&quot;catalyst_HTG&quot;</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.flowsheets.gac.gac_ui &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.flowsheets.gac.gac_ui</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.flowsheets.gac.gac_ui</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">GUI configuration for the GAC model.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.environ</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">pyunits</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">MaterialFlowBasis</span>
+<span class="kn">from</span> <span class="nn">watertap.core.solvers</span> <span class="kn">import</span> <span class="n">get_solver</span>
+<span class="kn">from</span> <span class="nn">watertap.property_models.multicomp_aq_sol_prop_pack</span> <span class="kn">import</span> <span class="n">DiffusivityCalculation</span>
+<span class="kn">from</span> <span class="nn">watertap.unit_models.gac</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FilmTransferCoefficientType</span><span class="p">,</span>
+    <span class="n">SurfaceDiffusionCoefficientType</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.unit_models.gac</span> <span class="kn">import</span> <span class="n">ContactorType</span>
+<span class="kn">from</span> <span class="nn">watertap.flowsheets.gac</span> <span class="kn">import</span> <span class="n">gac</span> <span class="k">as</span> <span class="n">gac_fs</span>
+<span class="kn">from</span> <span class="nn">watertap.ui.fsapi</span> <span class="kn">import</span> <span class="n">FlowsheetInterface</span><span class="p">,</span> <span class="n">FlowsheetCategory</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Hunter Barber&quot;</span>
+
+
+<div class="viewcode-block" id="export_to_ui"><a class="viewcode-back" href="../../../../apidoc/watertap.flowsheets.gac.html#watertap.flowsheets.gac.gac_ui.export_to_ui">[docs]</a><span class="k">def</span> <span class="nf">export_to_ui</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exports the variables, flowsheet build, and solver results to the GUI.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">FlowsheetInterface</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Granular Activated Carbon (GAC)&quot;</span><span class="p">,</span>
+        <span class="n">do_export</span><span class="o">=</span><span class="n">export_variables</span><span class="p">,</span>
+        <span class="n">do_build</span><span class="o">=</span><span class="n">build_flowsheet</span><span class="p">,</span>
+        <span class="n">do_solve</span><span class="o">=</span><span class="n">solve_flowsheet</span><span class="p">,</span>
+        <span class="n">requires_idaes_solver</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">category</span><span class="o">=</span><span class="n">FlowsheetCategory</span><span class="o">.</span><span class="n">wastewater</span><span class="p">,</span>
+        <span class="n">build_options</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;MaterialFlowBasis&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;MaterialFlowBasis&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;display_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Material Flow Basis&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;values_allowed&quot;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="n">MaterialFlowBasis</span><span class="o">.</span><span class="n">molar</span><span class="p">,</span> <span class="n">MaterialFlowBasis</span><span class="o">.</span><span class="n">mass</span><span class="p">]</span>
+                <span class="p">],</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">MaterialFlowBasis</span><span class="o">.</span><span class="n">molar</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;FilmTransferCoefficientType&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;FilmTransferCoefficientType&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;display_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Film Transfer Coefficient Type&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;values_allowed&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">FilmTransferCoefficientType</span><span class="p">],</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">FilmTransferCoefficientType</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;SurfaceDiffusionCoefficientType&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SurfaceDiffusionCoefficientType&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;display_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Surface Diffusion Coefficient Type&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;values_allowed&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">SurfaceDiffusionCoefficientType</span><span class="p">],</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">SurfaceDiffusionCoefficientType</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;DiffusivityCalculation&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DiffusivityCalculation&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;display_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Diffusivity Calculation&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;values_allowed&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">DiffusivityCalculation</span><span class="p">],</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">DiffusivityCalculation</span><span class="o">.</span><span class="n">none</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;ContactorType&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;ContactorType&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;display_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cost Contactor Type&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;values_allowed&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ContactorType</span><span class="p">],</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">ContactorType</span><span class="o">.</span><span class="n">pressure</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="export_variables"><a class="viewcode-back" href="../../../../apidoc/watertap.flowsheets.gac.html#watertap.flowsheets.gac.gac_ui.export_variables">[docs]</a><span class="k">def</span> <span class="nf">export_variables</span><span class="p">(</span><span class="n">flowsheet</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exports</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">build_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exports the variables to the GUI.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">flowsheet</span>
+    <span class="n">rounding</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">sci_not_rounding</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">solute_name</span> <span class="o">=</span> <span class="s2">&quot;solute&quot;</span>
+    <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+    <span class="c1"># input data</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># solute properties</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;Solute properties&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">mw_comp</span><span class="p">[</span><span class="s2">&quot;solute&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MW&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">gram</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;g/mol&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Molecular weight&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;FilmTransferCoefficientType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;calculated&quot;</span>
+        <span class="ow">or</span> <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;SurfaceDiffusionCoefficientType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;calculated&quot;</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;DiffusivityCalculation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+            <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">diffus_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;solute&quot;</span><span class="p">],</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Diffusivity&quot;</span><span class="p">,</span>
+                <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+                <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m2/s&quot;</span><span class="p">,</span>
+                <span class="n">rounding</span><span class="o">=</span><span class="n">sci_not_rounding</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Diffusivity&quot;</span><span class="p">,</span>
+                <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+                <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">molar_volume_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;solute&quot;</span><span class="p">],</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Molar volume&quot;</span><span class="p">,</span>
+                <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span>
+                <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m3/mol&quot;</span><span class="p">,</span>
+                <span class="n">rounding</span><span class="o">=</span><span class="n">sci_not_rounding</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Molar volume&quot;</span><span class="p">,</span>
+                <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+                <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># feed conditions</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;Feed&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Temperature&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kelvin</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;K&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Feed temperature&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pressure&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">bar</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Feed pressure&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol_phase</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Volumetric flow rate&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">Mgallon</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">day</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;MGD&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Feed volumetric flow rate&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">solute_name</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Solute concentration&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">g</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">L</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;g/L&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Feed solute concentration&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;MaterialFlowBasis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;molar&quot;</span><span class="p">:</span>
+        <span class="n">fix_molar</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">fix_mass</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fix_molar</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">fix_mass</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mol_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Molar flow rate water&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;mol/s&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Feed molar flow rate of water&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="n">fix_molar</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mol_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">solute_name</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Molar flow rate solute&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;mol/s&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Feed molar flow rate of solute&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="n">fix_molar</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Mass flow rate water&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;kg/s&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Feed mass flow rate of water&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="n">fix_mass</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">feed</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">solute_name</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Mass flow rate solute&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;kg/s&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Feed mass flow rate of solute&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="n">fix_mass</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># product conditions</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;Product&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Temperature&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kelvin</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;K&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Product temperature&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pressure</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pressure&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">bar</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Product pressure&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_vol_phase</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Volumetric flow rate&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">Mgallon</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">day</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;MGD&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Product volumetric flow rate&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">conc_mass_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">solute_name</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Solute concentration&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">g</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">L</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;g/L&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Product solute concentration&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mol_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Molar flow rate water&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;mol/s&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Product molar flow rate of water&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flow_mol_phase_comp</span><span class="p">[</span><span class="s2">&quot;Liq&quot;</span><span class="p">,</span> <span class="n">solute_name</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Molar flow rate solute&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mol</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;mol/s&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Product molar flow rate of solute&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># gac media</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;GAC media properties&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">particle_dens_app</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Apparent density&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**-</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;kg/m3&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Apparent density of the GAC media&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">particle_dens_bulk</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bulk density&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**-</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;kg/m3&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bulk density of the GAC media in the bed&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">particle_dia</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Diameter&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Particle diameter of the GAC media&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;SurfaceDiffusionCoefficientType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;calculated&quot;</span><span class="p">:</span>
+        <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">particle_porosity</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Porosity&quot;</span><span class="p">,</span>
+            <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Particle porosity of the GAC media&quot;</span><span class="p">,</span>
+            <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+            <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># adsorption parameters</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;Adsorption parameters&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">freund_k</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Freundlich k&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;(m3/kg)(1/n)&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Freundlich isotherm parameter k&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">freund_ninv</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Freundlich 1/n&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Freundlich isotherm parameter 1/n&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;SurfaceDiffusionCoefficientType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span><span class="p">:</span>
+        <span class="n">ds_is_input</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ds_is_input</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">tort</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Tortuosity&quot;</span><span class="p">,</span>
+            <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tortuosity of the path that the adsorbate must take as compared to the radius&quot;</span><span class="p">,</span>
+            <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+            <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">spdfr</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SPDFR&quot;</span><span class="p">,</span>
+            <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Surface-to-pore diffusion flux ratio&quot;</span><span class="p">,</span>
+            <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+            <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">ds</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Surface diffusion coefficient&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="o">**-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m2/s&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">sci_not_rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Surface diffusion coefficient&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="n">ds_is_input</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;FilmTransferCoefficientType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span><span class="p">:</span>
+        <span class="n">kf_is_input</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kf_is_input</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">shape_correction_factor</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SCF&quot;</span><span class="p">,</span>
+            <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Film transfer coefficient shape correction factor&quot;</span><span class="p">,</span>
+            <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+            <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">kf</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Film transfer coefficient&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">s</span><span class="o">**-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">sci_not_rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Liquid phase film transfer coefficient&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="n">kf_is_input</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># bed design</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;Bed design&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">velocity_sup</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Superficial velocity&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">hour</span><span class="o">**-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m/h&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Superficial velocity&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">velocity_int</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Interstitial velocity&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">hour</span><span class="o">**-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m/h&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Interstitial velocity&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">bed_length</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bed length&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Length of the GAC bed&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">bed_diameter</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bed diameter&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Effective bed diameter as if only once bed was present&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">bed_area</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bed area&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m2&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Effective total bed area for flow&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">bed_volume</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bed volume&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;m3&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Effective total bed volume&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">ebct</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EBCT&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">min</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Empty bed contact time&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">residence_time</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Residence time&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">min</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Residence time&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">bed_voidage</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bed voidage&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Voidage of the GAC bed&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">bed_mass_gac</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Media mass&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;kg&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Mass of media in the bed&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># system performance</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;System performance&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">conc_ratio_replace</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Breakthrough concentration ratio&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Concentration ratio at breakthrough, corresponding to the time of replacing the media&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">conc_ratio_avg</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Average concentration ratio&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Average concentration ratio during operational time&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">operational_time</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Breakthrough time&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">day</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;days&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Time operating until breakthrough&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">bed_volumes_treated</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;BVT&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bed volumes treated&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">mass_adsorbed</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Solute adsorption rate&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;kg&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Mass adsorption rate of solute during operational time&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">gac_usage_rate</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Media usage rate&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">kg</span> <span class="o">*</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">day</span><span class="o">**-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;kg/day&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Mass usage rate of media during operational time&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># empirical parameters</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;Empirical parameters&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">a0</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Stanton parameter 0&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stanton parameter 0&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">a1</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Stanton parameter 1&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stanton parameter 1&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">b0</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 0&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 0&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">b1</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 1&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 1&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">b2</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 2&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 2&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">b3</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 3&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 3&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">gac</span><span class="o">.</span><span class="n">b4</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 4&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Throughput parameter 4&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># costing options</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;Costing options&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">electricity_cost</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Electricity cost&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">base_currency</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">kWh</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;$/kW&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Electricity cost&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;ContactorType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;pressure&quot;</span><span class="p">:</span>
+        <span class="n">unit_model_costing</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">gac_pressure</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">unit_model_costing</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">gac_gravity</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">unit_model_costing</span><span class="o">.</span><span class="n">regen_frac</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Regeneration fraction&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Fraction of media that can be regenerated after breakthrough (remainder is replaced)&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">unit_model_costing</span><span class="o">.</span><span class="n">num_contactors_op</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Number of operating beds&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of beds in operation at any steady state time&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">unit_model_costing</span><span class="o">.</span><span class="n">num_contactors_redundant</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Number of redundant beds&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">pyunits</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of beds offline (redundant) at any steady state time&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># cost results</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;Cost Results&quot;</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">aggregate_capital_cost</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Capital costs&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;$&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Capital costs&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">aggregate_fixed_operating_cost</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Fixed operating costs&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">base_currency</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;$/yr&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Fixed operating costs&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">aggregate_flow_costs</span><span class="p">[</span><span class="s2">&quot;electricity&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Electricity costs&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">base_currency</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;$/yr&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Electricity costs&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">exports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">LCOW</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;LCOW&quot;</span><span class="p">,</span>
+        <span class="n">ui_units</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">costing</span><span class="o">.</span><span class="n">base_currency</span> <span class="o">/</span> <span class="n">pyunits</span><span class="o">.</span><span class="n">meter</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">display_units</span><span class="o">=</span><span class="s2">&quot;$/yr&quot;</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Levelized cost of water&quot;</span><span class="p">,</span>
+        <span class="n">is_input</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">output_category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="build_flowsheet"><a class="viewcode-back" href="../../../../apidoc/watertap.flowsheets.gac.html#watertap.flowsheets.gac.gac_ui.build_flowsheet">[docs]</a><span class="k">def</span> <span class="nf">build_flowsheet</span><span class="p">(</span><span class="n">build_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build and solve the initial flowsheet.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">build_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">gac_fs</span><span class="o">.</span><span class="n">build</span><span class="p">(</span>
+            <span class="n">material_flow_basis</span><span class="o">=</span><span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;MaterialFlowBasis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">film_transfer_coefficient_type</span><span class="o">=</span><span class="n">build_options</span><span class="p">[</span>
+                <span class="s2">&quot;FilmTransferCoefficientType&quot;</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">surface_diffusion_coefficient_type</span><span class="o">=</span><span class="n">build_options</span><span class="p">[</span>
+                <span class="s2">&quot;SurfaceDiffusionCoefficientType&quot;</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">diffusivity_calculation</span><span class="o">=</span><span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;DiffusivityCalculation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">cost_contactor_type</span><span class="o">=</span><span class="n">build_options</span><span class="p">[</span><span class="s2">&quot;ContactorType&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">gac_fs</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+    <span class="n">gac_fs</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="solve_flowsheet"><a class="viewcode-back" href="../../../../apidoc/watertap.flowsheets.gac.html#watertap.flowsheets.gac.gac_ui.solve_flowsheet">[docs]</a><span class="k">def</span> <span class="nf">solve_flowsheet</span><span class="p">(</span><span class="n">flowsheet</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solves the flowsheet.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">flowsheet</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">gac_fs</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span> <span class="n">solver</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">res</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.core.util.model_diagnostics.ipopt_initialization &mdash; WaterTAP 1.0.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=34238251"></script>
+        <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.core.util.model_diagnostics.ipopt_initialization</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.core.util.model_diagnostics.ipopt_initialization</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+<span class="kn">from</span> <span class="nn">idaes.core.util.scaling</span> <span class="kn">import</span> <span class="n">get_scaling_factor</span><span class="p">,</span> <span class="n">__none_left_mult</span>
+<span class="kn">from</span> <span class="nn">watertap.core.solvers</span> <span class="kn">import</span> <span class="n">get_solver</span>
+
+
+<div class="viewcode-block" id="assert_no_initialization_perturbation"><a class="viewcode-back" href="../../../../../apidoc/watertap.core.util.model_diagnostics.html#watertap.core.util.model_diagnostics.ipopt_initialization.assert_no_initialization_perturbation">[docs]</a><span class="k">def</span> <span class="nf">assert_no_initialization_perturbation</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">optarg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assert that IPOPT will *not* move the initialization</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        blk: Pyomo block</span>
+<span class="sd">        optarg: IPOPT options (default=None) (Should be None if solver is specified)</span>
+<span class="sd">        solver: Pyomo IPOPT solver instance (default=None) (Should be None if optarg is specified).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">optarg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Supply a solver or optarg, not both&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">optarg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">optarg</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">solver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">get_solver</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">optarg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">solver</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="s2">&quot;ipopt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ipopt-watertap&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Solver </span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not supported&quot;</span><span class="p">)</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">options</span>
+    <span class="n">bound_push</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bound_push&quot;</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)</span>
+    <span class="n">bound_frac</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bound_frac&quot;</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)</span>
+    <span class="n">bound_relax_factor</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bound_relax_factor&quot;</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">solver</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;ipopt-watertap&quot;</span><span class="p">:</span>
+        <span class="n">user_scaling</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">user_scaling</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nlp_scaling_method&quot;</span><span class="p">,</span> <span class="s2">&quot;gradient-based&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;user-scaling&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">generate_initialization_perturbation</span><span class="p">(</span>
+        <span class="n">blk</span><span class="p">,</span> <span class="n">bound_push</span><span class="p">,</span> <span class="n">bound_frac</span><span class="p">,</span> <span class="n">bound_relax_factor</span><span class="p">,</span> <span class="n">user_scaling</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;IPOPT will move scaled initial value for variable </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">e</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">e</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="print_initialization_perturbation"><a class="viewcode-back" href="../../../../../apidoc/watertap.core.util.model_diagnostics.html#watertap.core.util.model_diagnostics.ipopt_initialization.print_initialization_perturbation">[docs]</a><span class="k">def</span> <span class="nf">print_initialization_perturbation</span><span class="p">(</span>
+    <span class="n">blk</span><span class="p">,</span> <span class="n">bound_push</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">bound_frac</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">bound_relax_factor</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">user_scaling</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print the initialization perturbations performed by IPOPT for a given Block</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        blk: Pyomo block</span>
+<span class="sd">        bound_push: bound_push to evaluate (same as IPOPT option) (default=1e-2)</span>
+<span class="sd">        bound_frac: bound_frac to evaluate (same as IPOPT option) (default=1e-2)</span>
+<span class="sd">        bound_relax_factor: bound_relax_factor to evaluate (same as IPOPT option) (default=1e-8)</span>
+<span class="sd">        user_scaling: If True, the variables are scaled as if `nlp_scaling_method = user-scaling`</span>
+<span class="sd">                       is used. (default=False)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">generate_initialization_perturbation</span><span class="p">(</span>
+        <span class="n">blk</span><span class="p">,</span> <span class="n">bound_push</span><span class="p">,</span> <span class="n">bound_frac</span><span class="p">,</span> <span class="n">bound_relax_factor</span><span class="p">,</span> <span class="n">user_scaling</span>
+    <span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;IPOPT will move scaled initial value for variable </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">e</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">e</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="generate_initialization_perturbation"><a class="viewcode-back" href="../../../../../apidoc/watertap.core.util.model_diagnostics.html#watertap.core.util.model_diagnostics.ipopt_initialization.generate_initialization_perturbation">[docs]</a><span class="k">def</span> <span class="nf">generate_initialization_perturbation</span><span class="p">(</span>
+    <span class="n">blk</span><span class="p">,</span> <span class="n">bound_push</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">bound_frac</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">bound_relax_factor</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">user_scaling</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate the initialization perturbations performed by IPOPT for a given Block</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        blk: Pyomo block</span>
+<span class="sd">        bound_push: bound_push to evaluate (same as IPOPT option) (default=1e-2)</span>
+<span class="sd">        bound_frac: bound_frac to evaluate (same as IPOPT option) (default=1e-2)</span>
+<span class="sd">        bound_relax_factor: bound_relax_factor to evaluate (same as IPOPT option) (default=1e-8)</span>
+<span class="sd">        user_scaling: If True, the variables are scaled as if `nlp_scaling_method = user-scaling`</span>
+<span class="sd">                       is used. (default=False)</span>
+
+<span class="sd">    Yields:</span>
+<span class="sd">        tuple: (pyo.Var object, current_value, perturbed_value)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kappa1</span> <span class="o">=</span> <span class="n">bound_push</span>
+    <span class="n">kappa2</span> <span class="o">=</span> <span class="n">bound_frac</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">blk</span><span class="o">.</span><span class="n">component_data_objects</span><span class="p">(</span><span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has no initial value&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">fixed</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">user_scaling</span><span class="p">:</span>
+            <span class="n">sf</span> <span class="o">=</span> <span class="n">get_scaling_factor</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sf</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">v_lb</span> <span class="o">=</span> <span class="n">__none_left_mult</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">lb</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">v_lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">v_lb</span> <span class="o">-=</span> <span class="n">bound_relax_factor</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v_lb</span><span class="p">))</span>
+        <span class="n">v_value</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">sf</span>
+        <span class="n">v_ub</span> <span class="o">=</span> <span class="n">__none_left_mult</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">ub</span><span class="p">,</span> <span class="n">sf</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">v_ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">v_ub</span> <span class="o">+=</span> <span class="n">bound_relax_factor</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v_ub</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">v_lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">v_ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">pl</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">kappa1</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v_lb</span><span class="p">)),</span> <span class="n">kappa2</span> <span class="o">*</span> <span class="p">(</span><span class="n">v_ub</span> <span class="o">-</span> <span class="n">v_lb</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pl</span> <span class="o">=</span> <span class="n">kappa1</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v_lb</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">v_value</span> <span class="o">&lt;</span> <span class="n">v_lb</span> <span class="o">+</span> <span class="n">pl</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v_value</span><span class="p">,</span> <span class="n">v_lb</span> <span class="o">+</span> <span class="n">pl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">v_ub</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">v_lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">pu</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">kappa1</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v_ub</span><span class="p">)),</span> <span class="n">kappa2</span> <span class="o">*</span> <span class="p">(</span><span class="n">v_ub</span> <span class="o">-</span> <span class="n">v_lb</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pu</span> <span class="o">=</span> <span class="n">kappa1</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v_ub</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">v_value</span> <span class="o">&gt;</span> <span class="n">v_ub</span> <span class="o">-</span> <span class="n">pu</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v_value</span><span class="p">,</span> <span class="n">v_ub</span> <span class="o">-</span> <span class="n">pu</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>watertap.costing.watertap_costing_package &mdash; WaterTAP 1.2.dev0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=d1d7ad24"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="copyright" title="Copyright" href="../../../copyright.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            WaterTAP
+              <img src="../../../_static/NAWI_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.2.dev0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_guides/index.html">How To Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../technical_reference/index.html">Technical Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../background/index.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License Agreement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../copyright.html">Copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">WaterTAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">watertap.costing.watertap_costing_package</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for watertap.costing.watertap_costing_package</h1><div class="highlight"><pre>
+<span></span><span class="c1">#################################################################################</span>
+<span class="c1"># WaterTAP Copyright (c) 2020-2024, The Regents of the University of California,</span>
+<span class="c1"># through Lawrence Berkeley National Laboratory, Oak Ridge National Laboratory,</span>
+<span class="c1"># National Renewable Energy Laboratory, and National Energy Technology</span>
+<span class="c1"># Laboratory (subject to receipt of any required approvals from the U.S. Dept.</span>
+<span class="c1"># of Energy). All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Please see the files COPYRIGHT.md and LICENSE.md for full copyright and license</span>
+<span class="c1"># information, respectively. These files are also available online at the URL</span>
+<span class="c1"># &quot;https://github.com/watertap-org/watertap/&quot;</span>
+<span class="c1">#################################################################################</span>
+
+<span class="kn">import</span> <span class="nn">pyomo.environ</span> <span class="k">as</span> <span class="nn">pyo</span>
+
+<span class="kn">from</span> <span class="nn">pyomo.util.calc_var_value</span> <span class="kn">import</span> <span class="n">calculate_variable_from_constraint</span>
+<span class="kn">from</span> <span class="nn">pyomo.core.expr.visitor</span> <span class="kn">import</span> <span class="n">identify_variables</span>
+
+<span class="kn">from</span> <span class="nn">idaes.core.base.costing_base</span> <span class="kn">import</span> <span class="n">register_idaes_currency_units</span>
+<span class="kn">from</span> <span class="nn">idaes.core</span> <span class="kn">import</span> <span class="n">declare_process_block_class</span><span class="p">,</span> <span class="n">UnitModelBlockData</span>
+<span class="kn">from</span> <span class="nn">idaes.core.base.costing_base</span> <span class="kn">import</span> <span class="n">FlowsheetCostingBlockData</span>
+<span class="kn">from</span> <span class="nn">idaes.models.unit_models</span> <span class="kn">import</span> <span class="n">Mixer</span><span class="p">,</span> <span class="n">HeatExchanger</span><span class="p">,</span> <span class="n">Heater</span><span class="p">,</span> <span class="n">CSTR</span>
+
+<span class="kn">import</span> <span class="nn">idaes.logger</span> <span class="k">as</span> <span class="nn">idaeslog</span>
+
+<span class="kn">from</span> <span class="nn">watertap.core.util.misc</span> <span class="kn">import</span> <span class="n">is_constant_up_to_units</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.unit_models.mixer</span> <span class="kn">import</span> <span class="n">cost_mixer</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.unit_models.heat_exchanger</span> <span class="kn">import</span> <span class="n">cost_heat_exchanger</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.unit_models.cstr</span> <span class="kn">import</span> <span class="n">cost_cstr</span>
+<span class="kn">from</span> <span class="nn">watertap.costing.unit_models.heater_chiller</span> <span class="kn">import</span> <span class="n">cost_heater_chiller</span>
+
+<span class="n">_log</span> <span class="o">=</span> <span class="n">idaeslog</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData">[docs]</a><span class="k">class</span> <span class="nc">WaterTAPCostingBlockData</span><span class="p">(</span><span class="n">FlowsheetCostingBlockData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for creating WaterTAP costing packages. Allows</span>
+<span class="sd">    unit models to &quot;self-register&quot; their default costing methods,</span>
+<span class="sd">    and for anonymous expressions in flow costs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Define default mapping of costing methods to unit models</span>
+    <span class="n">unit_mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Mixer</span><span class="p">:</span> <span class="n">cost_mixer</span><span class="p">,</span>
+        <span class="n">HeatExchanger</span><span class="p">:</span> <span class="n">cost_heat_exchanger</span><span class="p">,</span>
+        <span class="n">CSTR</span><span class="p">:</span> <span class="n">cost_cstr</span><span class="p">,</span>
+        <span class="n">Heater</span><span class="p">:</span> <span class="n">cost_heater_chiller</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">register_currency_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Register currency and conversion rates based on CE Index</span>
+        <span class="n">register_idaes_currency_units</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set_base_currency_base_period</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Set the base year for all costs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_currency</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span>
+        <span class="c1"># Set a base period for all operating costs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">year</span>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.add_LCOW"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_LCOW">[docs]</a>    <span class="k">def</span> <span class="nf">add_LCOW</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;LCOW&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add Levelized Cost of Water (LCOW) to costing block.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            flow_rate - flow rate of water (volumetric) to be used in</span>
+<span class="sd">                        calculating LCOW</span>
+<span class="sd">            name (optional) - name for the LCOW variable (default: LCOW)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">denominator</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">flow_rate</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span><span class="p">)</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">utilization_factor</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+                <span class="n">expr</span><span class="o">=</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">total_capital_cost</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor</span>
+                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_operating_cost</span>
+                <span class="p">)</span>
+                <span class="o">/</span> <span class="n">denominator</span><span class="p">,</span>
+                <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Levelized Cost of Water based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="n">c_units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_currency</span>
+        <span class="n">t_units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span>
+        <span class="n">direct_capex_lcows</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Levelized Cost of Water based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> direct capital expenditure by component&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">indirect_capex_lcows</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Levelized Cost of Water based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> indirect capital expenditure by component&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">fixed_opex_lcows</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Levelized Cost of Water based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> fixed operating expenditure by component&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">variable_opex_lcows</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Levelized Cost of Water based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> variable operating expenditure by component&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_component_direct_capex&quot;</span><span class="p">,</span> <span class="n">direct_capex_lcows</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_component_indirect_capex&quot;</span><span class="p">,</span> <span class="n">indirect_capex_lcows</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_component_fixed_opex&quot;</span><span class="p">,</span> <span class="n">fixed_opex_lcows</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_component_variable_opex&quot;</span><span class="p">,</span> <span class="n">variable_opex_lcows</span><span class="p">)</span>
+
+        <span class="n">agg_direct_capex_lcows</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Levelized Cost of Water based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> direct capital expenditure by unit type&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">agg_indirect_capex_lcows</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Levelized Cost of Water based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> indirect capital expenditure by unit type&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">agg_fixed_opex_lcows</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Levelized Cost of Water based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> fixed operating expenditure by unit type&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">agg_variable_opex_lcows</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Levelized Cost of Water based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> variable operating expenditure by unit type&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_aggregate_direct_capex&quot;</span><span class="p">,</span> <span class="n">agg_direct_capex_lcows</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_aggregate_indirect_capex&quot;</span><span class="p">,</span> <span class="n">agg_indirect_capex_lcows</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_aggregate_fixed_opex&quot;</span><span class="p">,</span> <span class="n">agg_fixed_opex_lcows</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_aggregate_variable_opex&quot;</span><span class="p">,</span> <span class="n">agg_variable_opex_lcows</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_unit_costing</span><span class="p">:</span>
+            <span class="n">direct_capex_numerator</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">t_units</span>
+            <span class="n">indirect_capex_numerator</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">t_units</span>
+            <span class="n">fixed_opex_numerator</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">t_units</span>
+            <span class="n">variable_opex_numerator</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">t_units</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;capital_cost&quot;</span><span class="p">):</span>
+                <span class="n">direct_capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                    <span class="n">u</span><span class="o">.</span><span class="n">direct_capital_cost</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">c_units</span>
+                <span class="p">)</span>
+                <span class="n">capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">capital_cost</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">c_units</span><span class="p">)</span>
+                <span class="c1"># capital costs w/ recovery factor</span>
+                <span class="n">direct_capex_numerator</span> <span class="o">+=</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor</span> <span class="o">*</span> <span class="n">direct_capital_cost</span>
+                <span class="p">)</span>
+                <span class="n">capex_numerator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor</span> <span class="o">*</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">total_investment_factor</span> <span class="o">*</span> <span class="n">capital_cost</span>
+                <span class="p">)</span>
+                <span class="n">indirect_capex_numerator</span> <span class="o">+=</span> <span class="n">capex_numerator</span> <span class="o">-</span> <span class="n">direct_capex_numerator</span>
+
+                <span class="c1"># maintenance_labor_chemical_operating_cost,</span>
+                <span class="c1"># part of total_fixed_operating_cost</span>
+                <span class="n">fixed_opex_numerator</span> <span class="o">+=</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">maintenance_labor_chemical_factor</span> <span class="o">*</span> <span class="n">capital_cost</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;fixed_operating_cost&quot;</span><span class="p">):</span>
+                <span class="n">fixed_opex_numerator</span> <span class="o">+=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                    <span class="n">u</span><span class="o">.</span><span class="n">fixed_operating_cost</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">c_units</span> <span class="o">/</span> <span class="n">t_units</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;variable_operating_cost&quot;</span><span class="p">):</span>
+                <span class="n">variable_opex_numerator</span> <span class="o">+=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                    <span class="n">u</span><span class="o">.</span><span class="n">variable_operating_cost</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">c_units</span> <span class="o">/</span> <span class="n">t_units</span>
+                <span class="p">)</span>
+            <span class="n">direct_capex_lcows</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">direct_capex_numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+            <span class="n">indirect_capex_lcows</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">indirect_capex_numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+            <span class="p">)</span>
+            <span class="n">fixed_opex_lcows</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixed_opex_numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+            <span class="n">variable_opex_lcows</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">variable_opex_numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+            <span class="p">)</span>
+
+            <span class="n">unit_model_class</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">parent_component</span><span class="p">()</span><span class="o">.</span><span class="n">process_block_class</span><span class="p">()</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="p">)</span>
+            <span class="n">agg_direct_capex_lcows</span><span class="p">[</span><span class="n">unit_model_class</span><span class="p">]</span> <span class="o">+=</span> <span class="n">direct_capex_lcows</span><span class="p">[</span>
+                <span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">]</span>
+            <span class="n">agg_indirect_capex_lcows</span><span class="p">[</span><span class="n">unit_model_class</span><span class="p">]</span> <span class="o">+=</span> <span class="n">indirect_capex_lcows</span><span class="p">[</span>
+                <span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">]</span>
+            <span class="n">agg_fixed_opex_lcows</span><span class="p">[</span><span class="n">unit_model_class</span><span class="p">]</span> <span class="o">+=</span> <span class="n">fixed_opex_lcows</span><span class="p">[</span>
+                <span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">]</span>
+            <span class="n">agg_variable_opex_lcows</span><span class="p">[</span><span class="n">unit_model_class</span><span class="p">]</span> <span class="o">+=</span> <span class="n">variable_opex_lcows</span><span class="p">[</span>
+                <span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">ftype</span><span class="p">,</span> <span class="n">flows</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_flows</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># part of total_variable_operating_cost</span>
+            <span class="k">if</span> <span class="n">ftype</span> <span class="ow">in</span> <span class="n">agg_variable_opex_lcows</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Found unit model named </span><span class="si">{</span><span class="n">ftype</span><span class="si">}</span><span class="s2"> but want to name flow </span><span class="si">{</span><span class="n">ftype</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_component_variable_opex&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">ftype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">used_flows</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">flows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+                <span class="k">continue</span>
+            <span class="n">agg_variable_opex_lcows</span><span class="p">[</span><span class="n">ftype</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_flow_costs</span><span class="p">[</span><span class="n">ftype</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">utilization_factor</span> <span class="o">/</span> <span class="n">denominator</span>
+            <span class="p">)</span>
+            <span class="n">cost_var</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ftype</span><span class="si">}</span><span class="s2">_cost&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">flow_expr</span> <span class="ow">in</span> <span class="n">flows</span><span class="p">:</span>
+                <span class="c1"># part of total_variable_operating_cost</span>
+                <span class="n">flow_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                    <span class="n">flow_expr</span> <span class="o">*</span> <span class="n">cost_var</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">c_units</span> <span class="o">/</span> <span class="n">t_units</span>
+                <span class="p">)</span>
+                <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_flow_unit</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">unit</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">variable_opex_lcows</span><span class="p">:</span>
+                        <span class="n">unit_model_class</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">unit</span><span class="o">.</span><span class="n">parent_component</span><span class="p">()</span><span class="o">.</span><span class="n">process_block_class</span><span class="p">()</span><span class="o">.</span><span class="vm">__name__</span>
+                        <span class="p">)</span>
+                        <span class="n">agg_variable_opex_lcows</span><span class="p">[</span>
+                            <span class="n">unit_model_class</span>
+                        <span class="p">]</span> <span class="o">+=</span> <span class="n">variable_opex_lcows</span><span class="p">[</span><span class="n">unit</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                    <span class="n">variable_opex_lcows</span><span class="p">[</span><span class="n">unit</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                        <span class="n">flow_cost</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">utilization_factor</span>
+                    <span class="p">)</span> <span class="o">/</span> <span class="n">denominator</span>
+                    <span class="k">continue</span>
+                <span class="n">_log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find unique unit for flow </span><span class="si">{</span><span class="n">flow_expr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">flow_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_flow_name</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">flow_name</span> <span class="ow">in</span> <span class="n">variable_opex_lcows</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Found unit model named </span><span class="si">{</span><span class="n">flow_name</span><span class="si">}</span><span class="s2"> but need to name flow </span><span class="si">{</span><span class="n">flow_expr</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_aggregate_variable_opex&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">variable_opex_lcows</span><span class="p">[</span><span class="n">flow_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">flow_cost</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">utilization_factor</span>
+                <span class="p">)</span> <span class="o">/</span> <span class="n">denominator</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_find_flow_unit</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to identify a unit model associated with the flow expression</span>
+<span class="sd">        `flow_expr`. Returns the unit model if found, otherwise returns `None`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="n">identify_variables</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">,</span> <span class="n">include_fixed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">WaterTAPCostingBlockData</span><span class="o">.</span><span class="n">_find_flow_unit_variables</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">unit</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_find_flow_unit_variables</span><span class="p">(</span><span class="n">variables</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Try to find a unit model uniquely associated with the iterable</span>
+<span class="sd">        of variables `variables`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="n">blk</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+            <span class="k">while</span> <span class="n">blk</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">UnitModelBlockData</span> <span class="ow">in</span> <span class="n">blk</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">unit</span> <span class="o">=</span> <span class="n">blk</span>
+                        <span class="k">break</span>
+                    <span class="k">elif</span> <span class="n">blk</span> <span class="ow">is</span> <span class="n">unit</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># blk is unit model but not *this* unit,</span>
+                        <span class="c1"># so we have an inconsistency</span>
+                        <span class="k">return</span> <span class="kc">None</span>
+                <span class="n">blk</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">parent_block</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">unit</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_flow_name</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a standardized name for a specific flow expression.</span>
+
+<span class="sd">        This will attempt to get the specific variable determining the flow,</span>
+<span class="sd">        but failing that will return a string representation of the entire</span>
+<span class="sd">        expression.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">identify_variables</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">,</span> <span class="n">include_fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="c1"># No unfixed variables</span>
+            <span class="n">variables</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">identify_variables</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">,</span> <span class="n">include_fixed</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="c1"># If we found a single variable for the flow_expr, just return the</span>
+        <span class="c1"># variable name. Otherwise return a string representing the whole</span>
+        <span class="c1"># expression.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">variables</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.add_specific_energy_consumption"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_specific_energy_consumption">[docs]</a>    <span class="k">def</span> <span class="nf">add_specific_energy_consumption</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;specific_energy_consumption&quot;</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add specific energy consumption (kWh/m**3) to costing block.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            flow_rate - flow rate of water (volumetric) to be used in</span>
+<span class="sd">                        calculating specific energy consumption</span>
+<span class="sd">            name (optional) - the name of the Expression for the specific</span>
+<span class="sd">                              energy consumption (default: specific_energy_consumption)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+                <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aggregate_flow_electricity</span>
+                <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">flow_rate</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">hr</span><span class="p">),</span>
+                <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Specific energy consumption based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_flow_component_breakdowns</span><span class="p">(</span>
+            <span class="s2">&quot;electricity&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">,</span> <span class="n">utilization_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">hr</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.add_annual_water_production"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_annual_water_production">[docs]</a>    <span class="k">def</span> <span class="nf">add_annual_water_production</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;annual_water_production&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add annual water production to costing block.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            flow_rate - flow rate of water (volumetric) to be used in</span>
+<span class="sd">                        calculating annual water production</span>
+<span class="sd">            name (optional) - name for the annual water productionvariable</span>
+<span class="sd">                              Expression (default: annual_water_production)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+                <span class="n">expr</span><span class="o">=</span><span class="p">(</span>
+                    <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span>
+                        <span class="n">flow_rate</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span>
+                    <span class="p">)</span>
+                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">utilization_factor</span>
+                <span class="p">),</span>
+                <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Annual water production based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.add_electricity_intensity"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_electricity_intensity">[docs]</a>    <span class="k">def</span> <span class="nf">add_electricity_intensity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;electricity_intensity&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add calculation of overall electricity intensity to costing block.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            flow_rate - flow rate of water (volumetric) to be used in</span>
+<span class="sd">                        calculating electricity intensity</span>
+<span class="sd">            name (optional) - the name of the Expression for the specific</span>
+<span class="sd">                              electrical intensity (default: specific_electrical_carbon_intensity)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_specific_energy_consumption</span><span class="p">(</span><span class="n">flow_rate</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.add_specific_electrical_carbon_intensity"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_specific_electrical_carbon_intensity">[docs]</a>    <span class="k">def</span> <span class="nf">add_specific_electrical_carbon_intensity</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;specific_electrical_carbon_intensity&quot;</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add specific electrical carbon intensity (kg_CO2eq/m**3) to costing block.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            flow_rate - flow rate of water (volumetric) to be used in</span>
+<span class="sd">                        calculating specific electrical carbon intensity</span>
+<span class="sd">            name (optional) - the name of the Expression for the specific</span>
+<span class="sd">                              carbon intensity (default: specific_electrical_carbon_intensity)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+                <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aggregate_flow_electricity</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">electrical_carbon_intensity</span>
+                <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">flow_rate</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">hr</span><span class="p">),</span>
+                <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Specific electrical carbon intensity based on flow </span><span class="si">{</span><span class="n">flow_rate</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_flow_component_breakdowns</span><span class="p">(</span>
+            <span class="s2">&quot;electricity&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">flow_rate</span><span class="p">,</span>
+            <span class="n">period</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">hr</span><span class="p">,</span>
+            <span class="n">utilization_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">multiplier</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">electrical_carbon_intensity</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_add_flow_component_breakdowns</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">flow_name</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">flow_rate</span><span class="p">,</span>
+        <span class="n">period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">utilization_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">multiplier</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add per-component breakdowns for specific `flow_name` consumption with base-name `name`</span>
+<span class="sd">        at `flow_rate`.</span>
+<span class="sd">        Optional `multiplier` for the flow and period specification (default is 1 hour),</span>
+<span class="sd">        and specified `utilization_factor` (default is self.utilization_factor).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">utilization_factor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">utilization_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utilization_factor</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span>
+        <span class="n">denominator</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">flow_rate</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="n">period</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">utilization_factor</span>
+        <span class="p">)</span>
+        <span class="n">f_units</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">get_units</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;aggregate_flow_</span><span class="si">{</span><span class="n">flow_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="n">c_units</span> <span class="o">=</span> <span class="n">f_units</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">get_units</span><span class="p">(</span><span class="n">multiplier</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">flows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_flows</span><span class="p">[</span><span class="n">flow_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized flow_name </span><span class="si">{</span><span class="n">flow_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="n">specific_flow_consumption</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">pyo</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Specific </span><span class="si">{</span><span class="n">flow_name</span><span class="si">}</span><span class="s2"> consumption by component&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">period</span> <span class="o">*</span> <span class="n">c_units</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_component&quot;</span><span class="p">,</span> <span class="n">specific_flow_consumption</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">flow_expr</span> <span class="ow">in</span> <span class="n">flows</span><span class="p">:</span>
+            <span class="n">flow_std</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">f_units</span><span class="p">)</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_flow_unit</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">specific_flow_consumption</span><span class="p">[</span><span class="n">unit</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                    <span class="n">flow_std</span> <span class="o">*</span> <span class="n">utilization_factor</span> <span class="o">*</span> <span class="n">multiplier</span>
+                <span class="p">)</span> <span class="o">/</span> <span class="n">denominator</span>
+                <span class="k">continue</span>
+            <span class="n">_log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find unique unit for flow </span><span class="si">{</span><span class="n">flow_expr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">flow_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_flow_name</span><span class="p">(</span><span class="n">flow_expr</span><span class="p">)</span>
+            <span class="n">specific_flow_consumption</span><span class="p">[</span><span class="n">flow_name</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">flow_std</span> <span class="o">*</span> <span class="n">utilization_factor</span> <span class="o">*</span> <span class="n">multiplier</span>
+            <span class="p">)</span> <span class="o">/</span> <span class="n">denominator</span>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.build_process_costs"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.build_process_costs">[docs]</a>    <span class="k">def</span> <span class="nf">build_process_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the common process costs to WaterTAP Costing Packages.</span>
+<span class="sd">        The currency units should already be registered.</span>
+
+<span class="sd">        The derived class should add constraints for total_capital_cost</span>
+<span class="sd">        and total_operating_cost</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total capital cost of the process&quot;</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_currency</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_operating_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total operating cost of process per operating period&quot;</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_currency</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_capital_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">total_capital_cost</span>
+            <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_investment_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_capital_cost</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">maintenance_labor_chemical_operating_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">maintenance_labor_chemical_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_capital_cost</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Maintenance-labor-chemical operating cost&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_fixed_operating_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aggregate_fixed_operating_cost</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">maintenance_labor_chemical_operating_cost</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total fixed operating costs&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_variable_operating_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_variable_operating_cost</span>
+                    <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aggregate_flow_costs</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">used_flows</span><span class="p">)</span>
+                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">utilization_factor</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">used_flows</span>
+                <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_variable_operating_cost</span>
+            <span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total variable operating cost of process per operating period&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_operating_cost_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">total_operating_cost</span>
+            <span class="o">==</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">total_fixed_operating_cost</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_variable_operating_cost</span><span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total operating cost of process per operating period&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_annualized_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">total_capital_cost</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_operating_cost</span>
+            <span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total annualized cost of operation&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.build_global_params"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.build_global_params">[docs]</a>    <span class="k">def</span> <span class="nf">build_global_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the global parameters common to WaterTAP Costing Packages.</span>
+<span class="sd">        The currency units should already be registered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_currency_definitions</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_base_currency_base_period</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">utilization_factor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Plant capacity utilization [fraction of uptime]&quot;</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">electricity_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Electricity cost&quot;</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">USD_2018</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kWh</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defined_flows</span><span class="p">[</span><span class="s2">&quot;electricity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">electricity_cost</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">electrical_carbon_intensity</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.475</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Grid carbon intensity [kgCO2_eq/kWh]&quot;</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kg</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">kWh</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">plant_lifetime</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_period</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Plant lifetime&quot;</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wacc</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="c1"># consistent with a 30 year plant_lifetime</span>
+            <span class="c1"># and a capital_recovery_factor of 0.1</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.09307339771758532</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Weighted Average Cost of Capital (WACC)&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">year</span><span class="o">**-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Capital annualization factor [fraction of investment cost/year]&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># used in initialize_build to check for fixed variable consistency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_annualization_vars</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plant_lifetime</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wacc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor_constraint</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor</span>
+            <span class="o">==</span> <span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wacc</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+                <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">wacc</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plant_lifetime</span> <span class="o">/</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">year</span><span class="p">)))</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">TPEC</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">3.4</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="mf">1.65</span><span class="p">),</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total Purchased Equipment Cost (TPEC)&quot;</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">TIC</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total Installed Cost (TIC)&quot;</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fix_all_vars</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor</span><span class="o">.</span><span class="n">unfix</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.initialize_build"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.initialize_build">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Basic initialization for flowsheet level quantities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">calculate_variable_from_constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">total_capital_cost</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_capital_cost_constraint</span>
+        <span class="p">)</span>
+        <span class="n">calculate_variable_from_constraint</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">total_operating_cost</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_operating_cost_constraint</span>
+        <span class="p">)</span>
+        <span class="c1"># handle wacc / plant_lifetime / capital_recovery_factor</span>
+        <span class="n">unfixed_vars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annualization_vars</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="o">.</span><span class="n">fixed</span><span class="p">:</span>
+                <span class="n">unfixed_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unfixed_vars</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Exactly two of the variables &quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annualization_vars</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; should be fixed and the other unfixed.&quot;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">calculate_variable_from_constraint</span><span class="p">(</span>
+            <span class="n">unfixed_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">capital_recovery_factor_constraint</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.add_cost_factor"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.add_cost_factor">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">add_cost_factor</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">factor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For a unit model costing block `blk`, adds `blk.cost_factor`,</span>
+<span class="sd">        an expression pointing to the appropriate indirect capital</span>
+<span class="sd">        cost multiplier, and `blk.direct_capital_cost`, which is a expression</span>
+<span class="sd">        defined to be `blk.capital_cost / blk.cost_factor`. Valid strings for</span>
+<span class="sd">        `factor` are &quot;TIC&quot; and &quot;TPEC&quot;; all others will result in an indirect</span>
+<span class="sd">        capital cost factor of 1.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            blk: an ideas.core.UnitModelCosting block</span>
+<span class="sd">            factor: a string representing the cost factor to use</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">factor</span> <span class="o">==</span> <span class="s2">&quot;TPEC&quot;</span><span class="p">:</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">TPEC</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">factor</span> <span class="o">==</span> <span class="s2">&quot;TIC&quot;</span><span class="p">:</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">costing_package</span><span class="o">.</span><span class="n">TIC</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">blk</span><span class="o">.</span><span class="n">direct_capital_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="n">blk</span><span class="o">.</span><span class="n">capital_cost</span> <span class="o">/</span> <span class="n">blk</span><span class="o">.</span><span class="n">cost_factor</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_costing_method_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit_model</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Allow the unit model to register its default costing method,</span>
+<span class="sd">        either through an attribute named &quot;default_costing_method&quot;</span>
+<span class="sd">        or by naming the default costing method &quot;default_costing_method&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">unit_model</span><span class="p">,</span> <span class="s2">&quot;default_costing_method&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">unit_model</span><span class="o">.</span><span class="n">default_costing_method</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_get_costing_method_for</span><span class="p">(</span><span class="n">unit_model</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.aggregate_costs"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.aggregate_costs">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method aggregates costs from all the unit models and flows</span>
+<span class="sd">        registered with this FlowsheetCostingBlock and creates aggregate</span>
+<span class="sd">        variables for these on the FlowsheetCostingBlock that can be used for</span>
+<span class="sd">        further process-wide costing calculations.</span>
+
+<span class="sd">        The following costing variables are aggregated from all the registered</span>
+<span class="sd">        UnitModelCostingBlocks (if they exist):</span>
+
+<span class="sd">        * capital_cost,</span>
+<span class="sd">        * direct_capital_cost,</span>
+<span class="sd">        * fixed_operating_cost, and</span>
+<span class="sd">        * variable_operating_cost</span>
+
+<span class="sd">        Additionally, aggregate flow variables are created for all registered</span>
+<span class="sd">        flow types along with aggregate costs associated with each of these.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">aggregate_costs</span><span class="p">()</span>
+        <span class="n">c_units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_currency</span>
+
+        <span class="nd">@self</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Aggregation Expression for direct capital cost&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">aggregate_direct_capital_cost</span><span class="p">(</span><span class="n">blk</span><span class="p">):</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_unit_costing</span><span class="p">:</span>
+                <span class="c1"># Allow for units that might only have a subset of cost Vars</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;direct_capital_cost&quot;</span><span class="p">):</span>
+                    <span class="n">e</span> <span class="o">+=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">direct_capital_cost</span><span class="p">,</span> <span class="n">to_units</span><span class="o">=</span><span class="n">c_units</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;capital_cost&quot;</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;WaterTAP models with a capital_cost must also supply a direct_capital_cost. Found unit </span><span class="si">{</span><span class="n">u</span><span class="o">.</span><span class="n">unit_model</span><span class="si">}</span><span class="s2"> with `capital_cost` but no `direct_capital_cost`.&quot;</span>
+                    <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">e</span></div>
+
+<div class="viewcode-block" id="WaterTAPCostingBlockData.register_flow_type"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingBlockData.register_flow_type">[docs]</a>    <span class="k">def</span> <span class="nf">register_flow_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_type</span><span class="p">,</span> <span class="n">cost</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method allows users to register new material and utility flows</span>
+<span class="sd">        with the FlowsheetCostingBlock for use when costing flows.</span>
+<span class="sd">        If `cost` is a constant (up to units), then this method creates a new</span>
+<span class="sd">        `Var` on the FlowsheetCostingBlock named f`{flow_type}_cost`.</span>
+<span class="sd">        Otherwise `cost` is a non-constant expression and this method will</span>
+<span class="sd">        create a new `Expression` on the FlowsheetCostingBlock named</span>
+<span class="sd">        f`{flow_type}_cost` whose value is fixed to `cost`.</span>
+
+<span class="sd">        If a component named f`{flow_type}_cost` already exists on the</span>
+<span class="sd">        FlowsheetCostingBlock, then an error is raised unless f`{flow_type}_cost`</span>
+<span class="sd">        is `cost`. If f`{flow_type}_cost` is `cost`, no error is raised and</span>
+<span class="sd">        the existing component f`{flow_type}_cost` is used to cost the flow.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            flow_type: string name to represent flow type</span>
+<span class="sd">            cost: a Pyomo expression with units representing the flow cost</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">flow_cost_name</span> <span class="o">=</span> <span class="n">flow_type</span> <span class="o">+</span> <span class="s2">&quot;_cost&quot;</span>
+        <span class="n">current_flow_cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="n">flow_cost_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">current_flow_cost</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">is_constant_up_to_units</span><span class="p">(</span><span class="n">cost</span><span class="p">)):</span>
+            <span class="n">cost_expr</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="n">cost</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_component</span><span class="p">(</span><span class="n">flow_cost_name</span><span class="p">,</span> <span class="n">cost_expr</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">register_flow_type</span><span class="p">(</span><span class="n">flow_type</span><span class="p">,</span> <span class="n">cost_expr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># all other cases are handled in the base class</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">register_flow_type</span><span class="p">(</span><span class="n">flow_type</span><span class="p">,</span> <span class="n">cost</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="WaterTAPCostingData"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;WaterTAPCosting&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">WaterTAPCostingData</span><span class="p">(</span><span class="n">WaterTAPCostingBlockData</span><span class="p">):</span>
+<div class="viewcode-block" id="WaterTAPCostingData.build_global_params"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingData.build_global_params">[docs]</a>    <span class="k">def</span> <span class="nf">build_global_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># Build flowsheet level costing components</span>
+        <span class="c1"># These are the global parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_investment_factor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total investment factor [investment cost/equipment cost]&quot;</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maintenance_labor_chemical_factor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Maintenance-labor-chemical factor [fraction of equipment cost/year]&quot;</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">year</span><span class="o">**-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build_global_params</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="WaterTAPCostingDetailedData"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData">[docs]</a><span class="nd">@declare_process_block_class</span><span class="p">(</span><span class="s2">&quot;WaterTAPCostingDetailed&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">WaterTAPCostingDetailedData</span><span class="p">(</span><span class="n">WaterTAPCostingBlockData</span><span class="p">):</span>
+<div class="viewcode-block" id="WaterTAPCostingDetailedData.build_global_params"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData.build_global_params">[docs]</a>    <span class="k">def</span> <span class="nf">build_global_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        To minimize overhead, only create global parameters for now.</span>
+<span class="sd">        Unit-specific parameters will be added as sub-Blocks on a case-by-case</span>
+<span class="sd">        basis as a unit of that type is costed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Costing factors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">land_cost_percent_FCI</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Land cost as </span><span class="si">% F</span><span class="s2">CI&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">working_capital_percent_FCI</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Working capital as </span><span class="si">% F</span><span class="s2">CI&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">salaries_percent_FCI</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">units</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Salaries as </span><span class="si">% F</span><span class="s2">CI&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.001</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.03</span> <span class="o">/</span> <span class="mf">0.0149</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">benefit_percent_of_salary</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">pyo</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">dimensionless</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Benefits as </span><span class="si">% s</span><span class="s2">alaries&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maintenance_costs_percent_FCI</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">units</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Maintenance and contingency costs as </span><span class="si">% F</span><span class="s2">CI&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.008</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.03</span> <span class="o">/</span> <span class="mf">0.0149</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">laboratory_fees_percent_FCI</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">units</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Laboratory fees as </span><span class="si">% F</span><span class="s2">CI&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.003</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.03</span> <span class="o">/</span> <span class="mf">0.0149</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">insurance_and_taxes_percent_FCI</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span>
+            <span class="n">units</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_period</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Insurance and taxes as </span><span class="si">% F</span><span class="s2">CI&quot;</span><span class="p">,</span>
+            <span class="n">initialize</span><span class="o">=</span><span class="mf">0.002</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.03</span> <span class="o">/</span> <span class="mf">0.0149</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_investment_factor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">working_capital_percent_FCI</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">land_cost_percent_FCI</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Total investment factor [investment cost/equipment cost]&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">maintenance_labor_chemical_factor</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">salaries_percent_FCI</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">benefit_percent_of_salary</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">salaries_percent_FCI</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">maintenance_costs_percent_FCI</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">laboratory_fees_percent_FCI</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">insurance_and_taxes_percent_FCI</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Maintenance-labor-chemical factor [fraction of equipment cost/year]&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build_global_params</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WaterTAPCostingDetailedData.build_process_costs"><a class="viewcode-back" href="../../../apidoc/watertap.costing.html#watertap.costing.watertap_costing_package.WaterTAPCostingDetailedData.build_process_costs">[docs]</a>    <span class="k">def</span> <span class="nf">build_process_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculating process wide costs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># add the &quot;basic&quot; process costs</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">build_process_costs</span><span class="p">()</span>
+
+        <span class="c1"># now the detailed breakdowns</span>
+        <span class="c1"># Other capital costs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">land_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">land_cost_percent_FCI</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_capital_cost</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Land costs - based on aggregate capital costs&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">working_capital</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">working_capital_percent_FCI</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_capital_cost</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Working capital - based on aggregate capital costs&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Other fixed costs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">salary_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">salaries_percent_FCI</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_capital_cost</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Salary costs - based on aggregate capital costs&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">benefits_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">benefit_percent_of_salary</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">salaries_percent_FCI</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_capital_cost</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Benefits costs - based on percentage of salary costs&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maintenance_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">maintenance_costs_percent_FCI</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_capital_cost</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Maintenance costs - based on aggregate capital costs&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">laboratory_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">laboratory_fees_percent_FCI</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_capital_cost</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Laboratory costs - based on aggregate capital costs&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">insurance_and_taxes_cost</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Expression</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">insurance_and_taxes_percent_FCI</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_capital_cost</span><span class="p">,</span>
+            <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Insurance and taxes costs - based on aggregate capital costs&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; <a href="../../../copyright.html">Copyright</a> 2020-2024, NAWI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
